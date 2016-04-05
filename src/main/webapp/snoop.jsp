@@ -141,7 +141,7 @@ MemoryPoolMXBean item = (MemoryPoolMXBean) iter.next();
 	<TD><%= request.getServerPort() %></TD>
 <TR>
 <TR>
-	<TH align=right>Remote user:</TH>
+	<TH align=right>Remote principal:</TH>
 	<TD><%= request.getRemoteUser() %></TD>
 <TR>
 <TR>

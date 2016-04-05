@@ -1,0 +1,92 @@
+@import "../valo/valo";
+@import "login";
+
+
+@mixin iticity-font($font-family, $file-name) {
+  @font-face {
+    font-family: '#{$font-family}';
+    src: url('#{$file-name}.eot');
+    src: url('#{$file-name}.eot?#iefix') format('embedded-opentype'), url('#{$file-name}.woff') format('woff'), url('#{$file-name}.ttf') format('truetype'), url('#{$file-name}.svg') format('svg'), url('#{$file-name}.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  .#{$font-family} {
+    font-family: '#{$font-family}';
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+  }
+}
+
+@include iticity-font("nickainley",'../iticity/fonts/Nickainley');
+
+.iticity {
+
+  .v-panel{
+    border-radius: 0px !important;
+  }
+
+  @include valo;
+  @include dashboard-login-view;
+
+  .background_bg{
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+  }
+
+  .vcenter_container{
+      display: table-cell;
+      vertical-align: middle;
+  }
+
+  .title_size{
+    font-size: 25px;
+  }
+
+  .forward{
+    z-index: 100;
+  }
+
+  .settings-form-header{
+    padding-left: 13px;
+  }
+
+  .top-bar-button{
+    float:right;
+  }
+
+  .top-bar-right-layout{
+    margin-right: 10px !important;
+  }
+
+  .window-form{
+    margin:10px;
+  }
+
+  .window-form-wide table{
+    width:500px !important;
+  }
+
+  .window-confirmation{
+    margin:20px;
+  }
+
+  .window-form-button{
+    margin-top:15px;
+  }
+
+  .v-formlayout-lastrow{
+    .v-formlayout-contentcell{
+      padding-bottom: 0px !important;
+      height: 0px !important;
+    }
+    .v-formlayout-errorcell{
+      height: 0px !important;
+    }
+    .v-formlayout-captioncell{
+      height: 0px !important;
+    }
+  }
+}
