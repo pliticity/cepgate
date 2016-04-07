@@ -7,6 +7,9 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import pl.iticity.dbfds.ui.documents.DocumentDetailsTab;
+import pl.iticity.dbfds.ui.documents.RecentDocumentsTab;
+import pl.iticity.dbfds.ui.documents.SearchDocumentsTab;
 import pl.iticity.dbfds.ui.settings.SettingsPanel;
 import pl.iticity.dbfds.util.PrincipalUtils;
 import org.apache.shiro.SecurityUtils;
@@ -23,17 +26,32 @@ public class MainView extends AbstractView {
 
 
     @Autowired
-    SettingsPanel settingsPanel;
+    SearchDocumentsTab searchDocumentsTab;
 
-    private HorizontalLayout mainLayout;
+    @Autowired
+    DocumentDetailsTab documentDetailsTab;
+
+    @Autowired
+    RecentDocumentsTab recentDocumentsTab;
 
     @Override
     public void initView() {
+        TabSheet tabSheet = new TabSheet();
+        tabSheet.setSizeFull();
+
+        tabSheet.addTab(recentDocumentsTab,"Recent Documents");
+        tabSheet.addTab(searchDocumentsTab,"Search Documents");
+        tabSheet.addTab(documentDetailsTab,"Create Document");
+
+        addComponent(tabSheet);
     }
 
 
     @Override
     public void refreshDynamicContent() {
+        searchDocumentsTab.refresh();
+        recentDocumentsTab.refresh();
+        documentDetailsTab.refresh();
     }
 
 

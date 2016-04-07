@@ -1,9 +1,12 @@
 package pl.iticity.dbfds.model;
 
+import com.vaadin.data.fieldgroup.PropertyId;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -18,9 +21,13 @@ public class Classification {
     private String id;
 
     @Size(min=1,max=25)
+    @NotNull
+    @PropertyId("classification.classificationId")
     private String classificationId;
 
     @Size(min=1,max=100)
+    @NotNull
+    @PropertyId("classification.name")
     private String name;
 
     public String getId() {

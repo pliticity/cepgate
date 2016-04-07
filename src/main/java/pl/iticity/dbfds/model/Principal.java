@@ -134,4 +134,8 @@ public class Principal {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return getEmail();
+    }
 }

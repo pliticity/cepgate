@@ -34,6 +34,8 @@ public class SignInTab extends VerticalLayout {
         fields.addStyleName("fields");
 
         final Principal principal = new Principal();
+        principal.setEmail("dachoin@gmail.com");
+        principal.setPassword("dachoin@gmail.com");
 
         BeanItem<Principal> item = new BeanItem<Principal>(principal);
 
