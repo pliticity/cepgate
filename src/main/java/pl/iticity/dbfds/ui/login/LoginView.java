@@ -34,8 +34,8 @@ public class LoginView extends AbstractView {
         TabSheet tabSheet = new TabSheet();
         tabSheet.setSizeUndefined();
         tabSheet.addStyleName("login-panel");
-        tabSheet.addTab(signUpTab,"Sign Up");
         tabSheet.addTab(signInTab,"Sign In");
+        tabSheet.addTab(signUpTab,"Sign Up");
         return tabSheet;
     }
 

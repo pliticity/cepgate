@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.security;
 
+import org.apache.commons.lang.StringUtils;
 import pl.iticity.dbfds.model.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,6 +12,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 /**
  * Created by dacho on 23.03.2016.
@@ -36,10 +38,12 @@ public class IticityRealm extends AuthorizingRealm {
             unauthenticated();
         }
 
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, principal.getPassword(), getName());
-        if (!getCredentialsMatcher().doCredentialsMatch(authenticationToken, info)) {
+        String tokenPassword = (String) authenticationToken.getCredentials();
+        tokenPassword = tokenPassword == null ? StringUtils.EMPTY : tokenPassword;
+        if(!tokenPassword.equals(principal.getPassword())){
             unauthenticated();
         }
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, principal.getPassword(), getName());
         return info;
     }
 

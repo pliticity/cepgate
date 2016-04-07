@@ -8,6 +8,7 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.subject.Subject;
 import pl.iticity.dbfds.model.Principal;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.ui.IticityUI;
@@ -68,6 +69,21 @@ public class SignUpTab extends FormLayout {
             @Override
             public void postCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
                 principalService.registerPrincipal(principal);
+                AuthenticationToken token = new AuthenticationToken() {
+
+                    @Override
+                    public Object getPrincipal() {
+                        return principal;
+                    }
+
+                    @Override
+                    public Object getCredentials() {
+                        return principal.getPassword();
+                    }
+                };
+                Subject currentUser = SecurityUtils.getSubject();
+                currentUser.login(token);
+                getUI().getNavigator().navigateTo(IticityUI.MAIN_VIEW);
             }
         });
 
