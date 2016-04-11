@@ -19,9 +19,6 @@ public class File {
     @Lob
     private byte[] data;
 
-    @NotNull
-    private String fileInfoId;
-
     public String getId() {
         return id;
     }
@@ -36,14 +33,6 @@ public class File {
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    public String getFileInfoId() {
-        return fileInfoId;
-    }
-
-    public void setFileInfoId(String fileInfoId) {
-        this.fileInfoId = fileInfoId;
     }
 
 }

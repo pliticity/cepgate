@@ -10,12 +10,7 @@ import java.util.Date;
 /**
  * Created by pmajchrz on 4/5/16.
  */
-@org.springframework.data.mongodb.core.mapping.Document
 public class FileInfo {
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     private String name;
 
@@ -23,16 +18,7 @@ public class FileInfo {
 
     private Date uploadDate;
 
-    @ManyToOne
-    private DocumentInfo documentInfo;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String fileId;
 
     public String getType() {
         return type;
@@ -58,11 +44,11 @@ public class FileInfo {
         this.name = name;
     }
 
-    public DocumentInfo getDocumentInfo() {
-        return documentInfo;
+    public String getFileId() {
+        return fileId;
     }
 
-    public void setDocumentInfo(DocumentInfo documentInfo) {
-        this.documentInfo = documentInfo;
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
     }
 }

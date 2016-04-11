@@ -13,30 +13,15 @@ import java.util.List;
 /**
  * Created by pmajchrz on 4/5/16.
  */
-@org.springframework.data.mongodb.core.mapping.Document
 public class Classification {
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     @Size(min=1,max=25)
     @NotNull
-    @PropertyId("classification.classificationId")
     private String classificationId;
 
     @Size(min=1,max=100)
     @NotNull
-    @PropertyId("classification.name")
     private String name;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getClassificationId() {
         return classificationId;

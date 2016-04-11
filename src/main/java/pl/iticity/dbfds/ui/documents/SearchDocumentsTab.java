@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.ui.documents;
 
+import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,6 @@ public class SearchDocumentsTab extends VerticalLayout implements Refreshable{
 
     @Override
     public void refresh() {
-
+        Table table = new Table();
     }
 }

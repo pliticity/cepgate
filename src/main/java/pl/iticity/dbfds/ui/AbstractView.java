@@ -16,7 +16,7 @@ import java.io.File;
  */
 public abstract class AbstractView extends AbsoluteLayout implements View {
 
-    private static final String TITLE = "DBFDS";
+    private static final String TITLE = "Document Database for Document Storage";
 
     //private static final String BASE_PATH = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
     //private static final String LOGO_PATH = "/VAADIN/themes/iticity/img/logo.png";
@@ -71,6 +71,7 @@ public abstract class AbstractView extends AbsoluteLayout implements View {
         HorizontalLayout middleRegion = new HorizontalLayout();
         middleRegion.setResponsive(true);
         middleRegion.setSizeFull();
+        middleRegion.addComponent(new Label("Document Database for Document Storage"));
         Responsive.makeResponsive(middleRegion);
         HorizontalLayout rightRegion = new HorizontalLayout();
         rightRegion.setSizeFull();

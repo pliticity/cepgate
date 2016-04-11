@@ -1,7 +1,6 @@
 package pl.iticity.dbfds.model;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -53,14 +52,12 @@ public class DocumentInfo {
     @NotNull
     private Type type;
 
-    @org.hibernate.annotations.Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    private DateTime creationDate;
+    private Date creationDate;
 
     private Principal createdBy;
 
     private List<DocumentActivity> activityList;
 
-    @OneToMany(mappedBy = "documentInfo")
     private List<FileInfo> files;
 
     public String getId() {
@@ -111,11 +108,11 @@ public class DocumentInfo {
         this.type = type;
     }
 
-    public DateTime getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(DateTime creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
