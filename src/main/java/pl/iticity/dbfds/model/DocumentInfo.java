@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.model;
 
+import com.google.common.collect.Lists;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.GeneratedValue;
@@ -56,7 +57,7 @@ public class DocumentInfo {
 
     private Principal createdBy;
 
-    private List<DocumentActivity> activityList;
+    private DocumentActivity lastActivity;
 
     private List<FileInfo> files;
 
@@ -124,15 +125,10 @@ public class DocumentInfo {
         this.createdBy = createdBy;
     }
 
-    public List<DocumentActivity> getActivityList() {
-        return activityList;
-    }
-
-    public void setActivityList(List<DocumentActivity> activityList) {
-        this.activityList = activityList;
-    }
-
     public List<FileInfo> getFiles() {
+        if(files==null){
+            files= Lists.newArrayList();
+        }
         return files;
     }
 
@@ -146,5 +142,17 @@ public class DocumentInfo {
 
     public void setDocumentName(String documentName) {
         this.documentName = documentName;
+    }
+
+    public int getNoOfFiles(){
+        return getFiles().size();
+    }
+
+    public DocumentActivity getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(DocumentActivity lastActivity) {
+        this.lastActivity = lastActivity;
     }
 }

@@ -64,7 +64,7 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
     @Autowired
     FileRepository fileRepository;
 
-    private DocumentInfo documentInfo;
+    public DocumentInfo documentInfo;
 
     public DocumentDetailsTab(DocumentInfo documentInfo) {
         this.documentInfo = documentInfo;
@@ -77,11 +77,11 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
 
     @PostConstruct
     public void postConstruct() {
-        this.documentInfo = documentInfoRepository.findAll().get(0);
+        //this.documentInfo = documentInfoRepository.findAll().get(0);
     }
 
     public DocumentDetailsTab() {
-        //this.documentInfo=new DocumentInfo();
+        this.documentInfo=new DocumentInfo();
         setSpacing(true);
         setMargin(true);
     }
