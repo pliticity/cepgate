@@ -104,7 +104,7 @@ public class UploadWindow extends Window{
 
                 verticalLayout.replaceComponent(upload,tmp);
                 upload = tmp;
-                documentDetailsTab.refresh();
+                documentDetailsTab.refreshTable();
             }
         }
 

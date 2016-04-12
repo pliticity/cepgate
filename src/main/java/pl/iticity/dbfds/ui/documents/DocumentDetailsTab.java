@@ -3,6 +3,7 @@ package pl.iticity.dbfds.ui.documents;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gwt.i18n.server.Message;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.DefaultFieldGroupFieldFactory;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -37,6 +38,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Calendar;
@@ -86,6 +88,14 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         setMargin(true);
     }
 
+    public void refreshTable(){
+        for(int i=0; i<getComponentCount(); i++){
+            if(getComponent(i) instanceof Table){
+                replaceComponent(getComponent(i),createTable());
+            }
+        }
+    }
+
     @Override
     public void refresh() {
         removeAllComponents();
@@ -116,6 +126,8 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
             @Override
             public void postCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
                 documentInfoRepository.save(documentInfo);
+                documentInfo = new DocumentInfo();
+                refresh();
             }
         });
         class FF extends DefaultFieldGroupFieldFactory {
@@ -142,10 +154,11 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         TextField classificationName = buildField(binder, "Classification Name", "classification.name");
         classificationName.addValidator(new BeanValidator(Classification.class, "name"));
 
-        DateField creationDate = new DateField("Document Creation Date");
+        TextField creationDate = new TextField("Document Creation Date");
+        //DateField creationDate = new DateField("Document Creation Date");
         binder.bind(creationDate, "creationDate");
-        creationDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
-        creationDate.setDateFormat("dd/MM/yyyy HH:mm");
+        //creationDate.setTimeZone(TimeZone.getTimeZone("Europe/Oslo"));
+        //creationDate.setDateFormat("dd/MM/yyyy HH:mm");
         creationDate.setEnabled(false);
         creationDate.setValidationVisible(false);
         addComponent(creationDate);
@@ -224,6 +237,13 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         });
 
         Button cancel = new Button("Cancel");
+        cancel.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                documentInfo = new DocumentInfo();
+                refresh();
+            }
+        });
         Button upload = new Button("Upload Document");
         final DocumentDetailsTab documentDetailsTab = this;
         upload.addClickListener(new Button.ClickListener() {
@@ -233,9 +253,9 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
                 getUI().addWindow(w);
             }
         });
-        Button close = new Button("Close Tab");
+        //Button close = new Button("Close Tab");
         buttonsWrap.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-        buttonsWrap.addComponents(save, cancel, upload, close);
+        buttonsWrap.addComponents(save, cancel, upload);
 
         addComponent(buttonsWrap);
     }
@@ -284,7 +304,8 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
                     return new ByteArrayInputStream(file.getData());
                 }
             };
-            FileDownloader downloader = new FileDownloader(new StreamResource(streamSource,fi.getName()));
+            String fname = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getType(),documentInfo.getDocumentName(),fi.getName());
+            FileDownloader downloader = new FileDownloader(new StreamResource(streamSource,fname));
             downloader.extend(download);
             table.addItem(new Object[]{remove,download,fileInfo.getName()},i);
         }

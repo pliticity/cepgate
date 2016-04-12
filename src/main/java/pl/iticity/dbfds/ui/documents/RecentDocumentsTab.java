@@ -18,7 +18,7 @@ import java.util.TimeZone;
  */
 @Scope("prototype")
 @Component
-public class RecentDocumentsTab extends SearchDocumentsTab{
+public class RecentDocumentsTab extends SearchDocumentsTab {
 
     @Autowired
     DocumentInfoRepository documentInfoRepository;
@@ -26,7 +26,8 @@ public class RecentDocumentsTab extends SearchDocumentsTab{
     @Override
     public List<DocumentInfo> getDocs() {
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Oslo"));
-        c.add(Calendar.MONTH,-1);
-        return documentInfoRepository.findByCreatedByAndLastActivity_dateAfter(PrincipalUtils.getCurrentPrincipal(),c.getTime());
+        c.add(Calendar.MONTH, -1);
+        return documentInfoRepository.findByCreatedByAndLastActivity_dateAfterOrderByLastActivity_dateDesc(PrincipalUtils.getCurrentPrincipal(),c.getTime());
+
     }
 }

@@ -39,10 +39,24 @@ public class MainView extends AbstractView {
 
     @Override
     public void initView() {
+        Button logout = new Button("Logout",FontAwesome.POWER_OFF);
+        logout.addStyleName("forward");
+        logout.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                SecurityUtils.getSubject().logout();
+                getUI().getPage().setLocation("/");
+                getUI().getNavigator().navigateTo(IticityUI.DEFAULT_VIEW);
+            }
+        });
+        getTopBarRightLayout().addComponent(logout);
+        getTopBarRightLayout().setComponentAlignment(logout,Alignment.MIDDLE_RIGHT);
+
         tabSheet = new TabSheet();
         tabSheet.setSizeFull();
 
         searchDocumentsTab.mainView=this;
+        recentDocumentsTab.mainView=this;
 
         tabSheet.addTab(recentDocumentsTab,"Recent Documents");
         tabSheet.addTab(searchDocumentsTab,"Search Documents");
@@ -88,7 +102,7 @@ public class MainView extends AbstractView {
                 if(t.getComponent() instanceof DocumentDetailsTab){
                     DocumentDetailsTab ddt = (DocumentDetailsTab) t.getComponent();
                     if(ddt.documentInfo.getDocumentName()!=null){
-                        t.setCaption(ddt.documentInfo.getDocumentName());
+                        t.setCaption(ddt.documentInfo.getDocumentNumber());
                     }
                 }
             }
