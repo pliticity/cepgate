@@ -7,6 +7,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.context.ApplicationContext;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.ui.documents.DocumentDetailsTab;
 import pl.iticity.dbfds.ui.documents.RecentDocumentsTab;
@@ -29,7 +30,6 @@ public class MainView extends AbstractView {
     @Autowired
     SearchDocumentsTab searchDocumentsTab;
 
-    @Autowired
     DocumentDetailsTab documentDetailsTab;
 
     @Autowired
@@ -37,8 +37,12 @@ public class MainView extends AbstractView {
 
     TabSheet tabSheet;
 
+    @Autowired
+    ApplicationContext applicationContext;
+
     @Override
     public void initView() {
+        documentDetailsTab = applicationContext.getBean(DocumentDetailsTab.class,this);
         Button logout = new Button("Logout",FontAwesome.POWER_OFF);
         logout.addStyleName("forward");
         logout.addClickListener(new Button.ClickListener() {
@@ -81,6 +85,7 @@ public class MainView extends AbstractView {
                     DocumentInfo di2 = ((DocumentDetailsTab)tab.getComponent()).documentInfo;
                     if(di.getId()!=null && di.getId().equals(di2.getId())){
                         flag=false;
+                        tabSheet.setSelectedTab(tab);
                         break;
                     }
                 }
@@ -90,7 +95,12 @@ public class MainView extends AbstractView {
             TabSheet.Tab t = tabSheet.addTab((Component) component, title);
             component.refresh();
             t.setClosable(true);
+            tabSheet.setSelectedTab(t);
         }
+    }
+
+    public void closeTab(){
+        tabSheet.removeTab(tabSheet.getTab(tabSheet.getSelectedTab()));
     }
 
     @Override

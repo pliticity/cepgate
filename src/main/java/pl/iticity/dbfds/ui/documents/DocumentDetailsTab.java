@@ -29,6 +29,7 @@ import pl.iticity.dbfds.repository.FileRepository;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.PrincipalService;
+import pl.iticity.dbfds.ui.MainView;
 import pl.iticity.dbfds.ui.Refreshable;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -66,9 +67,15 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
     @Autowired
     FileRepository fileRepository;
 
+    private boolean edit;
+
     public DocumentInfo documentInfo;
 
-    public DocumentDetailsTab(DocumentInfo documentInfo) {
+    private MainView mainView;
+
+    public DocumentDetailsTab(DocumentInfo documentInfo,MainView mainView) {
+        this.mainView=mainView;
+        edit=true;
         this.documentInfo = documentInfo;
         if (this.documentInfo == null) {
             this.documentInfo = new DocumentInfo();
@@ -82,7 +89,9 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         //this.documentInfo = documentInfoRepository.findAll().get(0);
     }
 
-    public DocumentDetailsTab() {
+    public DocumentDetailsTab(MainView mainView) {
+        this.mainView=mainView;
+        edit=false;
         this.documentInfo=new DocumentInfo();
         setSpacing(true);
         setMargin(true);
@@ -126,7 +135,9 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
             @Override
             public void postCommit(FieldGroup.CommitEvent commitEvent) throws FieldGroup.CommitException {
                 documentInfoRepository.save(documentInfo);
-                documentInfo = new DocumentInfo();
+                if(!edit){
+                    documentInfo = new DocumentInfo();
+                }
                 refresh();
             }
         });
@@ -240,7 +251,9 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         cancel.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                documentInfo = new DocumentInfo();
+                if(!edit){
+                    documentInfo = new DocumentInfo();
+                }
                 refresh();
             }
         });
@@ -253,9 +266,15 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
                 getUI().addWindow(w);
             }
         });
-        //Button close = new Button("Close Tab");
+        Button close = new Button("Close Tab");
+        close.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent clickEvent) {
+                mainView.closeTab();
+            }
+        });
         buttonsWrap.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-        buttonsWrap.addComponents(save, cancel, upload);
+        buttonsWrap.addComponents(save, cancel, upload,close);
 
         addComponent(buttonsWrap);
     }
@@ -269,12 +288,14 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
     }
 
     private Table createTable() {
-        Table table = new Table("Files");
+        Table table = new Table();
         table.setVisible(true);
+        table.addStyleName("minus-margin");
         table.addContainerProperty("Remove", Button.class, null);
         table.addContainerProperty("Download", Button.class, null);
         table.addContainerProperty("Name", String.class, StringUtils.EMPTY);
         table.setHeight("170px");
+        table.setWidth("390px");
         int i = 0;
         for (FileInfo fileInfo : documentInfo.getFiles()) {
             final FileInfo fi = fileInfo;

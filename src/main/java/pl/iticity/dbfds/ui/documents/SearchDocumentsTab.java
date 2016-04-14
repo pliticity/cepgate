@@ -111,7 +111,7 @@ public class SearchDocumentsTab extends VerticalLayout implements Refreshable {
                 da.setDate(c.getTime());
                 da.setPrincipalId(PrincipalUtils.getCurrentPrincipal().getId());
                 documentInfoRepository.save(documentInfo);
-                mainView.addTab(applicationContext.getBean(DocumentDetailsTab.class, documentInfo), documentInfo.getDocumentNumber());
+                mainView.addTab(applicationContext.getBean(DocumentDetailsTab.class, documentInfo,mainView), documentInfo.getDocumentNumber());
             }
         });
         addComponent(table);
