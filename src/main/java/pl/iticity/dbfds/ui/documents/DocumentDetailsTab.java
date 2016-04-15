@@ -159,7 +159,14 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
         TextField masterDocumentNumber = buildField(binder, "Master Document Number", "masterDocumentNumber");
         masterDocumentNumber.setEnabled(false);
         TextField documentNumber = buildField(binder, "Document Number", "documentNumber");
-        TextField documentName = buildField(binder, "Document Name", "documentName");
+        //TextField documentName = buildField(binder, "Document Name", "documentName");
+        TextArea documentName = binder.buildAndBind("DocumentName","documentName",TextArea.class);
+        documentName.setRows(3);
+        documentName.setWordwrap(false);
+        addComponent(documentName);
+        documentName.setNullRepresentation(StringUtils.EMPTY);
+        documentName.setValidationVisible(false);
+
         TextField classificationId = buildField(binder, "Classification Id", "classification.classificationId");
         classificationId.addValidator(new BeanValidator(Classification.class, "classificationId"));
         TextField classificationName = buildField(binder, "Classification Name", "classification.name");
@@ -241,6 +248,9 @@ public class DocumentDetailsTab extends FormLayout implements Refreshable {
                         }
                         if (c instanceof DateField) {
                             ((DateField) c).setValidationVisible(true);
+                        }
+                        if (c instanceof TextArea) {
+                            ((TextArea) c).setValidationVisible(true);
                         }
                     }
                 }
