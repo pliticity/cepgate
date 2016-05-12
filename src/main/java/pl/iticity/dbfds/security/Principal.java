@@ -49,6 +49,11 @@ public class Principal {
     @NotNull
     private Role role;
 
+    public Principal(String email,String password){
+        setEmail(email);
+        setPassword(password);
+    }
+
     public Principal() {
         /*email = StringUtils.EMPTY;
         password = StringUtils.EMPTY;

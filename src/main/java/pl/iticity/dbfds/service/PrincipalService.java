@@ -10,14 +10,15 @@ import pl.iticity.dbfds.util.PrincipalUtils;
  * Created by pmajchrz on 4/5/16.
  */
 @Service
-public class PrincipalService {
-
-    @Autowired
-    PrincipalRepository principalRepository;
+public class PrincipalService extends AbstractService<Principal,PrincipalRepository>{
 
     public Principal registerPrincipal(Principal p){
-        p.setPassword(PrincipalUtils.hashPassword(p.getPassword(),null));
-        return principalRepository.save(p);
+        //p.setPassword(PrincipalUtils.hashPassword(p.getPassword(),null));
+        return repo.save(p);
+    }
+
+    public Principal findByEmail(String email){
+        return repo.findByEmail(email);
     }
 
 }

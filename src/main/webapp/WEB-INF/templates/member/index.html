@@ -1,0 +1,548 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+th:include="layout :: page">
+<head>
+    <title>Document Management</title>
+</head>
+<body th:fragment="content" > 
+<div class="container-fluid">
+		<section class="documentCarrier" ng-controller="DocumentController as aDocumentCtrl"> 
+<h3>Document Handling Database</h3> 
+	<!-- Nav tabs -->
+	  <ul id="docmentTabs" class="nav nav-pills" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" id="home_link" role="tab" data-toggle="tab">My Documents</a></li>
+	    <li role="presentation"><a href="#search" aria-controls="search" role="tab" data-toggle="tab">Search Documents</a></li>
+	    <li role="presentation"><a href="#new" id="new_link" aria-controls="new" role="tab" data-toggle="tab">Create New Document</a></li>
+	    
+	  </ul>
+	
+	  <!-- Tab panes -->
+	  <div class="tab-content row" id="documentsTabContent">
+	  
+	    <div role="tabpanel" class="tab-pane active" id="home"> 
+		    <div class="fluid-container"> 
+	            <button  class="btn btn-default" ng-click="aDocumentCtrl.showTab('my')">My</button>
+	            <button class="btn btn-default"  ng-click="aDocumentCtrl.showTab('recent')">Recent</button>
+	            <button class="btn btn-default"  ng-click="aDocumentCtrl.showTab('favorite')">Favourite</button>
+	        </div>
+			<div class="tab-pane" id="#my_documents" ng-show="aDocumentCtrl.shouldShowTab('my')"> 
+				<div class="row">
+		            <div class="col-xs-2">
+		              <div>Document Page: {{ myCurrentPage }}</div>
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search" style="float:right">Search:</label>
+		             </div>
+		            <div class="col-xs-2">
+		             <input ng-model="myQ" id="recentSearch" style="float:left" class="form-control" placeholder="Filter text" />
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search"  style="float:right">items per page:</label>
+		             </div>
+		            <div class="col-xs-2">
+		              <input type="number" min="1" max="100" class="form-control" style="float:left" ng-model="myPageSize" />
+		            </div>
+		        </div>	  
+		        <BR />  
+	    		<table id="myTable" ng-table="doc.myTableParams" show-filter="true" class="table row-border hover dataTable no-footer " >
+			        <thead>
+				        <tr>
+				            <th>Classification ID</th>
+				            <th>Classification Name</th>
+				            <th>Document Number</th>
+				            <th>Document Type</th>
+		            		<th>Document Name</th>
+		            		<th>Creation Date</th>
+		            		<th>Created By</th>
+		            		<th># Files</th>
+		            		
+		            		<th>Action</th>  
+				        </tr>
+			        </thead>
+			        <tbody>
+				        <tr pagination-id="myPagination" dir-paginate="aDocument in aDocumentCtrl.myDocuments |  filter:myQ | itemsPerPage: myPageSize">
+	            			<td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationId'">{{aDocument.classificationId}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationName'">{{aDocument.classificationName}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentNumber'">{{aDocument.documentNumber}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentType'">{{aDocument.documentType}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentName'">{{aDocument.documentName}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'creationDate'">{{ aDocument.creationDate | date:"dd/MM/yyyy"}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.createdBy}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.files.length}}</td> 			            
+				            <td>
+        						<button  class="btn btn-primary" ng-click="aDocumentCtrl.deleteDocument(aDocument)">Delete</button>
+			            		<button  class="btn btn-primary" ng-click="aDocumentCtrl.initiateDocumentCopy(aDocument)">Copy</button>
+				            	<span ng-show="aDocument.files.length > 0">
+					            	<select id="download-{{aDocument.id}}" multiple="true" ng-model="aDocumentCtrl.currentDownloadFiles" class="multipleitems" on-finish-render="">
+										<option ng-repeat="aFile in aDocument.files" value="{{aFile}}">{{aFile.fileName}}</option>
+					            	</select>
+				            		<button id="download-{{aDocument.id}}" class="btn btn-primary" ng-click="aDocumentCtrl.downloadDocument(aDocument)">Download</button> 
+				            	</span>
+				            	<!--  span ng-click="aDocumentCtrl.exportDocument(aDocument)">Export</span> |--> 
+				            </td> 
+				        </tr>
+			        </tbody>
+			    </table> 
+			    <dir-pagination-controls boundary-links="true" pagination-id="myPagination" on-page-change="pageChangeHandler(newPageNumber)" ></dir-pagination-controls>
+
+			</div>
+		    <div class="tab-pane" id="recent_documents" ng-show="aDocumentCtrl.shouldShowTab('recent')">
+				<div class="row">
+		            <div class="col-xs-1">
+		              <div>Page: {{ recentCurrentPage }}</div>
+		            </div>
+		            <div class="col-xs-1">
+		              <label for="search" style="float:right">Search:</label>
+		            </div>
+		            <div class="col-xs-2">
+		              <input ng-model="recentQ" id="recentSearch" style="float:left" class="form-control" placeholder="Filter" />
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search"  style="float:right">items per page:</label>
+		             </div>
+		            <div class="col-xs-1">
+		              <input type="number" min="1" max="100" class="form-control" style="float:left" ng-model="recentPageSize" />
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search"  style="float:right">recent days:</label>
+		            </div>
+		            <div class="col-xs-1">
+		            	<input type="number" min="1" max="100" class="form-control" style="float:left" ng-model="aDocumentCtrl.recentDays" />
+		            </div>		            
+		        </div>	  
+		        <BR />  
+	    		<table id="recentTable" ng-table="doc.recentTableParams" show-filter="true" class="table row-border hover dataTable no-footer " >
+			        <thead>
+				        <tr>
+				            <th>Classification ID</th>
+				            <th>Classification Name</th>
+				            <th>Document Number</th>
+				            <th>Document Type</th>
+		            		<th>Document Name</th>
+		            		<th>Creation Date</th>
+		            		<th>Created By</th>
+		            		<th># Files</th> 
+		            		<th>Action</th>  
+				        </tr>
+			        </thead>
+			        <tbody>
+				        <tr pagination-id="recentPagination" dir-paginate="aDocument in aDocumentCtrl.recentDocuments |  filter:recentQ | itemsPerPage: recentPageSize">
+	            			<td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationId'">{{aDocument.classificationId}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationName'">{{aDocument.classificationName}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentNumber'">{{aDocument.documentNumber}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentType'">{{aDocument.documentType}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentName'">{{aDocument.documentName}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'creationDate'">{{ aDocument.creationDate | date:"dd/MM/yyyy"}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.createdBy}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.files.length}}</td> 			            
+				            <td>
+			            		<button  class="btn btn-primary" ng-click="aDocumentCtrl.deleteDocument(aDocument)">Delete</button>
+			            		<button  class="btn btn-primary" ng-click="aDocumentCtrl.initiateDocumentCopy(aDocument)">Copy</button>
+				            	<span ng-show="aDocument.files.length > 0">
+					            	<select id="download-{{aDocument.id}}" multiple="true" ng-model="aDocumentCtrl.currentDownloadFiles" class="multipleitems" on-finish-render="">
+										<option ng-repeat="aFile in aDocument.files" value="{{aFile}}">{{aFile.fileName}}</option>
+					            	</select>
+				            		<button id="download-{{aDocument.id}}" class="btn btn-primary" ng-click="aDocumentCtrl.downloadDocument(aDocument)">Download</button> | 
+				            	</span>
+				            	<!--  span ng-click="aDocumentCtrl.exportDocument(aDocument)">Export</span> |--> 
+
+				            </td> 
+				        </tr>
+			        </tbody>
+			    </table> 
+			    <dir-pagination-controls boundary-links="true" pagination-id="recentPagination" on-page-change="pageChangeHandler(newPageNumber)" ></dir-pagination-controls>
+			</div>
+			 
+		    <div class="tab-pane" id="favorite_documents" ng-show="aDocumentCtrl.shouldShowTab('favorite')">
+				<div class="row">
+		            <div class="col-xs-2">
+		              <div>Document Page: {{ favoriteCurrentPage }}</div>
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search" style="float:right">Search:</label>
+		             </div>
+		            <div class="col-xs-2">
+		             <input ng-model="favoriteQ" id="favoriteSearch" style="float:left" class="form-control" placeholder="Filter text" />
+		            </div>
+		            <div class="col-xs-2">
+		              <label for="search"  style="float:right">items per page:</label>
+		             </div>
+		            <div class="col-xs-2">
+		              <input type="number" min="1" max="100" class="form-control" style="float:left" ng-model="favoritePageSize" />
+		            </div>
+		        </div>	  
+		        <BR />  
+	    		<table id="favoriteTable" ng-table="doc.favoriteTableParams" show-filter="true" class="table row-border hover dataTable no-footer " >
+			        <thead>
+				        <tr>
+				            <th>Classification ID</th>
+				            <th>Classification Name</th>
+				            <th>Document Number</th>
+				            <th>Document Type</th>
+		            		<th>Document Name</th>
+		            		<th>Creation Date</th>
+		            		<th>Created By</th>
+		            		<th># Files</th> 
+		            		<th>Action</th>  
+				        </tr>
+			        </thead>
+			        <tbody>
+				        <tr pagination-id="favoritePagination" dir-paginate="aDocument in aDocumentCtrl.favoriteDocuments |  filter:favoriteQ | itemsPerPage: favoritePageSize">
+	            			<td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationId'">{{aDocument.classificationId}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationName'">{{aDocument.classificationName}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentNumber'">{{aDocument.documentNumber}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentType'">{{aDocument.documentType}}</td>
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentName'">{{aDocument.documentName}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'creationDate'">{{ aDocument.creationDate | date:"dd/MM/yyyy"}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.createdBy}}</td> 
+				            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.files.length}}</td> 			            
+				            <td>
+			            		<button  class="btn btn-primary" ng-click="aDocumentCtrl.deleteDocument(aDocument)">Delete</button>
+			            		<button  class="btn btn-primary" ng-click="aDocumentCtrl.initiateDocumentCopy(aDocument)">Copy</button>
+				            	<span ng-show="aDocument.files.length > 0">
+					            	<select id="download-{{aDocument.id}}" multiple="true" ng-model="aDocumentCtrl.currentDownloadFiles" class="multipleitems" on-finish-render="">
+										<option ng-repeat="aFile in aDocument.files" value="{{aFile}}">{{aFile.fileName}}</option>
+					            	</select>
+				            		<button id="download-{{aDocument.id}}" class="btn btn-primary" ng-click="aDocumentCtrl.downloadDocument(aDocument)">Download</button> | 
+				            	</span>
+
+				            </td> 
+				        </tr>
+			        </tbody>
+			    </table> 
+			    <dir-pagination-controls boundary-links="true" pagination-id="favoritePagination" on-page-change="pageChangeHandler(newPageNumber)" ></dir-pagination-controls>
+			</div> 
+			 
+		</div>
+		    
+	    
+	   
+	    <div role="tabpanel" class="tab-pane" id="search">
+		    <div class="row">
+	            <div class="col-xs-2">
+	              <div>Document Page: {{ recentCurrentPage }}</div>
+	            </div>
+	            <div class="col-xs-2">
+	              <label for="search" style="float:right">Search:</label>
+	             </div>
+	            <div class="col-xs-2">
+	             <input ng-model="searchQ" id="search" style="float:left" class="form-control" placeholder="Filter text" />
+	            </div>
+	            <div class="col-xs-2">
+	              <label for="search"  style="float:right">items per page:</label>
+	             </div>
+	            <div class="col-xs-2">
+	              <input type="number" min="1" max="100" class="form-control" style="float:left" ng-model="searchPageSize" />
+	            </div>
+	        </div>	  
+	        <br /> 
+	 
+    		<table id="searchTable"  ng-table="doc.searchTableParams" show-filter="true"  class="table row-border hover dataTable no-footer" > 
+		        <thead>
+			        <tr>
+			            <th>Classification ID</th>
+			            <th>Classification Name</th>
+			            <th>Document Number</th>
+			            <th>Document Type</th>
+	            		<th>Document Name</th> 
+	            		<th>Creation Date</th>
+	            		<th>Created By</th>
+	            		<th># Files</th>
+	            		<th>Action</th> 
+	            	</tr>
+		        </thead>
+		        <tbody>
+			        <tr  pagination-id="searchPagination" dir-paginate="aDocument in aDocumentCtrl.searchDocuments | filter:searchQ | itemsPerPage: searchPageSize">
+            			<td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationId'">{{aDocument.classificationId}}</td>
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'classificationName'">{{aDocument.classificationName}}</td>
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentNumber'">{{aDocument.documentNumber}}</td>
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentType'">{{aDocument.documentType}}</td>
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'documentName'">{{aDocument.documentName}}</td> 
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'creationDate'">{{ aDocument.creationDate | date:"dd/MM/yyyy"}}</td> 
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.createdBy}}</td> 
+			            <td ng-click="aDocumentCtrl.edit(aDocument)"  sortable="'createdBy'">{{aDocument.files.length}}</td> 
+			            
+			            <td>
+			            	<button  class="btn btn-primary" ng-click="aDocumentCtrl.deleteDocument(aDocument)">Delete</button>
+			            	<button  class="btn btn-primary" ng-click="aDocumentCtrl.initiateDocumentCopy(aDocument)">Copy</button>
+			            	<span ng-show="aDocument.files.length > 0">
+				            	<select id="download-{{aDocument.id}}" multiple="true" ng-model="aDocumentCtrl.currentDownloadFiles" class="multipleitems" on-finish-render="">
+									<option ng-repeat="aFile in aDocument.files" value="{{aFile}}">{{aFile.fileName}}</option>
+				            	</select>
+			            		<button id="download-{{aDocument.id}}" class="btn btn-primary" ng-click="aDocumentCtrl.downloadDocument(aDocument)">Download</button> 
+			            	</span>
+			            	<!--  span ng-click="aDocumentCtrl.exportDocument(aDocument)">Export</span> |--> 
+			            </td>
+			             
+			        </tr>
+		        </tbody>
+		    </table> 
+		    <dir-pagination-controls boundary-links="true" pagination-id="searchPagination" on-page-change="pageChangeHandler(newPageNumber)" ></dir-pagination-controls>
+	    </div>
+	    
+	    <div role="tabpanel" class="tab-pane" id="new">
+	    	<form id="documentCreateForm" name="documentCreateForm" class="form-horizontal" method="POST"> 
+	    		<div class="alert alert-success" id="documentSave" ng-class="{hidden: !aDocumentCtrl.hasResponseMessage(), active: aDocumentCtrl.hasResponseMessage()}">
+	    			{{aDocumentCtrl.responseMessage}}
+	    		</div> 
+	    		<div  role="alert" class="alert alert-success" id="createMessageDiv" ng-show="shouldShowMessage('create')">{{createMessage}}</div>
+		    		<fieldset>
+		    			<div class="form-group col-md-12">
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="classificationId">Classification ID</label>
+		    					<div class="controls">
+		    						<input ng-model="newDocument.classificationId" name="classificationId" id="classificationId"  required=""/>
+		    					</div>
+		    				</div>
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="classificationId">Classification Name</label>
+		    					<div class="controls">
+		    						<tags-input  ng-model="newDocument.classificationName" name="classificationName" class="tags" id="classificationName" ></tags-input>
+		    					</div>
+		    				</div>
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="documentType">Document Type</label>
+		    					<div class="controls">
+		    						<input ng-model="newDocument.documentType" name="documentType" id="documentType"   required=""/>
+		    					</div>
+		    				</div>	 
+		    			</div> 
+		    			<div class="form-group col-md-12">
+ 									<div class="form-group col-md-3">
+		    					<label class="control-label" for="documentName">Document Name</label>
+		    					<div class="controls">
+		    						<textarea ng-maxlength="300" ng-model="newDocument.documentName" name="documentName" id="documentName"  rows="3" cols="20"  required=""></textarea>
+		    					</div>
+		    				</div>
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="masterDocumentNumber">Master Document Number</label>
+		    					<div class="controls">
+		    						<input ng-model="newDocument.masterDocumentNo"  class="disabled" ng-readonly="true" name="masterDocumentNumber" id="masterDocumentNumber" />
+		    					</div>
+		    				</div>
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="documentNumber">Document Number</label>
+		    					<div class="controls">
+		    						<input ng-model="newDocument.documentNumber" name="documentNumber" id="documentNumber" />
+		    					</div>
+		    				</div>
+		    			</div>
+		    			
+		    			<div class="form-group col-md-12">
+		    				
+		    				<div class="form-group col-md-3">
+						    	<label class="control-label" for="documentName">Planned Issue Date</label>
+						    	<div class="controls">
+						    		<input type="date" validatedateformat=""  data-date-format="dd/mm/yyyy" ng-model="newDocument.plannedIssueDate" name="plannedIssueDate" id="plannedIssueDate" required="" />
+						    	</div>
+						    </div>
+						    
+		    				<div class="form-group col-md-3">
+		    					<label class="control-label" for="internalExternal">Internal/External</label>
+		    					<div class="controls">  
+										<select name="internalExternal" ng-model="newDocument.internalExternal" id="internalExternal"  required="" >
+		    						 	<option value="Internal">Internal</option>
+		    						 	<option value="External">External</option>
+		    						 </select> 
+	    						 </div>
+	    				   </div>
+   					    </div>
+	    		 
+	    			<div class="form-group col-md-12"> 
+	    			<br />
+	    				<table id="docName"  ng-table="doc.newFilesTableParams" show-filter="true"  class="table row-border hover dataTable no-footer" > 
+					        <thead>
+						        <tr>
+						        	<th width="10%">Browse</th>
+						            <th width="20%">Name</th>
+						            <th>Action</th> 
+				            	</tr>
+					        </thead>
+					        <tbody>
+						        <tr pagination-id="searchPagination" dir-paginate="aFile in newDocument.files | itemsPerPage: 10">
+			     					<td ><input  ngf-select="" ng-model="aFile.allFiles"  name="fileName[]" type="file" multiple="" /> </td>
+			            			<td  >{{aFile.fileName}}</td>
+						            <td> <input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.removeFile('edit', aFile)" value="Delete File" multiple="true" /> </td>
+						             
+						        </tr>
+					        </tbody>
+					    </table> 
+	    			</div> 
+	    		</fieldset>
+	    		<br />
+	    		<input class="btn btn-primary" type="button" ng-click="addDocument()" value="Add More Files" /> 
+	    		<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.saveDocuments('create')" value="Save" /> 
+	    	</form> 
+	    </div> 
+	  </div> 
+	</section>
+	</div> 
+	<script type="text/ng-template" id="edit_document.html">
+
+	    		<div class="alert alert-success" id="documentSave" ng-class="{hidden: !aDocumentCtrl.hasResponseMessage(), active: aDocumentCtrl.hasResponseMessage()}">
+	    			{{aDocumentCtrl.responseMessage}}
+	    		</div> 
+	    		<div  role="alert" class="alert alert-success" ng-class="{alertSuccess: !aDocumentCtrl.hasSaveMessage(), alertDanger: aDocumentCtrl.hasSaveMessage()}" ng-show="shouldShowMessage('save')">{{saveMessage}}</div> 
+				<fieldset>
+		    		<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.closeTab()" value="Close Tab" /> 
+		    		<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.toggleFavorite(aDocumentCtrl.anEditDocument)" value="Mark As Favourite" /> 
+					<div class="form-group col-md-12">
+				    	<div class="form-group col-md-3">
+				    		<label class="control-label" for="classificationId">Classification ID</label>
+				    		<div class="controls">
+				    			<input ng-model="aDocumentCtrl.anEditDocument.classificationId" name="classificationId" id="classificationId"  ng-required="required" />
+				    		</div>
+				    	</div>
+				    	<div class="form-group col-md-3">
+				    		<label class="control-label" for="classificationId">Classification Name</label>
+			    			<div class="controls">
+								<input ng-model="aDocumentCtrl.anEditDocument.classificationName" name="classificationName" class="col-xs-9 classificationName" />
+			    			</div>
+			    		</div>
+	    				<div class="form-group col-md-3">
+	    					<label class="control-label" for="documentType">Document Type</label>
+	    					<div class="controls">
+	    						<input ng-model="aDocumentCtrl.anEditDocument.documentType" name="documentType" id="documentType" required=""/>
+	    					</div>
+	    				</div>	 
+		    		</div> 
+					<div class="form-group col-md-12">
+   						<div class="form-group col-md-3">
+					    	<label class="control-label" for="documentName">Document Name</label>
+					    	<div class="controls">
+					    		<textarea  ng-maxlength="300" ng-model="aDocumentCtrl.anEditDocument.documentName" name="documentName" id="documentName" cols="20" rows="3" required=""></textarea>
+					    	</div>
+					    </div>
+					    <div class="form-group col-md-3">
+					    	<label class="control-label" for="masterDocumentNumber">Master Document Number</label>
+					    	<div class="controls">
+					    		<input ng-model="aDocumentCtrl.anEditDocument.masterDocumentNo" class="disabled" ng-readonly="true" name="masterDocumentNumber" id="masterDocumentNumber" />
+					    	</div>
+					    </div>
+					    <div class="form-group col-md-3">
+					    	<label class="control-label" for="documentNumber">Document Number</label>
+					    	<div class="controls">
+					    		<input ng-model="aDocumentCtrl.anEditDocument.documentNumber" name="documentNumber" id="documentNumber" />
+					    	</div>
+					    </div>
+				    </div> 
+	    			
+	    			<div class="form-group col-md-12">
+   						<div class="form-group col-md-3">
+					    	<label class="control-label" for="documentName">Planned Issue Date</label>
+					    	<div class="controls">
+					    		<input type="date" validatedateformat=""  data-date-format="dd/mm/yyyy" ng-model="aDocumentCtrl.anEditDocument.plannedIssueDate" name="plannedIssueDate" id="plannedIssueDate" required="" />
+					    	</div>
+					    </div>
+					    
+				     
+	    				<div class="form-group col-md-3">
+	    					<label class="control-label" for="internalExternal">Internal/External</label>
+	    					<div class="controls"> 
+	    						 <select name="internalExternal" ng-model="aDocumentCtrl.anEditDocument.internalExternal" id="internalExternal"  required="">
+	    						 	<option value="Internal">Internal</option>
+	    						 	<option value="External">External</option>
+	    						 </select> 
+		    				</div>
+						</div>
+						<div class="form-group col-md-3">
+					    	<label class="control-label" for="documentNumber">Creation Date</label>
+					    	<div class="controls">
+					    		 {{aDocumentCtrl.anEditDocument.creationDate | date:"dd/MM/yyyy"}}
+					    	</div>
+					    </div>
+	    			</div>  
+	    			<div class="form-group col-md-12">
+				    	<div class="form-group col-md-3">
+				    		<label class="control-label" for="tags">Tags</label>
+			    			<div class="controls">
+								<tags-input add-on-enter="true" add-on-comma="true" min-length="1" placeholder="Add Tag" paste-split-pattern="," add-on-paste="true" ng-model="aDocumentCtrl.anEditDocument.tags" name="tags" class="col-xs-9 tags" ></tags-input>
+			    			</div>
+			    		</div>						
+ 					</div>  
+	    			<div class="form-group col-md-12"> 
+						<div class="fluid-container">
+							<br />
+							<button type="button" class="active btn btn-default" ng-click="aDocumentCtrl.showDocTab('in_progress_revision', $event)">In Progress Revision</button>
+							<button type="button" class="btn btn-default" ng-click="aDocumentCtrl.showDocTab('revision_history', $event)">Revision History</button>
+							<button type="button" class="btn btn-default" ng-click="aDocumentCtrl.showDocTab('comments', $event)">Comments</button>
+							<button type="button" class="btn btn-default" ng-click="aDocumentCtrl.showDocTab('links', $event)">Links</button>
+						</div>
+					</div>
+					<div class="form-group col-md-12" ng-show="aDocumentCtrl.shouldShowDocTab('in_progress_revision')"> 
+	       				<table id="docName"  ng-table="doc.editFilesTableParams" show-filter="true"  class="table row-border hover dataTable no-footer" > 
+		        			<thead>
+			        			<tr>
+			        				<th width="10%">Browse</th>
+			            			<th width="20%">Name</th>
+			            			<th>Action</th> 
+	            				</tr>
+		        			</thead>
+		        			<tbody>
+			        			<tr  pagination-id="searchPagination" dir-paginate="aFile in aDocumentCtrl.anEditDocument.files | itemsPerPage: 10">
+     								<td><input  ngf-select="" ng-model="aFile.allFiles" name="fileName[]" type="file" onchange="angular.element(this).scope().editFileSelected(this)" multiple="" /></td>
+            						<td>{{aFile.fileName}}</td>
+			            			<td> <input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.removeFile('edit', aFile)" value="Delete File" /> &nbsp;
+			            			<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.downloadFile(aFile)" value="View File" /></td>
+			             		</tr>
+		        			</tbody>
+		    			</table>  
+						Use Ctrl Or Shift button to select multiple Files
+    				
+  						<br /> 
+    					<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.editAddDocument('edit')" value="Add More Files" />
+			    		<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.saveDocuments('save')" value="Save" /> 
+    					<input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.closeTab()" value="Cancel" /> 
+	      				 
+	      				<br />
+	      				<br />
+	    			</div>
+	  
+	  				<div class="form-group col-md-12" ng-show="aDocumentCtrl.shouldShowDocTab('revision_history')"> 
+	          			Revision History Items
+	  				</div>
+	  
+	  				<div class="form-group col-md-12" ng-show="aDocumentCtrl.shouldShowDocTab('comments')"> 
+	      				Comments
+    				</div>
+	    
+	  				<div class="form-group col-md-12" ng-show="aDocumentCtrl.shouldShowDocTab('links')"> 
+	      				Links
+    				</div> 
+				</fieldset>	    				
+
+	    
+    </script>
+    	
+    
+    <script type="text/ng-template" id="copy_document.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Copy Document</h3>
+        </div>
+        <div class="modal-body">
+			<p>Please select the files to Copy</p>            
+			<table id="docName"  ng-table="doc.editFilesTableParams" show-filter="true"  class="table row-border hover dataTable no-footer" > 
+		    	<thead>
+			    	<tr>
+			        	<th width="10%">Browse</th>
+			            <th width="20%">Name</th> 
+	            	</tr>
+		        </thead>
+		        <tbody>
+			    	<tr  pagination-id="searchPagination" dir-paginate="aFile in files | itemsPerPage: 10">
+     					<td><input type="checkbox" class="selectedFiles" ng-model="copyFiles[$index]" ng-true-value="'{{aFile.id}}'" value="{{aFile.id}}"/></td>
+            			<td>{{aFile.fileName}}</td>
+			        </tr>
+		        </tbody>
+		    </table>  
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    
+	 
+   	 
+</body>
+</html>

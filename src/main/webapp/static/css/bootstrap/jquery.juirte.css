@@ -1,0 +1,26 @@
+.ui-wysiwyg .ui-button{font-size:90%;height:24px;min-width:30px}
+.ui-wysiwyg .ui-button span{font-size:80%}
+.ui-wysiwyg sub{font-size:6px;font-weight:700;line-height:1px}
+.ui-wysiwyg sup{font-size:6px;font-weight:700}
+.ui-wysiwyg-btn-forecolor span{text-decoration:underline}
+.ui-wysiwyg-btn-italic span{font-weight:400}
+.ui-wysiwyg-btn-strikeThrough span{font-weight:400;text-decoration:line-through}
+.ui-wysiwyg-btn-underline span{font-weight:400;text-decoration:underline}
+.ui-wysiwyg-colorinput{width:60px}
+.ui-wysiwyg-dropdown{display:none;margin-left:2px;position:absolute;z-index:2229}
+.ui-wysiwyg-dropdown ul{list-style:none;margin:0;padding:10px}
+.ui-wysiwyg-dropdown ul li{cursor:pointer;padding:2px;text-decoration:underline}
+.ui-wysiwyg-dropdown ul li h1,.ui-wysiwyg-dropdown ul li h2,.ui-wysiwyg-dropdown ul li h3,.ui-wysiwyg-dropdown ul li h4,.ui-wysiwyg-dropdown ul li h5,.ui-wysiwyg-dropdown ul li h6{margin:0;padding:0}
+.ui-wysiwyg-justify-wrap{line-height:2px;margin-top:-4px;text-align:left}
+.ui-wysiwyg-justify-center{text-align:center}
+.ui-wysiwyg-justify-right{text-align:right}
+.ui-wysiwyg-left{float:left;margin-bottom:4px}
+.ui-wysiwyg-list-wrap{font-size:7px;line-height:6px;overflow:hidden;text-align:left}
+.ui-wysiwyg-menu{margin:-4px 0 0 -1px;padding:0}
+.ui-wysiwyg-menu-wrap{margin:4px 4px 0}
+.ui-wysiwyg-row{clear:left;float:left}
+.ui-wysiwyg-swatch{border:1px solid #000;display:table;height:12px;text-decoration:none;width:100%}
+.ui-wysiwyg-fontbgcdropdown,.ui-wysiwyg-fontcldropdown{padding:4px; width: 80px}
+.ui-wysiwyg-fontdropdown,.ui-wysiwyg-fontbgcdropdown,.ui-wysiwyg-fontcldropdown{ overflow: auto; height: 120px;}
+.ui-wysiwyg-fontdropdown{ width: 200px}
+.ui-wysiwyg-container{display:table-cell}
