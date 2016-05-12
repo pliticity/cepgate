@@ -1,10 +1,7 @@
 package pl.iticity.dbfds.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import pl.iticity.dbfds.model.Principal;
-import org.springframework.data.repository.CrudRepository;
-
-import java.util.Set;
+import pl.iticity.dbfds.security.Principal;
 
 /**
  * Created by pmajchrz on 3/25/16.

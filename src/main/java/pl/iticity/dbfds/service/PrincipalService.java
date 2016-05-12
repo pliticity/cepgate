@@ -2,7 +2,7 @@ package pl.iticity.dbfds.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Principal;
+import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.util.PrincipalUtils;
 

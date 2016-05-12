@@ -4,10 +4,7 @@ import com.vaadin.data.Validator;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.iticity.dbfds.model.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
-
-import java.text.MessageFormat;
 
 /**
  * Created by pmajchrz on 4/5/16.

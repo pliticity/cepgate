@@ -1,6 +1,6 @@
 package pl.iticity.dbfds.util;
 
-import pl.iticity.dbfds.model.Principal;
+import pl.iticity.dbfds.security.Principal;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;

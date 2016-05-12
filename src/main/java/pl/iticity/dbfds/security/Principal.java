@@ -1,8 +1,7 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.security;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.validation.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -47,6 +46,9 @@ public class Principal {
 
     private String company;
 
+    @NotNull
+    private Role role;
+
     public Principal() {
         /*email = StringUtils.EMPTY;
         password = StringUtils.EMPTY;
@@ -55,6 +57,14 @@ public class Principal {
         country = StringUtils.EMPTY;
         phone = StringUtils.EMPTY;
         company = StringUtils.EMPTY;*/
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getId() {

@@ -1,12 +1,11 @@
 package pl.iticity.dbfds.model;
 
 import com.google.common.collect.Lists;
-import org.hibernate.annotations.Type;
+import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

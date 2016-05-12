@@ -2,14 +2,11 @@ package pl.iticity.dbfds.ui.login;
 
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.validator.BeanValidator;
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.subject.Subject;
-import pl.iticity.dbfds.model.Principal;
+import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.ui.IticityUI;
 import org.apache.shiro.SecurityUtils;

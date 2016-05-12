@@ -1,22 +1,11 @@
 package pl.iticity.dbfds.ui.settings;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import pl.iticity.dbfds.model.Principal;
-import pl.iticity.dbfds.util.PrincipalUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import pl.iticity.dbfds.security.Principal;
 import org.springframework.context.annotation.Scope;
-
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by pmajchrz on 3/29/16.

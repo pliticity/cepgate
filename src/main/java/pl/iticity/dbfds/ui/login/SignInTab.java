@@ -2,11 +2,10 @@ package pl.iticity.dbfds.ui.login;
 
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
-import pl.iticity.dbfds.model.Principal;
+import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.ui.IticityUI;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;

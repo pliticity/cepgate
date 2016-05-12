@@ -2,7 +2,7 @@ package pl.iticity.dbfds.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.Principal;
+import pl.iticity.dbfds.security.Principal;
 
 import java.util.Date;
 import java.util.List;

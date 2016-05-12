@@ -7,7 +7,6 @@ import com.vaadin.server.Responsive;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
-import pl.iticity.dbfds.model.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.ui.login.LoginView;
 import org.apache.shiro.SecurityUtils;
