@@ -13,8 +13,7 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="pl.iticity.dbfds.controller"/>
 
-    <mvc:resources mapping="/**" location="/static/**"/>
-    <!--<mvc:resources mapping="/templates/**" location="/templates/**"/>-->
+    <mvc:resources mapping="/**" location="/static/"/>
 
     <bean id="templateResolver"
           class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
