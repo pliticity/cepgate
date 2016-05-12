@@ -23,11 +23,8 @@
                 # some example chain definitions:
                 #/admin/** = authc, roles[admin]
                 #/docs/** = authc, perms[document:read]
-                /VAADIN/** = anon
-                /APP/** = anon
-                /UIDL/** = anon
-                /** = authc
-                /api/** = authc
+                #/** = authc
+                #/api/** = authc
                 # more URL-to-FilterChain definitions here
             </value>
         </property>
