@@ -1,5 +1,7 @@
 (function(){
-	angular.module('document').controller('SignupController', ['$http', '$scope', function($http, $scope, Upload){
+	angular.module('document').controller('SignupController', ['$cookieStore','$cookies','$http', '$scope', function($cookieStore,$cookies,$http, $scope, Upload){
+		console.log("SU")
+		console.log($cookies.getAll());
 		 var signup = this;
 		 var messageDiv = angular.element( document.querySelector( '#messageDiv' ) );
 		  $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -14,7 +16,7 @@
 			$scope.countries = response;
 			 
 		});
-		 
+
 		$scope.showMessage = function(){
 			 return $scope.message.length > 0;
 		}
@@ -34,8 +36,8 @@
 						   "X-Requested-With": 'XMLHttpRequest',
 					 },
 				}).success(function(response){
-					 console.log(response);	
-					  
+					 console.log("SU res")
+					 console.log($cookies.getAll());
 					window.location = "/member/index"; 
 				}).error(function(response){
 					if(response.error){

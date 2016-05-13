@@ -1,7 +1,10 @@
 (function(){
 	var documentApp = angular.module('document');
-	documentApp.controller('DocumentController', ['$http', '$scope', 'Upload', '$compile', '$uibModal', function($http, $scope, Upload, $compile, $uibModal){
-		 var doc = this; 
+	documentApp.controller('DocumentController', ['$cookieStore','$cookies','$http', '$scope', 'Upload', '$compile', '$uibModal', function($cookieStore, $cookies,$http, $scope, Upload, $compile, $uibModal){
+		console.log("DC")
+		console.log($cookies.getAll());
+		//console.log("DC - cookiesStore "+$cookieStore.getAll());
+		var doc = this;
 		 doc.recentDocuments = [];
 		 doc.searchDocuments = [];
 		 doc.myDocuments = [];
@@ -99,7 +102,7 @@
 			 return toReturn;
 		 }
 		 doc.reloadDocuments = function(){ 
-			 $http.get('/documents/loadDocuments?type=all&days=' + doc.recentDays).success(function(response){ 
+			 $http.get('/documents/loadDocuments?type=all&days=' + doc.recentDays).success(function(response){
 				 if(!response || response.length == 0){
 					 doc.myDocuments = [];
 					 doc.recentDocuments = [];

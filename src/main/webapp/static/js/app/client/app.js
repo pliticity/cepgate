@@ -1,6 +1,6 @@
 (function(){
 	'use strict';  
-	var documentApp = angular.module('document', ['ui.bootstrap', 'ngAside', 'ngFileUpload', 'angularUtils.directives.dirPagination', 'ngTagsInput', 'ngDragDrop']);
+	var documentApp = angular.module('document', ['ui.bootstrap', 'ngAside', 'ngFileUpload', 'angularUtils.directives.dirPagination', 'ngTagsInput', 'ngDragDrop','ngCookies']);
 	
 	 documentApp.directive('onFinishRender', function ($timeout) {
 	    return {
@@ -69,6 +69,10 @@
          function ($compileProvider) {
              $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
      }]);
+
+	documentApp.config(['$httpProvider', function($httpProvider) {
+		$httpProvider.defaults.withCredentials = true;
+	}])
 	 
 	 
 	 $('#add-contact').click(function(e) { 
