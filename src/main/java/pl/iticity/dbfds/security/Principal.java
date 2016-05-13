@@ -1,7 +1,9 @@
 package pl.iticity.dbfds.security;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
+import pl.iticity.dbfds.model.Domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,6 +13,7 @@ import javax.validation.constraints.Size;
 /**
  * Created by dacho on 23.03.2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 @org.springframework.data.mongodb.core.mapping.Document
 public class Principal {
 
@@ -49,6 +52,9 @@ public class Principal {
     @NotNull
     private Role role;
 
+    @NotNull
+    private Domain domain;
+
     public Principal(String email,String password){
         setEmail(email);
         setPassword(password);
@@ -62,6 +68,14 @@ public class Principal {
         country = StringUtils.EMPTY;
         phone = StringUtils.EMPTY;
         company = StringUtils.EMPTY;*/
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
     }
 
     public Role getRole() {

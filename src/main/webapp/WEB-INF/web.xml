@@ -26,6 +26,18 @@
     </context-param>
 
     <servlet>
+        <servlet-name>FileServlet</servlet-name>
+        <servlet-class>
+            pl.iticity.dbfds.file.FileServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FileServlet</servlet-name>
+        <url-pattern>/file/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>DispatcherServlet</servlet-name>
         <servlet-class>
             org.springframework.web.servlet.DispatcherServlet

@@ -7,9 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-/**
- * Created by pmajchrz on 4/5/16.
- */
+@org.springframework.data.mongodb.core.mapping.Document
 public class FileInfo {
 
     private String name;
@@ -19,6 +17,26 @@ public class FileInfo {
     private Date uploadDate;
 
     private String fileId;
+
+    private String symbol;
+
+    private String path;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
 
     public String getType() {
         return type;

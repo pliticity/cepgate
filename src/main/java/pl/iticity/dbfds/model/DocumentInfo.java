@@ -60,6 +60,17 @@ public class DocumentInfo {
 
     private List<FileInfo> files;
 
+    @NotNull
+    private Domain domain;
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
     public String getId() {
         return id;
     }

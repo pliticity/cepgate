@@ -12,7 +12,7 @@ import pl.iticity.dbfds.security.Role;
 
 public class BaseController {
 
-	boolean hasAuthority(Principal principal, Role role){
+	boolean hasAuthority(Role role){
 		return SecurityUtils.getSubject().hasRole(role.name());
 /*		boolean toReturn = false;
 		if(check != null && check.getAuthorities() != null && check.getAuthorities().contains(checkAuthority)){

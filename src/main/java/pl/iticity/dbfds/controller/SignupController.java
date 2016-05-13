@@ -5,7 +5,11 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.security.Role;
+import pl.iticity.dbfds.service.DocumentService;
+import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +21,9 @@ public class SignupController extends BaseController {
 
     @Autowired
     private PrincipalService principalService;
+
+    @Autowired
+    private DomainService domainService;
 
     @RequestMapping("/signup/index")
     public String index() {
@@ -58,17 +65,20 @@ public class SignupController extends BaseController {
     @RequestMapping("/signup/signup")
     public
     @ResponseBody
-    HashMap signup(@RequestBody Principal principal) {
+    HashMap signup(Principal principal) {
         HashMap mp = new HashMap();
         Principal p = principalService.findByEmail(principal.getEmail());
-        if (p != null) {
+        Domain d = domainService.findByName(principal.getEmail());
+        if (p != null && d!=null) {
             mp.put("result", "error");
             mp.put("message", "Account already exists.");
         } else {
+            Domain domain = new Domain();
+            domain.setName(principal.getEmail());
+            domainService.save(domain);
+            principal.setDomain(domain);
+            principal.setRole(Role.ADMIN);
             principalService.registerPrincipal(principal);
-            //account.setDateCreated(new Date());
-            //account.setPasswd(passwordEncoder.encode(account.getPasswd()));
-            //repository.save(account);
             mp.put("result", "success");
             mp.put("message", "Success");
         }
