@@ -1,6 +1,5 @@
 package pl.iticity.dbfds.model;
 
-import com.vaadin.data.fieldgroup.PropertyId;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
