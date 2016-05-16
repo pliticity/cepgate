@@ -12,6 +12,7 @@ import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ public class SignupController extends BaseController {
     }
 
     @RequestMapping(value = "/signup/login", method = RequestMethod.POST)
-    public String postLogin(@RequestParam(name = "username") final String username, @RequestParam(name = "password") final String password) {
+    public String postLogin(@RequestParam(name = "username") final String username, @RequestParam(name = "password") final String password, HttpServletResponse response) {
         SecurityUtils.getSubject().login(new AuthenticationToken() {
             @Override
             public Object getPrincipal() {

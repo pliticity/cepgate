@@ -18,6 +18,7 @@
 			});
 		 
 		 $http.get('/signup/authenticated').success(function(response){
+			 console.log('app-client-authenticated');
 			 if(response.result == "false"){
 				 window.location = "/signup/login";
 			 } else {
@@ -30,7 +31,6 @@
 		 }
 		 
 		 clientUsers.deleteUser = function(theAccount){
-			 console.log(theAccount.id);
 			 if(confirm('Are you sure you would like to delete this User?')){
 				 $http({
 					 method: "POST",

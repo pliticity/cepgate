@@ -14,6 +14,7 @@
 		 var createMessageDiv = angular.element(document.querySelector( '#createMessageDiv' ));
 		 
 		 $http.get('/signup/authenticated').success(function(response){
+			 console.log('app-editdocument-authenticated');
 			 if(response.result == "false"){
 				 window.location = "/signup/login";
 			 } 

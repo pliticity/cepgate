@@ -21,7 +21,7 @@ public class Classification {
 
     @Size(min=1,max=100)
     @NotNull
-    private String name;
+    private List<Tag> tags;
 
     public String getClassificationId() {
         return classificationId;
@@ -31,11 +31,11 @@ public class Classification {
         this.classificationId = classificationId;
     }
 
-    public String getName() {
-        return name;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

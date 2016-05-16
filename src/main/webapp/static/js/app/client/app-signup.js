@@ -1,14 +1,13 @@
 (function(){
-	angular.module('document').controller('SignupController', ['$cookieStore','$cookies','$http', '$scope', function($cookieStore,$cookies,$http, $scope, Upload){
-		console.log("SU")
-		console.log($cookies.getAll());
-		 var signup = this;
+	angular.module('document').controller('SignupController', ['$cookies','$location','$http', '$scope', function($cookies,$location,$http, $scope, Upload){
+		var signup = this;
 		 var messageDiv = angular.element( document.querySelector( '#messageDiv' ) );
 		  $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 		  // Override $http service's default transformRequest
 		  $http.defaults.transformRequest = [function(data) {
 		    return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
 		  }];
+		$http.defaults.withCredentials= true;
 		 $scope.countries = [{"name": "Loading", "abbr": "Loading"}];
 		 $scope.message = "";
 		 signup.user = {"_csrf": "", "country": "", "company": "", "password": "", "email": "", "lastName": "", "firstName": ""};
@@ -21,7 +20,7 @@
 			 return $scope.message.length > 0;
 		}
 		 
-		$scope.auth = function(){ 
+		$scope.auth = function(){
 			 if(!$scope.authForm.$valid){
 				 messageDiv.removeClass("alert-success");
 				 messageDiv.addClass("alert-danger");
@@ -29,16 +28,21 @@
 			 }else {
 				 $http({
 					 method: "POST",
+					 withCredentials: true,
 					 url: '/signup/login',  
 					 data: {username: signup.user.email, password: signup.user.passwd },
 					 headers: {
 						   'Accept': 'application/json',
 						   "X-Requested-With": 'XMLHttpRequest',
-					 },
-				}).success(function(response){
-					 console.log("SU res")
-					 console.log($cookies.getAll());
-					window.location = "/member/index"; 
+						 "Access-Control-Allow-Origin": "http://localhost:8080",
+					 "Access-Control-Allow-Headers": "X-Requested-With",
+						 "Access-Control-Allow-Credentials":"true"
+					 }
+				}).success(function(data, status, headers, config){
+					 //console.log(headers());
+					 //console.log(headers('A-TOKEN'));
+					 //$cookies.put("A-TOKEN",headers('A-TOKEN'));
+					window.location = "/member/index";
 				}).error(function(response){
 					if(response.error){
 						messageDiv.removeClass("alert-success");

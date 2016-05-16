@@ -54,6 +54,15 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>HeaderEnricherFilter</filter-name>
+        <filter-class>pl.iticity.dbfds.filter.HeaderEnricherFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>HeaderEnricherFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <listener>
         <listener-class>

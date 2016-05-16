@@ -13,17 +13,18 @@
         <!-- override these for application-specific URLs if you like:
         <property name="successUrl" value="/home.jsp"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/> -->
-        <!--<property name="filters">
+        <property name="filters">
             <util:map>
-                <entry key="authc" value-ref="RESTAuthenticationFilter"/>
+                <!--<entry key="token" value-ref="token"/>-->
             </util:map>
-        </property>-->
+        </property>
         <property name="filterChainDefinitions">
             <value>
                 # some example chain definitions:
                 #/admin/** = authc, roles[admin]
                 #/docs/** = authc, perms[document:read]
-                #/** = authc
+                #/member/** = token
+                #/documents/** =  token
                 #/api/** = authc
                 # more URL-to-FilterChain definitions here
             </value>
@@ -32,7 +33,17 @@
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="iticityRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
+
+    <bean name="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionIdCookie.path" value="/"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie.name" value="Auth-Token"/>
+        <property name="sessionIdCookie.httpOnly" value="false"/>
+    </bean>
+
+
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <bean id="iticityRealm" class="pl.iticity.dbfds.security.IticityRealm">

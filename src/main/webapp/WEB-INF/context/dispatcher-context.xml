@@ -10,6 +10,8 @@
                            http://www.springframework.org/schema/mvc
                            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
     <mvc:annotation-driven/>
     <context:component-scan base-package="pl.iticity.dbfds.controller"/>
 

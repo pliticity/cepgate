@@ -291,39 +291,42 @@ th:include="layout :: page">
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="classificationId">Classification ID</label>
 		    					<div class="controls">
-		    						<input ng-model="newDocument.classificationId" name="classificationId" id="classificationId"  required=""/>
+		    						<input ng-model="documentInfo.classification.classificationId" name="classificationId" id="classificationId"  required=""/>
 		    					</div>
 		    				</div>
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="classificationId">Classification Name</label>
 		    					<div class="controls">
-		    						<tags-input  ng-model="newDocument.classificationName" name="classificationName" class="tags" id="classificationName" ></tags-input>
+		    						<tags-input  ng-model="documentInfo.classification.tags" name="tags" class="tags" id="tags" ></tags-input>
 		    					</div>
 		    				</div>
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="documentType">Document Type</label>
-		    					<div class="controls">
-		    						<input ng-model="newDocument.documentType" name="documentType" id="documentType"   required=""/>
-		    					</div>
-		    				</div>	 
+								<select name="type" ng-model="documentInfo.type" id="type"  required="" >
+									<option value="DRAWING">Drawing</option>
+									<option value="DOCUMENT">Document</option>
+									<option value="MOM">MOM</option>
+									<option value="PICTURE">Picture</option>
+								</select>
+		    				</div>
 		    			</div> 
 		    			<div class="form-group col-md-12">
  									<div class="form-group col-md-3">
-		    					<label class="control-label" for="documentName">Document Name</label>
+		    					<label class="control-label" for="documentNumber">Document Name</label>
 		    					<div class="controls">
-		    						<textarea ng-maxlength="300" ng-model="newDocument.documentName" name="documentName" id="documentName"  rows="3" cols="20"  required=""></textarea>
+		    						<textarea ng-maxlength="300" ng-model="documentInfo.documentName" name="documentName" id="documentName"  rows="3" cols="20"  required=""></textarea>
 		    					</div>
 		    				</div>
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="masterDocumentNumber">Master Document Number</label>
 		    					<div class="controls">
-		    						<input ng-model="newDocument.masterDocumentNo"  class="disabled" ng-readonly="true" name="masterDocumentNumber" id="masterDocumentNumber" />
+		    						<input ng-model="documentInfo.masterDocumentNumber"  class="disabled" ng-readonly="true" name="masterDocumentNumber" id="masterDocumentNumber" />
 		    					</div>
 		    				</div>
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="documentNumber">Document Number</label>
 		    					<div class="controls">
-		    						<input ng-model="newDocument.documentNumber" name="documentNumber" id="documentNumber" />
+		    						<input ng-model="documentInfo.documentNumber" name="documentNumber" id="documentNumber" />
 		    					</div>
 		    				</div>
 		    			</div>
@@ -333,16 +336,16 @@ th:include="layout :: page">
 		    				<div class="form-group col-md-3">
 						    	<label class="control-label" for="documentName">Planned Issue Date</label>
 						    	<div class="controls">
-						    		<input type="date" validatedateformat=""  data-date-format="dd/mm/yyyy" ng-model="newDocument.plannedIssueDate" name="plannedIssueDate" id="plannedIssueDate" required="" />
+						    		<input type="date" validatedateformat=""  data-date-format="dd/mm/yyyy" ng-model="documentInfo.creationDate" name="creationDate" id="creationDate" required="" />
 						    	</div>
 						    </div>
 						    
 		    				<div class="form-group col-md-3">
 		    					<label class="control-label" for="internalExternal">Internal/External</label>
 		    					<div class="controls">  
-										<select name="internalExternal" ng-model="newDocument.internalExternal" id="internalExternal"  required="" >
-		    						 	<option value="Internal">Internal</option>
-		    						 	<option value="External">External</option>
+										<select name="internalExternal" ng-model="documentInfo.kind" id="kind"  required="" >
+		    						 	<option value="INTERNAL">Internal</option>
+		    						 	<option value="EXTERNAL">External</option>
 		    						 </select> 
 	    						 </div>
 	    				   </div>
@@ -360,7 +363,7 @@ th:include="layout :: page">
 					        </thead>
 					        <tbody>
 						        <tr pagination-id="searchPagination" dir-paginate="aFile in newDocument.files | itemsPerPage: 10">
-			     					<td ><input  ngf-select="" ng-model="aFile.allFiles"  name="fileName[]" type="file" multiple="" /> </td>
+			     					<td ><input  ngf-select="" ng-model="file"  name="file" type="file" multiple="" /> </td>
 			            			<td  >{{aFile.fileName}}</td>
 						            <td> <input class="btn btn-primary" type="button" ng-click="aDocumentCtrl.removeFile('edit', aFile)" value="Delete File" multiple="true" /> </td>
 						             

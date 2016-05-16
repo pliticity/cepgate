@@ -2,37 +2,23 @@ package pl.iticity.dbfds.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import org.springframework.util.FileCopyUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +29,6 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.FileService;
-import pl.iticity.dbfds.util.PrincipalUtils;
 
 @Controller
 
@@ -322,6 +307,23 @@ public class DocumentManagerController extends BaseController {
         return toReturn;
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/documents/create")
+    public @ResponseBody DocumentInfo createDocument(@RequestBody  DocumentInfo documentInfo){
+        Principal principal = (Principal) SecurityUtils.getSubject().getPrincipal();
+        documentInfo.setDomain(principal.getDomain());
+        documentService.save(documentInfo);
+        return documentInfo;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/documents/file/upload")
+    public @ResponseBody boolean uploadDocument(@RequestParam("file") MultipartFile file){
+        return true;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/documents/docNo")
+    public @ResponseBody String getDocNo(){
+        return String.valueOf(documentService.findAll().size()+1);
+    }
 
 /*    @RequestMapping(method = RequestMethod.POST, value = "/documents/save", consumes = "multipart/form-data")
     public

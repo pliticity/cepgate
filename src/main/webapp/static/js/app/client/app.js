@@ -1,6 +1,14 @@
 (function(){
 	'use strict';  
 	var documentApp = angular.module('document', ['ui.bootstrap', 'ngAside', 'ngFileUpload', 'angularUtils.directives.dirPagination', 'ngTagsInput', 'ngDragDrop','ngCookies']);
+
+	documentApp.config(['$httpProvider', function($httpProvider) {
+		$httpProvider.defaults.withCredentials = true;
+		$httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+		$httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With,Set-Cookie,Set-Cookie2,Origin,Accept,Content-Type,A-TOKEN';
+		$httpProvider.defaults.headers.common['Access-Control-Expose-Headers'] = 'X-Requested-With,Set-Cookie,Set-Cookie2,Origin,Accept,Content-Type,A-TOKEN';
+		$httpProvider.defaults.headers.common['Access-Control-Allow-Credentials'] = 'true';
+	}]);
 	
 	 documentApp.directive('onFinishRender', function ($timeout) {
 	    return {
@@ -70,10 +78,7 @@
              $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|blob):/);
      }]);
 
-	documentApp.config(['$httpProvider', function($httpProvider) {
-		$httpProvider.defaults.withCredentials = true;
-	}])
-	 
+	
 	 
 	 $('#add-contact').click(function(e) { 
 		 e.preventDefault();
