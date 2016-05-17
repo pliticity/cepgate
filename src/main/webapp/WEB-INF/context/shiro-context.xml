@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/"/>
+        <!-- override these for application-specific URLs if you like:
+        <property name="successUrl" value="/home.jsp"/>
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/> -->
+        <property name="filters">
+            <util:map>
+                <!--<entry key="token" value-ref="token"/>-->
+            </util:map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                # some example chain definitions:
+                #/admin/** = authc, roles[admin]
+                #/docs/** = authc, perms[document:read]
+                #/member/** = token
+                #/documents/** =  token
+                #/api/** = authc
+                # more URL-to-FilterChain definitions here
+            </value>
+        </property>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="iticityRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean name="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionIdCookie.path" value="/"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie.name" value="Auth-Token"/>
+        <property name="sessionIdCookie.httpOnly" value="false"/>
+    </bean>
+
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="iticityRealm" class="pl.iticity.dbfds.security.IticityRealm">
+    </bean>
+
+</beans>

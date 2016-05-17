@@ -1,0 +1,330 @@
+.classificationName {
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+	font-size: 12px;
+	font-family: Arial;
+}
+
+
+.alertSuccess {
+	@extend .alert-success;
+}
+
+.alertDanger {
+	@extend .alert-danger;
+}
+
+.accordion-heading a.accordion-toggle {
+	width: 100%;
+}
+ul.nav li a, .nav li a:visited, .nav li a:hover {
+	color: #000000;
+}
+
+a.job_row {
+	font-size: 14px;	
+}
+
+a.job_title {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+strong.job_category {
+	font-size: 12px;
+}
+
+.ms-res-ctn {
+	height: 250px;
+}
+
+table.browse th {
+	text-align:center;
+}
+
+#company_name {
+	width: 250px;	
+}
+.multiselect-container{
+	height: 150px;
+	overflow: scroll;
+	padding-left: 10px;
+	font-size: 13px;
+}
+span.job_label {
+	font-size: 12px;
+} 
+
+div.errorMessage {
+	color: red;
+}
+
+div.box {
+	height: 80px;
+	width:25%;
+	border: 1px solid #CCCCCC;
+	float:left; 
+	display:table-cell !important;
+    vertical-align:middle;
+    text-align:center;
+}
+div.box a {
+	top: 20%;
+	color: #FFFFFF;
+	position: relative; 
+}
+@media only screen and (max-device-width: 580px) {
+	div.box a {
+		top: 2%;
+		 
+	}
+	.navbar-static-top{
+		margin-bottom:5px;
+		min-height:15px;
+	}
+}
+
+#company div.row div.box, #job_dashboard div.row div.box {
+	background-color: #000000;
+	
+}
+
+div.row {
+	clear:both;
+}
+
+
+
+#header {
+  
+  font-family: Impact;
+  white-space: normal;
+  line-height: normal;
+  font-weight: normal;
+  color: #000000;
+  font-variant: normal;
+  font-style: normal;
+  color: -webkit-text;
+   
+  
+}
+@media (max-width: @screen-sm-max) {
+	 #header {
+	  font-size:1em;
+	}
+}
+div.header_center, div.footer_center  {
+	text-align:center;
+}
+div.header_center a , div.footer_center a{
+	color: #000000;
+}
+
+div#main_grid {
+	background-color: #000000;
+	
+}
+#tag {
+	font-size: 12px;
+}
+body {
+	font-family: Arial;
+}
+ 
+
+
+div#mainGrid {
+	background-color:#000000;
+}
+
+div#sub_grid {
+	background-color: #FFFFFF;
+	width: 95%;
+	}
+ 
+ div#sub_grid div.row {
+	 font-size: 12px;
+	text-align: left;
+	width: 95%;
+	box-sizing: border-box;
+	color: rgb(51, 51, 51);
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: rgb(238, 238, 238);
+  padding: 1px 10px;
+  background-color: rgb(247, 247, 247);
+  line-height: 1.4em;
+ }
+ 
+ div#sub_grid div.row h4 {
+ 	font-size: 14px !important;
+ 	font-weight: bold !important;
+ 	margin-bottom: 2px;
+ 	margin-top: 2px;
+ }
+ 
+div.job_details {
+	text-align: center;
+	width: 100%;
+}
+ 
+ div.job_details_inner {
+	margin: 10px;
+	
+
+ }
+ 
+ span.job_label {
+ 	font-size: 15px !important; 
+ 	font-family: Arial, Helvetica, sans-serif !important; 
+ 	font-face: Calibri;
+	line-height: 1.25em !important; 
+	color: rgb(46, 46, 46) !important;
+	font-weight: bold;
+ 	display: block;
+	padding-top:10px;
+ }
+ div.errorMessage {
+ 	text-align: center;
+ }
+ 
+ ul.share-buttons{
+  list-style: none;
+  padding: 0;
+}
+
+ul.share-buttons li{
+  display: inline;
+}
+
+
+div#order_page .table th, div#order_page .table td {
+	text-align: center !important; 
+	font-weight: bold;
+}	
+a:link {
+	color: #000000;
+}
+
+@media print {
+.noPrint {
+    display:none;
+  }
+ body { size: landscape; }  
+}
+}
+
+
+.menuBardemoBasicUsage .page-container {
+  background-color: #f1f1f1;
+  padding: 32px; }
+.menuBardemoBasicUsage .page {
+  margin: 0 auto;
+  background-color: white;
+  padding: 24px;
+  max-width: 680px;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.25); }
+.menuBardemoBasicUsage .page h1 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-top: 0;
+  font-weight: normal; }
+.menuBardemoBasicUsage .page p {
+  line-height: 1.6rem; }
+
+  
+body {
+	font-size: 12px;	
+	
+}
+.control-label {
+    font-weight: bold;
+	
+}
+.form-group {
+    margin-bottom: 0px;
+}
+
+.navbar {
+	background: #ededed !important;
+	min-height: 20px;
+	margin-bottom: 0px;
+}
+	
+.navbar .btn-lg, .btn-group-lg>.btn  {
+	padding: 8px 30px;
+	font-size: 12px;	
+}	
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 8px;
+    
+}
+.navbar-default {
+	border: 0px;
+}
+
+	.newDocuments {
+		padding: 15px;
+	}
+	
+	.documentCarrier {
+		padding: 15px;
+		
+	}
+	
+	.nav-pills {
+		padding-bottom: 10px;
+	}
+	.dataTable {
+		font-size: 11px;
+	}
+	
+	table.dataTable thead th, table.dataTable thead td {
+		padding: 5px 5px;
+	}
+	
+	#DataTables_Table_0, #DataTables_Table_1  {
+		width: 100%;
+	}
+	.ng-scope  tr {
+	    cursor: pointer;
+	}
+	
+	.tab-content .form-control {
+		height: 25px;
+	    padding: 5px 5px;
+	    font-size: 12px;
+	}
+	
+	#documentName {
+		width: 90%;
+	}
+	body#frontend table th {
+		text-align: left;
+	}
+	li[role=presentation] {
+		background-color: #D8D8D8;
+	}
+	body#frontend table th {
+		background-color: #6E6E6E;
+	}
+	
+	td button, td button.btn  {
+		height: 20px;
+		line-height: 10px;
+	    font-size: 11px;
+	    padding: 5px;
+	    margin: 0px;
+	}
+	input[readonly=readonly]
+	{
+		background-color: #CCCCCC;
+	}
+	
+	input.ng-invalid-required, textarea.ng-invalid-required, select.ng-invalid-required  
+	{
+	  border:1px solid #f00;
+	}
+}
+}

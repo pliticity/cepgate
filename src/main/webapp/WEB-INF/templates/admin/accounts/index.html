@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+th:include="adminlayoutinside::adminpageinside">
+<head>
+    <title>Accounts</title>
+</head>
+<body th:fragment="content" > 
+	<section class="documentCarrier" ng-controller="AdminAccountsController as accountCtrl"> 
+	<div  ng-show="accountCtrl.isState('accounts')">
+		<h3>Accounts </h3> 
+		<button ng-click="accountCtrl.create()" class="btn btn-primary">New</button> <BR />
+		<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="showMessage()">{{adminAccounts.message}}</div>
+		 <table id="accountsTable" ng-table="adminAccounts.accounts" show-filter="true" class="table row-border hover dataTable no-footer " >
+	        <thead>
+		        <tr>
+		            <th>First Name</th>
+		            <th>Last Name</th>
+		            <th>Company</th>
+		            <th>Email</th> 
+		            <th>User Count</th> 
+		            <th>Document Count</th> 
+		            <th>Storage Size (MB)</th> 
+		            <th>Active</th> 
+		            <th>Date Created</th> 
+	           		<th>Last Login</th> 
+	           		<th>Action</th>  
+		        </tr>
+	        </thead>
+	        <tbody>
+		        <tr pagination-id="accountPagination" dir-paginate="anAccount in accountCtrl.accounts |  filter:accountQ | itemsPerPage: accountPageSize">
+	          		<td ng-click="accountCtrl.edit(anAccount)"  sortable="'firstname'">{{anAccount.firstname}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'lastname'">{{anAccount.lastname}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'lastname'">{{anAccount.company}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'email'">{{anAccount.email}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'userCount'">{{anAccount.userCount}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'documentCount'">{{anAccount.documentCount}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'documentCount'">{{anAccount.storageSize}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'active'">{{anAccount.active}}</td>
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'dateCreated'">{{anAccount.dateCreated | date:"dd/MM/yyyy"}}</td> 
+		            <td ng-click="accountCtrl.edit(anAccount)"  sortable="'lastlogin'">{{anAccount.lastLogin | date:"dd/MM/yyyy"}}</td> 
+		            <td>
+		            	<button  class="btn btn-primary" ng-click="accountCtrl.listUsers(anAccount)">Users</button>
+		            	
+		            	<span ng-show="anAccount.active == 'No'"> 
+		            		<button  class="btn btn-primary" ng-click="accountCtrl.toggleAccount(anAccount, 'Yes')">Enable</button>
+		            	</span>
+		            	<span ng-show="anAccount.active != 'No'"> 
+		            		<button  class="btn btn-primary" ng-click="accountCtrl.toggleAccount(anAccount, 'No')">Disable</button> 
+		            	</span>
+		            </td> 
+		        </tr>
+	        </tbody>
+	    </table> 
+    </div>
+    
+     <div id="accountAddEdit" ng-show="accountCtrl.isState('account_edit')">
+	    <form   name="signupForm" autocomplete="off" class="form-horizontal" >
+			<div align="center">
+			    <h1>Account <span ng-show="accountCtrl.isNew">Add</span><span ng-hide="accountCtrl.isNew">Edit</span></h1>
+			</div>
+			<div class="col-sm-offset-3 col-md-8 col-md-offset-3">
+			<fieldset>
+				<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="showMessage()">{{message}}</div>
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="firstname">
+					<span class="required">*</span> First Name:</label>
+					<div class="col-sm-5">
+						<input type="text" name="firstname"  ng-model="accountCtrl.account.firstname" size="30"  required=""  />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="lastname"><span class="required">*</span> Last Name:</label>
+					<div class="col-sm-5">
+						 <input type="text" name="lastname" ng-model="accountCtrl.account.lastname"  size="30"   required="" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span> Email:</label>
+					<div class="col-sm-7">
+						<input type="email" name="email"  ng-model="accountCtrl.account.email" size="30"   required="" />
+					</div>
+				</div>
+				
+				 
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="passwd"><span class="required">*</span> Password:</label>
+					<div class="col-sm-5">
+						 <input type="password" name="passwd" ng-model="accountCtrl.account.passwd"  size="30"  />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="password_confirm"><span class="required">*</span> Repeat Password:</label>
+					<div class="col-sm-5">
+						 <input type="password" name="confirm_passwd" ng-model="accountCtrl.account.confirm_passwd"  size="30"  />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="company">Company:</label>
+					<div class="col-sm-7">
+						<input type="text" name="company"  ng-model="accountCtrl.account.company" size="30" required=""  />
+					</div>
+				</div>
+				 
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="country"><span class="required">*</span> Country:</label>
+					<div class="col-sm-3">
+						<select id="countries" ng-model="accountCtrl.account.country" >
+							<option ng-repeat="aCountry in countries" value="{{aCountry.name}}">{{aCountry.name}}</option>
+				        </select>
+					</div>
+				</div> 
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm"><span class="required">*</span> Phone Number:</label>
+					<div class="col-sm-7">
+				 <input type="text" name="phone" size="30"  ng-model="accountCtrl.account.phone"  required="" />
+					</div>
+				</div>
+				 
+				 
+				 
+				
+				   
+				<div class="form-group">
+					 
+					<div class="col-sm-7" style="text-align:center">
+					 
+				 		<button ng-click="accountCtrl.save(accountCtrl.account)" class="btn btn-primary">Save</button>
+				 		<button ng-click="accountCtrl.cancel()" class="btn btn-primary">Cancel</button>
+				 		
+					</div>
+				</div>   
+			 
+				</fieldset>
+				</div>   
+		</form>
+	</div>
+	
+	<div  ng-show="accountCtrl.isState('users')"> 
+		<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="accountCtrl.showMessage()">{{accountCtrl.message}}</div>
+		<button ng-click="accountCtrl.create()" class="btn btn-primary">New</button> <BR />
+		 <table id="accountsTable" ng-table="adminAccounts.accounts" show-filter="true" class="row-border hover dataTable no-footer " >
+	        <thead>
+		        <tr>
+		            <th>First Name</th>
+		            <th>Last Name</th>
+		            <th>Email</th> 
+	           		<th>Last Login</th> 
+	           		<th>Action</th>  
+		        </tr>
+	        </thead>
+	        <tbody>
+		        <tr pagination-id="userPagination" dir-paginate="anAccount in accountCtrl.users |  filter:accountCtrl.userQ | itemsPerPage: accountCtrl.pageSize">
+	          			<td ng-click="accountCtrl.editUser(anAccount)"  sortable="'firstname'">{{anAccount.firstname}}</td>
+		            <td ng-click="accountCtrl.editUser(anAccount)"  sortable="'lastname'">{{anAccount.lastname}}</td>
+		            <td ng-click="accountCtrl.editUser(anAccount)"  sortable="'email'">{{anAccount.email}}</td>
+		            <td ng-click="accountCtrl.editUser(anAccount)"  sortable="'lastlogin'">{{anAccount.lastlogin | date:"dd/MM/yyyy"}}</td> 
+		            <td>
+		            	<button  class="btn btn-primary" ng-click="accountCtrl.deleteUser(anAccount)">Delete</button> 
+		            </td> 
+		        </tr>
+	        </tbody>
+	    </table> 
+    </div>
+    
+     <div id="accountAddEdit" ng-show="accountCtrl.isState('user_edit')">
+	    <form   name="signupForm" autocomplete="off" class="form-horizontal" >
+			<div align="center">
+			    <h1>User <span ng-show="accountCtrl.isNewUser">Add</span><span ng-hide="accountCtrl.isNewUser">Edit</span></h1>
+			    	<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="accountCtrl.showMessage()">{{accountCtrl.message}}</div>
+			    
+			</div>
+			<div class="col-sm-offset-3 col-md-38 col-md-offset-3">
+			<fieldset>
+				<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="accountCtrl.showMessage()">{{message}}</div>
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="firstname">
+					<span class="required">*</span> First Name:</label>
+					<div class="col-sm-5">
+						<input type="text" name="firstname"  ng-model="accountCtrl.user.firstname" size="30"  required=""  />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="lastname"><span class="required">*</span> Last Name:</label>
+					<div class="col-sm-5">
+						 <input type="text" name="lastname" ng-model="accountCtrl.user.lastname"  size="30"   required="" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span> Email:</label>
+					<div class="col-sm-7">
+						<input type="email" name="email"  ng-model="accountCtrl.user.email" size="30"   required="" />
+					</div>
+				</div>
+				
+				 
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="passwd"><span class="required">*</span> Password:</label>
+					<div class="col-sm-5">
+						 <input type="password" name="passwd" ng-model="accountCtrl.user.passwd"  size="30"  />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="password_confirm"><span class="required">*</span> Repeat Password:</label>
+					<div class="col-sm-5">
+						 <input type="password" name="confirm_passwd" ng-model="accountCtrl.user.confirm_passwd"  size="30"  />
+					</div>
+				</div>
+				
+				 
+				 
+				<div class="form-group">
+					<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="country"><span class="required">*</span> Account Type:</label>
+					<div class="col-sm-3">
+						<select id="countries" ng-model="accountCtrl.user.accountType" >
+							<option ng-repeat="aType in accountCtrl.userType" value="{{aType.name}}">{{aType.name}}</option>
+				        </select>
+					</div>
+				</div>  
+				<div class="form-group">
+					 
+					<div class="col-sm-7" style="text-align:center">
+					 
+				 		<button ng-click="accountCtrl.saveUser(accountCtrl.user)" class="btn btn-primary">Save</button>
+				 		<button ng-click="accountCtrl.cancelUsers()" class="btn btn-primary">Cancel</button>
+				 		
+					</div>
+				</div>   
+			 
+				</fieldset>
+				</div>   
+		</form>
+	</div>
+	</section>
+	
+	 
+</body>
+</html>

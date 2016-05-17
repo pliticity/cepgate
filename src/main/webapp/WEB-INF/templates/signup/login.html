@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+th:include="layout :: page">
+<head>
+    <title>Login</title>
+</head>
+<body th:fragment="content"> 
+
+ 	<div class="col-sm-6 col-sm-offset-3 col-md-5 col-md-offset-3">
+ 
+ 		<legend>Sign Up</legend>
+ 		<a th:href="@{/signup/index}"> Create Account </a>
+ 				
+ 		<BR /><BR />
+		
+		<form   name="authForm" autocomplete="off" class="form-horizontal"  ng-controller="SignupController as signupCtrl">
+			<fieldset>
+				<legend>Or Login</legend>
+				<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="showMessage()">{{message}}</div>
+				<div class="form-group">
+					<label for="username">Email</label>
+					<input type="text" name="email" class="form-control"  ng-model="signupCtrl.user.email" value="" id="email" placeholder="Enter Email"   required="" />
+				</div>
+
+				<div class="form-group">
+					<label for="passwd">Password</label>
+					<input type="password" name="passwd" class="form-control"  ng-model="signupCtrl.user.passwd"  value=">" id="passwd" placeholder="Enter Password"   required="" />
+				</div>
+				<BR />
+				<div class="submit">
+					<input type="submit" class="btn btn-primary" name="submitLogin" value="Login" id="submitLogin" ng-click="auth()"/>
+					&nbsp;&nbsp;
+					<a th:href="@{signup/forgot/a}"><input type='button' class='btn btn-primary' value='Forgot Password' /> </a>
+				</div>
+			</fieldset>
+
+		</form>
+
+	</div>
+</body>
+</html>

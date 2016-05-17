@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+th:include="layout :: page">
+<head>
+    <title>Create Account</title>
+</head>
+<body th:fragment="content" > 
+	<form   name="signupForm" autocomplete="off" class="form-horizontal"  ng-controller="SignupController as signupCtrl">
+		<div align="center">
+		    <h1>Signup Form</h1>
+		</div>
+		<div class="col-sm-offset-3 col-md-8 col-md-offset-3">
+		<fieldset>
+			<div  role="alert" class="alert alert-success" id="messageDiv" ng-show="showMessage()">{{message}}</div>
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="firstname">
+				<span class="required">*</span> First Name:</label>
+				<div class="col-sm-5">
+					<input type="text" name="firstname"  ng-model="signupCtrl.user.firstName" size="30"  required=""  />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="lastname"><span class="required">*</span> Last Name:</label>
+				<div class="col-sm-5">
+					 <input type="text" name="lastname" ng-model="signupCtrl.user.lastName"  size="30"   required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span> Email:</label>
+				<div class="col-sm-7">
+					<input type="email" name="email"  ng-model="signupCtrl.user.email" size="30"   required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email_confirm"><span class="required">*</span> Repeat Email:</label>
+				<div class="col-sm-7">
+					 <input type="email" name="email_confirm"  ng-model="signupCtrl.user.email" size="30"  required="" />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="passwd"><span class="required">*</span> Password:</label>
+				<div class="col-sm-5">
+					 <input type="password" name="passwd" ng-model="signupCtrl.user.password"  size="30" required=""  />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="password_confirm"><span class="required">*</span> Repeat Password:</label>
+				<div class="col-sm-5">
+					 <input type="password" name="confirm_passwd" ng-model="signupCtrl.user.password"  size="30" required=""  />
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="company">Company:</label>
+				<div class="col-sm-7">
+					<input type="text" name="company"  ng-model="signupCtrl.user.company" size="30"   required="" />
+				</div>
+			</div>
+			 
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="country"><span class="required">*</span> Country:</label>
+				<div class="col-sm-3">
+					<select id="countries" ng-model="signupCtrl.user.country" >
+						<option ng-repeat="aCountry in countries" value="{{aCountry.name}}">{{aCountry.name}}</option>
+			        </select>
+				</div>
+			</div> 
+			
+			<div class="form-group">
+				<label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm"><span class="required">*</span> Phone Number:</label>
+				<div class="col-sm-7">
+			 <input type="text" name="phone" size="30"  ng-model="signupCtrl.user.phone"  required="" />
+				</div>
+			</div>
+			 
+			 
+			 
+			
+			   
+			<div class="form-group">
+				 
+				<div class="col-sm-7" style="text-align:center">
+				 
+			 		<button ng-click="signup()" >Signup</button>
+				</div>
+			</div>   
+		 
+			</fieldset>
+			</div>   
+	</form>
+ 		 
+</body>
+</html>

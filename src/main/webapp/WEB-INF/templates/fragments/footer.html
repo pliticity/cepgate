@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body id="frontend"  layout="row" > 
+		 
+ 
+<div class="footer_center noPrint" th:fragment="footer">
+ 
+
+ 
+	<p align="center" class="noPrint"><i><font face="Arial" size="1"><?php echo date("Y")?> Copyright All Rights 
+	Reserved. <br>
+	</font></i></p>
+	<p align="center">&nbsp;</p>
+		<script src="../js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="../js/jquery/jquery-1.11.1.min.js"></script>
+		<script src="../js/jquery/moment.js"></script>
+		<script src="../js/jquery/jquery-ui.min.js"></script>
+		<script src="../js/bootstrap/bootstrap.min.js"></script>
+		<script src="../js/bootstrap/bootstrap-timepicker.min.js"></script>
+		<script src="../js/jquery/jquery.shorten.js"></script>
+		<script src="../js/jquery/jquery.validate.min.js"></script>
+		<script src="../js/jquery/jquery-te-1.4.0.min.js"></script>
+		<script src="../js/bootstrap/bootstrap-multiselect.js"></script>
+		<script src="../js/jquery/combodate.js"></script> 
+		<script src="../js/jquery/magicsuggest.js"></script> 
+		<script src="../js/jquery/angular.js"></script>
+		<script src="../js/jquery/angular-aside.min.js"></script>
+		<script src="../js/angular/ng-file-upload-shim.min.js"></script>
+		<script src="../js/angular/ng-file-upload.min.js"></script>
+		<script src="../js/bootstrap/ui-bootstrap-tpls-0.14.3.min.js"></script>
+		
+		<script src="../js/angular/dirPagination.js"></script>
+		
+		<script src="../js/jquery/app.js"></script>
+		<script src="../js/jquery/app-menu.js"></script>
+		<script src="../js/jquery/script.js"></script> 
+ 
+ 
+	<script type="text/ng-template" id="aside.html">
+      <div class="modal-header">
+          <h3 class="modal-title">Menu</h3>
+      </div>
+      <div class="modal-body">
+        <a href="/member/index">Home Page</a><BR>
+        <a href="/signup/logout">Logout</a>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-primary" ng-click="ok($event)">OK</button>
+          <button class="btn btn-warning" ng-click="cancel($event)">Cancel</button>
+      </div>
+    </script>
+    </div>
+	</body>
+</html>
