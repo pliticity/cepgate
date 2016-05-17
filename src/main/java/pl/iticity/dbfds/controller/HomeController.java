@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/")
 public class HomeController {
 
-	@RequestMapping("/")
-	 public String home() {
-        return "signup/login";
-	 }
+    @RequestMapping("/")
+    public String home() {
+        return "auth";
+    }
+
+    @RequestMapping("/home")
+    public String h() {
+        return "index";
+    }
 
 }

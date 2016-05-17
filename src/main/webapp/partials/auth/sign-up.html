@@ -1,0 +1,91 @@
+<form   name="signupForm" autocomplete="off" class="form-horizontal">
+    <div align="center">
+        <h1>Signup Form</h1>
+    </div>
+    <div class="col-sm-offset-3 col-md-8 col-md-offset-3">
+        <fieldset>
+            <div role="alert" class="alert alert-danger" id="messageDiv" ng-show="message.length>0">{{message}}</div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="firstname">
+                    <span class="required">*</span> First Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" name="firstName" id="firstName" ng-model="principal.firstName" size="30"  required=""  />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="lastname"><span class="required">*</span> Last Name:</label>
+                <div class="col-sm-5">
+                    <input type="text" name="lastName" id="lastName" ng-model="principal.lastName"  size="30"   required="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span> Email:</label>
+                <div class="col-sm-7">
+                    <input type="email" name="email" id="email" ng-model="principal.email" size="30"   required="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="emailConfirm"><span class="required">*</span> Repeat Email:</label>
+                <div class="col-sm-7">
+                    <input type="email" name="emailConfirm" id="emailConfirm"  ng-model="principal.emailConfirm" size="30"  required="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="password"><span class="required">*</span> Password:</label>
+                <div class="col-sm-5">
+                    <input type="password" name="password" id="password" ng-model="principal.password"  size="30" required=""  />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="passwordConfirm"><span class="required">*</span> Repeat Password:</label>
+                <div class="col-sm-5">
+                    <input type="password" name="passwordConfirm" id="passwordConfirm" ng-model="principal.passwordConfirm"  size="30" required=""  />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="company">Company:</label>
+                <div class="col-sm-7">
+                    <input type="text" name="company" id="company"  ng-model="principal.company" size="30"   required="" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="country"><span class="required">*</span> Country:</label>
+                <div class="col-sm-3">
+                    <select id="country" name="country" ng-model="principal.country" >
+                        <option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="phone"><span class="required">*</span> Phone Number:</label>
+                <div class="col-sm-7">
+                    <input type="text" name="phone" id="phone" size="30"  ng-model="principal.phone"  required="" />
+                </div>
+            </div>
+
+
+
+
+
+            <div class="form-group">
+
+                <div class="col-sm-7" style="text-align:center">
+                    <button ng-click="signUp()" >Signup</button>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+</form>
+
+</body>
+</html>
