@@ -3,6 +3,8 @@ package pl.iticity.dbfds.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Domain;
 
 import javax.persistence.*;
@@ -25,6 +27,7 @@ public class Principal {
     @javax.validation.constraints.Size(min=1)
     @Column(unique = true)
     @Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message = "Wrong email format")
+    @Indexed(unique = true)
     private String email;
 
     @Size(min = 1)
@@ -53,6 +56,7 @@ public class Principal {
     private Role role;
 
     @NotNull
+    @DBRef
     private Domain domain;
 
     public Principal(String email,String password){

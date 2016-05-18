@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.model;
 
+import org.springframework.data.mongodb.core.index.Indexed;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -10,6 +12,7 @@ public class Domain {
     @GeneratedValue
     private String id;
 
+    @Indexed(unique = true)
     private String name;
 
     private boolean active;

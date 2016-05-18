@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var auth = angular.module('auth', ['ngResource', 'ngRoute']);
+    var auth = angular.module('auth', ['ngResource', 'ngRoute','ngMessages']);
 
     auth.config(['$routeProvider',
         function ($routeProvider) {

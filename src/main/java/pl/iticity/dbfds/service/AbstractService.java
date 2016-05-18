@@ -15,8 +15,8 @@ public abstract class AbstractService<MODEL,REPO extends MongoRepository<MODEL,S
         return repo.findAll();
     }
 
-    public void save(MODEL model){
-        repo.save(model);
+    public MODEL save(MODEL model){
+        return repo.save(model);
     }
 
     public void delete(MODEL model){

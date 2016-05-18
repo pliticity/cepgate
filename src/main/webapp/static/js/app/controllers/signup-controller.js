@@ -2,6 +2,31 @@
 
     var auth = angular.module('auth');
 
+    auth.directive('existsValidator', function ($http, $q) {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                ngModel.$asyncValidators.exists = function (modelValue, viewValue) {
+                    var deferred = $q.defer();
+                    $http({
+                        method: 'get',
+                        url: '/auth/exists',
+                        params: {email: modelValue}
+                    }).then(function successCallback(response) {
+                        if (response.data==true) {
+                            deferred.reject('Email is already registered');
+                        }else{
+                            return deferred.resolve();
+                        }
+
+                    }, function errorCallback(response) {
+                    });
+                    return deferred.promise;
+                };
+            }
+        };
+    });
+
     auth.controller('SignUpController', ['$http', '$scope', '$window', function ($http, $scope, $window) {
 
         $scope.countries = {};
@@ -20,6 +45,8 @@
         // attempt to create a new account
 
         $scope.signUp = function () {
+            console.log($scope.signupForm);
+            console.log($scope.signupForm.email.$error);
             if ($scope.signupForm.$valid) {
                 $http({
                     method: 'post',

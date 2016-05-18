@@ -6,6 +6,7 @@
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/jdbc
@@ -15,7 +16,9 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/data/mongo
-                           http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+                           http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+                                                      http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
 
     <bean id="validating" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
     </bean>
@@ -35,6 +38,9 @@
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongo"/>
         <constructor-arg name="databaseName" value="dhd"/>
+        <property name="writeConcern">
+            <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
+        </property>
     </bean>
 
     <mongo:repositories base-package="pl.iticity.dbfds.repository"></mongo:repositories>

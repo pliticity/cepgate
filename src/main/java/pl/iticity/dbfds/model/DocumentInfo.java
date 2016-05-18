@@ -1,6 +1,8 @@
 package pl.iticity.dbfds.model;
 
 import com.google.common.collect.Lists;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
@@ -36,10 +38,12 @@ public class DocumentInfo {
 
     @Max(99999999l)
     @NotNull
+    @Indexed(unique = true)
     private Long masterDocumentNumber;
 
     @Size(min=1,max=25)
     @NotNull
+    @Indexed(unique = true)
     private String documentNumber;
 
     @Size(min=1,max=100)
@@ -54,13 +58,16 @@ public class DocumentInfo {
 
     private Date creationDate;
 
+    @DBRef
     private Principal createdBy;
 
     private DocumentActivity lastActivity;
 
+    @DBRef
     private List<FileInfo> files;
 
     @NotNull
+    @DBRef
     private Domain domain;
 
     public Domain getDomain() {
