@@ -12,7 +12,22 @@
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
-    <mvc:annotation-driven/>
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService"/>
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:argument-resolvers>
+            <bean class="org.springframework.data.web.querydsl.QuerydslPredicateArgumentResolver">
+                <constructor-arg>
+                    <bean class="org.springframework.data.querydsl.binding.QuerydslBindingsFactory">
+                        <constructor-arg>
+                            <value type="org.springframework.data.querydsl.SimpleEntityPathResolver">INSTANCE</value>
+                        </constructor-arg>
+                    </bean>
+                </constructor-arg>
+                <constructor-arg ref="conversionService"/>
+            </bean>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
     <context:component-scan base-package="pl.iticity.dbfds.controller"/>
 
     <mvc:resources mapping="/static/**" location="/static/"/>

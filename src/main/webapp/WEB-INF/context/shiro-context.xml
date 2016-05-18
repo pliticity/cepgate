@@ -9,17 +9,21 @@
 
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/"/>
+        <property name="loginUrl" value="/auth"/>
         <!-- override these for application-specific URLs if you like:
         <property name="successUrl" value="/home.jsp"/>
-        <property name="unauthorizedUrl" value="/unauthorized.jsp"/> -->
+        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>
         <property name="filters">
             <util:map>
-                <!--<entry key="token" value-ref="token"/>-->
+                <entry key="token" value-ref="token"/>
             </util:map>
-        </property>
+        </property>-->
         <property name="filterChainDefinitions">
             <value>
+                /static/** = anon
+                /partials/** = anon
+                /auth/** = anon
+                /** = authc
                 # some example chain definitions:
                 #/admin/** = authc, roles[admin]
                 #/docs/** = authc, perms[document:read]

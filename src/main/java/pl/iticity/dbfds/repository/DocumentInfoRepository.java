@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.security.Principal;
 
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by pmajchrz on 4/7/16.
  */
-public interface DocumentInfoRepository extends MongoRepository<DocumentInfo,String>  {
+public interface DocumentInfoRepository extends MongoRepository<DocumentInfo,String> , QueryDslPredicateExecutor<DocumentInfo> {
 
 public List<DocumentInfo> findByCreatedByAndLastActivity_dateAfterOrderByLastActivity_dateDesc(Principal principal, Date date);
 

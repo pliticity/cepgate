@@ -9,7 +9,7 @@ import java.util.List;
 public abstract class AbstractCrudController<MODEL, SERVICE extends AbstractService> {
 
     @Autowired
-    private SERVICE service;
+    protected SERVICE service;
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public

@@ -1,18 +1,14 @@
 package pl.iticity.dbfds.controller;
 
-import com.google.common.collect.Lists;
 import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Principal;
-import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
-
-import java.util.Date;
 
 @Controller
 @RequestMapping(value = "/auth")
