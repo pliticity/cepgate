@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.util;
 
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Principal;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.RandomNumberGenerator;
@@ -18,6 +19,9 @@ public class PrincipalUtils {
         return (Principal) principal;
     }
 
+    public static Domain getCurrentDomain(){
+        return getCurrentPrincipal().getDomain();
+    }
 
     public static boolean isAuthenticated(){
         Subject currentUser = SecurityUtils.getSubject();

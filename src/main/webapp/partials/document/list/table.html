@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr class="info">
+            <th>#</th>
+            <th>Classification ID</th>
+            <th>Classification Name</th>
+            <th>Document Number</th>
+            <th>Document Type</th>
+            <th>Document Name</th>
+            <th>Creation Date</th>
+            <th>Created By</th>
+            <th># Files</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="animate-row" ng-repeat="document in documents">
+            <td>{{$index+1}}</td>
+            <td>{{document.classification.classificationId}}</td>
+            <td>{{document.classification.name}}</td>
+            <td>{{document.documentNumber}}</td>
+            <td>{{document.type}}</td>
+            <td>{{document.documentName}}</td>
+            <td>{{document.creationDate}}</td>
+            <td>{{document.createdBy.email}}</td>
+            <td>{{document.files.length}}</td>
+            <!-- ng-click="open(document.documentName,document.id)" -->
+            <td><button add-tab documentId="document.id" documntName="document.documentName" class="btn btn-primary">Open</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

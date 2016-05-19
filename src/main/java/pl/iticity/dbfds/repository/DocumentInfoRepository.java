@@ -3,6 +3,7 @@ package pl.iticity.dbfds.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Principal;
 
 import java.util.Date;
@@ -18,5 +19,7 @@ public List<DocumentInfo> findByCreatedByAndLastActivity_dateAfterOrderByLastAct
    // public List<DocumentInfo> findByCreatedByAndClassification_ClassificationIdLikeOrClassification_NameLikeOrDocumentNumberLikeOrDocumentNameLike(Principal principal,String str,String str2,String str3,String str4);
 
     public List<DocumentInfo> findByCreatedBy(Principal principal);
+
+    public List<DocumentInfo> findByDomain(Domain domain);
 
 }

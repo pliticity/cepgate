@@ -8,17 +8,22 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;
 
-/**
- * Created by pmajchrz on 4/7/16.
- */
 @Service
 public class DocumentService extends AbstractService<DocumentInfo,DocumentInfoRepository>{
 
+    public DocumentInfo createNewDocumentInfo(){
+        DocumentInfo documentInfo = new DocumentInfo();
+        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
+        documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
+        return documentInfo;
+    }
+
     public Long getNextMasterDocumentNumber(){
-        List<DocumentInfo> docs = repo.findAll();
+        List<DocumentInfo> docs = repo.findByDomain(PrincipalUtils.getCurrentDomain());
         if(docs==null || docs.isEmpty()){
             return 1l;
         }else{

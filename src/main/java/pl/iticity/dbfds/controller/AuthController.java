@@ -33,6 +33,12 @@ public class AuthController {
         return JsonResponse.success("authenticated");
     }
 
+    @RequestMapping(value = "/signout", method = RequestMethod.GET)
+    public String getSignOut() {
+        principalService.unAuthenticate();
+        return "redirect:/document";
+    }
+
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -41,11 +47,13 @@ public class AuthController {
         return JsonResponse.success("principal created");
     }
 
-    @RequestMapping(value = "/exists",method = RequestMethod.GET)
-    public @ResponseBody boolean getExists(@RequestParam(name = "email") String email){
+    @RequestMapping(value = "/exists", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    boolean getExists(@RequestParam(name = "email") String email) {
         Principal principal = principalService.findByEmail(email);
         Domain domain = domainService.findByName(email);
-        return principal !=null || domain !=null;
+        return principal != null || domain != null;
     }
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)

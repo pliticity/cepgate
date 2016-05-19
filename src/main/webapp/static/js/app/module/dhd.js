@@ -1,18 +1,14 @@
 (function () {
     'use strict';
 
-    var dhdModule = angular.module('dhd', ['ngCookies', 'ngResource', 'ngRoute','ngAnimate']);
+    var dhdModule = angular.module('dhd', ['ngCookies', 'ngResource', 'ngRoute','ngAnimate','ngTagsInput']);
 
     dhdModule.config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/documents', {
-                templateUrl: 'partials/document/list.html',
-                controller: 'DocumentController'
-            }).when('/document/:docId', {
-                templateUrl: 'partials/document/details.html',
-                controller: 'DocumentController'
+            $routeProvider.when('/', {
+                templateUrl: 'partials/document/index.html'
             }).otherwise({
-                redirectTo: '/documents'
+                redirectTo: '/'
             });
         }]);
 

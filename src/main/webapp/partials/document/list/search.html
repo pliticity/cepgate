@@ -1,0 +1,6 @@
+<div class="row" ng-controller="DocumentController">
+    <div class="col-xs-12">
+        <div ng-init="documents = query({'from':'search'})"></div>
+        <ng-include src="'/partials/document/list/table.html'"></ng-include>
+    </div>
+</div>

@@ -34,6 +34,10 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         });
     }
 
+    public void unAuthenticate(){
+        SecurityUtils.getSubject().logout();
+    }
+
     public void registerPrincipal(Principal principal){
         Principal existingPrincipal = repo.findByEmail(principal.getEmail());
         Domain existingDomain = domainRepository.findByName(principal.getEmail());

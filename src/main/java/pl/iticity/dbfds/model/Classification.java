@@ -18,9 +18,18 @@ public class Classification {
     @NotNull
     private String classificationId;
 
-    @Size(min=1,max=100)
     @NotNull
+    private String name;
+
     private List<Tag> tags;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getClassificationId() {
         return classificationId;

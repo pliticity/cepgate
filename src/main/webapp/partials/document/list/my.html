@@ -1,0 +1,31 @@
+<div ng-controller="DocumentController">
+
+    <!-- TABS - NAV -->
+
+    <ul id="myDocumentTabs" class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab"
+                                                  data-toggle="tab">All</a></li>
+        <li role="presentation" class=""><a href="#recent" aria-controls="recent" role="tab"
+                                            data-toggle="tab">Recent</a>
+        </li>
+        <li role="presentation" class=""><a href="#favourite" aria-controls="favourite" role="tab"
+                                            data-toggle="tab">Favourite</a></li>
+    </ul>
+
+    <!-- TABS - CONTENT -->
+
+    <div class="tab-content" id="myDocumentTabsContent">
+        <div role="tabpanel" class="tab-pane active" id="all">
+            <div ng-init="documents = query({'from':'all'})"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="recent">
+            <div ng-init="documents = query({'from':'recent'})"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="favourite">
+            <div ng-init="documents = query({'from':'favourite'})"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+    </div>
+</div>

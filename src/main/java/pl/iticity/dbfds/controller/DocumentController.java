@@ -34,4 +34,9 @@ public class DocumentController extends AbstractCrudController<DocumentInfo,Docu
         return service.findByPredicate(predicate);
     }
 
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public @ResponseBody DocumentInfo getNewDocument(){
+        return service.createNewDocumentInfo();
+    }
+
 }
