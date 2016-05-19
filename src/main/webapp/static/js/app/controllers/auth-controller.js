@@ -4,7 +4,7 @@
 
     auth.controller('AuthController', ['$http', '$scope', '$window', function ($http, $scope, $window) {
 
-        $scope.principal = {};
+        $scope.principal = {email: 'achoin@gmail.com', password:'123'};
 
         // attempt to authenticate if the form is valid
 

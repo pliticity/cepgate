@@ -25,8 +25,7 @@
             <td>{{document.creationDate}}</td>
             <td>{{document.createdBy.email}}</td>
             <td>{{document.files.length}}</td>
-            <!-- ng-click="open(document.documentName,document.id)" -->
-            <td><button add-tab documentId="document.id" documntName="document.documentName" class="btn btn-primary">Open</button></td>
+            <td><button add-tab documentId="{{document.id}}" documntName="{{document.documentName}}" class="btn btn-primary">Open</button></td>
         </tr>
         </tbody>
     </table>

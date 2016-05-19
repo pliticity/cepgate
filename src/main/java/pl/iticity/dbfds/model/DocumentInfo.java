@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -56,6 +57,7 @@ public class DocumentInfo {
     @NotNull
     private Type type;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date creationDate;
 
     @DBRef

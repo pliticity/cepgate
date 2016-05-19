@@ -2,3 +2,7 @@ body{
     padding-top: 65px;
     overflow-x: hidden;
 }
+
+div.tab-content{
+    padding-top: 10px;
+}

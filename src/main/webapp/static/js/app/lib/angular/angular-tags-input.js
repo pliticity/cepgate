@@ -304,7 +304,6 @@ tagsInput.directive('tagsInput', ["$timeout", "$document", "$window", "tagsInput
             };
 
             scope.track = function(tag, $index) {
-                console.log(tag);
             	return tag[options.keyProperty || options.displayProperty];
             };
 
