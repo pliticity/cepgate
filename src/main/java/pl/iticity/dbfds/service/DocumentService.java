@@ -10,6 +10,7 @@ import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,6 +20,8 @@ public class DocumentService extends AbstractService<DocumentInfo,DocumentInfoRe
         DocumentInfo documentInfo = new DocumentInfo();
         documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
+        documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
+        documentInfo.setCreationDate(new Date());
         return documentInfo;
     }
 

@@ -3,14 +3,36 @@
     <form id="documentForm" class="form-horizontal">
 
         <div class="row">
-            <!-- DOCUMENT IDENTIFICATION -->
 
             <div class="col-xs-6">
+
                 <div class="form-group">
-                    <label for="masterDocumentNumber" class="col-xs-6 control-label">Master Document Number</label>
+                    <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
                     <div class="col-xs-6">
-                        <input class="form-control disabled" ng-readonly="true" id="masterDocumentNumber"
-                               ng-model="documentInfo.masterDocumentNumber" required=""/>
+                        <input placeholder="Classification Id" class="form-control" id="classificationId"
+                               ng-model="documentInfo.classification.classificationId" required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="internalExternal" class="col-xs-6 control-label">Internal/External</label>
+                    <div class="col-xs-6">
+                        <select name="internalExternal" class="form-control" ng-model="documentInfo.kind" id="internalExternal" required="">
+                            <option value="INTERNAL">Internal</option>
+                            <option value="EXTERNAL">External</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type" class="col-xs-6 control-label">Document Type</label>
+                    <div class="col-xs-6">
+                        <select name="type" ng-model="documentInfo.type" class="form-control" id="type" required="">
+                            <option value="DRAWING">Drawing</option>
+                            <option value="DOCUMENT">Document</option>
+                            <option value="MOM">MOM</option>
+                            <option value="PICTURE">Picture</option>
+                        </select>
                     </div>
                 </div>
 
@@ -23,33 +45,34 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
+                    <div class="col-xs-6">
+                        <input type="date" class="form-control" ng-model="documentInfo.plannedIssueDate" name="plannedIssueDate"
+                               id="plannedIssueDate" required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
+                    <div class="col-xs-6">
+                        <input placeholder="Document Responsible" class="form-control" ng-model="documentInfo.responsibleUser" name="responsibleUser"
+                               id="responsibleUser"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="documentName" class="col-xs-6 control-label">Document Name</label>
                     <div class="col-xs-6">
-                        <textarea ng-maxlength="300" ng-model="documentInfo.documentName"
+                        <textarea class="form-control" ng-maxlength="300" ng-model="documentInfo.documentName"
                                   name="documentName"
                                   id="documentName" rows="3" cols="20" required=""/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="documentTags" class="col-xs-6 control-label">Tags</label>
-                    <div class="col-xs-6">
-                        <tags-input ng-model="documentInfo.classification.tags" name="tags" class="tags"
-                                    id="documentTags"/>
-                    </div>
-                </div>
             </div>
 
-            <!-- CLASSIFICATION -->
 
             <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
-                    <div class="col-xs-6">
-                        <input placeholder="Classification Id" class="form-control" id="classificationId"
-                               ng-model="documentInfo.classification.classificationId" required=""/>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label for="classificationName" class="col-xs-6 control-label">Classification Name</label>
@@ -58,43 +81,53 @@
                                ng-model="documentInfo.classification.name" required=""/>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <!-- OTHER -->
-
-            <div class="col-xs-6">
 
                 <div class="form-group">
-                    <label for="creationDate" class="col-xs-6 control-label">Planned Issue Date</label>
+                    <label for="securityGroup" class="col-xs-6 control-label">Security Group</label>
                     <div class="col-xs-6">
-                        <input type="date" ng-model="documentInfo.creationDate" name="creationDate" id="creationDate" required=""/>
+                        <input placeholder="Security Group" class="form-control" id="securityGroup"
+                               ng-model="documentInfo.securityGroup" required=""/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="type" class="col-xs-6 control-label">Document Type</label>
+                    <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
                     <div class="col-xs-6">
-                        <select name="type" ng-model="documentInfo.type" id="type" required="">
-                            <option value="DRAWING">Drawing</option>
-                            <option value="DOCUMENT">Document</option>
-                            <option value="MOM">MOM</option>
-                            <option value="PICTURE">Picture</option>
-                        </select>
+                        <input placeholder="Document Type ID" class="form-control" id="typeId" required=""/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="internalExternal" class="col-xs-6 control-label">Internal/External</label>
+                    <label for="masterDocumentNumber" class="col-xs-6 control-label">Master Document Number</label>
                     <div class="col-xs-6">
-                        <select name="internalExternal" ng-model="documentInfo.kind" id="internalExternal" required="">
-                            <option value="INTERNAL">Internal</option>
-                            <option value="EXTERNAL">External</option>
-                        </select>
+                        <input class="form-control disabled" ng-readonly="true" id="masterDocumentNumber"
+                               ng-model="documentInfo.masterDocumentNumber" required=""/>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
+                    <div class="col-xs-6">
+                        <input type="date" class="form-control" ng-model="documentInfo.creationDate" name="creationDate" id="creationDate"
+                               required=""/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="createdBy" class="col-xs-6 control-label">Created by</label>
+                    <div class="col-xs-6">
+                        <input class="form-control disabled" ng-readonly="true" id="createdBy"
+                               ng-model="documentInfo.createdBy.email"/>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                     <label for="documentTags" class="col-xs-6 control-label">Tags</label>
+                     <div class="col-xs-6">
+                         <tags-input ng-model="documentInfo.classification.tags" name="tags" class="tags"
+                                     id="documentTags"/>
+                     </div>
+                 </div>-->
 
             </div>
 

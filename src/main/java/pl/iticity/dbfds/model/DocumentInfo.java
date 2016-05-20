@@ -60,8 +60,14 @@ public class DocumentInfo {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private Date creationDate;
 
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    private Date plannedIssueDate;
+
     @DBRef
     private Principal createdBy;
+
+    @DBRef
+    private Principal responsibleUser;
 
     private DocumentActivity lastActivity;
 
@@ -71,6 +77,32 @@ public class DocumentInfo {
     @NotNull
     @DBRef
     private Domain domain;
+
+    private String securityGroup;
+
+    public String getSecurityGroup() {
+        return securityGroup;
+    }
+
+    public void setSecurityGroup(String securityGroup) {
+        this.securityGroup = securityGroup;
+    }
+
+    public Principal getResponsibleUser() {
+        return responsibleUser;
+    }
+
+    public void setResponsibleUser(Principal responsibleUser) {
+        this.responsibleUser = responsibleUser;
+    }
+
+    public Date getPlannedIssueDate() {
+        return plannedIssueDate;
+    }
+
+    public void setPlannedIssueDate(Date plannedIssueDate) {
+        this.plannedIssueDate = plannedIssueDate;
+    }
 
     public Domain getDomain() {
         return domain;
