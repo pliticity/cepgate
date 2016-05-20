@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var dhdModule = angular.module('dhd', ['ngCookies', 'ngResource', 'ngRoute','ngAnimate','ngTagsInput']);
+    var dhdModule = angular.module('dhd', ['ngCookies', 'ngResource', 'ngRoute','ngAnimate','ngTagsInput','ngFileUpload']);
 
     dhdModule.config(['$routeProvider',
         function ($routeProvider) {

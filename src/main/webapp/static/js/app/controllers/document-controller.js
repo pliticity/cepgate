@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['Document', '$http', '$scope', function (Document, $http, $scope) {
+    dhdModule.controller('DocumentController', ['Upload', 'Document', '$http', '$scope', '$location', function (Upload, Document, $http, $scope, $location) {
 
         $scope.documentInfo = {};
 
@@ -21,9 +21,18 @@
             });
         };
 
-        $scope.get = function(documentId){
-            $scope.documentInfo = Document.get({id:documentId});
-        }
+        $scope.get = function (documentId) {
+            $scope.documentInfo = Document.get({id: documentId});
+        };
+
+        $scope.uploadFiles = function (files) {
+            if (files && files.length) {
+                console.log(files[0].name);
+                for (var i = 0; i < files.length; i++) {
+                    Upload.upload({url: '/document/upload', data: {file: files[i]}});
+                }
+            }
+        };
 
     }]);
 

@@ -17,7 +17,8 @@
                 <div class="form-group">
                     <label for="internalExternal" class="col-xs-6 control-label">Internal/External</label>
                     <div class="col-xs-6">
-                        <select name="internalExternal" class="form-control" ng-model="documentInfo.kind" id="internalExternal" required="">
+                        <select name="internalExternal" class="form-control" ng-model="documentInfo.kind"
+                                id="internalExternal" required="">
                             <option value="INTERNAL">Internal</option>
                             <option value="EXTERNAL">External</option>
                         </select>
@@ -47,7 +48,8 @@
                 <div class="form-group">
                     <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
                     <div class="col-xs-6">
-                        <input type="date" class="form-control" ng-model="documentInfo.plannedIssueDate" name="plannedIssueDate"
+                        <input type="date" class="form-control" ng-model="documentInfo.plannedIssueDate"
+                               name="plannedIssueDate"
                                id="plannedIssueDate" required=""/>
                     </div>
                 </div>
@@ -55,7 +57,8 @@
                 <div class="form-group">
                     <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
                     <div class="col-xs-6">
-                        <input placeholder="Document Responsible" class="form-control" ng-model="documentInfo.responsibleUser" name="responsibleUser"
+                        <input placeholder="Document Responsible" class="form-control"
+                               ng-model="documentInfo.responsibleUser" name="responsibleUser"
                                id="responsibleUser"/>
                     </div>
                 </div>
@@ -108,7 +111,8 @@
                 <div class="form-group">
                     <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
                     <div class="col-xs-6">
-                        <input type="date" class="form-control" ng-model="documentInfo.creationDate" name="creationDate" id="creationDate"
+                        <input type="date" class="form-control" ng-model="documentInfo.creationDate" name="creationDate"
+                               id="creationDate"
                                required=""/>
                     </div>
                 </div>
@@ -138,5 +142,35 @@
         </div>
 
     </form>
+
+    <div class="row">
+
+        <form ng-app="fileUpload">
+            <div class="button" ngf-keep="true" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+            <button type="submit" ng-click="uploadFiles(files)">submit</button>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover">
+                <thead>
+                <tr class="info">
+                    <th>#</th>
+                    <th>File Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="fileInfo in documentInfo.files">
+                    <td>{{$index+1}}</td>
+                    <td>{{fileInfo.name}}</td>
+                </tr>
+                <tr ng-repeat="file in files">
+                    <td>-</td>
+                    <td>{{file.name}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
 
 </div>
