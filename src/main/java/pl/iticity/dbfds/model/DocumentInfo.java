@@ -1,6 +1,8 @@
 package pl.iticity.dbfds.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -19,7 +21,7 @@ import java.util.List;
  * Created by pmajchrz on 4/5/16.
  */
 @org.springframework.data.mongodb.core.mapping.Document
-public class DocumentInfo {
+public class DocumentInfo{
 
     public enum Kind {
         INTERNAL,EXTERNAL;
@@ -64,18 +66,18 @@ public class DocumentInfo {
     private Date plannedIssueDate;
 
     @DBRef
+    @JsonIgnoreProperties(value = {"password","lastName","firstName","country","phone","company","role","domain"})
     private Principal createdBy;
 
     @DBRef
     private Principal responsibleUser;
-
-    private DocumentActivity lastActivity;
 
     @DBRef
     private List<FileInfo> files;
 
     @NotNull
     @DBRef
+    @JsonIgnoreProperties(value = {"name","active"})
     private Domain domain;
 
     private String securityGroup;
@@ -199,11 +201,4 @@ public class DocumentInfo {
         return getFiles().size();
     }
 
-    public DocumentActivity getLastActivity() {
-        return lastActivity;
-    }
-
-    public void setLastActivity(DocumentActivity lastActivity) {
-        this.lastActivity = lastActivity;
-    }
 }

@@ -182,7 +182,7 @@ public class DocumentManagerController extends BaseController {
 
                 try {
                     byte[] buffer = new byte[1024];
-                    String zipFile = FileService.DATA_DIR + UUID.randomUUID().toString() + ".zip";
+                    String zipFile =  UUID.randomUUID().toString() + ".zip";
                     FileOutputStream fos = new FileOutputStream(zipFile);
                     ZipOutputStream zos = new ZipOutputStream(fos);
                     for (int i = 0; i < allFiles.size(); i++) {

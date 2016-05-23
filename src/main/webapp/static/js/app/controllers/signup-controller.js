@@ -45,8 +45,6 @@
         // attempt to create a new account
 
         $scope.signUp = function () {
-            console.log($scope.signupForm);
-            console.log($scope.signupForm.email.$error);
             if ($scope.signupForm.$valid) {
                 $http({
                     method: 'post',

@@ -14,10 +14,6 @@ import java.util.List;
  */
 public interface DocumentInfoRepository extends MongoRepository<DocumentInfo,String> , QueryDslPredicateExecutor<DocumentInfo> {
 
-public List<DocumentInfo> findByCreatedByAndLastActivity_dateAfterOrderByLastActivity_dateDesc(Principal principal, Date date);
-
-   // public List<DocumentInfo> findByCreatedByAndClassification_ClassificationIdLikeOrClassification_NameLikeOrDocumentNumberLikeOrDocumentNameLike(Principal principal,String str,String str2,String str3,String str4);
-
     public List<DocumentInfo> findByCreatedBy(Principal principal);
 
     public List<DocumentInfo> findByDomain(Domain domain);

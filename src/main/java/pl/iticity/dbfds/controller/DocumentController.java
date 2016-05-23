@@ -14,15 +14,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
+import pl.iticity.dbfds.service.FileService;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import javax.ws.rs.PathParam;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/document")
 public class DocumentController extends AbstractCrudController<DocumentInfo,DocumentService>{
+
+    @Autowired
+    private FileService fileService;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String getDocumentView(){
@@ -40,12 +48,29 @@ public class DocumentController extends AbstractCrudController<DocumentInfo,Docu
         return service.createNewDocumentInfo();
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody boolean postUploadFiles(@RequestParam("file") MultipartFile file){
-        System.out.println("start");
-            System.out.println(file);
-        System.out.println("end");
-        return true;
+    @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
+    public @ResponseBody List<FileInfo> postUploadFiles(@PathVariable("id") String id, @RequestParam("file") MultipartFile file) throws IOException {
+        FileInfo fileInfo = fileService.createFile(PrincipalUtils.getCurrentDomain(),file.getOriginalFilename(),file.getContentType(),file.getInputStream());
+        return service.appendFile(id,fileInfo);
     }
 
+    @RequestMapping(value = "/{id}/delete/{fileId}",method = RequestMethod.DELETE)
+    public @ResponseBody List<FileInfo> deleteFileInfo(@PathVariable("id") String id, @PathVariable("fileId") String fileId){
+        return fileService.removeContent(id,fileId);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public
+    @ResponseBody DocumentInfo putSave(@PathVariable("id") String id,@RequestBody DocumentInfo model) {
+        service.save(model);
+        return model;
+    }
+
+    public FileService getFileService() {
+        return fileService;
+    }
+
+    public void setFileService(FileService fileService) {
+        this.fileService = fileService;
+    }
 }

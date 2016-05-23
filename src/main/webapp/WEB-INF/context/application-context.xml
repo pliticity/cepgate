@@ -7,7 +7,11 @@
                            http://www.springframework.org/schema/context
                            http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:spring-configured />
+    <bean class="pl.iticity.dbfds.util.DefaultConfig">
+        <constructor-arg name="configPath" value="${config.path}"/>
+    </bean>
+
+    <context:spring-configured/>
 
     <import resource="spring-data-context.xml"/>
     <import resource="shiro-context.xml"/>

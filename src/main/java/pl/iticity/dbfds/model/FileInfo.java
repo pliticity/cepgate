@@ -10,13 +10,15 @@ import java.util.Date;
 @org.springframework.data.mongodb.core.mapping.Document
 public class FileInfo {
 
+    @Id
+    @GeneratedValue
+    private String id;
+
     private String name;
 
     private String type;
 
     private Date uploadDate;
-
-    private String fileId;
 
     private String symbol;
 
@@ -62,11 +64,11 @@ public class FileInfo {
         this.name = name;
     }
 
-    public String getFileId() {
-        return fileId;
+    public String getId() {
+        return id;
     }
 
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
+    public void setId(String id) {
+        this.id = id;
     }
 }

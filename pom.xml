@@ -89,7 +89,7 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>1.8.4.RELEASE</version>
         </dependency>
-        
+
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
@@ -151,6 +151,7 @@
             <id>openshift</id>
             <properties>
                 <mongodb.url>mongodb://dhd:dhd@ds011472.mlab.com:11472/dhd</mongodb.url>
+                <config.path>${env.OPENSHIFT_DATA_DIR}config.properties</config.path>
             </properties>
             <build>
                 <finalName>c-webapp</finalName>
@@ -197,7 +198,8 @@
                                     </processor>
                                     <options>
                                         <querydsl.entityAccessors>true</querydsl.entityAccessors>
-                                        <querydsl.excludedPackages>pl.iticity.dbfds.model.query</querydsl.excludedPackages>
+                                        <querydsl.excludedPackages>pl.iticity.dbfds.model.query
+                                        </querydsl.excludedPackages>
                                     </options>
                                 </configuration>
                             </execution>
@@ -228,6 +230,7 @@
             <id>pmajchrz</id>
             <properties>
                 <mongodb.url>mongodb://dhd:dhd@ds011472.mlab.com:11472/dhd</mongodb.url>
+                <config.path>/home/pmajchrz/other/dbfds/data/config.properties</config.path>
             </properties>
 
             <build>
@@ -275,7 +278,8 @@
                                     </processor>
                                     <options>
                                         <querydsl.entityAccessors>true</querydsl.entityAccessors>
-                                        <querydsl.excludedPackages>pl.iticity.dbfds.model.query</querydsl.excludedPackages>
+                                        <querydsl.excludedPackages>pl.iticity.dbfds.model.query
+                                        </querydsl.excludedPackages>
                                     </options>
                                 </configuration>
                             </execution>

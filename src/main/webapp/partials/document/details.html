@@ -1,6 +1,6 @@
 <div style="padding-top: 10px;">
 
-    <form id="documentForm" class="form-horizontal">
+    <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
 
         <div class="row">
 
@@ -138,16 +138,17 @@
         </div>
 
         <div class="row">
-            <input class="btn btn-primary" type="button" ng-click="" value="Save"/>
+            <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
+            <input ng-if="!documentInfo.id"  class="btn btn-primary" type="button" ng-click="saveNew()" value="Save"/>
         </div>
 
     </form>
 
     <div class="row">
 
-        <form ng-app="fileUpload">
-            <div class="button" ngf-keep="true" ngf-select ng-model="files" ngf-multiple="true">Select</div>
-            <button type="submit" ng-click="uploadFiles(files)">submit</button>
+        <form>
+            <div ng-if="documentInfo.id" class="btn btn-primary" ngf-select="uploadFiles(files,documentInfo.id)" ngf-keep="false" ng-model="files" ngf-multiple="true">Add files</div>
+            <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id" class="btn btn-primary" ngf-keep="true" ng-model="files" ngf-multiple="true">Add files</div>
         </form>
 
         <div class="table-responsive">
@@ -156,16 +157,19 @@
                 <tr class="info">
                     <th>#</th>
                     <th>File Name</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="fileInfo in documentInfo.files">
+                <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
                     <td>{{$index+1}}</td>
                     <td>{{fileInfo.name}}</td>
+                    <td><div class="btn btn-danger" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete</div></td>
                 </tr>
-                <tr ng-repeat="file in files">
-                    <td>-</td>
+                <tr ng-if="!documentInfo.id" ng-repeat="file in files">
+                    <td>{{$index+1}}</td>
                     <td>{{file.name}}</td>
+                    <td><div class="btn btn-danger" ng-click="deleteNewFile($index)">Delete</div></td>
                 </tr>
                 </tbody>
             </table>

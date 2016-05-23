@@ -14,6 +14,7 @@ public abstract class AbstractCrudController<MODEL, SERVICE extends AbstractServ
     @RequestMapping(value = "", method = RequestMethod.POST)
     public
     @ResponseBody MODEL postCreate(@RequestBody MODEL model) {
+        service.save(model);
         return model;
     }
 

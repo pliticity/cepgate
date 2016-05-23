@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class Domain {
+public class Domain{
 
     @Id
     @GeneratedValue

@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.service;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -7,47 +9,80 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.FileRepository;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.util.DefaultConfig;
 
+import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-public class FileService extends AbstractService<FileInfo,FileRepository>{
+public class FileService extends AbstractService<FileInfo, FileRepository> {
 
     private static final Logger logger = Logger.getLogger(FileService.class.getName());
-    public static final String DATA_DIR = "/home/pmajchrz/other/dbfds/data/";
+
+    @Autowired
+    private DefaultConfig defaultConfig;
+
+    @Autowired
+    private DocumentInfoRepository documentInfoRepository;
+
+    private String dataDir;
+
+    @PostConstruct
+    public void postConstruct() {
+        dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
+    }
 
     public FileInfo findBySymbol(String symbol) {
-        if(logger.isLoggable(Level.INFO)){
-            logger.log(Level.INFO,MessageFormat.format("Finding Content by Symbol {0}",symbol));
+        if (logger.isLoggable(Level.INFO)) {
+            logger.log(Level.INFO, MessageFormat.format("Finding Content by Symbol {0}", symbol));
         }
         return repo.findBySymbol(symbol);
     }
 
     @Transactional
-    public FileInfo createFile(Domain domain, String fileName, String mime){
+    public FileInfo createFile(Domain domain, String fileName, String mime, InputStream inputStream) {
         FileInfo fileInfo = new FileInfo();
         fileInfo.setType(mime);
         fileInfo.setSymbol(computeSymbol(fileName));
         fileInfo.setPath(computeContentPath(domain, (Principal) SecurityUtils.getSubject().getPrincipal()));
         fileInfo.setName(fileName);
         fileInfo.setUploadDate(DateTime.now().toDate());
+        writeFile(inputStream,getOutputStreamFromContent(fileInfo));
         return repo.save(fileInfo);
     }
 
-    public void updateContent(FileInfo fileInfo){
+    public void updateContent(FileInfo fileInfo) {
         repo.save(fileInfo);
     }
 
+    public List<FileInfo> removeContent(String docId, final String fileId){
+        DocumentInfo info = documentInfoRepository.findOne(docId);
+        FileInfo fileInfo = Iterables.find(info.getFiles(), new Predicate<FileInfo>() {
+            @Override
+            public boolean apply(@Nullable FileInfo fileInfo) {
+                return fileId.equals(fileInfo.getId());
+            }
+        },null);
+        info.getFiles().remove(fileInfo);
+        removeContent(fileInfo);
+        documentInfoRepository.save(info);
+        return info.getFiles();
+    }
+
     @Transactional
-    public void removeContent(FileInfo fileInfo){
+    public void removeContent(FileInfo fileInfo) {
         File f = getFileForFileInfo(fileInfo);
         f.delete();
         repo.delete(fileInfo);
@@ -55,7 +90,7 @@ public class FileService extends AbstractService<FileInfo,FileRepository>{
 
     public File getFileForFileInfo(FileInfo fileInfo) {
         if (fileInfo != null) {
-            File f = new File(DATA_DIR + fileInfo.getPath() + fileInfo.getSymbol());
+            File f = new File(dataDir + fileInfo.getPath() + fileInfo.getSymbol());
             if (f.exists()) {
                 return f;
             }
@@ -63,7 +98,7 @@ public class FileService extends AbstractService<FileInfo,FileRepository>{
         return null;
     }
 
-    public OutputStream getOutputStreamFromContent(FileInfo fileInfo){
+    public OutputStream getOutputStreamFromContent(FileInfo fileInfo) {
         createDirectories(fileInfo);
         return openOutputStream(fileInfo);
     }
@@ -83,7 +118,7 @@ public class FileService extends AbstractService<FileInfo,FileRepository>{
 
     private OutputStream openOutputStream(FileInfo fileInfo) {
         try {
-            File f = new File(DATA_DIR + fileInfo.getPath() + fileInfo.getSymbol());
+            File f = new File(dataDir + fileInfo.getPath() + fileInfo.getSymbol());
             f.createNewFile();
             return new FileOutputStream(f);
         } catch (IOException e) {
@@ -93,13 +128,13 @@ public class FileService extends AbstractService<FileInfo,FileRepository>{
     }
 
     private void createDirectories(FileInfo fileInfo) {
-        String dir = MessageFormat.format("{0}{1}", DATA_DIR, fileInfo.getPath());
+        String dir = MessageFormat.format("{0}{1}", dataDir, fileInfo.getPath());
         File file = new File(dir);
         file.mkdirs();
     }
 
     private String computeContentPath(Domain domain, Principal principal) {
-        return MessageFormat.format("/domain/{0}/principal/{1}/", String.valueOf(domain.getId()),principal.getEmail());
+        return MessageFormat.format("/domain/{0}/principal/{1}/", String.valueOf(domain.getId()), principal.getEmail());
     }
 
     private String computeSymbol(String fileName) {
@@ -112,4 +147,11 @@ public class FileService extends AbstractService<FileInfo,FileRepository>{
         return StringUtils.EMPTY;
     }
 
+    public DefaultConfig getDefaultConfig() {
+        return defaultConfig;
+    }
+
+    public void setDefaultConfig(DefaultConfig defaultConfig) {
+        this.defaultConfig = defaultConfig;
+    }
 }

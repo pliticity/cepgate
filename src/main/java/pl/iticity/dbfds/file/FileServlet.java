@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.service.FileService;
+import pl.iticity.dbfds.util.DefaultConfig;
 
 import javax.servlet.*;
 import java.io.*;
@@ -27,10 +28,13 @@ public class FileServlet implements Servlet {
 
     private FileService fileService;
 
+    private DefaultConfig defaultConfig;
+
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         this.servletConfig=servletConfig;
-        dataDir = FileService.DATA_DIR;
+        defaultConfig = getApplicationContext().getBean(DefaultConfig.class);
+        dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
         fileService = getApplicationContext().getBean(FileService.class);
     }
 
@@ -48,7 +52,7 @@ public class FileServlet implements Servlet {
         String symbol = getRequestedSymbol(servletRequest);
         FileInfo fileInfo = fileService.findBySymbol(symbol);
         if (fileInfo != null) {
-            String filePath = FileService.DATA_DIR + fileInfo.getPath() + fileInfo.getSymbol();
+            String filePath = dataDir + fileInfo.getPath() + fileInfo.getSymbol();
             FileInputStream fis = new FileInputStream(new File(filePath));
             servletResponse.setContentType(fileInfo.getType());
             write(servletResponse,fis);
