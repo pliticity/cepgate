@@ -28,10 +28,10 @@
             $scope.documentInfo = Document.get({id: documentId});
         };
 
-        $scope.saveNew = function () {
+        $scope.create = function () {
             if ($scope.form.documentForm.$valid) {
                 Document.save({id: $scope.documentInfo.id}, $scope.documentInfo, function (response) {
-                    var docId = response.data.id;
+                    var docId = response.id;
                     $scope.uploadFiles($scope.files, docId);
                 });
             }
@@ -39,7 +39,7 @@
 
         $scope.save = function () {
             if ($scope.form.documentForm.$valid) {
-                Document.save({id: $scope.documentInfo.id}, $scope.documentInfo);
+                $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
         };
 

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.security.Principal;
@@ -21,10 +23,17 @@ import java.util.List;
  * Created by pmajchrz on 4/5/16.
  */
 @org.springframework.data.mongodb.core.mapping.Document
-public class DocumentInfo{
+@CompoundIndexes(value =
+        {
+                @CompoundIndex(def = "{'masterDocumentNumber' : 1,'domain.id' :1}", unique = true),
+                @CompoundIndex(def = "{'documentNumber':1,'domain.id':1}", unique = true)
+        }
+)
+
+public class DocumentInfo {
 
     public enum Kind {
-        INTERNAL,EXTERNAL;
+        INTERNAL, EXTERNAL;
     }
 
     public enum Type {
@@ -41,15 +50,13 @@ public class DocumentInfo{
 
     @Max(99999999l)
     @NotNull
-    @Indexed(unique = true)
     private Long masterDocumentNumber;
 
-    @Size(min=1,max=25)
+    @Size(min = 1, max = 25)
     @NotNull
-    @Indexed(unique = true)
     private String documentNumber;
 
-    @Size(min=1,max=100)
+    @Size(min = 1, max = 100)
     @NotNull
     private String documentName;
 
@@ -59,14 +66,14 @@ public class DocumentInfo{
     @NotNull
     private Type type;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date creationDate;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date plannedIssueDate;
 
     @DBRef
-    @JsonIgnoreProperties(value = {"password","lastName","firstName","country","phone","company","role","domain"})
+    @JsonIgnoreProperties(value = {"password", "lastName", "firstName", "country", "phone", "company", "role", "domain"})
     private Principal createdBy;
 
     @DBRef
@@ -77,7 +84,7 @@ public class DocumentInfo{
 
     @NotNull
     @DBRef
-    @JsonIgnoreProperties(value = {"name","active"})
+    @JsonIgnoreProperties(value = {"name", "active"})
     private Domain domain;
 
     private String securityGroup;
@@ -179,8 +186,8 @@ public class DocumentInfo{
     }
 
     public List<FileInfo> getFiles() {
-        if(files==null){
-            files= Lists.newArrayList();
+        if (files == null) {
+            files = Lists.newArrayList();
         }
         return files;
     }
@@ -197,7 +204,7 @@ public class DocumentInfo{
         this.documentName = documentName;
     }
 
-    public int getNoOfFiles(){
+    public int getNoOfFiles() {
         return getFiles().size();
     }
 

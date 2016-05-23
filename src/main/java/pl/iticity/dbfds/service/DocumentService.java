@@ -19,6 +19,12 @@ import java.util.List;
 @Service
 public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoRepository> {
 
+    public DocumentInfo create(DocumentInfo documentInfo){
+        Domain current = PrincipalUtils.getCurrentDomain();
+        documentInfo.setDomain(current);
+        return repo.save(documentInfo);
+    }
+
     public DocumentInfo createNewDocumentInfo() {
         DocumentInfo documentInfo = new DocumentInfo();
         documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());

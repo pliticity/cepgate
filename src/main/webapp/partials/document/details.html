@@ -58,7 +58,7 @@
                     <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
                     <div class="col-xs-6">
                         <input placeholder="Document Responsible" class="form-control"
-                               ng-model="documentInfo.responsibleUser" name="responsibleUser"
+                                name="responsibleUser"
                                id="responsibleUser"/>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
 
         <div class="row">
             <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
-            <input ng-if="!documentInfo.id"  class="btn btn-primary" type="button" ng-click="saveNew()" value="Save"/>
+            <input ng-if="!documentInfo.id"  class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
         </div>
 
     </form>

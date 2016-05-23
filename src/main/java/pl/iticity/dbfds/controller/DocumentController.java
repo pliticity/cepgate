@@ -27,7 +27,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/document")
-public class DocumentController extends AbstractCrudController<DocumentInfo,DocumentService>{
+public class DocumentController{
+
+    @Autowired
+    private DocumentService service;
 
     @Autowired
     private FileService fileService;
@@ -35,6 +38,23 @@ public class DocumentController extends AbstractCrudController<DocumentInfo,Docu
     @RequestMapping(value = "",method = RequestMethod.GET)
     public String getDocumentView(){
         return "document";
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public
+    @ResponseBody DocumentInfo postCreate(@RequestBody DocumentInfo model) {
+        service.create(model);
+        return model;
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public @ResponseBody List<DocumentInfo> getAll() {
+        return service.findAll();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public @ResponseBody DocumentInfo getOne(@PathVariable String id) {
+        return service.findById(id);
     }
 
     @RequestMapping(value ="/query", method = RequestMethod.GET)
