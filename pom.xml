@@ -230,7 +230,8 @@
             <id>pmajchrz</id>
             <properties>
                 <mongodb.url>mongodb://dhd:dhd@ds011472.mlab.com:11472/dhd</mongodb.url>
-                <config.path>/home/pmajchrz/other/dbfds/data/config.properties</config.path>
+                <!--<config.path>/home/pmajchrz/other/dbfds/data/config.properties</config.path>-->
+                <config.path>B:\Workspace\dhd\data\config.properties</config.path>
             </properties>
 
             <build>
