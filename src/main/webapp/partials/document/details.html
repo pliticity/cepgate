@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
                     <div class="col-xs-6">
-                        <input type="date" class="form-control" ng-model="documentInfo.plannedIssueDate"
+                        <input type="date" data-date-format="dd/mm/yyyy" class="form-control" ng-model="documentInfo.plannedIssueDate"
                                name="plannedIssueDate"
                                id="plannedIssueDate" required=""/>
                     </div>
@@ -111,7 +111,7 @@
                 <div class="form-group">
                     <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
                     <div class="col-xs-6">
-                        <input type="date" class="form-control" ng-model="documentInfo.creationDate" name="creationDate"
+                        <input type="date" data-date-format="dd/mm/yyyy" class="form-control" ng-model="documentInfo.creationDate" name="creationDate"
                                id="creationDate"
                                required=""/>
                     </div>

@@ -21,11 +21,16 @@
         $scope.new = function () {
             $http({method: 'get', url: '/document/new'}).then(function (success) {
                 $scope.documentInfo = success.data;
+                $scope.documentInfo.creationDate = new Date($scope.documentInfo.creationDate);
             });
         };
 
         $scope.get = function (documentId) {
-            $scope.documentInfo = Document.get({id: documentId});
+            Document.get({id: documentId}, function (res) {
+                $scope.documentInfo = res;
+                $scope.documentInfo.creationDate = new Date($scope.documentInfo.creationDate);
+                $scope.documentInfo.plannedIssueDate = new Date($scope.documentInfo.plannedIssueDate);
+            });
         };
 
         $scope.create = function () {
