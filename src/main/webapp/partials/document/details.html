@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
                     <div class="col-xs-6">
-                        <input type="date" data-date-format="dd/mm/yyyy" class="form-control" ng-model="documentInfo.plannedIssueDate"
+                        <input type="text" class="form-control" ng-model="documentInfo.plannedIssueDate"
                                name="plannedIssueDate"
                                id="plannedIssueDate" required=""/>
                     </div>
@@ -58,7 +58,7 @@
                     <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
                     <div class="col-xs-6">
                         <input placeholder="Document Responsible" class="form-control"
-                                name="responsibleUser"
+                               name="responsibleUser"
                                id="responsibleUser"/>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                 <div class="form-group">
                     <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
                     <div class="col-xs-6">
-                        <input type="date" data-date-format="dd/mm/yyyy" class="form-control" ng-model="documentInfo.creationDate" name="creationDate"
+                        <input type="text" class="form-control" ng-model="documentInfo.creationDate" name="creationDate"
                                id="creationDate"
                                required=""/>
                     </div>
@@ -138,22 +138,34 @@
         </div>
 
         <div class="row">
-            <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
-            <input ng-if="!documentInfo.id"  class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
+            <div class="col-xs-1 col-xs-offset-11">
+                <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
+                <input ng-if="!documentInfo.id" class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
+            </div>
         </div>
 
     </form>
 
-    <div class="row">
-
-        <form>
-            <div ng-if="documentInfo.id" class="btn btn-primary" ngf-select="uploadFiles(files,documentInfo.id)" ngf-keep="false" ng-model="files" ngf-multiple="true">Add files</div>
-            <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id" class="btn btn-primary" ngf-keep="true" ng-model="files" ngf-multiple="true">Add files</div>
-        </form>
+    <div class="row" style="margin-top: 10px;">
 
         <div class="table-responsive">
             <table class="table table-condensed table-hover">
                 <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th class="text-right">
+                        <form>
+                            <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
+                                 ngf-select="uploadFiles(files,documentInfo.id)"
+                                 ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
+                            </div>
+                            <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id" class="btn btn-info btn-xs"
+                                 ngf-keep="true"
+                                 ng-model="files" ngf-multiple="true">Add files
+                            </div>
+                        </form>
+                    </th>
+                </tr>
                 <tr class="info">
                     <th>#</th>
                     <th>File Name</th>
@@ -164,12 +176,16 @@
                 <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
                     <td>{{$index+1}}</td>
                     <td>{{fileInfo.name}}</td>
-                    <td><div class="btn btn-danger" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete</div></td>
+                    <td>
+                        <div class="btn btn-danger" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete</div>
+                    </td>
                 </tr>
                 <tr ng-if="!documentInfo.id" ng-repeat="file in files">
                     <td>{{$index+1}}</td>
                     <td>{{file.name}}</td>
-                    <td><div class="btn btn-danger" ng-click="deleteNewFile($index)">Delete</div></td>
+                    <td>
+                        <div class="btn btn-danger" ng-click="deleteNewFile($index)">Delete</div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

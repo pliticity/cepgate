@@ -7,22 +7,20 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['Upload', 'Document', '$http', '$scope', '$location', function (Upload, Document, $http, $scope, $location) {
+    dhdModule.controller('DocumentController', ['documentService','Upload', 'Document', '$http', '$scope', '$location', function (documentService,Upload, Document, $http, $scope, $location) {
 
         // DOCUMENT
 
         $scope.documentInfo = {};
         $scope.form = {};
+        $scope.itemsPerPage = 2;
 
         $scope.query = function (pars) {
-            return Document.query(pars);
+            return documentService.query(pars);
         };
 
-        $scope.new = function () {
-            $http({method: 'get', url: '/document/new'}).then(function (success) {
-                $scope.documentInfo = success.data;
-                //$scope.documentInfo.creationDate = new Date($scope.documentInfo.creationDate);
-            });
+        $scope.new = function(){
+            $scope.documentInfo = documentService.new();
         };
 
         $scope.get = function (documentId) {

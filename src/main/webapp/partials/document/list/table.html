@@ -1,32 +1,54 @@
-<div class="table-responsive">
-    <table class="table table-condensed table-hover">
-        <thead>
-        <tr class="info">
-            <th>#</th>
-            <th>Classification ID</th>
-            <th>Classification Name</th>
-            <th>Document Number</th>
-            <th>Document Type</th>
-            <th>Document Name</th>
-            <th>Creation Date</th>
-            <th>Created By</th>
-            <th># Files</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="animate-row" ng-repeat="document in documents">
-            <td>{{$index+1}}</td>
-            <td>{{document.classification.classificationId}}</td>
-            <td>{{document.classification.name}}</td>
-            <td>{{document.documentNumber}}</td>
-            <td>{{document.type}}</td>
-            <td>{{document.documentName}}</td>
-            <td>{{document.creationDate}}</td>
-            <td>{{document.createdBy.email}}</td>
-            <td>{{document.files.length}}</td>
-            <td><button add-tab documentId="{{document.id}}" documntName="{{document.documentName}}" class="btn btn-primary">Open</button></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="documents">
+    <thead>
+    <tr class="info">
+        <th>sel</th>
+        <th>#</th>
+        <th>Classification ID</th>
+        <th>Classification Name</th>
+        <th>Document Number</th>
+        <th>Document Type</th>
+        <th st-sort="documentName">Document Name</th>
+        <th>Creation Date</th>
+        <th>Created By</th>
+        <th># Files</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="11"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        </td>
+    </tr>
+    <tr class="animate-row" ng-repeat="row in displayCollection">
+        <td st-select-row="row" st-select-mode="multiple" st-selected="alert('a');">x</td>
+        <td>{{$index+1}}</td>
+        <td>{{row.classification.classificationId}}</td>
+        <td>{{row.classification.name}}</td>
+        <td>{{row.documentNumber}}</td>
+        <td>{{row.type}}</td>
+        <td>{{row.documentName}}</td>
+        <td>{{row.creationDate}}</td>
+        <td>{{row.createdBy.email}}</td>
+        <td>{{row.files.length}}</td>
+        <td>
+            <button add-tab documentId="{{row.id}}" documntName="{{row.documentName}}"
+                    class="btn btn-primary">Open
+            </button>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="9"></td>
+        <td colspan="2" class="text-right">
+            <label for="itemsPerPage">Items per page</label>
+            <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="11" class="text-center">
+            <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
+        </td>
+    </tr>
+    </tfoot>
+</table>

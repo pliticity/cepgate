@@ -25,8 +25,8 @@ import java.util.List;
 @org.springframework.data.mongodb.core.mapping.Document
 @CompoundIndexes(value =
         {
-                @CompoundIndex(def = "{'masterDocumentNumber' : 1,'domain.id' :1}", unique = true),
-                @CompoundIndex(def = "{'documentNumber':1,'domain.id':1}", unique = true)
+                @CompoundIndex(def = "{'masterDocumentNumber' : 1,'domain' :1}", unique = true),
+                @CompoundIndex(def = "{'documentNumber':1,'domain':1}", unique = true)
         }
 )
 
@@ -66,10 +66,10 @@ public class DocumentInfo {
     @NotNull
     private Type type;
 
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
 
-    //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date plannedIssueDate;
 
     @DBRef
