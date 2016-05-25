@@ -1,7 +1,7 @@
 <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="documents">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
     <thead>
     <tr class="info">
-        <th>sel</th>
         <th>#</th>
         <th>Classification ID</th>
         <th>Classification Name</th>
@@ -16,11 +16,11 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="11"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        <td colspan="10"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
         </td>
     </tr>
-    <tr class="animate-row" ng-repeat="row in displayCollection">
-        <td st-select-row="row" st-select-mode="multiple" st-selected="alert('a');">x</td>
+    <tr class="animate-row"
+        ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
         <td>{{$index+1}}</td>
         <td>{{row.classification.classificationId}}</td>
         <td>{{row.classification.name}}</td>
@@ -30,23 +30,24 @@
         <td>{{row.creationDate}}</td>
         <td>{{row.createdBy.email}}</td>
         <td>{{row.files.length}}</td>
-        <td>
-            <button add-tab documentId="{{row.id}}" documntName="{{row.documentName}}"
-                    class="btn btn-primary">Open
+        <td style="z-index: 100;">
+            <button ng-click="delete(row.id)" class="btn btn-danger btn-xs">Delete
+            </button>
+            <button ng-click="copy(row.id)" class="btn btn-info btn-xs">Copy
             </button>
         </td>
     </tr>
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="9"></td>
+        <td colspan="8"></td>
         <td colspan="2" class="text-right">
             <label for="itemsPerPage">Items per page</label>
             <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
         </td>
     </tr>
     <tr>
-        <td colspan="11" class="text-center">
+        <td colspan="10" class="text-center">
             <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
         </td>
     </tr>

@@ -14,8 +14,12 @@ import java.util.List;
  */
 public interface DocumentInfoRepository extends MongoRepository<DocumentInfo,String> , QueryDslPredicateExecutor<DocumentInfo> {
 
-    public List<DocumentInfo> findByCreatedBy(Principal principal);
+    public List<DocumentInfo> findByCreatedByAndRemovedIsFalse(Principal principal);
 
     public List<DocumentInfo> findByDomain(Domain domain);
+
+    public List<DocumentInfo> findByDomainAndRemovedIsFalse(Domain domain);
+
+    public List<DocumentInfo> findByFavourites_Principal(Principal principal);
 
 }

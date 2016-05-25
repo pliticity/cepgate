@@ -7,20 +7,43 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['documentService','Upload', 'Document', '$http', '$scope', '$location', function (documentService,Upload, Document, $http, $scope, $location) {
+    dhdModule.controller('DocumentController', ['documentService', 'Upload', 'Document', '$http', '$scope', '$location', function (documentService, Upload, Document, $http, $scope, $location) {
 
         // DOCUMENT
 
         $scope.documentInfo = {};
         $scope.form = {};
-        $scope.itemsPerPage = 2;
+        $scope.itemsPerPage = 10;
+        $scope.qParams = {};
 
-        $scope.query = function (pars) {
-            return documentService.query(pars);
+        $scope.query = function () {
+            $scope.documents = documentService.query($scope.qParams);
         };
 
-        $scope.new = function(){
+        $scope.new = function () {
             $scope.documentInfo = documentService.new();
+        };
+
+        $scope.delete = function (docId) {
+            documentService.delete(docId, function (res) {
+                $scope.query();
+            });
+        };
+
+        $scope.favourite = function(){
+            documentService.favourite($scope.documentInfo.id,true);
+            $scope.documentInfo.favourite = true;
+        };
+
+        $scope.unFavourite = function(){
+            documentService.favourite($scope.documentInfo.id,false);
+            $scope.documentInfo.favourite = false;
+        };
+
+        $scope.copy = function (docId) {
+            documentService.copy(docId, function (res) {
+                $scope.query();
+            });
         };
 
         $scope.get = function (documentId) {
@@ -35,7 +58,10 @@
             if ($scope.form.documentForm.$valid) {
                 Document.save({id: $scope.documentInfo.id}, $scope.documentInfo, function (response) {
                     var docId = response.id;
-                    $scope.uploadFiles($scope.files, docId);
+                    $scope.new();
+                    var files = $scope.files;
+                    $scope.files=[];
+                    $scope.uploadFiles(files, docId);
                 });
             }
         };

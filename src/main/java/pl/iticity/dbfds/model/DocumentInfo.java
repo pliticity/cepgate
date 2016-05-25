@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
@@ -88,6 +89,37 @@ public class DocumentInfo {
     private Domain domain;
 
     private String securityGroup;
+
+    private boolean removed;
+
+    private boolean favourite;
+
+    @JsonIgnore
+    private List<DocumentFavourite> favourites;
+
+    public List<DocumentFavourite> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(List<DocumentFavourite> favourites) {
+        this.favourites = favourites;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
+    }
 
     public String getSecurityGroup() {
         return securityGroup;
@@ -206,6 +238,22 @@ public class DocumentInfo {
 
     public int getNoOfFiles() {
         return getFiles().size();
+    }
+
+    public DocumentInfo clone(){
+        DocumentInfo documentInfo = new DocumentInfo();
+        documentInfo.setCreatedBy(getCreatedBy());
+        documentInfo.setKind(getKind());
+        documentInfo.setRemoved(false);
+        documentInfo.setCreationDate(new Date());
+        documentInfo.setClassification(getClassification().clone());
+        documentInfo.setDocumentName(getDocumentName());
+        documentInfo.setDomain(getDomain());
+        documentInfo.setPlannedIssueDate(getPlannedIssueDate());
+        documentInfo.setResponsibleUser(getResponsibleUser());
+        documentInfo.setSecurityGroup(getSecurityGroup());
+        documentInfo.setType(getType());
+        return documentInfo;
     }
 
 }

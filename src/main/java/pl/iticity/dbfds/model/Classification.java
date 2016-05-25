@@ -46,4 +46,12 @@ public class Classification {
     public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
+
+    public Classification clone(){
+        Classification classification = new Classification();
+        classification.setName(getName());
+        classification.setClassificationId(getClassificationId());
+        classification.setTags(getTags());
+        return classification;
+    }
 }

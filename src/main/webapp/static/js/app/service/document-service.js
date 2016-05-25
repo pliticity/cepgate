@@ -11,7 +11,19 @@
         };
 
         this.new = function () {
-            return Document.get({id:'new'});
+            return Document.get({id: 'new'});
+        };
+
+        this.delete = function (docId, callback) {
+            Document.delete({id: docId}, callback);
+        };
+
+        this.copy = function (docId, callback) {
+            $http({method: 'post', url: '/document/' + docId + '/copy'}).then(callback);
+        };
+
+        this.favourite = function (docId,val) {
+            $http({method: 'post', url: '/document/' + docId,params:{favourite:val}});
         };
 
     }]);

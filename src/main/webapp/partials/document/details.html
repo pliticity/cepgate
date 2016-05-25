@@ -1,5 +1,5 @@
 <div style="padding-top: 10px;">
-
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
     <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
 
         <div class="row">
@@ -140,6 +140,11 @@
         <div class="row">
             <div class="col-xs-1 col-xs-offset-11">
                 <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
+                <input ng-if="documentInfo.id && !documentInfo.favourite" class="btn btn-warning" type="button"
+                       ng-click="favourite()" value="Mark as favourite"/>
+                <input ng-if="documentInfo.id && documentInfo.favourite" class="btn btn-default" type="button"
+                       ng-click="unFavourite()" value="UnMark as favourite"/>
+
                 <input ng-if="!documentInfo.id" class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
             </div>
         </div>
@@ -177,14 +182,16 @@
                     <td>{{$index+1}}</td>
                     <td>{{fileInfo.name}}</td>
                     <td>
-                        <div class="btn btn-danger" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete</div>
+                        <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete
+                        </div>
+                        <a class="btn btn-primary btn-xs" target="_blank" href="/file/{{fileInfo.symbol}}">Download</a>
                     </td>
                 </tr>
                 <tr ng-if="!documentInfo.id" ng-repeat="file in files">
                     <td>{{$index+1}}</td>
                     <td>{{file.name}}</td>
                     <td>
-                        <div class="btn btn-danger" ng-click="deleteNewFile($index)">Delete</div>
+                        <div class="btn btn-danger btn-xs" ng-click="deleteNewFile($index)">Delete</div>
                     </td>
                 </tr>
                 </tbody>

@@ -4,14 +4,17 @@
 
     dhd.directive("closeTab", ['$compile', function ($compile) {
         return function (scope, element, attrs) {
-
-            console.log(attrs);
             var id = attrs.closeTab;
 
-            element.append("<a href=\"#\" ng-click=\"closeTab('"+id+"')\"><span class=\"glyphicon glyphicon-remove-circle\" aria-hidden=\"true\"></span></a>");
+            var x = "<span style=\"z-index:100;margin-left: 5px;\" ng-click=\"closeTab('"+id+"')\" class=\"glyphicon glyphicon-remove-circle\" aria-hidden=\"true\"></span>";
 
-            $scope.closeTab = function (tab) {
-                console.log("closing "+tab);    
+            element.append($compile(x)(scope));
+
+            scope.closeTab = function (tab) {
+                $("#tab-"+tab).remove();
+                $("#"+tab).remove();
+
+                $('#documentTabs a:last').tab('show');
             };
         };
     }]);
