@@ -20,16 +20,16 @@
         </td>
     </tr>
     <tr class="animate-row"
-        ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
-        <td>{{$index+1}}</td>
-        <td>{{row.classification.classificationId}}</td>
-        <td>{{row.classification.name}}</td>
-        <td>{{row.documentNumber}}</td>
-        <td>{{row.type}}</td>
-        <td>{{row.documentName}}</td>
-        <td>{{row.creationDate}}</td>
-        <td>{{row.createdBy.email}}</td>
-        <td>{{row.noOfFiles}}</td>
+        ng-repeat="row in displayCollection">
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{$index+1}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.classificationId}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.name}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentNumber}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.type}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentName}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.creationDate}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
         <td style="z-index: 100;">
             <button ng-click="delete(row.id)" class="btn btn-danger btn-xs">Delete
             </button>
