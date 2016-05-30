@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
-import pl.iticity.dbfds.repository.DocumentActivityRepository;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -25,9 +24,6 @@ import java.util.List;
 
 @Service
 public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoRepository> {
-
-    @Autowired
-    private DocumentActivityRepository documentActivityRepository;
 
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -41,24 +37,24 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         return objectMapper.writeValueAsString(documentInfo);
     }
 
-    public void favourite(String id, boolean val){
+    public void favourite(String id, boolean val) {
         final Principal current = PrincipalUtils.getCurrentPrincipal();
         DocumentInfo info = repo.findOne(id);
-        if(info.getFavourites()!=null){
+        if (info.getFavourites() != null) {
             DocumentFavourite docFav = Iterables.find(info.getFavourites(), new com.google.common.base.Predicate<DocumentFavourite>() {
                 @Override
                 public boolean apply(@Nullable DocumentFavourite documentFavourite) {
                     return current.getId().equals(documentFavourite.getPrincipal().getId());
                 }
-            },null);
-            if(docFav!=null && !val){
+            }, null);
+            if (docFav != null && !val) {
                 info.getFavourites().remove(docFav);
-            }else if(docFav==null && val){
+            } else if (docFav == null && val) {
                 docFav = new DocumentFavourite();
                 docFav.setPrincipal(current);
                 info.getFavourites().add(docFav);
             }
-        }else if(val){
+        } else if (val) {
             info.setFavourites(Lists.<DocumentFavourite>newArrayList());
             DocumentFavourite docFav = new DocumentFavourite();
             docFav.setPrincipal(current);
@@ -115,14 +111,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public List<DocumentInfo> findRecent() {
         LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
-        Iterable<String> ids = Iterables.transform(documentActivityRepository.findByPrincipalAndTypeAndDateGreaterThanOrderByDateAsc(PrincipalUtils.getCurrentPrincipal(), DocumentActivity.ActivityType.OPENED, lastMonth.toDate()), new Function<DocumentActivity, String>() {
-            @Nullable
-            @Override
-            public String apply(@Nullable DocumentActivity documentActivity) {
-                return documentActivity.getDocumentInfo().getId();
-            }
-        });
-        return Lists.newArrayList(repo.findAll(ids));
+        return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeOrderByActivities_DateAsc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
     }
 
     public List<DocumentInfo> findByPredicate(Predicate predicate) {
@@ -138,32 +127,41 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public DocumentInfo getById(String id) {
         DocumentInfo documentInfo = repo.findOne(id);
-        DocumentActivity activity = documentActivityRepository.findByDocumentInfoAndPrincipalAndType(documentInfo,PrincipalUtils.getCurrentPrincipal(), DocumentActivity.ActivityType.OPENED);
-        if(activity==null) {
-            activity = new DocumentActivity(documentInfo, DocumentActivity.ActivityType.OPENED, PrincipalUtils.getCurrentPrincipal(), new Date());
-        }else{
+        DocumentActivity activity = null;
+        if (documentInfo.getActivities() != null) {
+            activity = Iterables.find(documentInfo.getActivities(), new com.google.common.base.Predicate<DocumentActivity>() {
+                @Override
+                public boolean apply(@Nullable DocumentActivity documentActivity) {
+                    return documentActivity.getPrincipal().getId().equals(PrincipalUtils.getCurrentPrincipal().getId()) && DocumentActivity.ActivityType.OPENED.equals(documentActivity.getType());
+                }
+            }, null);
+        }
+        if (activity == null) {
+            activity = new DocumentActivity(DocumentActivity.ActivityType.OPENED, PrincipalUtils.getCurrentPrincipal(), new Date());
+            documentInfo.getActivities().add(activity);
+        } else {
             activity.setDate(new Date());
         }
-        documentActivityRepository.save(activity);
-        if(documentInfo.getFavourites()!=null){
+        repo.save(documentInfo);
+        if (documentInfo.getFavourites() != null) {
             DocumentFavourite fav = Iterables.find(documentInfo.getFavourites(), new com.google.common.base.Predicate<DocumentFavourite>() {
                 @Override
                 public boolean apply(@Nullable DocumentFavourite documentFavourite) {
                     return PrincipalUtils.getCurrentPrincipal().getId().equals(documentFavourite.getPrincipal().getId());
                 }
-            },null);
-            documentInfo.setFavourite(fav!=null);
-        }else{
+            }, null);
+            documentInfo.setFavourite(fav != null);
+        } else {
             documentInfo.setFavourite(false);
         }
         return documentInfo;
     }
 
-    public List<DocumentInfo> findMy(){
+    public List<DocumentInfo> findMy() {
         return repo.findByCreatedByAndRemovedIsFalse(PrincipalUtils.getCurrentPrincipal());
     }
 
-    public List<DocumentInfo> findFavourite(){
+    public List<DocumentInfo> findFavourite() {
         return repo.findByFavourites_Principal(PrincipalUtils.getCurrentPrincipal());
     }
 }

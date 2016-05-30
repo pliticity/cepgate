@@ -9,20 +9,11 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Document
 public class DocumentActivity {
 
     public enum ActivityType {
         OPENED, SAVED, CREATED
     }
-
-    @Id
-    @GeneratedValue
-    private String id;
-
-    @DBRef
-    @NotNull
-    private DocumentInfo documentInfo;
 
     @NotNull
     private ActivityType type;
@@ -33,30 +24,13 @@ public class DocumentActivity {
     @NotNull
     private Date date;
 
-    public DocumentActivity(DocumentInfo documentInfo, ActivityType type, Principal principal, Date date) {
-        this.documentInfo = documentInfo;
+    public DocumentActivity(ActivityType type, Principal principal, Date date) {
         this.type = type;
         this.principal = principal;
         this.date = date;
     }
 
     public DocumentActivity() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public DocumentInfo getDocumentInfo() {
-        return documentInfo;
-    }
-
-    public void setDocumentInfo(DocumentInfo documentInfo) {
-        this.documentInfo = documentInfo;
     }
 
     public ActivityType getType() {

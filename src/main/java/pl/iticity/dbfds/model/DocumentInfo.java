@@ -94,8 +94,21 @@ public class DocumentInfo {
 
     private boolean favourite;
 
+    private List<DocumentActivity> activities;
+
     @JsonIgnore
     private List<DocumentFavourite> favourites;
+
+    public List<DocumentActivity> getActivities() {
+        if(activities==null){
+            activities = Lists.newArrayList();
+        }
+        return activities;
+    }
+
+    public void setActivities(List<DocumentActivity> activities) {
+        this.activities = activities;
+    }
 
     public List<DocumentFavourite> getFavourites() {
         return favourites;
