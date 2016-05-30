@@ -1,5 +1,9 @@
 package pl.iticity.dbfds.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterables;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.Visitor;
@@ -14,8 +18,10 @@ import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.FileService;
@@ -49,32 +55,32 @@ public class DocumentController {
         return model;
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    List<DocumentInfo> getAll() {
-        return service.findAll();
+    String getAll() throws JsonProcessingException {
+        return service.documentsToJson(service.findAll());
     }
 
-    @RequestMapping(value = "/query",params = {"recent"},method = RequestMethod.GET)
+    @RequestMapping(value = "/query",params = {"recent"},method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    List<DocumentInfo> getRecent(@RequestParam(name = "recent") String recent) {
-        return service.findRecent();
+    String getRecent(@RequestParam(name = "recent") String recent) throws JsonProcessingException {
+        return service.documentsToJson(service.findRecent());
     }
 
-    @RequestMapping(value = "/query",params = {"my"},method = RequestMethod.GET)
+    @RequestMapping(value = "/query",params = {"my"},method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    List<DocumentInfo> getMy(@RequestParam(name = "my") String my) {
-        return service.findMy();
+    String getMy(@RequestParam(name = "my") String my) throws JsonProcessingException {
+        return service.documentsToJson(service.findMy());
     }
 
-    @RequestMapping(value = "/query",params = {"favourite"},method = RequestMethod.GET)
+    @RequestMapping(value = "/query",params = {"favourite"},method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    List<DocumentInfo> getFavourite(@RequestParam(name = "favourite") String favourite) {
-        return service.findFavourite();
+    String getFavourite(@RequestParam(name = "favourite") String favourite) throws JsonProcessingException {
+        return service.documentsToJson(service.findFavourite());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -84,17 +90,17 @@ public class DocumentController {
         return service.getById(id);
     }
 
-    @RequestMapping(value = "/query",params = {"all"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/query",params = {"all"}, method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    List<DocumentInfo> getAllDocuments(@RequestParam(name = "all") String all) {
-        return service.findAll();
+    String getAllDocuments(@RequestParam(name = "all") String all) throws JsonProcessingException {
+        return service.documentsToJson(service.findAll());
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET,produces = "application/json")
     public
     @ResponseBody
-    DocumentInfo getNewDocument() {
+    String getNewDocument() throws JsonProcessingException {
         return service.createNewDocumentInfo();
     }
 

@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -9,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
+import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentActivityRepository;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
@@ -24,6 +28,18 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     @Autowired
     private DocumentActivityRepository documentActivityRepository;
+
+    public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.addMixIn(DocumentInfo.class, DocumentInfoMixIn.class);
+        return objectMapper.writeValueAsString(documents);
+    }
+
+    public String newDocumentToJson(DocumentInfo documentInfo) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.addMixIn(DocumentInfo.class, NewDocumentInfoMixIn.class);
+        return objectMapper.writeValueAsString(documentInfo);
+    }
 
     public void favourite(String id, boolean val){
         final Principal current = PrincipalUtils.getCurrentPrincipal();
@@ -71,13 +87,13 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         return repo.save(documentInfo);
     }
 
-    public DocumentInfo createNewDocumentInfo() {
+    public String createNewDocumentInfo() throws JsonProcessingException {
         DocumentInfo documentInfo = new DocumentInfo();
         documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
-        return documentInfo;
+        return newDocumentToJson(documentInfo);
     }
 
     public Long getNextMasterDocumentNumber() {

@@ -7,7 +7,7 @@
             element.bind("click", function () {
                 var id = attrs.ariaControls;
                 var content = $("#"+id);
-                $compile(content.html())(scope);
+                content.html($compile(content.html())(scope));
             });
         };
     }]);
