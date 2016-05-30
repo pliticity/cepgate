@@ -20,7 +20,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController extends BaseController {
+public class AdminController{
 
     @Autowired
     private DomainService domainService;
