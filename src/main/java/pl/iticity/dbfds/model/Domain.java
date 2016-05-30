@@ -1,9 +1,12 @@
 package pl.iticity.dbfds.model;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
 public class Domain{
@@ -16,6 +19,28 @@ public class Domain{
     private String name;
 
     private boolean active;
+
+    @Transient
+    private List<Principal> principals;
+
+    @Transient
+    private long noOfUsers;
+
+    public List<Principal> getPrincipals() {
+        return principals;
+    }
+
+    public void setPrincipals(List<Principal> principals) {
+        this.principals = principals;
+    }
+
+    public long getNoOfUsers() {
+        return noOfUsers;
+    }
+
+    public void setNoOfUsers(long noOfUsers) {
+        this.noOfUsers = noOfUsers;
+    }
 
     public boolean isActive() {
         return active;

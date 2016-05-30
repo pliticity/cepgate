@@ -23,29 +23,35 @@ public class IticityRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        Principal principal = (Principal) principalCollection.getPrimaryPrincipal();
+        String role = Role.CLIENT.name();
+        if (principal.getRole() != null) {
+            role = principal.getRole().name();
+        }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addRole(role);
         return info;
     }
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         Principal tokenPrincipal = (Principal) authenticationToken.getPrincipal();
-        Principal principal =null;
-            principal = principalRepository.findByEmail(tokenPrincipal.getEmail());
-        if(principal == null){
+        Principal principal = null;
+        principal = principalRepository.findByEmail(tokenPrincipal.getEmail());
+        if (principal == null) {
             unauthenticated();
         }
 
         String tokenPassword = (String) authenticationToken.getCredentials();
         tokenPassword = tokenPassword == null ? StringUtils.EMPTY : tokenPassword;
-        if(!tokenPassword.equals(principal.getPassword())){
+        if (!tokenPassword.equals(principal.getPassword())) {
             unauthenticated();
         }
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, principal.getPassword(), getName());
         return info;
     }
 
-    private void unauthenticated(){
+    private void unauthenticated() {
         throw new AuthenticationException();
     }
 

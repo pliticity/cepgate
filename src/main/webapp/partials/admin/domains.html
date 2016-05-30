@@ -1,0 +1,54 @@
+<!-- HEADER -->
+
+<ng-include src="'/partials/common/header.html'"></ng-include>
+
+<!-- CONTENT -->
+
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+
+        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="domains">
+            <span us-spinner="{radius:30, width:8, length: 16}"></span>
+            <thead>
+            <tr class="info">
+                <th>#</th>
+                <th>Domain Name</th>
+                <th>Active</th>
+                <th># Users</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                </td>
+            </tr>
+            <tr class="animate-row"
+                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
+                <td>{{$index+1}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.active}}</td>
+                <td>{{row.noOfUsers}}</td>
+                <td style="z-index: 100;">
+                    <a href="/admin#/domain/{{row.id}}" class="btn-info btn-xs">Open</a>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td colspan="1" class="text-right">
+                    <label for="itemsPerPage">Items per page</label>
+                    <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
