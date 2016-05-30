@@ -26,7 +26,12 @@
                 <ng-include src="'/partials/document/list/my.html'"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="search">
-                <ng-include src="'/partials/document/list/search.html'"></ng-include>
+                <div class="row">
+                    <div class="col-xs-12" ng-controller="DocumentController">
+                        <div ng-init="qParams = {'all':'true'}; query();"></div>
+                        <ng-include src="'/partials/document/list/table.html'"></ng-include>
+                    </div>
+                </div>
             </div>
             <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocumentController">
                 <div ng-init="new()"></div>
