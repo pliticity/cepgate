@@ -39,6 +39,8 @@
             <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="">
                 <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
             </select>
+            <button ng-if="row.noOfFiles>0" ng-click="download(row.id)" class="btn btn-info btn-xs">Download
+            </button>
         </td>
     </tr>
     </tbody>

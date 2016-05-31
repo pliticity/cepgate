@@ -77,6 +77,11 @@
 
         // FILES
 
+        $scope.download = function(filesId){
+            var files = $('#files-'+filesId+' option:selected');//.map(function(a, item){return item.value;});
+            $http({url:'/files',method:'post',data:files});
+        };
+
         $scope.selectNewFiles = function (files) {
             $scope.files = files;
         };
