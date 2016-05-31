@@ -55,6 +55,7 @@
         };
 
         $scope.create = function () {
+            $scope.form.documentForm.$submitted=true;
             if ($scope.form.documentForm.$valid) {
                 Document.save({id: $scope.documentInfo.id}, $scope.documentInfo, function (response) {
                     var docId = response.id;
@@ -62,11 +63,13 @@
                     var files = $scope.files;
                     $scope.files=[];
                     $scope.uploadFiles(files, docId);
+                    $scope.form.documentForm.$submitted=false;
                 });
             }
         };
 
         $scope.save = function () {
+            $scope.form.documentForm.$submitted=true;
             if ($scope.form.documentForm.$valid) {
                 $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
