@@ -1,9 +1,13 @@
 package pl.iticity.dbfds.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.service.FileService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -16,37 +20,12 @@ import java.util.zip.ZipOutputStream;
 @RequestMapping("/files")
 public class FileController {
 
+    @Autowired
+    private FileService fileService;
+
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void getFiles(@RequestBody String[] files, HttpServletResponse response) throws IOException {
-        response.setContentType("application/zip, application/octet-stream");
-        ZipFile zip = new ZipFile("file.zip");
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ZipOutputStream os = new ZipOutputStream(baos);
-
-
-/*        for (int i=0; i<files.length; i++) {
-            System.out.println("Adding: "+files[i]);
-            FileInputStream fi = new
-                    FileInputStream(files[i]);
-            origin = new
-                    BufferedInputStream(fi, BUFFER);
-            ZipEntry entry = new ZipEntry(files[i]);
-            out.putNextEntry(entry);
-            int count;
-            while((count = origin.read(data, 0,
-                    BUFFER)) != -1) {
-                out.write(data, 0, count);
-            }
-            origin.close();
-        }*/
-
-        int bytesRead;
-        byte[] buffer = new byte[1024];
-        ZipInputStream is = new ZipInputStream(new ByteArrayInputStream(baos.toByteArray()));
-        OutputStream outputStream = response.getOutputStream();
-        while ((bytesRead = is.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, bytesRead);
-        }
+    public @ResponseBody FileInfo getFiles(@RequestBody String[] files, HttpServletResponse response) throws IOException {
+        return fileService.zipFiles(files);
     }
 
 }

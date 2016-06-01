@@ -25,6 +25,8 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @Service
 public class FileService extends AbstractService<FileInfo, FileRepository> {
@@ -98,6 +100,10 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         return null;
     }
 
+    public File getFileForFileInfo(String fileId) {
+        return getFileForFileInfo(repo.findOne(fileId));
+    }
+
     public OutputStream getOutputStreamFromContent(FileInfo fileInfo) {
         createDirectories(fileInfo);
         return openOutputStream(fileInfo);
@@ -131,6 +137,37 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         String dir = MessageFormat.format("{0}{1}", dataDir, fileInfo.getPath());
         File file = new File(dir);
         file.mkdirs();
+    }
+
+    public FileInfo zipFiles(String[] filesIds) throws IOException {
+        FileInfo zip = new FileInfo();
+        zip.setPath("/temp/");
+        zip.setSymbol(computeSymbol(String.valueOf(new DateTime())));
+        createDirectories(zip);
+
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(dataDir + zip.getPath() + zip.getSymbol()));
+        ZipOutputStream os = new ZipOutputStream(fileOutputStream);
+
+        for(String fileId : filesIds){
+            byte[] buffer = new byte[1024];
+            FileInfo fileInfo = repo.findOne(fileId);
+            File file = getFileForFileInfo(fileInfo);
+            FileInputStream fi = new FileInputStream(file);
+
+            ZipEntry entry = new ZipEntry(fileInfo.getName());
+            os.putNextEntry(entry);
+
+            int len;
+            while ((len = fi.read(buffer)) > 0) {
+                os.write(buffer, 0, len);
+            }
+
+            fi.close();
+            os.closeEntry();
+        }
+
+        os.close();
+        return zip;
     }
 
     private String computeContentPath(Domain domain, Principal principal) {

@@ -32,13 +32,13 @@ public class FileServlet implements Servlet {
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
-        this.servletConfig=servletConfig;
+        this.servletConfig = servletConfig;
         defaultConfig = getApplicationContext().getBean(DefaultConfig.class);
         dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
         fileService = getApplicationContext().getBean(FileService.class);
     }
 
-    private ApplicationContext getApplicationContext(){
+    private ApplicationContext getApplicationContext() {
         return WebApplicationContextUtils.getRequiredWebApplicationContext(servletConfig.getServletContext());
     }
 
@@ -50,15 +50,28 @@ public class FileServlet implements Servlet {
     @Override
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
         String symbol = getRequestedSymbol(servletRequest);
-        FileInfo fileInfo = fileService.findBySymbol(symbol);
-        if (fileInfo != null) {
-            String filePath = dataDir + fileInfo.getPath() + fileInfo.getSymbol();
-            FileInputStream fis = new FileInputStream(new File(filePath));
-            servletResponse.setContentType(fileInfo.getType());
-            write(servletResponse,fis);
-        }else{
+        String filePath = null;
+        boolean temp = servletRequest.getParameter("temp") != null;
+        if (temp) {
+            filePath = dataDir + "temp/" + symbol;
+            servletResponse.setContentType("application/zip, application/octet-stream");
+        } else {
+            FileInfo fileInfo = fileService.findBySymbol(symbol);
+            if (fileInfo != null) {
+                filePath = dataDir + fileInfo.getPath() + fileInfo.getSymbol();
+                servletResponse.setContentType(fileInfo.getType());
+            }
+        }
+        if (filePath != null) {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            write(servletResponse, fis);
+            if(temp){
+                file.delete();
+            }
+        } else {
             if (logger.isLoggable(Level.INFO)) {
-                logger.log(Level.INFO,MessageFormat.format("Content for symbol '{0}' does not exist", fileInfo.getSymbol()));
+                logger.log(Level.INFO, MessageFormat.format("Content for symbol '{0}' does not exist", symbol));
             }
         }
     }
@@ -76,13 +89,13 @@ public class FileServlet implements Servlet {
         try {
             return ((ShiroHttpServletRequest) servletRequest).getRequestURI().split("/")[2];
         } catch (IndexOutOfBoundsException e) {
-                logger.throwing(FileServlet.class.getName(), "getRequestedSymbol", e);
+            logger.throwing(FileServlet.class.getName(), "getRequestedSymbol", e);
         }
         return null;
     }
 
-    public static String getSymbolPath(String symbol){
-        return MessageFormat.format(BASE_PATH+"{0}",symbol);
+    public static String getSymbolPath(String symbol) {
+        return MessageFormat.format(BASE_PATH + "{0}", symbol);
     }
 
     @Override
