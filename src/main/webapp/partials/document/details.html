@@ -77,9 +77,11 @@
                     <div class="row">
                         <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
                         <div class="col-xs-6">
-                            <input placeholder="Document Responsible" class="form-control"
-                                   name="responsibleUser"
-                                   id="responsibleUser"/>
+                            <div ng-init="principals()"></div>
+                            <select name="responsibleUser" ng-model="documentInfo.responsibleUser.id"
+                                    class="form-control" id="responsibleUser" required="">
+                                <option ng-repeat="u in users" value="{{u.id}}">{{u.email}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -106,7 +108,8 @@
                     <div class="row">
                         <label for="classificationName" class="col-xs-6 control-label">Classification Name</label>
                         <div class="col-xs-6">
-                            <input placeholder="Classification Name" class="form-control" name="classificationName" id="classificationName"
+                            <input placeholder="Classification Name" class="form-control" name="classificationName"
+                                   id="classificationName"
                                    ng-model="documentInfo.classification.name" required=""/>
                         </div>
                     </div>
@@ -117,7 +120,8 @@
                     <div class="row">
                         <label for="securityGroup" class="col-xs-6 control-label">Security Group</label>
                         <div class="col-xs-6">
-                            <input placeholder="Security Group" class="form-control" name="securityGroup" id="securityGroup"
+                            <input placeholder="Security Group" class="form-control" name="securityGroup"
+                                   id="securityGroup"
                                    ng-model="documentInfo.securityGroup" required=""/>
                         </div>
                     </div>
@@ -128,7 +132,8 @@
                     <div class="row">
                         <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
                         <div class="col-xs-6">
-                            <input placeholder="Document Type ID" class="form-control" name="typeId" id="typeId" required=""/>
+                            <input placeholder="Document Type ID" class="form-control" name="typeId" id="typeId"
+                                   required=""/>
                         </div>
                     </div>
                 </div>

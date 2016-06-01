@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['fileService','documentService', 'Upload', 'Document', '$http', '$scope', '$location', function (fileService,documentService, Upload, Document, $http, $scope, $location) {
+    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', function (fileService, documentService, Upload, Document, $http, $scope, $location) {
 
         // DOCUMENT
 
@@ -15,6 +15,7 @@
         $scope.form = {};
         $scope.itemsPerPage = 10;
         $scope.qParams = {};
+        $scope.users={};
 
         $scope.query = function () {
             $scope.documents = documentService.query($scope.qParams);
@@ -30,13 +31,19 @@
             });
         };
 
-        $scope.favourite = function(){
-            documentService.favourite($scope.documentInfo.id,true);
+        $scope.principals = function () {
+            $http({url: '/principal', method: 'get'}).then(function (succ) {
+                $scope.users=succ.data;
+            });
+        };
+
+        $scope.favourite = function () {
+            documentService.favourite($scope.documentInfo.id, true);
             $scope.documentInfo.favourite = true;
         };
 
-        $scope.unFavourite = function(){
-            documentService.favourite($scope.documentInfo.id,false);
+        $scope.unFavourite = function () {
+            documentService.favourite($scope.documentInfo.id, false);
             $scope.documentInfo.favourite = false;
         };
 
@@ -55,21 +62,21 @@
         };
 
         $scope.create = function () {
-            $scope.form.documentForm.$submitted=true;
+            $scope.form.documentForm.$submitted = true;
             if ($scope.form.documentForm.$valid) {
                 Document.save({id: $scope.documentInfo.id}, $scope.documentInfo, function (response) {
                     var docId = response.id;
                     $scope.new();
                     var files = $scope.files;
-                    $scope.files=[];
+                    $scope.files = [];
                     $scope.uploadFiles(files, docId);
-                    $scope.form.documentForm.$submitted=false;
+                    $scope.form.documentForm.$submitted = false;
                 });
             }
         };
 
         $scope.save = function () {
-            $scope.form.documentForm.$submitted=true;
+            $scope.form.documentForm.$submitted = true;
             if ($scope.form.documentForm.$valid) {
                 $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
@@ -77,7 +84,7 @@
 
         // FILES
 
-        $scope.download = function(filesId){
+        $scope.download = function (filesId) {
             fileService.downloadFiles(filesId);
         };
 
