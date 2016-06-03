@@ -111,7 +111,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public List<DocumentInfo> findRecent() {
         LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
-        return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeOrderByActivities_DateAsc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
+        return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
     }
 
     public List<DocumentInfo> findByPredicate(Predicate predicate) {

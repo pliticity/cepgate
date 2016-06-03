@@ -23,6 +23,6 @@ public interface DocumentInfoRepository extends MongoRepository<DocumentInfo,Str
 
     public List<DocumentInfo> findByFavourites_Principal(Principal principal);
 
-    public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeOrderByActivities_DateAsc(Principal principal, Date date, DocumentActivity.ActivityType type);
+    public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(Principal principal, Date date, DocumentActivity.ActivityType type);
 
 }
