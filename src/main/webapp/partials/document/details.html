@@ -68,6 +68,13 @@
                             <input type="text" class="form-control" ng-model="documentInfo.plannedIssueDate"
                                    name="plannedIssueDate"
                                    id="plannedIssueDate" required=""/>
+                            <script>
+                                $(document).ready(function(){
+                                    $('#plannedIssueDate').datepicker({
+                                        format: 'mm/dd/yyyy'
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
