@@ -25,12 +25,11 @@
             </tr>
             <tr class="animate-row"
                 ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
-                <td>{{$index+1}}</td>
-                <td>{{row.name}}</td>
-                <td>{{row.active}}</td>
-                <td>{{row.noOfUsers}}</td>
+                <td ng-click="openDomain(row.id)">{{$index+1}}</td>
+                <td ng-click="openDomain(row.id)">{{row.name}}</td>
+                <td ng-click="openDomain(row.id)">{{row.active}}</td>
+                <td ng-click="openDomain(row.id)">{{row.noOfUsers}}</td>
                 <td style="z-index: 100;">
-                    <a href="/admin#/domain/{{row.id}}" class="btn-info btn-xs">Open</a>
                 </td>
             </tr>
             </tbody>

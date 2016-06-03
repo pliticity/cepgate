@@ -10,6 +10,10 @@
 
         $scope.domains = Domain.query();
 
+        $scope.openDomain = function(id){
+            $window.open("/admin#/domain/" + id,'_self');
+        };
+
     }]);
 
 })();
