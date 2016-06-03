@@ -24,7 +24,7 @@
 
 
                 element.attr('ng-class', ngClass);
-                element.append(messages);
+                //element.append(messages);
 
                 var fn = $compile(element);
                 return function(scope){
