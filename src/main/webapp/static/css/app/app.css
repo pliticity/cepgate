@@ -9,3 +9,7 @@ div.tab-content {
 .st-selected {
     background-color: #f5f5f5;
 }
+
+.btn-icon span {
+    margin-right: 5px;
+}

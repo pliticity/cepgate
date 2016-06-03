@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 import com.mysema.query.types.Visitor;
 import com.mysema.query.types.expr.BooleanExpression;
@@ -126,9 +127,17 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/{id}/copy", method = RequestMethod.POST)
-    public @ResponseBody JsonResponse postCopyDocument(@PathVariable("id") String id) {
-        service.copyDocument(id);
-        return JsonResponse.success("copied");
+    public @ResponseBody DocumentInfo postCopyDocument(@PathVariable("id") String id) {
+        return service.copyDocument(id);
+    }
+
+    @RequestMapping(value = "/copy", method = RequestMethod.POST)
+    public @ResponseBody List<DocumentInfo> postCopyDocuments(@RequestBody String[] ids) {
+        List<DocumentInfo> documentInfos = Lists.newArrayList();
+        for(String id : ids){
+            documentInfos.add(service.copyDocument(id));
+        }
+        return documentInfos;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)

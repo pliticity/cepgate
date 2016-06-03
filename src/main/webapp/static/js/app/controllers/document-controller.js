@@ -16,6 +16,8 @@
         $scope.itemsPerPage = 10;
         $scope.qParams = {};
         $scope.users = {};
+        $scope.tableId;
+
 
         $scope.canDelete = function (row) {
             return documentService.canDelete(row);
@@ -51,9 +53,28 @@
             $scope.documentInfo.favourite = false;
         };
 
+        $scope.doForSelectedRows = function (func) {
+            var ids = [];
+            $("table#all tr.st-selected").each(function (i, e) {
+                ids.push($(e).attr("docId"));
+            });
+            func(ids);
+        };
+
+        $scope.copyMulti = function () {
+            $scope.doForSelectedRows(function (e) {
+                $http({url:'/document/copy',method:'post',data:e}).then(function(s){
+                    s = s.data;
+                    for(var i=0; i<s.length; i++){
+                        $scope.documents.push(s[i]);
+                    }
+                });
+            });
+        };
+
         $scope.copy = function (docId) {
             documentService.copy(docId, function (res) {
-                $scope.query();
+                $scope.documents.push(res);
             });
         };
 
@@ -88,8 +109,8 @@
 
         // FILES
 
-        $scope.changeFileName = function(file){
-            $http({url:'/files/'+file.id,data:file,method:'post'});
+        $scope.changeFileName = function (file) {
+            $http({url: '/files/' + file.id, data: file, method: 'post'});
         };
 
         $scope.openFile = function (symbol) {

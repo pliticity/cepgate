@@ -1,4 +1,4 @@
-(function () {
+    (function () {
 
     var dhd = angular.module('dhd');
 
