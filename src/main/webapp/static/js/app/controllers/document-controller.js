@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', function (fileService, documentService, Upload, Document, $http, $scope, $location) {
+    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location','$window', function (fileService, documentService, Upload, Document, $http, $scope, $location,$window) {
 
         // DOCUMENT
 
@@ -83,6 +83,10 @@
         };
 
         // FILES
+
+        $scope.openFile = function(symbol){
+            $window.open("/file/"+symbol, '_blank');
+        };
 
         $scope.download = function (filesId) {
             fileService.downloadFiles(filesId);

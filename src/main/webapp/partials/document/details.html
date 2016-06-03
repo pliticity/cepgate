@@ -226,13 +226,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
+                <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files" ng-click="openFile(fileInfo.symbol)">
                     <td>{{$index+1}}</td>
                     <td>{{fileInfo.name}}</td>
                     <td>
                         <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete
                         </div>
-                        <a class="btn btn-primary btn-xs" target="_blank" href="/file/{{fileInfo.symbol}}">Download</a>
                     </td>
                 </tr>
                 <tr ng-if="!documentInfo.id" ng-repeat="file in files">
