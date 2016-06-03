@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location','$window', function (fileService, documentService, Upload, Document, $http, $scope, $location,$window) {
+    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
 
         // DOCUMENT
 
@@ -15,7 +15,11 @@
         $scope.form = {};
         $scope.itemsPerPage = 10;
         $scope.qParams = {};
-        $scope.users={};
+        $scope.users = {};
+
+        $scope.canDelete = function (row) {
+            return documentService.canDelete(row);
+        };
 
         $scope.query = function () {
             $scope.documents = documentService.query($scope.qParams);
@@ -33,7 +37,7 @@
 
         $scope.principals = function () {
             $http({url: '/principal', method: 'get'}).then(function (succ) {
-                $scope.users=succ.data;
+                $scope.users = succ.data;
             });
         };
 
@@ -84,8 +88,8 @@
 
         // FILES
 
-        $scope.openFile = function(symbol){
-            $window.open("/file/"+symbol, '_blank');
+        $scope.openFile = function (symbol) {
+            $window.open("/file/" + symbol, '_blank');
         };
 
         $scope.download = function (filesId) {

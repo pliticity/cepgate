@@ -26,6 +26,19 @@
             $http({method: 'post', url: '/document/' + docId,params:{favourite:val}});
         };
 
+        this.canDelete = function (row) {
+            if (row.noOfFiles < 1) {
+                var tab = $("#tab-" + row.id);
+                if (tab.length < 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        };
+
     }]);
 
 })();

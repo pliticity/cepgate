@@ -31,7 +31,7 @@
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
         <td style="z-index: 100;">
-            <button data-toggle="modal" data-target="#deleteModal-{{row.id}}" class="btn btn-danger btn-xs">Delete
+            <button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}" class="btn btn-danger btn-xs">Delete
             </button>
             <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>
             <button ng-click="copy(row.id)" class="btn btn-info btn-xs">Copy
