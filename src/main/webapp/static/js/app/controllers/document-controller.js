@@ -88,6 +88,10 @@
 
         // FILES
 
+        $scope.changeFileName = function(file){
+            $http({url:'/files/'+file.id,data:file,method:'post'});
+        };
+
         $scope.openFile = function (symbol) {
             $window.open("/file/" + symbol, '_blank');
         };

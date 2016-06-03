@@ -46,6 +46,12 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
     }
 
+    public void changeName(FileInfo fileInfo){
+        FileInfo fromDb = repo.findOne(fileInfo.getId());
+        fromDb.setName(fileInfo.getName());
+        repo.save(fromDb);
+    }
+
     public FileInfo findBySymbol(String symbol) {
         if (logger.isLoggable(Level.INFO)) {
             logger.log(Level.INFO, MessageFormat.format("Finding Content by Symbol {0}", symbol));

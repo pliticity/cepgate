@@ -28,4 +28,10 @@ public class FileController {
         return fileService.zipFiles(files);
     }
 
+    @RequestMapping(value = "/{id}",method = RequestMethod.POST)
+    public @ResponseBody boolean postFileName(@RequestBody FileInfo file){
+        fileService.changeName(file);
+        return true;
+    }
+
 }
