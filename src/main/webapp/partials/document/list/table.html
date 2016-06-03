@@ -2,6 +2,7 @@
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
     <thead>
     <tr class="info">
+        <th></th>
         <th>Classification ID</th>
         <th>Classification Name</th>
         <th>Document Number</th>
@@ -15,11 +16,12 @@
     </thead>
     <tbody>
     <tr>
-        <td colspan="9"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        <td colspan="10"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
         </td>
     </tr>
     <tr class="animate-row"
         ng-repeat="row in displayCollection">
+        <td cs-select="row"></td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.classificationId}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.name}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentNumber}}</td>
@@ -44,14 +46,14 @@
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="8"></td>
+        <td colspan="9"></td>
         <td colspan="1" class="text-right">
             <label for="itemsPerPage">Items per page</label>
             <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
         </td>
     </tr>
     <tr>
-        <td colspan="9" class="text-center">
+        <td colspan="10" class="text-center">
             <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
         </td>
     </tr>
