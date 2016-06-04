@@ -15,15 +15,20 @@
         };
 
         this.delete = function (docId, callback) {
-            Document.delete({id: docId}, callback);
+            $http({
+                url: '/document', method: 'delete', data: docId, headers: {
+                    'Content-Type': 'application/json;charset=UTF-8'
+                }
+            }).then(callback);
+            //Document.delete({url:'/document',method:'delete',data:}, callback);
         };
 
         this.copy = function (docId, callback) {
             $http({method: 'post', url: '/document/' + docId + '/copy'}).then(callback);
         };
 
-        this.favourite = function (docId,val) {
-            $http({method: 'post', url: '/document/' + docId,params:{favourite:val}});
+        this.favourite = function (docId, val) {
+            $http({method: 'post', url: '/document/' + docId, params: {favourite: val}});
         };
 
         this.canDelete = function (row) {

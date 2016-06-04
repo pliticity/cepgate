@@ -16,7 +16,7 @@
         $scope.itemsPerPage = 10;
         $scope.qParams = {};
         $scope.users = {};
-        $scope.tableId;
+        $scope.tableId = 'search';
 
 
         $scope.canDelete = function (row) {
@@ -55,9 +55,10 @@
 
         $scope.doForSelectedRows = function (func) {
             var ids = [];
-            $("table#all tr.st-selected").each(function (i, e) {
+            $("table#"+$scope.tableId+" tr.st-selected").each(function (i, e) {
                 ids.push($(e).attr("docId"));
             });
+            console.log(ids);
             func(ids);
         };
 
@@ -69,6 +70,18 @@
                         $scope.documents.push(s[i]);
                     }
                 });
+            });
+        };
+
+        $scope.deleteMulti = function(){
+            $scope.doForSelectedRows(function(e){
+                $scope.delete(e);
+            });
+        };
+        
+        $scope.downloadMulti = function(){
+            $scope.doForSelectedRows(function(e){
+                $scope.download(e);
             });
         };
 

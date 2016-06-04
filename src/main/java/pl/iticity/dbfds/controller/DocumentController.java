@@ -56,28 +56,28 @@ public class DocumentController {
         return model;
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getAll() throws JsonProcessingException {
         return service.documentsToJson(service.findAll());
     }
 
-    @RequestMapping(value = "/query",params = {"recent"},method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/query", params = {"recent"}, method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getRecent(@RequestParam(name = "recent") String recent) throws JsonProcessingException {
         return service.documentsToJson(service.findRecent());
     }
 
-    @RequestMapping(value = "/query",params = {"my"},method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/query", params = {"my"}, method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getMy(@RequestParam(name = "my") String my) throws JsonProcessingException {
         return service.documentsToJson(service.findMy());
     }
 
-    @RequestMapping(value = "/query",params = {"favourite"},method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/query", params = {"favourite"}, method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getFavourite(@RequestParam(name = "favourite") String favourite) throws JsonProcessingException {
@@ -91,14 +91,14 @@ public class DocumentController {
         return service.getById(id);
     }
 
-    @RequestMapping(value = "/query",params = {"all"}, method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/query", params = {"all"}, method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getAllDocuments(@RequestParam(name = "all") String all) throws JsonProcessingException {
         return service.documentsToJson(service.findAll());
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET,produces = "application/json")
+    @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
     String getNewDocument() throws JsonProcessingException {
@@ -120,21 +120,29 @@ public class DocumentController {
         return fileService.removeContent(id, fileId);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody JsonResponse deleteDocument(@PathVariable("id") String id) {
-        service.removeDocument(id);
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
+    public
+    @ResponseBody
+    JsonResponse deleteDocument(@RequestBody String[] ids) {
+        for (String id : ids) {
+            service.removeDocument(id);
+        }
         return JsonResponse.success("removed");
     }
 
     @RequestMapping(value = "/{id}/copy", method = RequestMethod.POST)
-    public @ResponseBody DocumentInfo postCopyDocument(@PathVariable("id") String id) {
+    public
+    @ResponseBody
+    DocumentInfo postCopyDocument(@PathVariable("id") String id) {
         return service.copyDocument(id);
     }
 
     @RequestMapping(value = "/copy", method = RequestMethod.POST)
-    public @ResponseBody List<DocumentInfo> postCopyDocuments(@RequestBody String[] ids) {
+    public
+    @ResponseBody
+    List<DocumentInfo> postCopyDocuments(@RequestBody String[] ids) {
         List<DocumentInfo> documentInfos = Lists.newArrayList();
-        for(String id : ids){
+        for (String id : ids) {
             documentInfos.add(service.copyDocument(id));
         }
         return documentInfos;
@@ -148,11 +156,11 @@ public class DocumentController {
         return model;
     }
 
-    @RequestMapping(value = "/{id}",params = {"favourite"}, method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", params = {"favourite"}, method = RequestMethod.POST)
     public
     @ResponseBody
     JsonResponse postFavourite(@PathVariable(value = "id") String id, @RequestParam(name = "favourite") boolean fav) {
-        service.favourite(id,fav);
+        service.favourite(id, fav);
         return JsonResponse.success("marked");
     }
 

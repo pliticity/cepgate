@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-xs-6">
-        <button disabled="disabled" ng-click="downloadMulti()" class="btn btn-info btn-icon"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download</button>
+        <button ng-click="downloadMulti()" class="btn btn-info btn-icon"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download</button>
         <button ng-click="copyMulti()" class="btn btn-warning btn-icon"><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>Copy</button>
-        <button disabled="disabled" ng-click="deleteMulti()" class="btn btn-danger btn-icon"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete</button>
+        <button ng-click="deleteMulti()" class="btn btn-danger btn-icon"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete</button>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
         <th>Creation Date</th>
         <th>Created By</th>
         <th># Files</th>
-        <th>Action</th>
+        <th>Selected files</th>
     </tr>
     </thead>
     <tbody>
@@ -41,15 +41,14 @@
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
         <td style="z-index: 100;">
-            <button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
+            <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
                     class="btn btn-danger btn-xs">Delete
             </button>
-            <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>
+            <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>-->
             </button>
             <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="">
                 <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
             </select>
-            <button ng-if="row.noOfFiles>0" ng-click="download(row.id)" class="btn btn-info btn-xs">Download
             </button>
         </td>
     </tr>
