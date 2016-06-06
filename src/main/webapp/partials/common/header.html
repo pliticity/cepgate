@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav ng-controller="HeaderController" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="/">
@@ -11,6 +11,11 @@
                 <li><a href="/">Cuberix</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li ng-if="admin==true">
+                    <a href="/document#/domain/{{domain}}">
+                        <span style="margin-right: 5px;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                        Admin</a>
+                </li>
                 <li><a href="/auth/signout">
                     <span style="margin-right: 5px;" class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     Signout</a>

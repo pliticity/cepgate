@@ -55,7 +55,7 @@
 
         $scope.doForSelectedRows = function (func) {
             var ids = [];
-            $("table#"+$scope.tableId+" tr.st-selected").each(function (i, e) {
+            $("table#" + $scope.tableId + " tr.st-selected").each(function (i, e) {
                 ids.push($(e).attr("docId"));
             });
             console.log(ids);
@@ -64,23 +64,23 @@
 
         $scope.copyMulti = function () {
             $scope.doForSelectedRows(function (e) {
-                $http({url:'/document/copy',method:'post',data:e}).then(function(s){
+                $http({url: '/document/copy', method: 'post', data: e}).then(function (s) {
                     s = s.data;
-                    for(var i=0; i<s.length; i++){
+                    for (var i = 0; i < s.length; i++) {
                         $scope.documents.push(s[i]);
                     }
                 });
             });
         };
 
-        $scope.deleteMulti = function(){
-            $scope.doForSelectedRows(function(e){
+        $scope.deleteMulti = function () {
+            $scope.doForSelectedRows(function (e) {
                 $scope.delete(e);
             });
         };
-        
-        $scope.downloadMulti = function(){
-            $scope.doForSelectedRows(function(e){
+
+        $scope.downloadMulti = function () {
+            $scope.doForSelectedRows(function (e) {
                 $scope.download(e);
             });
         };

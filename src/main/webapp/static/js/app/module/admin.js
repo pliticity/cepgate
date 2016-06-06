@@ -10,7 +10,7 @@
                 controller: 'AdminController'
             }).when('/domain/:id', {
                 templateUrl: 'partials/admin/domain.html',
-                controller: 'DomainController'
+                controller: 'AdminDomainController'
             }).otherwise({
                 redirectTo: '/'
             });

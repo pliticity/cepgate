@@ -1,10 +1,10 @@
 (function () {
 
-    var admin = angular.module('admin');
+    var admin = angular.module('dhd');
 
     admin.controller('DomainController', ['$http', '$scope', '$window','$resource','$route', function ($http, $scope, $window,$resource,$route) {
 
-        var Domain = $resource('/admin/domain/:id', {}, {'query': {'url': '/admin/domain', 'isArray': true}});
+        var Domain = $resource('/domain/:id', {}, {'query': {'url': '/domain', 'isArray': true}});
 
         $scope.form = {};
         $scope.domain = Domain.get({id:$route.current.params.id});
