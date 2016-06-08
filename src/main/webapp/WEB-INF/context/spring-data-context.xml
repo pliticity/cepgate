@@ -37,7 +37,7 @@
 
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg ref="mongo"/>
-        <constructor-arg name="databaseName" value="dhd"/>
+        <constructor-arg name="databaseName" value="${db.name}"/>
         <property name="writeConcern">
             <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
         </property>

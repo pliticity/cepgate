@@ -152,6 +152,7 @@
             <properties>
                 <mongodb.url>mongodb://admin:z6w3m9VkGH6w@${env.OPENSHIFT_MONGODB_DB_HOST}:${env.OPENSHIFT_MONGODB_DB_PORT}/cuberix</mongodb.url>
                 <config.path>${env.OPENSHIFT_DATA_DIR}config.properties</config.path>
+                <db.name>cuberix</db.name>
             </properties>
             <build>
                 <finalName>c-webapp</finalName>
@@ -311,6 +312,7 @@
             <properties>
                 <mongodb.url>mongodb://cuberix:cuberix@localhost:27017/cuberix</mongodb.url>
                 <config.path>/home/pmajchrz/other/dbfds/data/config.properties</config.path>
+                <db.name>cuberix</db.name>
             </properties>
 
             <build>
