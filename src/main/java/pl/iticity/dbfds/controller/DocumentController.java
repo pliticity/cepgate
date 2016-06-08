@@ -107,13 +107,13 @@ public class DocumentController {
     @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
-    DocumentInfo getNewDocument() throws JsonProcessingException {
+    String getNewDocument() throws JsonProcessingException {
         LocalDateTime start = LocalDateTime.now();
         DocumentInfo s = service.createNewDocumentInfo();
         LocalDateTime end = LocalDateTime.now();
         Duration duration = new Duration(start.toDate().getTime(),end.toDate().getTime());
         logger.info(MessageFormat.format("Request took {0} ms",duration.getMillis()));
-        return s;
+        return service.newDocumentToJson(s);
     }
 
     @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)

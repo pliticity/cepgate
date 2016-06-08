@@ -25,6 +25,9 @@ import java.util.List;
 @Service
 public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoRepository> {
 
+    @Autowired
+    private DomainService domainService;
+
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(DocumentInfo.class, DocumentInfoMixIn.class);
@@ -85,8 +88,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
         DocumentInfo documentInfo = new DocumentInfo();
-        DocumentInfo last = repo.findTop1ByDomainOrderByMasterDocumentNumberDesc(PrincipalUtils.getCurrentDomain());
-        documentInfo.setMasterDocumentNumber(last.getMasterDocumentNumber()+1l);
+        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
@@ -95,12 +97,11 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public Long getNextMasterDocumentNumber() {
-        List<DocumentInfo> docs = repo.findByDomain(PrincipalUtils.getCurrentDomain());
-        if (docs == null || docs.isEmpty()) {
-            return 1l;
-        } else {
-            return new Long(docs.size() + 1);
-        }
+        Domain d = domainService.findById(PrincipalUtils.getCurrentDomain().getId());
+        long id = d.getLastMasterDocumentNumber() +1;
+        d.setLastMasterDocumentNumber(id);
+        domainService.save(d);
+        return id;
     }
 
     public List<DocumentInfo> findByCreatedBy(Principal principal) {

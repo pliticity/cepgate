@@ -20,11 +20,21 @@ public class Domain{
 
     private boolean active;
 
+    private long lastMasterDocumentNumber;
+
     @Transient
     private List<Principal> principals;
 
     @Transient
     private long noOfUsers;
+
+    public long getLastMasterDocumentNumber() {
+        return lastMasterDocumentNumber;
+    }
+
+    public void setLastMasterDocumentNumber(long lastMasterDocumentNumber) {
+        this.lastMasterDocumentNumber = lastMasterDocumentNumber;
+    }
 
     public List<Principal> getPrincipals() {
         return principals;
