@@ -1,0 +1,34 @@
+<div ng-controller="DocumentController">
+
+    <!-- TABS - NAV -->
+
+    <ul id="myDocumentTabs" class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a refresh-tab href="#all" aria-controls="all" role="tab"
+                                                  data-toggle="tab">All</a></li>
+        <li role="presentation" class=""><a refresh-tab href="#recent" aria-controls="recent" role="tab"
+                                            data-toggle="tab">Recent</a>
+        </li>
+        <li role="presentation" class=""><a refresh-tab href="#favourite" aria-controls="favourite" role="tab"
+                                            data-toggle="tab">Favourite</a></li>
+    </ul>
+
+    <!-- TABS - CONTENT -->
+
+    <div class="tab-content" id="myDocumentTabsContent">
+        <div role="tabpanel" class="tab-pane active" id="all" ng-controller="DocumentController">
+            <div ng-init="qParams = {'my':'true'};"></div>
+            <div ng-init="tableId = 'all';"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="recent" ng-controller="DocumentController">
+            <div ng-init="qParams = {'recent':'true'};"></div>
+            <div ng-init="tableId = 'recent';"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="favourite" ng-controller="DocumentController">
+            <div ng-init="qParams = {'favourite':'true'};"></div>
+            <div ng-init="tableId = 'favourite';"></div>
+            <ng-include src="'/partials/document/list/table.html'"></ng-include>
+        </div>
+    </div>
+</div>

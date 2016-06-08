@@ -1,0 +1,261 @@
+<div style="padding-top: 10px;">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
+
+        <div class="row">
+
+            <div class="col-xs-6">
+
+                <div class="form-group" form-error="" form="form.documentForm" field="classificationId"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Classification Id" class="form-control" id="classificationId"
+                                   name="classificationId"
+                                   ng-model="documentInfo.classification.classificationId" required=""
+                                   ng-model-options="{ updateOn: 'blur' }"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="internalExternal"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="internalExternal" class="col-xs-6 control-label">Internal/External</label>
+                        <div class="col-xs-6">
+                            <select name="internalExternal" class="form-control" ng-model="documentInfo.kind"
+                                    id="internalExternal" required="">
+                                <option value="INTERNAL">Internal</option>
+                                <option value="EXTERNAL">External</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="type"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="type" class="col-xs-6 control-label">Document Type</label>
+                        <div class="col-xs-6">
+                            <select name="type" ng-model="documentInfo.type" class="form-control" id="type" required="">
+                                <option value="DRAWING">Drawing</option>
+                                <option value="DOCUMENT">Document</option>
+                                <option value="MOM">MOM</option>
+                                <option value="PICTURE">Picture</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="documentNumber"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="documentNumber" class="col-xs-6 control-label">Document Number</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" name="documentNumber" id="documentNumber"
+                                   ng-model="documentInfo.documentNumber" required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="plannedIssueDate"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" ng-model="documentInfo.plannedIssueDate"
+                                   name="plannedIssueDate"
+                                   id="plannedIssueDate" required=""/>
+                            <script>
+
+                                $(document).ready(function(){
+                                    $('#plannedIssueDate').datepicker({
+                                        format: 'mm/dd/yyyy'
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="responsibleUser"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
+                        <div class="col-xs-6">
+                            <div ng-init="principals()"></div>
+                            <select name="responsibleUser" ng-model="documentInfo.responsibleUser.id"
+                                    class="form-control" id="responsibleUser" required="">
+                                <option ng-repeat="u in users" value="{{u.id}}">{{u.email}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="documentName"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="documentName" class="col-xs-6 control-label">Document Name</label>
+                        <div class="col-xs-6">
+                        <textarea class="form-control" ng-maxlength="300" ng-model="documentInfo.documentName"
+                                  name="documentName"
+                                  id="documentName" rows="3" cols="20" required=""/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-6">
+
+                <div class="form-group" form-error="" form="form.documentForm" field="classificationName"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="classificationName" class="col-xs-6 control-label">Classification Name</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Classification Name" class="form-control" name="classificationName"
+                                   id="classificationName"
+                                   ng-model="documentInfo.classification.name" required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="securityGroup"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="securityGroup" class="col-xs-6 control-label">Security Group</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Security Group" class="form-control" name="securityGroup"
+                                   id="securityGroup"
+                                   ng-model="documentInfo.securityGroup" required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="typeId"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Document Type ID" class="form-control" name="typeId" id="typeId"
+                                   required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="masterDocumentNumber"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="masterDocumentNumber" class="col-xs-6 control-label">Master Document Number</label>
+                        <div class="col-xs-6">
+                            <input class="form-control disabled" ng-readonly="true" id="masterDocumentNumber"
+                                   ng-model="documentInfo.masterDocumentNumber" required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="creationDate"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
+                        <div class="col-xs-6">
+                            <input type="text" ng-readonly="true" class="form-control disabled" ng-model="documentInfo.creationDate"
+                                   name="creationDate"
+                                   id="creationDate"
+                                   required=""/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" form-error="" form="form.documentForm" field="createdBy"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="createdBy" class="col-xs-6 control-label">Created by</label>
+                        <div class="col-xs-6">
+                            <input class="form-control disabled" ng-readonly="true" name="createdBy" id="createdBy"
+                                   ng-model="documentInfo.createdBy.email"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group">
+                     <label for="documentTags" class="col-xs-6 control-label">Tags</label>
+                     <div class="col-xs-6">
+                         <tags-input ng-model="documentInfo.classification.tags" name="tags" class="tags"
+                                     id="documentTags"/>
+                     </div>
+                 </div>-->
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-xs-1 col-xs-offset-11">
+                <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
+                <input ng-if="documentInfo.id && !documentInfo.favourite" class="btn btn-warning" type="button"
+                       ng-click="favourite()" value="Mark as favourite"/>
+                <input ng-if="documentInfo.id && documentInfo.favourite" class="btn btn-default" type="button"
+                       ng-click="unFavourite()" value="UnMark as favourite"/>
+
+                <input ng-if="!documentInfo.id" class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="row" style="margin-top: 10px;">
+
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover">
+                <thead>
+                <tr>
+                    <th colspan="2"></th>
+                    <th class="text-right">
+                        <form>
+                            <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
+                                 ngf-select="uploadFiles(files,documentInfo.id)"
+                                 ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
+                            </div>
+                            <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id" class="btn btn-info btn-xs"
+                                 ngf-keep="true"
+                                 ng-model="files" ngf-multiple="true">Add files
+                            </div>
+                        </form>
+                    </th>
+                </tr>
+                <tr class="info">
+                    <th>#</th>
+                    <th>File Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
+                    <td ng-click="openFile(fileInfo.symbol)">{{$index+1}}</td>
+                    <td ng-click="openFile(fileInfo.symbol)">{{fileInfo.name}}</td>
+                    <td>
+                        <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete
+                        </div>
+                        <div data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}" class="btn btn-info btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Change name
+                        </div>
+                        <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
+                    </td>
+                </tr>
+                <tr ng-if="!documentInfo.id" ng-repeat="file in files">
+                    <td>{{$index+1}}</td>
+                    <td>{{file.name}}</td>
+                    <td>
+                        <div class="btn btn-danger btn-xs" ng-click="deleteNewFile($index)">Delete</div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>

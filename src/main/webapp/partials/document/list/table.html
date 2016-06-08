@@ -1,0 +1,68 @@
+<div style="margin-top: -40px;float: right;">
+        <button ng-click="downloadMulti()" class="btn btn-info btn-icon"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download</button>
+        <button ng-click="copyMulti()" class="btn btn-warning btn-icon"><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>Copy</button>
+        <button ng-click="deleteMulti()" class="btn btn-danger btn-icon"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete</button>
+</div>
+
+
+<table id={{tableId}} style="margin-top: 10px;" class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="documents">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    <thead>
+    <tr class="info">
+        <th></th>
+        <th>Classification ID</th>
+        <th>Classification Name</th>
+        <th>Document Number</th>
+        <th>Document Type</th>
+        <th st-sort="documentName">Document Name</th>
+        <th>Creation Date</th>
+        <th>Created By</th>
+        <th># Files</th>
+        <th>Selected files</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="10"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        </td>
+    </tr>
+    <tr docId="{{row.id}}" class="animate-row"
+        ng-repeat="row in displayCollection">
+        <td cs-select="row"></td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.classificationId}}
+        </td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.name}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentNumber}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.type}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentName}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.creationDate}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
+        <td style="z-index: 100;">
+            <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
+                    class="btn btn-danger btn-xs">Delete
+            </button>
+            <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>-->
+            </button>
+            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="">
+                <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
+            </select>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="9"></td>
+        <td colspan="1" class="text-right">
+            <label for="itemsPerPage">Items per page</label>
+            <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" class="text-center">
+            <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
+        </td>
+    </tr>
+    </tfoot>
+</table>
