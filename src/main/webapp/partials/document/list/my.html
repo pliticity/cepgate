@@ -16,17 +16,17 @@
 
     <div class="tab-content" id="myDocumentTabsContent">
         <div role="tabpanel" class="tab-pane active" id="all" ng-controller="DocumentController">
-            <div ng-init="qParams = {'my':'true'};"></div>
+            <div ng-init="qParams = {'my':'true'};query();"></div>
             <div ng-init="tableId = 'all';"></div>
             <ng-include src="'/partials/document/list/table.html'"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="recent" ng-controller="DocumentController">
-            <div ng-init="qParams = {'recent':'true'};"></div>
+            <div ng-init="qParams = {'recent':'true'};query();"></div>
             <div ng-init="tableId = 'recent';"></div>
             <ng-include src="'/partials/document/list/table.html'"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="favourite" ng-controller="DocumentController">
-            <div ng-init="qParams = {'favourite':'true'};"></div>
+            <div ng-init="qParams = {'favourite':'true'};query();"></div>
             <div ng-init="tableId = 'favourite';"></div>
             <ng-include src="'/partials/document/list/table.html'"></ng-include>
         </div>
