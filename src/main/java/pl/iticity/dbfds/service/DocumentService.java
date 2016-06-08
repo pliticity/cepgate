@@ -83,13 +83,15 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         return repo.save(documentInfo);
     }
 
-    public String createNewDocumentInfo() throws JsonProcessingException {
+    public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
         DocumentInfo documentInfo = new DocumentInfo();
-        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
+        DocumentInfo last = repo.findTop1ByDomainOrderByMasterDocumentNumberDesc(PrincipalUtils.getCurrentDomain());
+        documentInfo.setMasterDocumentNumber(last.getMasterDocumentNumber()+1l);
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
-        return newDocumentToJson(documentInfo);
+        return documentInfo;
+        //return newDocumentToJson(documentInfo);
     }
 
     public Long getNextMasterDocumentNumber() {

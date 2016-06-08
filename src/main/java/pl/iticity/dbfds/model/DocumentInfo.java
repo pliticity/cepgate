@@ -30,7 +30,7 @@ import java.util.List;
                 @CompoundIndex(def = "{'documentNumber':1,'domain':1}", unique = true)
         }
 )
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DocumentInfo {
 
     public enum Kind {

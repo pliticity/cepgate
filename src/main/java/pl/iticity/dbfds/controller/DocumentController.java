@@ -10,6 +10,9 @@ import com.mysema.query.types.Predicate;
 import com.mysema.query.types.Visitor;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.StringPath;
+import org.apache.log4j.Logger;
+import org.joda.time.Duration;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mapping.PropertyPath;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -31,11 +34,14 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import javax.annotation.Nullable;
 import javax.ws.rs.PathParam;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 @Controller
 @RequestMapping("/document")
 public class DocumentController {
+
+    private static final Logger logger = Logger.getLogger(DocumentController.class);
 
     @Autowired
     private DocumentService service;
@@ -101,8 +107,13 @@ public class DocumentController {
     @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "application/json")
     public
     @ResponseBody
-    String getNewDocument() throws JsonProcessingException {
-        return service.createNewDocumentInfo();
+    DocumentInfo getNewDocument() throws JsonProcessingException {
+        LocalDateTime start = LocalDateTime.now();
+        DocumentInfo s = service.createNewDocumentInfo();
+        LocalDateTime end = LocalDateTime.now();
+        Duration duration = new Duration(start.toDate().getTime(),end.toDate().getTime());
+        logger.info(MessageFormat.format("Request took {0} ms",duration.getMillis()));
+        return s;
     }
 
     @RequestMapping(value = "/{id}/upload", method = RequestMethod.POST)
