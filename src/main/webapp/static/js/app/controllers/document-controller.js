@@ -118,6 +118,7 @@
             if ($scope.form.documentForm.$valid) {
                 $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
+            $("span[id='tab-name-"+$scope.documentInfo.id+"']").html($scope.documentInfo.documentName);
         };
 
         // FILES
