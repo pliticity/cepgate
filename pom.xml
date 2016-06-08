@@ -150,7 +150,7 @@
         <profile>
             <id>openshift</id>
             <properties>
-                <mongodb.url>mongodb://admin:mfRCndsFBJ7y@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/cuberix</mongodb.url>
+                <mongodb.url>mongodb://admin:z6w3m9VkGH6w@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/cuberix</mongodb.url>
                 <config.path>${env.OPENSHIFT_DATA_DIR}config.properties</config.path>
             </properties>
             <build>
