@@ -19,6 +19,10 @@
             });
         };
 
+        this.anySelected = function(fileId){
+            return $("#files-" + fileId + " option:selected").length>0;
+        }
+
     }]);
 
 })();

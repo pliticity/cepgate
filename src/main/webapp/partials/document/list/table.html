@@ -1,11 +1,23 @@
-<div style="margin-top: -40px;float: right;">
-        <button ng-click="downloadMulti()" class="btn btn-info btn-icon"><span class="glyphicon glyphicon-save" aria-hidden="true"></span>Download</button>
-        <button ng-click="copyMulti()" class="btn btn-warning btn-icon"><span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>Copy</button>
-        <button ng-click="deleteMulti()" class="btn btn-danger btn-icon"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>Delete</button>
+<div class="row">
+    <div class="text-right col-xs-6 col-xs-offset-6">
+        <button ng-click="downloadMulti()" ng-disabled="canDownload()==false" class="btn btn-info btn-icon"><span
+                class="glyphicon glyphicon-save"
+                aria-hidden="true"></span>Download
+        </button>
+        <button ng-click="copyMulti()" ng-disabled="canCopy()==false" class="btn btn-warning btn-icon"><span
+                class="glyphicon glyphicon-duplicate"
+                aria-hidden="true"></span>Copy
+        </button>
+        <button ng-click="deleteMulti()" ng-disabled="canDelete()==false" class="btn btn-danger btn-icon"><span
+                class="glyphicon glyphicon-trash"
+                aria-hidden="true"></span>Delete
+        </button>
+    </div>
 </div>
 
 
-<table id={{tableId}} style="margin-top: 10px;" class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="documents">
+<table id={{tableId}} style="margin-top: 10px;" class="table table-condensed table-hover" st-table="displayCollection"
+       st-safe-src="documents">
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
     <thead>
     <tr class="info">
@@ -37,8 +49,8 @@
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentName}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.creationDate}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
-        <td style="z-index: 100;">
+        <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
+        <td data="files" style="z-index: 100;">
             <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
                     class="btn btn-danger btn-xs">Delete
             </button>

@@ -19,8 +19,29 @@
         $scope.tableId = 'search';
 
 
-        $scope.canDelete = function (row) {
-            return documentService.canDelete(row);
+        $scope.canDownload = function () {
+            var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;0
+            return flag;
+        };
+        $scope.canCopy = function () {
+            return $scope.anySelected();
+        };
+        $scope.canDelete = function () {
+            if ($scope.anySelected()) {
+                var allAreEmpty = true;
+                $("table#" + $scope.tableId + " tr.st-selected td[data='noOfFiles']").each(function (i, e) {
+                    if (Number($(e).html()) > 0) {
+                        allAreEmpty = false;
+                    }
+                });
+                return allAreEmpty;
+            } else {
+                return false;
+            }
+        };
+
+        $scope.anySelected = function () {
+            return $("table#" + $scope.tableId + " tr.st-selected").length > 0;
         };
 
         $scope.query = function () {
@@ -118,7 +139,7 @@
             if ($scope.form.documentForm.$valid) {
                 $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
-            $("span[id='tab-name-"+$scope.documentInfo.id+"']").html($scope.documentInfo.documentName);
+            $("span[id='tab-name-" + $scope.documentInfo.id + "']").html($scope.documentInfo.documentName);
         };
 
         // FILES
