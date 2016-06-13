@@ -73,11 +73,16 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public DocumentInfo copyDocument(String docId) {
         DocumentInfo documentInfo = repo.findOne(docId);
-        documentInfo = documentInfo.clone();
-        documentInfo.getLinks().add(new Link(docId,documentInfo.getDocumentName(),LinkType.COPY));
-        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
-        documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
-        return repo.save(documentInfo);
+        DocumentInfo copy = documentInfo.clone();
+        copy.getLinks().add(new Link(docId,documentInfo.getDocumentName(),LinkType.COPY_FROM));
+        copy.setMasterDocumentNumber(getNextMasterDocumentNumber());
+        copy.setDocumentNumber(String.valueOf(copy.getMasterDocumentNumber()));
+        repo.save(copy);
+
+        documentInfo.getLinks().add(new Link(copy.getId(),copy.getDocumentName(),LinkType.COPY_TO));
+        repo.save(documentInfo);
+
+        return copy;
     }
 
     public void removeDocument(String docId) {
