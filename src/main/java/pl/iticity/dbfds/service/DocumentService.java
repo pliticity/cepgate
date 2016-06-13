@@ -6,11 +6,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
@@ -19,11 +21,14 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoRepository> {
+
+    private static final Logger logger = Logger.getLogger(DocumentService.class);
 
     @Autowired
     private DomainService domainService;
@@ -167,5 +172,12 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public List<DocumentInfo> findFavourite() {
         return repo.findByFavourites_Principal(PrincipalUtils.getCurrentPrincipal());
+    }
+
+    public String autoCompleteDocument(String documentName) throws JsonProcessingException {
+        List<DocumentInfo> documents = repo.findByDomainAndDocumentNameLike(PrincipalUtils.getCurrentDomain(), documentName);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.addMixIn(DocumentInfo.class, AutoCompleteDocumentInfoMixIn.class);
+        return objectMapper.writeValueAsString(documents);
     }
 }

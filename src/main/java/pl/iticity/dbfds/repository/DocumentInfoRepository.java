@@ -27,4 +27,6 @@ public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, St
 
     public DocumentInfo findTop1ByDomainOrderByMasterDocumentNumberDesc(Domain domain);
 
+    public List<DocumentInfo> findByDomainAndDocumentNameLike(Domain domain, String docName);
+
 }

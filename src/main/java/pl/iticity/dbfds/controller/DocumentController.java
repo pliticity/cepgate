@@ -175,6 +175,11 @@ public class DocumentController {
         return JsonResponse.success("marked");
     }
 
+    @RequestMapping(value = "/autocomplete/{docName}", method = RequestMethod.GET)
+    public @ResponseBody String getAutoCompleteDocument(@PathVariable(value = "docName") String docName) throws JsonProcessingException {
+        return service.autoCompleteDocument(docName);
+    }
+
     public FileService getFileService() {
         return fileService;
     }
