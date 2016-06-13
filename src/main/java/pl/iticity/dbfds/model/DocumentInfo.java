@@ -41,6 +41,10 @@ public class DocumentInfo {
         DRAWING, DOCUMENT, MOM, PICTURE
     }
 
+    public enum Provider {
+        COMPANY,SUPPLIER,CUSTOMER
+    }
+
     @Id
     @GeneratedValue
     private String id;
@@ -94,6 +98,8 @@ public class DocumentInfo {
 
     private boolean favourite;
 
+    private Provider provider;
+
     private List<DocumentActivity> activities;
 
     @JsonIgnore
@@ -104,6 +110,14 @@ public class DocumentInfo {
             activities = Lists.newArrayList();
         }
         return activities;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     public void setActivities(List<DocumentActivity> activities) {

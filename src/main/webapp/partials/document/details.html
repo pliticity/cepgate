@@ -70,7 +70,7 @@
                                    id="plannedIssueDate" required=""/>
                             <script>
 
-                                $(document).ready(function(){
+                                $(document).ready(function () {
                                     $('#plannedIssueDate').datepicker({
                                         format: 'mm/dd/yyyy'
                                     });
@@ -162,7 +162,8 @@
                     <div class="row">
                         <label for="creationDate" class="col-xs-6 control-label">Document Creation Date</label>
                         <div class="col-xs-6">
-                            <input type="text" ng-readonly="true" class="form-control disabled" ng-model="documentInfo.creationDate"
+                            <input type="text" ng-readonly="true" class="form-control disabled"
+                                   ng-model="documentInfo.creationDate"
                                    name="creationDate"
                                    id="creationDate"
                                    required=""/>
@@ -191,6 +192,37 @@
 
             </div>
 
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group" form-error="" form="form.documentForm" field="provider"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label class="col-xs-6 control-label">Provider</label>
+                        <div class="col-xs-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="provider" id="provider_company"
+                                           ng-model="documentInfo.provider" value="COMPANY"/> Company
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="provider" id="provider_supplier"
+                                           ng-model="documentInfo.provider" value="SUPPLIER"/> Supplier
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="provider" id="provider_customer"
+                                           ng-model="documentInfo.provider" value="CUSTOMER"/> Customer
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -240,7 +272,8 @@
                     <td>
                         <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete
                         </div>
-                        <div data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}" class="btn btn-info btn-xs">Change name
+                        <div data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
+                             class="btn btn-info btn-xs">Change name
                         </div>
                         <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
                     </td>
