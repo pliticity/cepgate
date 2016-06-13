@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.Link;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
@@ -178,6 +179,11 @@ public class DocumentController {
     @RequestMapping(value = "/autocomplete/{docName}", method = RequestMethod.GET)
     public @ResponseBody String getAutoCompleteDocument(@PathVariable(value = "docName") String docName) throws JsonProcessingException {
         return service.autoCompleteDocument(docName);
+    }
+
+    @RequestMapping(value = "/link/{docId}", method = RequestMethod.POST)
+    public @ResponseBody List<Link> postLinkDocuments(@PathVariable(value = "docId") String docId,@RequestBody DocumentInfo linkTo){
+        return service.linkDocuments(docId,linkTo);
     }
 
     public FileService getFileService() {
