@@ -238,56 +238,30 @@
 
     </form>
 
-    <div class="row" style="margin-top: 10px;">
+    <ul id="details-{{documentInfo.id}}-tabs" class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
+                                                  aria-controls="in-progress-{{documentInfo.id}}" role="tab"
+                                                  data-toggle="tab">In Progress Revision</a></li>
+        <!--<li role="presentation" class=""><a href="#history-{{documentInfo.id}}"
+                                            aria-controls="history-{{documentInfo.id}}" role="tab"
+                                            data-toggle="tab">Revision History</a>
+        </li>
+        <li role="presentation" class=""><a href="#comments-{{documentInfo.id}}"
+                                            aria-controls="comments-{{documentInfo.id}}" role="tab"
+                                            data-toggle="tab">Comments</a></li>-->
+        <li role="presentation" class=""><a href="#links-{{documentInfo.id}}"
+                                            aria-controls="links-{{documentInfo.id}}" role="tab"
+                                            data-toggle="tab">Links</a></li>
+    </ul>
 
-        <div class="table-responsive">
-            <table class="table table-condensed table-hover">
-                <thead>
-                <tr>
-                    <th colspan="2"></th>
-                    <th class="text-right">
-                        <form>
-                            <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
-                                 ngf-select="uploadFiles(files,documentInfo.id)"
-                                 ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
-                            </div>
-                            <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id" class="btn btn-info btn-xs"
-                                 ngf-keep="true"
-                                 ng-model="files" ngf-multiple="true">Add files
-                            </div>
-                        </form>
-                    </th>
-                </tr>
-                <tr class="info">
-                    <th>#</th>
-                    <th>File Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
-                    <td ng-click="openFile(fileInfo.symbol)">{{$index+1}}</td>
-                    <td ng-click="openFile(fileInfo.symbol)">{{fileInfo.name}}</td>
-                    <td>
-                        <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">Delete
-                        </div>
-                        <div data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
-                             class="btn btn-info btn-xs">Change name
-                        </div>
-                        <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
-                    </td>
-                </tr>
-                <tr ng-if="!documentInfo.id" ng-repeat="file in files">
-                    <td>{{$index+1}}</td>
-                    <td>{{file.name}}</td>
-                    <td>
-                        <div class="btn btn-danger btn-xs" ng-click="deleteNewFile($index)">Delete</div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="tab-content" id="details-{{documentInfo.id}}-tabs-content">
+
+        <div role="tabpanel" class="tab-pane active" id="in-progress-{{documentInfo.id}}">
+            <ng-include src="'/partials/document/files.html'"></ng-include>
         </div>
-
+        <div role="tabpanel" class="tab-pane" id="links-{{documentInfo.id}}">
+            <ng-include src="'/partials/document/links.html'"></ng-include>
+        </div>
     </div>
 
 </div>

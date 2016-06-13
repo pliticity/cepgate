@@ -1,0 +1,53 @@
+<div class="row" style="margin-top: 10px;">
+
+    <div class="table-responsive">
+        <table class="table table-condensed table-hover">
+            <thead>
+            <tr>
+                <th colspan="2"></th>
+                <th class="text-right">
+                    <form>
+                        <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
+                             ngf-select="uploadFiles(files,documentInfo.id)"
+                             ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
+                        </div>
+                        <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id"
+                             class="btn btn-info btn-xs"
+                             ngf-keep="true"
+                             ng-model="files" ngf-multiple="true">Add files
+                        </div>
+                    </form>
+                </th>
+            </tr>
+            <tr class="info">
+                <th>#</th>
+                <th>File Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="documentInfo.id" ng-repeat="fileInfo in documentInfo.files">
+                <td ng-click="openFile(fileInfo.symbol)">{{$index+1}}</td>
+                <td ng-click="openFile(fileInfo.symbol)">{{fileInfo.name}}</td>
+                <td>
+                    <div class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">
+                        Delete
+                    </div>
+                    <div data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
+                         class="btn btn-info btn-xs">Change name
+                    </div>
+                    <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
+                </td>
+            </tr>
+            <tr ng-if="!documentInfo.id" ng-repeat="file in files">
+                <td>{{$index+1}}</td>
+                <td>{{file.name}}</td>
+                <td>
+                    <div class="btn btn-danger btn-xs" ng-click="deleteNewFile($index)">Delete</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

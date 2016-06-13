@@ -7,11 +7,8 @@ import pl.iticity.dbfds.security.Principal;
 
 import java.util.List;
 
-@JsonIgnoreProperties(value = {"plannedIssueDate", "kind", "responsibleUser", "masterDocumentNumber", "domain", "securityGroup", "removed", "favourite"})
+@JsonIgnoreProperties(value = {"plannedIssueDate", "kind", "responsibleUser", "masterDocumentNumber", "domain", "securityGroup", "removed", "favourite","provider"})
 public abstract class DocumentInfoMixIn {
-
-    @JsonIgnoreProperties(value = {"tags"})
-    abstract Classification getClassification();
 
     @JsonIgnoreProperties(value = {"id", "password", "lastName", "firstName", "country", "phone", "company", "role", "domain"})
     abstract Principal getCreatedBy();
