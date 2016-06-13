@@ -21,8 +21,6 @@ public class Classification {
     @NotNull
     private String name;
 
-    private List<Tag> tags;
-
     public String getName() {
         return name;
     }
@@ -39,19 +37,10 @@ public class Classification {
         this.classificationId = classificationId;
     }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
     public Classification clone(){
         Classification classification = new Classification();
         classification.setName(getName());
         classification.setClassificationId(getClassificationId());
-        classification.setTags(getTags());
         return classification;
     }
 }

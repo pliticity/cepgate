@@ -100,6 +100,8 @@ public class DocumentInfo {
 
     private Provider provider;
 
+    private List<Tag> tags;
+
     private List<DocumentActivity> activities;
 
     @JsonIgnore
@@ -110,6 +112,14 @@ public class DocumentInfo {
             activities = Lists.newArrayList();
         }
         return activities;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public Provider getProvider() {
