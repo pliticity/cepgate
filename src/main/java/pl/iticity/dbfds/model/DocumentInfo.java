@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -279,7 +280,7 @@ public class DocumentInfo {
 
     public DocumentInfo clone(){
         DocumentInfo documentInfo = new DocumentInfo();
-        documentInfo.setCreatedBy(getCreatedBy());
+        documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setKind(getKind());
         documentInfo.setRemoved(false);
         documentInfo.setCreationDate(new Date());
