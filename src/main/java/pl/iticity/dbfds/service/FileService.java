@@ -73,6 +73,11 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         return repo.save(fileInfo);
     }
 
+    public String createFileDownloadName(DocumentInfo documentInfo,String fname){
+        String name = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getType().name(),documentInfo.getDocumentName(),fname);
+        return name;
+    }
+
     public void updateContent(FileInfo fileInfo) {
         repo.save(fileInfo);
     }
@@ -153,7 +158,7 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         zip.setSymbol(computeSymbol(String.valueOf(new DateTime())));
         createDirectories(zip);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(new File(dataDir + zip.getPath() + zip.getSymbol()+".zip"));
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(dataDir + zip.getPath() + zip.getSymbol()));
         ZipOutputStream os = new ZipOutputStream(fileOutputStream);
 
         for(String fileId : filesIds){
@@ -162,7 +167,9 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
             File file = getFileForFileInfo(fileInfo);
             FileInputStream fi = new FileInputStream(file);
 
-            ZipEntry entry = new ZipEntry(fileInfo.getName());
+            String name = createFileDownloadName(documentInfoRepository.findByFiles_Id(fileInfo.getId()),fileInfo.getName());
+
+            ZipEntry entry = new ZipEntry(name);
             os.putNextEntry(entry);
 
             int len;
