@@ -10,7 +10,6 @@
                 controller: 'AuthController'
             }).when('/sign-up', {
                 templateUrl: 'partials/auth/sign-up.html',
-                controller: 'SignUpController'
             }).otherwise({
                 redirectTo: '/'
             });

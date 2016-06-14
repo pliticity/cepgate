@@ -44,7 +44,7 @@
 
         // attempt to create a new account
 
-        $scope.signUp = function () {
+        $scope.signUp = function (redirect) {
             if ($scope.signupForm.$valid) {
                 $http({
                     method: 'post',
