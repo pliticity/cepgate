@@ -1,6 +1,8 @@
 package pl.iticity.dbfds.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.Comment;
@@ -9,7 +11,9 @@ import pl.iticity.dbfds.model.Revision;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
+import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +29,21 @@ public class RevisionService {
     public List<Revision> addRevision(String docId) throws JsonProcessingException, FileNotFoundException {
         DocumentInfo document = documentInfoRepository.findOne(docId);
         document.setFiles(fileService.copyFiles(document.getFiles()));
-        long rev = document.getRevisionNo() == 0l ? 1l : document.getRevisionNo();
-        Revision revision = new Revision(rev,document);
+        Revision revision = new Revision(document.getRevision(),document);
+        document.setRevision(document.getRevision()+1l);
         document.getRevisions().add(revision);
         documentInfoRepository.save(document);
         return document.getRevisions();
+    }
+
+    public DocumentInfo fetchRevision(String docId, final long rev) throws IOException {
+        DocumentInfo document = documentInfoRepository.findOne(docId);
+        Revision revision = Iterables.find(document.getRevisions(), new Predicate<Revision>() {
+            @Override
+            public boolean apply(@Nullable Revision revision) {
+                return rev == revision.getRevision();
+            }
+        });
+        return revision.getRevisionData();
     }
 }

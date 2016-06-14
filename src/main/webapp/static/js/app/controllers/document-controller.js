@@ -17,6 +17,7 @@
         $scope.qParams = {};
         $scope.users = {};
         $scope.tableId = 'search';
+        $scope.revision = false;
 
 
         $scope.canDownload = function () {
@@ -41,6 +42,17 @@
             }
         };
 
+        $scope.fetchRevision = function (rev) {
+            $http({
+                url: '/document/' + $scope.documentInfo.id + '/revision/' + rev,
+                method: 'get'
+            }).then(function (succ) {
+                $scope.revision = true;
+                $scope.documentInfo = succ.data;
+                $('#details-'+$scope.documentInfo.id+'-tabs a:first').tab('show');
+            });
+        };
+
         $scope.anySelected = function () {
             return $("table#" + $scope.tableId + " tr.st-selected").length > 0;
         };
@@ -60,8 +72,9 @@
         };
 
         $scope.createRevision = function () {
-            $http({url:'/document/'+$scope.documentInfo.id+'/revision',method:'post'}).then(function (succ) {
+            $http({url: '/document/' + $scope.documentInfo.id + '/revision', method: 'post'}).then(function (succ) {
                 $scope.documentInfo.revisions = succ.data;
+                $scope.documentInfo.revision++;
             });
         };
 
@@ -122,6 +135,7 @@
         $scope.get = function (documentId) {
             Document.get({id: documentId}, function (res) {
                 $scope.documentInfo = res;
+                $scope.revision=false;
                 //$scope.documentInfo.creationDate = new Date($scope.documentInfo.creationDate);
                 //$scope.documentInfo.plannedIssueDate = new Date($scope.documentInfo.plannedIssueDate);
             });

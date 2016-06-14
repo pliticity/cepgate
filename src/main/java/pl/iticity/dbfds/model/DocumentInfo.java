@@ -108,6 +108,8 @@ public class DocumentInfo {
 
     private List<Revision> revisions;
 
+    private long revision;
+
     @JsonIgnore
     private List<DocumentFavourite> favourites;
 
@@ -310,16 +312,16 @@ public class DocumentInfo {
         return revisions;
     }
 
-    public void setRevisions(List<Revision> revisions) {
-        this.revisions = revisions;
+    public long getRevision() {
+        return revision;
     }
 
-    public int getRevisionNo(){
-        if(getRevisions().size()==0){
-            return 0;
-        }else{
-            return getRevisions().size()+1;
-        }
+    public void setRevision(long revision) {
+        this.revision = revision;
+    }
+
+    public void setRevisions(List<Revision> revisions) {
+        this.revisions = revisions;
     }
 
     public DocumentInfo clone(){

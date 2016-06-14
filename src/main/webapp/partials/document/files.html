@@ -6,7 +6,7 @@
             <tr>
                 <th colspan="2"></th>
                 <th class="text-right">
-                    <form>
+                    <form ng-if="revision==false">
                         <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
                              ngf-select="uploadFiles(files,documentInfo.id)"
                              ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
@@ -17,7 +17,7 @@
                              ng-model="files" ngf-multiple="true">Add files
                         </div>
                     </form>
-                    <button class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision</button>
+                    <button ng-if="revision==false" class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision</button>
                 </th>
             </tr>
             <tr class="info">

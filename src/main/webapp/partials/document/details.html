@@ -1,5 +1,18 @@
 <div style="padding-top: 10px;">
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
+
+        <div class="alert alert-info" ng-if="revision==true">
+            <div class="row">
+                <div class="col-xs-10">
+                    <strong>Warning!</strong> This is a revision of the document
+                </div>
+                <div class="col-xs-2 text-right">
+                    <button ng-if="revision==true" class="btn btn-info btn-xs" ng-click="get(documentInfo.id)">Back
+                    </button>
+                </div>
+            </div>
+        </div>
+
     <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
 
         <div class="row">
@@ -11,7 +24,8 @@
                     <div class="row">
                         <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
                         <div class="col-xs-6">
-                            <input placeholder="Classification Id" class="form-control" id="classificationId"
+                            <input ng-readonly="revision==true" placeholder="Classification Id" class="form-control"
+                                   id="classificationId"
                                    name="classificationId"
                                    ng-model="documentInfo.classification.classificationId" required=""
                                    ng-model-options="{ updateOn: 'blur' }"
@@ -25,7 +39,8 @@
                     <div class="row">
                         <label for="internalExternal" class="col-xs-6 control-label">Internal/External</label>
                         <div class="col-xs-6">
-                            <select name="internalExternal" class="form-control" ng-model="documentInfo.kind"
+                            <select ng-readonly="revision==true" name="internalExternal" class="form-control"
+                                    ng-model="documentInfo.kind"
                                     id="internalExternal" required="">
                                 <option value="INTERNAL">Internal</option>
                                 <option value="EXTERNAL">External</option>
@@ -39,7 +54,8 @@
                     <div class="row">
                         <label for="type" class="col-xs-6 control-label">Document Type</label>
                         <div class="col-xs-6">
-                            <select name="type" ng-model="documentInfo.type" class="form-control" id="type" required="">
+                            <select ng-readonly="revision==true" name="type" ng-model="documentInfo.type"
+                                    class="form-control" id="type" required="">
                                 <option value="DRAWING">Drawing</option>
                                 <option value="DOCUMENT">Document</option>
                                 <option value="MOM">MOM</option>
@@ -54,7 +70,8 @@
                     <div class="row">
                         <label for="documentNumber" class="col-xs-6 control-label">Document Number</label>
                         <div class="col-xs-6">
-                            <input class="form-control" name="documentNumber" id="documentNumber"
+                            <input ng-readonly="revision==true" class="form-control" name="documentNumber"
+                                   id="documentNumber"
                                    ng-model="documentInfo.documentNumber" required=""/>
                         </div>
                     </div>
@@ -65,7 +82,8 @@
                     <div class="row">
                         <label for="plannedIssueDate" class="col-xs-6 control-label">Planned Issue Date</label>
                         <div class="col-xs-6">
-                            <input type="text" class="form-control" ng-model="documentInfo.plannedIssueDate"
+                            <input ng-readonly="revision==true" type="text" class="form-control"
+                                   ng-model="documentInfo.plannedIssueDate"
                                    name="plannedIssueDate"
                                    id="plannedIssueDate" required=""/>
                             <script>
@@ -86,7 +104,8 @@
                         <label for="responsibleUser" class="col-xs-6 control-label">Document Responsible</label>
                         <div class="col-xs-6">
                             <div ng-init="principals()"></div>
-                            <select name="responsibleUser" ng-model="documentInfo.responsibleUser.id"
+                            <select ng-readonly="revision==true" name="responsibleUser"
+                                    ng-model="documentInfo.responsibleUser.id"
                                     class="form-control" id="responsibleUser" required="">
                                 <option ng-repeat="u in users" value="{{u.id}}">{{u.email}}</option>
                             </select>
@@ -99,7 +118,8 @@
                     <div class="row">
                         <label for="documentName" class="col-xs-6 control-label">Document Name</label>
                         <div class="col-xs-6">
-                        <textarea class="form-control" ng-maxlength="300" ng-model="documentInfo.documentName"
+                        <textarea ng-readonly="revision==true" class="form-control" ng-maxlength="300"
+                                  ng-model="documentInfo.documentName"
                                   name="documentName"
                                   id="documentName" rows="3" cols="20" required=""/>
                         </div>
@@ -116,7 +136,8 @@
                     <div class="row">
                         <label for="classificationName" class="col-xs-6 control-label">Classification Name</label>
                         <div class="col-xs-6">
-                            <input placeholder="Classification Name" class="form-control" name="classificationName"
+                            <input ng-readonly="revision==true" placeholder="Classification Name" class="form-control"
+                                   name="classificationName"
                                    id="classificationName"
                                    ng-model="documentInfo.classification.name" required=""/>
                         </div>
@@ -128,7 +149,8 @@
                     <div class="row">
                         <label for="securityGroup" class="col-xs-6 control-label">Security Group</label>
                         <div class="col-xs-6">
-                            <input placeholder="Security Group" class="form-control" name="securityGroup"
+                            <input ng-readonly="revision==true" placeholder="Security Group" class="form-control"
+                                   name="securityGroup"
                                    id="securityGroup"
                                    ng-model="documentInfo.securityGroup" required=""/>
                         </div>
@@ -140,7 +162,8 @@
                     <div class="row">
                         <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
                         <div class="col-xs-6">
-                            <input placeholder="Document Type ID" class="form-control" name="typeId" id="typeId"
+                            <input ng-readonly="revision==true" placeholder="Document Type ID" class="form-control"
+                                   name="typeId" id="typeId"
                                    required=""/>
                         </div>
                     </div>
@@ -182,6 +205,17 @@
                     </div>
                 </div>
 
+                <div class="form-group" form-error="" form="form.documentForm" field="revision"
+                     messages='{"required":"This field is required"}'>
+                    <div class="row">
+                        <label for="revision" class="col-xs-6 control-label">Revision</label>
+                        <div class="col-xs-6">
+                            <input class="form-control disabled" ng-readonly="true" name="revision" id="revision"
+                                   ng-model="documentInfo.revision"/>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -195,19 +229,22 @@
                         <div class="col-xs-6">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="provider" id="provider_company"
+                                    <input ng-readonly="revision==true" type="radio" name="provider"
+                                           id="provider_company"
                                            ng-model="documentInfo.provider" value="COMPANY"/> Company
                                 </label>
                             </div>
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="provider" id="provider_supplier"
+                                    <input ng-readonly="revision==true" type="radio" name="provider"
+                                           id="provider_supplier"
                                            ng-model="documentInfo.provider" value="SUPPLIER"/> Supplier
                                 </label>
                             </div>
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="provider" id="provider_customer"
+                                    <input ng-readonly="revision==true" type="radio" name="provider"
+                                           id="provider_customer"
                                            ng-model="documentInfo.provider" value="CUSTOMER"/> Customer
                                 </label>
                             </div>
@@ -218,7 +255,7 @@
                 <div class="form-group">
                     <label class="col-xs-6 control-label">Tags</label>
                     <div class="col-xs-6">
-                        <tags-input ng-model="documentInfo.tags" id="tags" name="tags"/>
+                        <tags-input ng-readonly="revision==true" ng-model="documentInfo.tags" id="tags" name="tags"/>
                     </div>
                 </div>
             </div>
@@ -226,13 +263,17 @@
 
         <div class="row">
             <div class="col-xs-1 col-xs-offset-11">
-                <input ng-if="documentInfo.id" class="btn btn-primary" type="button" ng-click="save()" value="Save"/>
-                <input ng-if="documentInfo.id && !documentInfo.favourite" class="btn btn-warning" type="button"
+                <input ng-if="revision==false && documentInfo.id" class="btn btn-primary" type="button"
+                       ng-click="save()" value="Save"/>
+                <input ng-if="revision==false && documentInfo.id && !documentInfo.favourite" class="btn btn-warning"
+                       type="button"
                        ng-click="favourite()" value="Mark as favourite"/>
-                <input ng-if="documentInfo.id && documentInfo.favourite" class="btn btn-default" type="button"
+                <input ng-if="revision==false && documentInfo.id && documentInfo.favourite" class="btn btn-default"
+                       type="button"
                        ng-click="unFavourite()" value="UnMark as favourite"/>
 
-                <input ng-if="!documentInfo.id" class="btn btn-primary" type="button" ng-click="create()" value="Save"/>
+                <input ng-if="revision==false && !documentInfo.id" class="btn btn-primary" type="button"
+                       ng-click="create()" value="Save"/>
             </div>
         </div>
 
@@ -242,16 +283,18 @@
         <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
                                                   aria-controls="in-progress-{{documentInfo.id}}" role="tab"
                                                   data-toggle="tab">In Progress Revision</a></li>
-        <li role="presentation" class=""><a href="#history-{{documentInfo.id}}"
-                                            aria-controls="history-{{documentInfo.id}}" role="tab"
-                                            data-toggle="tab">Revision History</a>
+        <li ng-if="revision==false" role="presentation" class=""><a href="#history-{{documentInfo.id}}"
+                                                                    aria-controls="history-{{documentInfo.id}}"
+                                                                    role="tab"
+                                                                    data-toggle="tab">Revision History</a>
         </li>
-        <li role="presentation" class=""><a href="#comments-{{documentInfo.id}}"
-                                            aria-controls="comments-{{documentInfo.id}}" role="tab"
-                                            data-toggle="tab">Comments</a></li>
-        <li role="presentation" class=""><a href="#links-{{documentInfo.id}}"
-                                            aria-controls="links-{{documentInfo.id}}" role="tab"
-                                            data-toggle="tab">Links</a></li>
+        <li ng-if="revision==false" role="presentation" class=""><a href="#comments-{{documentInfo.id}}"
+                                                                    aria-controls="comments-{{documentInfo.id}}"
+                                                                    role="tab"
+                                                                    data-toggle="tab">Comments</a></li>
+        <li ng-if="revision==false" role="presentation" class=""><a href="#links-{{documentInfo.id}}"
+                                                                    aria-controls="links-{{documentInfo.id}}" role="tab"
+                                                                    data-toggle="tab">Links</a></li>
     </ul>
 
     <div class="tab-content" id="details-{{documentInfo.id}}-tabs-content">
