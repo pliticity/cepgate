@@ -21,9 +21,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by pmajchrz on 4/5/16.
- */
 @org.springframework.data.mongodb.core.mapping.Document
 @CompoundIndexes(value =
         {
@@ -108,6 +105,8 @@ public class DocumentInfo {
     private List<Link> links;
 
     private List<Comment> comments;
+
+    private List<Revision> revisions;
 
     @JsonIgnore
     private List<DocumentFavourite> favourites;
@@ -304,6 +303,25 @@ public class DocumentInfo {
         return getFiles().size();
     }
 
+    public List<Revision> getRevisions() {
+        if(revisions==null){
+            revisions = Lists.newArrayList();
+        }
+        return revisions;
+    }
+
+    public void setRevisions(List<Revision> revisions) {
+        this.revisions = revisions;
+    }
+
+    public int getRevisionNo(){
+        if(getRevisions().size()==0){
+            return 0;
+        }else{
+            return getRevisions().size()+1;
+        }
+    }
+
     public DocumentInfo clone(){
         DocumentInfo documentInfo = new DocumentInfo();
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
@@ -317,6 +335,8 @@ public class DocumentInfo {
         documentInfo.setResponsibleUser(getResponsibleUser());
         documentInfo.setSecurityGroup(getSecurityGroup());
         documentInfo.setType(getType());
+        documentInfo.setProvider(getProvider());
+        documentInfo.setTags(getTags());
         return documentInfo;
     }
 

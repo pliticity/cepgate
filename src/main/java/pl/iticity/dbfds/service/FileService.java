@@ -2,6 +2,7 @@ package pl.iticity.dbfds.service;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -16,6 +17,7 @@ import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.FileRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.DefaultConfig;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
@@ -151,7 +153,7 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         zip.setSymbol(computeSymbol(String.valueOf(new DateTime())));
         createDirectories(zip);
 
-        FileOutputStream fileOutputStream = new FileOutputStream(new File(dataDir + zip.getPath() + zip.getSymbol()));
+        FileOutputStream fileOutputStream = new FileOutputStream(new File(dataDir + zip.getPath() + zip.getSymbol()+".zip"));
         ZipOutputStream os = new ZipOutputStream(fileOutputStream);
 
         for(String fileId : filesIds){
@@ -188,6 +190,23 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
             logger.throwing(FileService.class.getName(), "computeSymbol", e);
         }
         return StringUtils.EMPTY;
+    }
+
+    public List<FileInfo> copyFiles(List<FileInfo> files) throws FileNotFoundException {
+        List<FileInfo> copy = Lists.newArrayList();
+        for(FileInfo fileInfo : files){
+            copy.add(copyFile(fileInfo));
+        }
+        return copy;
+    }
+
+    public FileInfo copyFile(FileInfo fileInfo) throws FileNotFoundException {
+        String filePath = dataDir + fileInfo.getPath() + fileInfo.getSymbol();
+        File file = new File(filePath);
+        FileInputStream fis = new FileInputStream(file);
+        FileInfo copy = createFile(PrincipalUtils.getCurrentDomain(),fileInfo.getName(),fileInfo.getType(),fis);
+        repo.save(copy);
+        return copy;
     }
 
     public DefaultConfig getDefaultConfig() {

@@ -10,7 +10,6 @@ import java.util.Date;
 public class Comment {
 
     @JsonIgnoreProperties(value = {"password", "lastName", "firstName", "country", "phone", "company", "role", "domain"})
-
     @DBRef
     private Principal principal;
 

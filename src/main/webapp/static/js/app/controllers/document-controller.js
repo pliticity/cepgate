@@ -20,7 +20,8 @@
 
 
         $scope.canDownload = function () {
-            var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;0
+            var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;
+            0
             return flag;
         };
         $scope.canCopy = function () {
@@ -55,6 +56,12 @@
         $scope.delete = function (docId) {
             documentService.delete(docId, function (res) {
                 $scope.query();
+            });
+        };
+
+        $scope.createRevision = function () {
+            $http({url:'/document/'+$scope.documentInfo.id+'/revision',method:'post'}).then(function (succ) {
+                $scope.documentInfo.revisions = succ.data;
             });
         };
 

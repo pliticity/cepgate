@@ -242,10 +242,10 @@
         <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
                                                   aria-controls="in-progress-{{documentInfo.id}}" role="tab"
                                                   data-toggle="tab">In Progress Revision</a></li>
-        <!--<li role="presentation" class=""><a href="#history-{{documentInfo.id}}"
+        <li role="presentation" class=""><a href="#history-{{documentInfo.id}}"
                                             aria-controls="history-{{documentInfo.id}}" role="tab"
                                             data-toggle="tab">Revision History</a>
-        </li>-->
+        </li>
         <li role="presentation" class=""><a href="#comments-{{documentInfo.id}}"
                                             aria-controls="comments-{{documentInfo.id}}" role="tab"
                                             data-toggle="tab">Comments</a></li>
@@ -258,6 +258,9 @@
 
         <div role="tabpanel" class="tab-pane active" id="in-progress-{{documentInfo.id}}">
             <ng-include src="'/partials/document/files.html'"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="history-{{documentInfo.id}}">
+            <ng-include src="'/partials/document/history.html'"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="comments-{{documentInfo.id}}">
             <ng-include src="'/partials/document/comments.html'"></ng-include>
