@@ -19,6 +19,11 @@
         <ul class="nav navbar-nav">
         </ul>
         <ul class="nav navbar-nav navbar-right" style="margin-right: 40px;">
+            <li ng-if="globalAdmin==true">
+                <a href="/admin">
+                    <span style="margin-right: 5px;" class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    Global Admin</a>
+            </li>
             <li ng-if="admin==true">
                 <a href="/document#/domain/{{domain}}">
                     <span style="margin-right: 5px;" class="glyphicon glyphicon-user" aria-hidden="true"></span>

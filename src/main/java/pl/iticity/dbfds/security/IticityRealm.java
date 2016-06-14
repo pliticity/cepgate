@@ -31,7 +31,9 @@ public class IticityRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.addRole(role);
         if(Role.GLOBAL_ADMIN.equals(principal.getRole())){
-            info.addRole(Role.ADMIN.name());
+            for(Role r : Role.values()){
+                info.addRole(r.name());
+            }
         }
         return info;
     }

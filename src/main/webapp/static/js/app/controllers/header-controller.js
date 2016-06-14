@@ -6,6 +6,7 @@
     dhd.controller('HeaderController', ['$http', '$location', 'principalService', '$scope', function ($http, $location, principalService, $scope) {
 
         $scope.admin = false;
+        $scope.globalAdmin = false;
         $scope.domain = '';
 
         $scope.navigateToAdmin = function () {
@@ -30,10 +31,21 @@
             }).then(function (succ) {
                 $scope.admin = succ.data;
             });
-        }
+        };
+
+        $scope.resolveIsGlobalAdmin = function () {
+            $http({
+                url: '/domain',
+                method: 'get',
+                params: {isGlobalAdmin: ''}
+            }).then(function (succ) {
+                $scope.globalAdmin = succ.data;
+            });
+        };
 
         $scope.resolveDomain();
         $scope.resolveIsAdmin();
+        $scope.resolveIsGlobalAdmin();
 
     }]);
 

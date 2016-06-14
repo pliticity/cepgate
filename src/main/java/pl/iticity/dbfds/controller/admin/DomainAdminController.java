@@ -31,6 +31,13 @@ public class DomainAdminController {
         return SecurityUtils.getSubject().hasRole(Role.ADMIN.name());
     }
 
+    @RequestMapping(value = "", params = {"isGlobalAdmin"})
+    public
+    @ResponseBody
+    boolean getIsGlobalAdmin() {
+        return SecurityUtils.getSubject().hasRole(Role.GLOBAL_ADMIN.name());
+    }
+
     @RequestMapping(value = "", params = {"domain"})
     public
     @ResponseBody
