@@ -107,6 +107,8 @@ public class DocumentInfo {
 
     private List<Link> links;
 
+    private List<Comment> comments;
+
     @JsonIgnore
     private List<DocumentFavourite> favourites;
 
@@ -115,6 +117,17 @@ public class DocumentInfo {
             activities = Lists.newArrayList();
         }
         return activities;
+    }
+
+    public List<Comment> getComments() {
+        if(comments==null){
+            comments = Lists.newArrayList();
+        }
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public List<Link> getLinks() {
