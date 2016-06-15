@@ -23,6 +23,16 @@
             return $("#files-" + fileId + " option:selected").length>0;
         }
 
+        this.selectedFiles = function(rowId){
+            var farray = [];
+            $("#files-" + rowId + " option:selected").map(function (a, item) {
+                return item.value
+            }).each(function (index, item) {
+                farray.push(item);
+            });
+            return farray;
+        }
+
     }]);
 
 })();

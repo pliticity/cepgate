@@ -26,6 +26,7 @@ import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.model.Link;
+import pl.iticity.dbfds.model.dto.DocToCopyDTO;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
@@ -34,6 +35,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.PathParam;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
@@ -142,20 +144,13 @@ public class DocumentController {
         return JsonResponse.success("removed");
     }
 
-    @RequestMapping(value = "/{id}/copy", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    DocumentInfo postCopyDocument(@PathVariable("id") String id) {
-        return service.copyDocument(id);
-    }
-
     @RequestMapping(value = "/copy", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<DocumentInfo> postCopyDocuments(@RequestBody String[] ids) {
+    List<DocumentInfo> postCopyDocuments(@RequestBody List<DocToCopyDTO> docs) throws FileNotFoundException {
         List<DocumentInfo> documentInfos = Lists.newArrayList();
-        for (String id : ids) {
-            documentInfos.add(service.copyDocument(id));
+        for (DocToCopyDTO doc : docs) {
+            documentInfos.add(service.copyDocument(doc.getId(),doc.getFiles()));
         }
         return documentInfos;
     }

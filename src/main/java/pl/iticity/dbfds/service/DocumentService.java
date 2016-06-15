@@ -18,6 +18,7 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import java.io.FileNotFoundException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     @Autowired
     private DomainService domainService;
+
+    @Autowired
+    private FileService fileService;
 
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -67,12 +71,19 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         repo.save(info);
     }
 
-    public DocumentInfo copyDocument(String docId) {
+    public DocumentInfo copyDocument(String docId, final List<String> files) throws FileNotFoundException {
         DocumentInfo documentInfo = repo.findOne(docId);
         DocumentInfo copy = documentInfo.clone();
         copy.getLinks().add(new Link(docId,documentInfo.getDocumentName(),LinkType.COPY_FROM));
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber());
         copy.setDocumentNumber(String.valueOf(copy.getMasterDocumentNumber()));
+        List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInfo.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
+            @Override
+            public boolean apply(@Nullable FileInfo fileInfo) {
+                return files.contains(fileInfo.getId());
+            }
+        }));
+        copy.setFiles(fileService.copyFiles(filesToCopy));
         repo.save(copy);
 
         documentInfo.getLinks().add(new Link(copy.getId(),copy.getDocumentName(),LinkType.COPY_TO));

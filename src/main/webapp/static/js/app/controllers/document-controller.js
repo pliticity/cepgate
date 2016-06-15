@@ -105,7 +105,12 @@
 
         $scope.copyMulti = function () {
             $scope.doForSelectedRows(function (e) {
-                $http({url: '/document/copy', method: 'post', data: e}).then(function (s) {
+                var docDto = [];
+                e.forEach(function(i){
+                    var fArray = fileService.selectedFiles(i);
+                    docDto.push({"id":i,"files":fArray});
+                });
+                $http({url: '/document/copy', method: 'post', data: docDto}).then(function (s) {
                     s = s.data;
                     for (var i = 0; i < s.length; i++) {
                         $scope.documents.push(s[i]);
