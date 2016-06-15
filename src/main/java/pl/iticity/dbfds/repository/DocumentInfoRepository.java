@@ -15,19 +15,15 @@ import java.util.List;
  */
 public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, String>, QueryDslPredicateExecutor<DocumentInfo> {
 
-    public List<DocumentInfo> findByCreatedByAndRemovedIsFalse(Principal principal);
+    public List<DocumentInfo> findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(Principal principal);
 
-    public List<DocumentInfo> findByDomain(Domain domain);
+    public List<DocumentInfo> findByDomainAndRemovedIsFalseOrderByCreationDateAsc(Domain domain);
 
-    public List<DocumentInfo> findByDomainAndRemovedIsFalse(Domain domain);
-
-    public List<DocumentInfo> findByFavourites_Principal(Principal principal);
+    public List<DocumentInfo> findByFavourites_PrincipalOrderByCreationDateAsc(Principal principal);
 
     public DocumentInfo findByFiles_Id(String id);
 
     public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(Principal principal, Date date, DocumentActivity.ActivityType type);
-
-    public DocumentInfo findTop1ByDomainOrderByMasterDocumentNumberDesc(Domain domain);
 
     public List<DocumentInfo> findByDomainAndRemovedIsFalseAndDocumentNameLike(Domain domain, String docName);
 

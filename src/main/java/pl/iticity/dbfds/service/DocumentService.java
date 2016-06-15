@@ -2,14 +2,12 @@ package pl.iticity.dbfds.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
@@ -20,8 +18,6 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -116,11 +112,11 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public List<DocumentInfo> findByCreatedBy(Principal principal) {
-        return repo.findByCreatedByAndRemovedIsFalse(principal);
+        return repo.findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(principal);
     }
 
     public List<DocumentInfo> findAll() {
-        return repo.findByDomainAndRemovedIsFalse(PrincipalUtils.getCurrentDomain());
+        return repo.findByDomainAndRemovedIsFalseOrderByCreationDateAsc(PrincipalUtils.getCurrentDomain());
     }
 
     public List<DocumentInfo> findRecent() {
@@ -172,11 +168,11 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public List<DocumentInfo> findMy() {
-        return repo.findByCreatedByAndRemovedIsFalse(PrincipalUtils.getCurrentPrincipal());
+        return repo.findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(PrincipalUtils.getCurrentPrincipal());
     }
 
     public List<DocumentInfo> findFavourite() {
-        return repo.findByFavourites_Principal(PrincipalUtils.getCurrentPrincipal());
+        return repo.findByFavourites_PrincipalOrderByCreationDateAsc(PrincipalUtils.getCurrentPrincipal());
     }
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException {
