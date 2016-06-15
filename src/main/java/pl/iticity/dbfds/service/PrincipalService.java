@@ -12,6 +12,7 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.PrincipalSelectMixin;
 import pl.iticity.dbfds.repository.DomainRepository;
+import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.security.Role;
@@ -63,11 +64,20 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         domainRepository.save(domain);
 
         principal.setDomain(domain);
+        principal.setActive(true);
         principal.setRole(Role.ADMIN);
 
         repo.save(principal);
 
         authenticate(principal);
+    }
+
+    public List<Principal> changeActive(String id, boolean active){
+        Principal principal = repo.findOne(id);
+        AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+        principal.setActive(active);
+        repo.save(principal);
+        return findByDomain(principal.getDomain());
     }
 
     public Principal findByEmail(String email){

@@ -59,6 +59,8 @@ public class Principal {
     @DBRef
     private Domain domain;
 
+    private boolean active;
+
     public Principal(String email,String password){
         setEmail(email);
         setPassword(password);
@@ -72,6 +74,14 @@ public class Principal {
         country = StringUtils.EMPTY;
         phone = StringUtils.EMPTY;
         company = StringUtils.EMPTY;*/
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Domain getDomain() {

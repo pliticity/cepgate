@@ -42,7 +42,7 @@ public class IticityRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         Principal tokenPrincipal = (Principal) authenticationToken.getPrincipal();
         Principal principal = null;
-        principal = principalRepository.findByEmail(tokenPrincipal.getEmail());
+        principal = principalRepository.findByEmailAndActiveIsTrue(tokenPrincipal.getEmail());
         if (principal == null) {
             unauthenticated();
         }

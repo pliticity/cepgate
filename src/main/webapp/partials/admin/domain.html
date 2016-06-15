@@ -38,6 +38,7 @@
             <tr class="info">
                 <th>#</th>
                 <th>Email</th>
+                <th>Active</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -50,6 +51,7 @@
                 ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
                 <td>{{$index+1}}</td>
                 <td>{{row.email}}</td>
+                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
                 <td style="z-index: 100;">
                 </td>
             </tr>

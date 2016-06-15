@@ -37,7 +37,7 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="2"></th>
+                <th colspan="3"></th>
                 <th class="text-right">
                     <button class="btn btn-primary btn-xs" data-toggle="modal"
                             data-target="#add-user-modal">Add user
@@ -45,34 +45,36 @@
                 </th>
             </tr>
             <tr class="info">
-                <th>#</th>
-                <th>Email</th>
-                <th>Action</th>
+                <th class="text-center">#</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Active</th>
+                <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td colspan="3"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="4"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr class="animate-row"
-                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
-                <td>{{$index+1}}</td>
-                <td>{{row.email}}</td>
-                <td style="z-index: 100;">
+                ng-repeat="row in displayCollection">
+                <td class="text-center">{{$index+1}}</td>
+                <td class="text-center">{{row.email}}</td>
+                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
+                <td class="text-center" style="z-index: 100;">
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="2"></td>
+                <td colspan="3"></td>
                 <td colspan="1" class="text-right">
                     <label for="itemsPerPage">Items per page</label>
                     <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="3" class="text-center">
+                <td colspan="4" class="text-center">
                     <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
                 </td>
             </tr>

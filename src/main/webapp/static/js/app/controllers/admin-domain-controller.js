@@ -9,6 +9,12 @@
         $scope.form = {};
         $scope.domain = Domain.get({id:$route.current.params.id});
 
+        $scope.changeActive = function (row) {
+            $http({url: '/principal/' + row.id, method: 'post', params: {'active': row.active}}).then(function (succ) {
+                $scope.domain.principals = succ.data;
+            });
+        };
+
     }]);
 
 })();

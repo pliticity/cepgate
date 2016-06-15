@@ -13,7 +13,7 @@ public interface PrincipalRepository extends MongoRepository<Principal,String>{
 
     public Principal findByEmail(String email);
 
-    public Long countByEmail(String email);
+    public Principal findByEmailAndActiveIsTrue(String email);
 
     public List<Principal> findByDomain(Domain domain);
 

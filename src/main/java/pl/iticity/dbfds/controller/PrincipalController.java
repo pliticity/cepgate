@@ -3,10 +3,7 @@ package pl.iticity.dbfds.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.PrincipalService;
@@ -28,7 +25,7 @@ public class PrincipalController {
         return principalService.principalsSelectToJson(principalService.findByDomain(PrincipalUtils.getCurrentDomain()));
     }
 
-    @RequestMapping(value = "",method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public
     @ResponseBody
     Principal postCreatePrincipal(@RequestBody Principal principal) throws JsonProcessingException {
@@ -37,6 +34,13 @@ public class PrincipalController {
         principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
         principal.setPhone("12");
         return principalService.save(principal);
+    }
+
+    @RequestMapping(value = "/{id}", params = {"active"}, method = RequestMethod.POST)
+    public
+    @ResponseBody
+    List<Principal> postChangeActive(@PathVariable("id") String id, @RequestParam("active") boolean active) {
+        return principalService.changeActive(id, active);
     }
 
 }
