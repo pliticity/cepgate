@@ -150,9 +150,9 @@
         <profile>
             <id>openshift</id>
             <properties>
-                <mongodb.url>mongodb://admin:z6w3m9VkGH6w@${env.OPENSHIFT_MONGODB_DB_HOST}:${env.OPENSHIFT_MONGODB_DB_PORT}/cuberix</mongodb.url>
+                <mongodb.url>mongodb://admin:Sztg4y4WQN_x@${env.OPENSHIFT_MONGODB_DB_HOST}:${env.OPENSHIFT_MONGODB_DB_PORT}/webapp</mongodb.url>
                 <config.path>${env.OPENSHIFT_DATA_DIR}config.properties</config.path>
-                <db.name>cuberix</db.name>
+                <db.name>webapp</db.name>
             </properties>
             <build>
                 <finalName>c-webapp</finalName>
