@@ -24,7 +24,7 @@ public class IticityRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Principal principal = (Principal) principalCollection.getPrimaryPrincipal();
-        String role = Role.CLIENT.name();
+        String role = Role.USER.name();
         if (principal.getRole() != null) {
             role = principal.getRole().name();
         }

@@ -29,7 +29,7 @@ public class PrincipalController {
     public
     @ResponseBody
     Principal postCreatePrincipal(@RequestBody Principal principal) throws JsonProcessingException {
-        principal.setRole(Role.CLIENT);
+        principal.setRole(Role.USER);
         principal.setDomain(PrincipalUtils.getCurrentDomain());
         principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
         principal.setPhone("12");
@@ -41,6 +41,13 @@ public class PrincipalController {
     @ResponseBody
     List<Principal> postChangeActive(@PathVariable("id") String id, @RequestParam("active") boolean active) {
         return principalService.changeActive(id, active);
+    }
+
+    @RequestMapping(value = "/{id}", params = {"role"}, method = RequestMethod.PUT)
+    public
+    @ResponseBody
+    List<Principal> purChangeRole(@PathVariable("id") String id, @RequestParam("role") Role role) {
+        return principalService.changeRole(id,role);
     }
 
 }

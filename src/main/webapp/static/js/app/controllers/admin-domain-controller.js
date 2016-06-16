@@ -15,6 +15,12 @@
             });
         };
 
+        $scope.changeRole = function (row) {
+            $http({url: '/principal/' + row.id, method: 'put', params: {'role': row.role}}).then(function (succ) {
+                $scope.domain.principals = succ.data;
+            });
+        };
+
     }]);
 
 })();

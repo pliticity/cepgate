@@ -80,6 +80,14 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         return findByDomain(principal.getDomain());
     }
 
+    public List<Principal> changeRole(String id, Role role){
+        Principal principal = repo.findOne(id);
+        AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+        principal.setRole(role);
+        repo.save(principal);
+        return findByDomain(principal.getDomain());
+    }
+
     public Principal findByEmail(String email){
         return repo.findByEmail(email);
     }
