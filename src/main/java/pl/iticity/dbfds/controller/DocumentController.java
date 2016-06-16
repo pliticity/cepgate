@@ -22,10 +22,7 @@ import org.springframework.data.querydsl.binding.SingleValueBinding;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.model.Link;
+import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.dto.DocToCopyDTO;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
@@ -179,6 +176,12 @@ public class DocumentController {
     @RequestMapping(value = "/link/{docId}", method = RequestMethod.POST)
     public @ResponseBody List<Link> postLinkDocuments(@PathVariable(value = "docId") String docId,@RequestBody DocumentInfo linkTo){
         return service.linkDocuments(docId,linkTo);
+    }
+
+    @RequestMapping(value = "/{id}/state/{state}", method = RequestMethod.PUT)
+    public @ResponseBody
+    DocumentState putDocumentState(@PathVariable("id") String id, @PathVariable("state") DocumentState state){
+        return service.changeState(id,state);
     }
 
     public FileService getFileService() {

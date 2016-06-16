@@ -111,8 +111,23 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
         documentInfo.setRevision(new RevisionSymbol(0l));
+        documentInfo.setState(DocumentState.IN_PROGRESS);
         return documentInfo;
         //return newDocumentToJson(documentInfo);
+    }
+
+    public DocumentState changeState(String id, DocumentState state){
+        DocumentInfo doc = repo.findOne(id);
+        doc.setState(state);
+        repo.save(doc);
+        return doc.getState();
+    }
+
+    @Override
+    public DocumentInfo save(DocumentInfo documentInfo) {
+        DocumentInfo doc = repo.findOne(documentInfo.getId());
+        documentInfo.setRevisions(doc.getRevisions());
+        return super.save(documentInfo);
     }
 
     public Long getNextMasterDocumentNumber() {

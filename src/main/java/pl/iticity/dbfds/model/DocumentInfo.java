@@ -113,6 +113,16 @@ public class DocumentInfo {
     @JsonIgnore
     private List<DocumentFavourite> favourites;
 
+    private DocumentState state;
+
+    public DocumentState getState() {
+        return state;
+    }
+
+    public void setState(DocumentState state) {
+        this.state = state;
+    }
+
     public List<DocumentActivity> getActivities() {
         if(activities==null){
             activities = Lists.newArrayList();

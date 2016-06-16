@@ -5,14 +5,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Comment;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.Revision;
-import pl.iticity.dbfds.model.RevisionSymbol;
+import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Date;
@@ -29,10 +27,13 @@ public class RevisionService {
 
     public List<Revision> addRevision(String docId) throws JsonProcessingException, FileNotFoundException {
         DocumentInfo document = documentInfoRepository.findOne(docId);
+        List<FileInfo> files = document.getFiles();
         document.setFiles(fileService.copyFiles(document.getFiles()));
         Revision revision = new Revision(document.getRevision(),document);
         document.setRevision(document.getRevision().next());
         document.getRevisions().add(revision);
+        document.setState(DocumentState.IN_PROGRESS);
+        document.setFiles(files);
         documentInfoRepository.save(document);
         return document.getRevisions();
     }

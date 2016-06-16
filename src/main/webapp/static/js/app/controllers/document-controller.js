@@ -53,6 +53,19 @@
             });
         };
 
+        $scope.archive = function () {
+            $http({
+                url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
+                method: 'put'
+            }).then(function (succ) {
+                $scope.documentInfo.state = succ.data;
+            });
+        };
+
+        $scope.readonly = function(){
+          return $scope.revision==true || $scope.documentInfo.state == 'ARCHIVED';
+        };
+
         $scope.anySelected = function () {
             return $("table#" + $scope.tableId + " tr.st-selected").length > 0;
         };
@@ -75,6 +88,7 @@
             $http({url: '/document/' + $scope.documentInfo.id + '/revision', method: 'post'}).then(function (succ) {
                 $scope.documentInfo.revisions = succ.data;
                 $scope.documentInfo.revision.number++;
+                $scope.documentInfo.state = 'IN_PROGRESS';
             });
         };
 
