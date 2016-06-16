@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
+    dhdModule.controller('DocumentController', ['authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
 
         // DOCUMENT
 
@@ -19,6 +19,9 @@
         $scope.tableId = 'search';
         $scope.revision = false;
 
+        // EXPOSE SERVICE
+
+        $scope.auth = authorizationService;
 
         $scope.canDownload = function () {
             var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;
@@ -53,6 +56,19 @@
             });
         };
 
+        $scope.archive = function () {
+            $http({
+                url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
+                method: 'put'
+            }).then(function (succ) {
+                $scope.documentInfo.state = succ.data;
+            });
+        };
+
+        $scope.readonly = function(){
+          return $scope.revision==true || $scope.documentInfo.state == 'ARCHIVED';
+        };
+
         $scope.anySelected = function () {
             return $("table#" + $scope.tableId + " tr.st-selected").length > 0;
         };
@@ -75,6 +91,7 @@
             $http({url: '/document/' + $scope.documentInfo.id + '/revision', method: 'post'}).then(function (succ) {
                 $scope.documentInfo.revisions = succ.data;
                 $scope.documentInfo.revision.number++;
+                $scope.documentInfo.state = 'IN_PROGRESS';
             });
         };
 

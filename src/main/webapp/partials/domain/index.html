@@ -37,7 +37,7 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="3"></th>
+                <th colspan="4"></th>
                 <th class="text-right">
                     <button class="btn btn-primary btn-xs" data-toggle="modal"
                             data-target="#add-user-modal">Add user
@@ -48,12 +48,13 @@
                 <th class="text-center">#</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Active</th>
+                <th class="text-center">User Group</th>
                 <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td colspan="4"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr class="animate-row"
@@ -61,20 +62,29 @@
                 <td class="text-center">{{$index+1}}</td>
                 <td class="text-center">{{row.email}}</td>
                 <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
+                <td>
+                    <select name="role-{{row.id}}" class="form-control" ng-model="row.role" id="role-{{row.id}}" ng-change="changeRole(row)">
+                        <option value="ADMIN">Admin</option>
+                        <option value="USER">User</option>
+                        <option value="DOCUMENT_CONTROL">Document Control</option>
+                        <option value="SALES">Sales</option>
+                        <option value="MANAGEMENT">Management</option>
+                    </select>
+                </td>
                 <td class="text-center" style="z-index: 100;">
                 </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="3"></td>
+                <td colspan="4"></td>
                 <td colspan="1" class="text-right">
                     <label for="itemsPerPage">Items per page</label>
                     <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="4" class="text-center">
+                <td colspan="5" class="text-center">
                     <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
                 </td>
             </tr>

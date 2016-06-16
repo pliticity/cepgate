@@ -74,6 +74,9 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
     }
 
     public String createFileDownloadName(DocumentInfo documentInfo,String fname){
+        if(documentInfo==null){
+            return fname;
+        }
         String name = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getType().name(),documentInfo.getDocumentName(),fname);
         return name;
     }
