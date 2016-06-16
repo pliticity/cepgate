@@ -210,8 +210,11 @@
                     <div class="row">
                         <label for="revision" class="col-xs-6 control-label">Revision</label>
                         <div class="col-xs-6">
-                            <input class="form-control disabled" ng-readonly="true" name="revision" id="revision"
-                                   ng-model="documentInfo.revision"/>
+                            <div class="input-group">
+                                <input class="form-control" name="revision" id="revision"
+                                       ng-model="documentInfo.revision.prefix">
+                                <span class="input-group-addon">{{documentInfo.revision.number}}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -12,7 +12,7 @@
         <tr ng-repeat="revision in documentInfo.revisions" ng-click="fetchRevision(revision.revision)">
             <td>{{revision.date}}</td>
             <td>{{revision.principal.email}}</td>
-            <td>{{revision.revision}}</td>
+            <td>{{revision.revision.effective}}</td>
         </tr>
         </tbody>
 

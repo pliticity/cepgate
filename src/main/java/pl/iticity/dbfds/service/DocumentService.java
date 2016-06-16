@@ -110,6 +110,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
+        documentInfo.setRevision(new RevisionSymbol(0l));
         return documentInfo;
         //return newDocumentToJson(documentInfo);
     }

@@ -108,7 +108,7 @@ public class DocumentInfo {
 
     private List<Revision> revisions;
 
-    private long revision;
+    private RevisionSymbol revision;
 
     @JsonIgnore
     private List<DocumentFavourite> favourites;
@@ -312,11 +312,11 @@ public class DocumentInfo {
         return revisions;
     }
 
-    public long getRevision() {
+    public RevisionSymbol getRevision() {
         return revision;
     }
 
-    public void setRevision(long revision) {
+    public void setRevision(RevisionSymbol revision) {
         this.revision = revision;
     }
 

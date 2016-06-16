@@ -44,7 +44,7 @@
 
         $scope.fetchRevision = function (rev) {
             $http({
-                url: '/document/' + $scope.documentInfo.id + '/revision/' + rev,
+                url: '/document/' + $scope.documentInfo.id + '/revision/' + rev.effective,
                 method: 'get'
             }).then(function (succ) {
                 $scope.revision = true;
@@ -74,7 +74,7 @@
         $scope.createRevision = function () {
             $http({url: '/document/' + $scope.documentInfo.id + '/revision', method: 'post'}).then(function (succ) {
                 $scope.documentInfo.revisions = succ.data;
-                $scope.documentInfo.revision++;
+                $scope.documentInfo.revision.number++;
             });
         };
 

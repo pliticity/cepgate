@@ -21,7 +21,7 @@ public class Revision {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date date;
 
-    private long revision;
+    private RevisionSymbol revision;
 
     @JsonIgnore
     private String data;
@@ -29,7 +29,7 @@ public class Revision {
     public Revision() {
     }
 
-    public Revision(long revision, DocumentInfo data) throws JsonProcessingException {
+    public Revision(RevisionSymbol revision, DocumentInfo data) throws JsonProcessingException {
         this.principal = PrincipalUtils.getCurrentPrincipal();
         this.date = new Date();
         this.revision = revision;
@@ -53,11 +53,11 @@ public class Revision {
         this.date = date;
     }
 
-    public long getRevision() {
+    public RevisionSymbol getRevision() {
         return revision;
     }
 
-    public void setRevision(long revision) {
+    public void setRevision(RevisionSymbol revision) {
         this.revision = revision;
     }
 

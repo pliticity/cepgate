@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.Comment;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Revision;
+import pl.iticity.dbfds.model.RevisionSymbol;
 import pl.iticity.dbfds.service.CommentService;
 import pl.iticity.dbfds.service.RevisionService;
 
@@ -31,7 +32,7 @@ public class RevisionController {
     @RequestMapping(value = "/{rev}", method = RequestMethod.GET)
     public
     @ResponseBody
-    DocumentInfo postAddRevision(@PathVariable(value = "id") String id, @PathVariable(value = "rev") long rev) throws IOException {
+    DocumentInfo postAddRevision(@PathVariable(value = "id") String id, @PathVariable(value = "rev") String rev) throws IOException {
         return revisionService.fetchRevision(id,rev);
     }
 
