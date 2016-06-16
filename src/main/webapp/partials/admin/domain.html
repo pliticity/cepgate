@@ -1,0 +1,81 @@
+<!-- HEADER -->
+
+<ng-include src="'/partials/common/header.html'"></ng-include>
+
+<!-- CONTENT -->
+
+<form id="form.domainForm" name="form.domainForm" class="form-horizontal">
+
+    <div class="row">
+        <div class="col-xs-3 col-xs-offset-3">
+            <div class="form-group">
+                <label for="name" class="col-xs-6 control-label">Name</label>
+                <div class="col-xs-6">
+                    <input placeholder="Name" class="form-control" id="name"
+                           ng-model="domain.name" required=""/>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input id="active" ng-model="domain.active" type="checkbox" required=""> Active
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div class="row">
+    <div class="col-xs-6 col-xs-offset-3">
+
+        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="domain.principals">
+            <span us-spinner="{radius:30, width:8, length: 16}"></span>
+            <thead>
+            <tr class="info">
+                <th>#</th>
+                <th>Email</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="3"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                </td>
+            </tr>
+            <tr class="animate-row"
+                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
+                <td>{{$index+1}}</td>
+                <td>{{row.email}}</td>
+                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
+                <td style="z-index: 100;">
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="1" class="text-right">
+                    <label for="itemsPerPage">Items per page</label>
+                    <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-2 col-xs-offset-10">
+        <a href="admin#/" class="btn-info btn-xs">Back</a>
+    </div>
+</div>

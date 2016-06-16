@@ -1,0 +1,21 @@
+<div class="row" style="margin-top: 10px;">
+
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr class="info">
+            <th>Date</th>
+            <th>User</th>
+            <th>Revision</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="revision in documentInfo.revisions" ng-click="fetchRevision(revision.revision)">
+            <td>{{revision.date}}</td>
+            <td>{{revision.principal.email}}</td>
+            <td>{{revision.revision}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>

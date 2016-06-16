@@ -1,0 +1,29 @@
+<div class="row" style="margin-top: 10px;">
+
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="text-right">
+                <div data-toggle="modal" data-target="#link-doc-modal-{{documentInfo.id}}"
+                     class="btn btn-info btn-xs">Link document
+                </div>
+            </th>
+        </tr>
+        <tr class="info">
+            <th>Link Type</th>
+            <th>Document</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="link in documentInfo.links">
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.linkType}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentName}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<ng-include src="'/partials/document/link-doc-modal.html'"></ng-include>

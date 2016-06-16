@@ -1,0 +1,38 @@
+<form id="form.userForm" name="form.userForm" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="firstname">
+            <span class="required">*</span> First Name:</label>
+        <div class="col-sm-5">
+            <input type="text" name="firstName" id="firstName" ng-model="principal.firstName" size="30" required=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="lastName">
+            <span class="required">*</span> Last Name:</label>
+        <div class="col-sm-5">
+            <input type="text" name="lastName" id="lastName" ng-model="principal.lastName" size="30" required=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span>
+            Email:</label>
+        <div class="col-sm-7">
+            <input type="email" name="email" id="email" ng-model="principal.email" size="30" required=""
+                   exists-validator="" ng-model-options="{ updateOn: 'blur'}"/>
+        </div>
+    </div>
+
+
+    <div ng-messages="signupForm.email.$error">
+        <small class="col-sm4 alert alert-danger" ng-message="exists">Already exists</small>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="password"><span class="required">*</span> Password:</label>
+        <div class="col-sm-5">
+            <input type="password" name="password" id="password" ng-model="principal.password"  size="30" required=""  />
+        </div>
+    </div>
+</form>

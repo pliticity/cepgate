@@ -1,0 +1,44 @@
+<!-- HEADER -->
+
+<ng-include src="'/partials/common/header.html'"></ng-include>
+
+<!-- CONTENT -->
+
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+
+        <!-- TABS - NAV -->
+
+        <ul id="documentTabs" class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#my" refresh-tab aria-controls="my" role="tab"
+                                                      data-toggle="tab">My Documents</a></li>
+            <li role="presentation" class=""><a refresh-tab href="#search" aria-controls="search" role="tab"
+                                                data-toggle="tab">Search
+                Documents</a></li>
+            <li role="presentation" class=""><a href="#new" aria-controls="new" role="tab" data-toggle="tab">Create
+                New Document</a></li>
+        </ul>
+
+        <!-- TABS - CONTENT -->
+
+        <div class="tab-content" id="documentsTabContent" >
+            <div role="tabpanel" class="tab-pane active" id="my">
+                <ng-include src="'/partials/document/list/my.html'"></ng-include>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="search">
+                <div class="row">
+                    <div class="col-xs-12" ng-controller="DocumentController">
+                        <div ng-init="qParams = {'all':'true'}; query();"></div>
+                        <ng-include src="'/partials/document/list/table.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocumentController">
+                <div ng-init="new()"></div>
+                <ng-include src="'/partials/document/details.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,31 @@
+<div class="row" style="margin-top: 10px;">
+
+    <table class="table table-condensed table-hover">
+        <thead>
+        <tr>
+            <th colspan="2"></th>
+            <th class="text-right">
+                <div data-toggle="modal" data-target="#comment-modal-{{documentInfo.id}}"
+                     class="btn btn-info btn-xs">Add Comment
+                </div>
+            </th>
+        </tr>
+        <tr class="info">
+            <th>Date</th>
+            <th>User</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="comment in documentInfo.comments">
+            <td>{{comment.date}}</td>
+            <td>{{comment.principal.email}}</td>
+            <td>{{comment.content}}</td>
+        </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+<ng-include src="'/partials/document/comment-modal.html'"></ng-include>

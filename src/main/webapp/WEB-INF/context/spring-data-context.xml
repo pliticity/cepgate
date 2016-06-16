@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/jdbc
+                           http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+                           http://www.springframework.org/schema/data/jpa
+                           http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/data/mongo
+                           http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+                                                      http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="validating" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    </bean>
+
+    <bean class="org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener">
+        <constructor-arg ref="validating"/>
+    </bean>
+
+    <bean class="com.mongodb.MongoURI" id="mongoURI">
+        <constructor-arg value="${mongodb.url}"  />
+    </bean>
+
+    <bean class="com.mongodb.Mongo" id="mongo">
+        <constructor-arg ref="mongoURI" />
+    </bean>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongo"/>
+        <constructor-arg name="databaseName" value="${db.name}"/>
+        <property name="writeConcern">
+            <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
+        </property>
+    </bean>
+
+    <mongo:repositories base-package="pl.iticity.dbfds.repository"></mongo:repositories>
+
+</beans>
