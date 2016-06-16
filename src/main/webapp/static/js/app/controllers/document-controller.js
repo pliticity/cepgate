@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
+    dhdModule.controller('DocumentController', ['authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
 
         // DOCUMENT
 
@@ -19,6 +19,9 @@
         $scope.tableId = 'search';
         $scope.revision = false;
 
+        // EXPOSE SERVICE
+
+        $scope.auth = authorizationService;
 
         $scope.canDownload = function () {
             var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;

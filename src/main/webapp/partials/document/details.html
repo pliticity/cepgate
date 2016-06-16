@@ -304,7 +304,7 @@
         <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
                                                   aria-controls="in-progress-{{documentInfo.id}}" role="tab"
                                                   data-toggle="tab">Current Revision</a></li>
-        <li ng-if="revision==false" role="presentation" class=""><a href="#history-{{documentInfo.id}}"
+        <li has-role="DOCUMENT_CONTROL,MANAGEMENT" ng-if="revision==false" role="presentation" class=""><a href="#history-{{documentInfo.id}}"
                                                                     aria-controls="history-{{documentInfo.id}}"
                                                                     role="tab"
                                                                     data-toggle="tab">Revision History</a>
