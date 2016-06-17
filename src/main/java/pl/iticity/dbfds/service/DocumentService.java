@@ -74,7 +74,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     public DocumentInfo copyDocument(String docId, final List<String> files) throws FileNotFoundException {
         DocumentInfo documentInfo = repo.findOne(docId);
         DocumentInfo copy = documentInfo.clone();
-        copy.getLinks().add(new Link(docId,documentInfo.getDocumentName(),LinkType.COPY_FROM));
+        copy.getLinks().add(new Link(documentInfo,LinkType.COPY_FROM));
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber());
         copy.setDocumentNumber(String.valueOf(copy.getMasterDocumentNumber()));
         List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInfo.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
@@ -86,7 +86,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         copy.setFiles(fileService.copyFiles(filesToCopy));
         repo.save(copy);
 
-        documentInfo.getLinks().add(new Link(copy.getId(),copy.getDocumentName(),LinkType.COPY_TO));
+        documentInfo.getLinks().add(new Link(copy,LinkType.COPY_TO));
         repo.save(documentInfo);
 
         return copy;
@@ -203,7 +203,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException {
-        List<DocumentInfo> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNameLike(PrincipalUtils.getCurrentDomain(), documentName);
+        List<DocumentInfo> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNumberLike(PrincipalUtils.getCurrentDomain(), documentName);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(DocumentInfo.class, AutoCompleteDocumentInfoMixIn.class);
         return objectMapper.writeValueAsString(documents);
@@ -211,8 +211,8 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public List<Link> linkDocuments(String linkFromId, DocumentInfo linkTo){
         DocumentInfo from = repo.findOne(linkFromId);
-        from.getLinks().add(new Link(linkTo.getId(),linkTo.getDocumentName(),LinkType.LINK));
+        from.getLinks().add(new Link(linkTo,LinkType.LINK));
         repo.save(from);
-        return from.getLinks();
+        return repo.findOne(from.getId()).getLinks();
     }
 }

@@ -25,6 +25,6 @@ public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, St
 
     public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(Principal principal, Date date, DocumentActivity.ActivityType type);
 
-    public List<DocumentInfo> findByDomainAndRemovedIsFalseAndDocumentNameLike(Domain domain, String docName);
+    public List<DocumentInfo> findByDomainAndRemovedIsFalseAndDocumentNumberLike(Domain domain, String docName);
 
 }

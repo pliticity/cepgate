@@ -82,7 +82,11 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
     public List<Principal> changeRole(String id, Role role){
         Principal principal = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+        if(Role.GLOBAL_ADMIN.equals(role)){
+            AuthorizationProvider.hasRole(Role.GLOBAL_ADMIN,null);
+        }else{
+            AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+        }
         principal.setRole(role);
         repo.save(principal);
         return findByDomain(principal.getDomain());

@@ -54,13 +54,20 @@
                 <td>{{row.email}}</td>
                 <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
                 <td>
-                    <select name="role-{{row.id}}" class="form-control" ng-model="row.role" id="role-{{row.id}}" ng-change="changeRole(row)">
-                        <option value="ADMIN">Admin</option>
-                        <option value="USER">User</option>
-                        <option value="DOCUMENT_CONTROL">Document Control</option>
-                        <option value="SALES">Sales</option>
-                        <option value="MANAGEMENT">Management</option>
-                    </select>
+                    <div ng-if="row.role != 'GLOBAL_ADMIN'">
+                        <select name="role-{{row.id}}" class="form-control" class="form-control" ng-model="row.role"
+                                id="role-{{row.id}}"
+                                ng-change="changeRole(row)">
+                            <option value="ADMIN">Admin</option>
+                            <option value="USER">User</option>
+                            <option value="DOCUMENT_CONTROL">Document Control</option>
+                            <option value="SALES">Sales</option>
+                            <option value="MANAGEMENT">Management</option>
+                        </select>
+                    </div>
+                    <div ng-if="row.role == 'GLOBAL_ADMIN'">
+                        <input value="Global Admin" disabled class="form-control"/>
+                    </div>
                 </td>
                 <td style="z-index: 100;">
                 </td>
