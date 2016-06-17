@@ -278,10 +278,10 @@
             <div class="col-xs-1 col-xs-offset-11">
                 <input ng-if="readonly()==false && documentInfo.id" class="btn btn-primary" type="button"
                        ng-click="save()" value="Save"/>
-                <input ng-if="readonly()==false && documentInfo.id && !documentInfo.favourite" class="btn btn-warning"
+                <input ng-if="revision==false && documentInfo.id && !documentInfo.favourite" class="btn btn-warning"
                        type="button"
                        ng-click="favourite()" value="Mark as favourite"/>
-                <input ng-if="readonly()==false && documentInfo.id && documentInfo.favourite" class="btn btn-default"
+                <input ng-if="revision==false && documentInfo.id && documentInfo.favourite" class="btn btn-default"
                        type="button"
                        ng-click="unFavourite()" value="UnMark as favourite"/>
 
