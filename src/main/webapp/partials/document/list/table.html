@@ -22,20 +22,21 @@
     <thead>
     <tr class="info">
         <th></th>
-        <th>Classification ID</th>
-        <th>Classification Name</th>
-        <th>Document Number</th>
-        <th>Document Type</th>
+        <th st-sort="classification.classificationId">Classification ID</th>
+        <th st-sort="classification.name">Classification Name</th>
+        <th st-sort="documentNumber">Document Number</th>
+        <th st-sort="revision.effective">Revision</th>
+        <th st-sort="type">Document Type</th>
         <th st-sort="documentName">Document Name</th>
-        <th>Creation Date</th>
-        <th>Created By</th>
-        <th># Files</th>
+        <th st-sort="creationDate">Creation Date</th>
+        <th st-sort="createdBy.email">Created By</th>
+        <th st-sort="noOfFiles"># Files</th>
         <th>Selected files</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="10"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        <td colspan="11"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
         </td>
     </tr>
     <tr docId="{{row.id}}" class="animate-row"
@@ -45,6 +46,7 @@
         </td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.name}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentNumber}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.revision.effective}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.type}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentName}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.creationDate}}</td>
@@ -65,14 +67,14 @@
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="9"></td>
+        <td colspan="10"></td>
         <td colspan="1" class="text-right">
             <label for="itemsPerPage">Items per page</label>
             <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
         </td>
     </tr>
     <tr>
-        <td colspan="10" class="text-center">
+        <td colspan="11" class="text-center">
             <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
         </td>
     </tr>
