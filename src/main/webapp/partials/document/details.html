@@ -13,14 +13,6 @@
             </div>
         </div>
 
-    <div class="alert alert-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'">
-        <div class="row">
-            <div class="col-xs-10">
-                <strong>Warning!</strong> This document is archived. <button ng-if="revision==false && documentInfo.state == 'ARCHIVED'" class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision</button> to edit.
-            </div>
-        </div>
-    </div>
-
     <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
 
         <div class="row">
@@ -299,6 +291,13 @@
         </div>
 
     </form>
+
+    <div class="alert alert-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'">
+        <div class="row">
+            <div class="col-xs-10">This document is archived. <button ng-if="revision==false && documentInfo.state == 'ARCHIVED'" class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision</button> to edit.
+            </div>
+        </div>
+    </div>
 
     <ul id="details-{{documentInfo.id}}-tabs" class="nav nav-pills" role="tablist">
         <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
