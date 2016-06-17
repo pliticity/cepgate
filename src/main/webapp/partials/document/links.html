@@ -12,12 +12,20 @@
         </tr>
         <tr class="info">
             <th>Link Type</th>
-            <th>Document</th>
+            <th>Classification ID</th>
+            <th>Classification Name</th>
+            <th>Document Number</th>
+            <th>Revision</th>
+            <th>Document Name</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="link in documentInfo.links">
             <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.linkType}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.classification.classificationId}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.classification.name}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.documentNumber}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.revision.effective}}</td>
             <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentName}}</td>
         </tr>
         </tbody>

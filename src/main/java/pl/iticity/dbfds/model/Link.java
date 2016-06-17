@@ -1,21 +1,37 @@
 package pl.iticity.dbfds.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 public class Link {
 
     private String documentId;
 
     private String documentName;
 
+    @DBRef
+    @JsonIgnoreProperties(value = {"masterDocumentNumber","kind","type","creationDate","plannedIssueDate","createdBy","responsibleUser","files","domain","securityGroup","removed","favourite","provider","tags","activities","links","comments","revisions","favourites","state","noOfFiles"})
+    private DocumentInfo documentInfo;
+
     private LinkType linkType;
 
     public Link() {
     }
 
-    public Link(String documentId, String documentName, LinkType linkType) {
-        this.documentId = documentId;
-        this.documentName = documentName;
+    public Link(DocumentInfo documentInfo, LinkType linkType) {
+        this.documentId = documentInfo.getId();
+        this.documentName = documentInfo.getDocumentName();
+        this.documentInfo = documentInfo;
         this.linkType = linkType;
+    }
+
+    public DocumentInfo getDocumentInfo() {
+        return documentInfo;
+    }
+
+    public void setDocumentInfo(DocumentInfo documentInfo) {
+        this.documentInfo = documentInfo;
     }
 
     public String getDocumentName() {
