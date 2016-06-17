@@ -203,7 +203,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException {
-        List<DocumentInfo> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNameLike(PrincipalUtils.getCurrentDomain(), documentName);
+        List<DocumentInfo> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNumberLike(PrincipalUtils.getCurrentDomain(), documentName);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(DocumentInfo.class, AutoCompleteDocumentInfoMixIn.class);
         return objectMapper.writeValueAsString(documents);
