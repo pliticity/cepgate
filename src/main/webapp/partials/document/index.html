@@ -28,6 +28,8 @@
             <div role="tabpanel" class="tab-pane" id="search">
                 <div class="row">
                     <div class="col-xs-12" ng-controller="DocumentController">
+                        <div id="spacer" style="height:40px; width:100%; margin-bottom: 10px;">
+                        </div>
                         <div ng-init="qParams = {'all':'true'}; query();"></div>
                         <ng-include src="'/partials/document/list/table.html'"></ng-include>
                     </div>
