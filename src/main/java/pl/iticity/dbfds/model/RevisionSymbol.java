@@ -9,11 +9,11 @@ public class RevisionSymbol {
     private long number;
 
     public RevisionSymbol() {
-        this.prefix = StringUtils.EMPTY;
+        this.prefix = String.valueOf(0);
     }
 
     public RevisionSymbol(long number) {
-        this.prefix = StringUtils.EMPTY;
+        this.prefix = String.valueOf(number);
         this.number = number;
     }
 
@@ -38,13 +38,13 @@ public class RevisionSymbol {
     }
 
     public String getEffective(){
-        return prefix+number;
+        return prefix;
     }
 
     public RevisionSymbol next(){
         RevisionSymbol revisionSymbol = new RevisionSymbol();
-        revisionSymbol.setPrefix(getPrefix());
         revisionSymbol.setNumber(getNumber()+1);
+        revisionSymbol.setPrefix(String.valueOf(revisionSymbol.getNumber()));
         return revisionSymbol;
     }
 

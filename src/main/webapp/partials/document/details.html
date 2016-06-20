@@ -318,7 +318,7 @@
                                     <input ng-readonly="readonly()==true" class="form-control" name="revision"
                                            id="revision"
                                            ng-model="documentInfo.revision.prefix">
-                                    <span class="input-group-addon">{{documentInfo.revision.number}}</span>
+                                    <!--<span class="input-group-addon">{{documentInfo.revision.number}}</span>-->
                                 </div>
                             </div>
                         </div>
@@ -339,7 +339,7 @@
                     </div>
                 </div>
                 <div class="col-xs-8 text-right">
-                    <button ng-if="readonly()==false" class="btn btn-info btn-xs" ng-click="archive()">Archive</button>
+                    <button ng-if="readonly()==false && documentInfo.id" class="btn btn-info btn-xs" ng-click="archive()">Archive</button>
                 </div>
             </div>
 

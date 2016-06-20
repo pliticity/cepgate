@@ -57,6 +57,7 @@
         };
 
         $scope.archive = function () {
+            $scope.save();
             $http({
                 url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
                 method: 'put'
@@ -94,6 +95,7 @@
                 $scope.documentInfo.revision.number++;
                 $scope.documentInfo.state = 'IN_PROGRESS';
                 $scope.documentInfo.archivedDate = null;
+                $scope.documentInfo.revision.prefix = $scope.documentInfo.revision.number.toString();
             });
         };
 
