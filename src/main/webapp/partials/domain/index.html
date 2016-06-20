@@ -9,15 +9,23 @@
         <ul id="domainTabs" class="nav nav-pills" role="tablist">
             <li role="presentation" class="active"><a href="#users" refresh-tab aria-controls="users" role="tab"
                                                       data-toggle="tab">Users</a></li>
+            <li role="presentation" class=""><a disabled refresh-tab href="#invoice" aria-controls="invoice" role="tab"
+                                                data-toggle="tab">Invoice</a></li>
             <li role="presentation" class=""><a refresh-tab href="#setup" aria-controls="setup" role="tab"
                                                 data-toggle="tab">Setup</a></li>
+            <li role="presentation" class=""><a disabled refresh-tab href="#templates" aria-controls="templates" role="tab"
+                                                data-toggle="tab">Templates</a></li>
         </ul>
 
         <div class="tab-content" id="domainTabsContent">
             <div role="tabpanel" class="tab-pane active" id="users">
                 <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
             </div>
-            <div role="tabpanel" class="tab-pane active" id="setup">
+            <div role="tabpanel" class="tab-pane" id="invoice">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="templates">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="setup">
                 <ng-include src="'/partials/domain/setup-tab.html'"></ng-include>
             </div>
         </div>
