@@ -15,7 +15,7 @@
                     url: '/auth/',
                     data: angular.toJson($scope.principal, false)
                 }).then(function successCallback(response) {
-                    $window.location.href = '/document';
+                    $window.location.href = '/dashboard';
                 }, function errorCallback(response) {
                     $scope.message = response.data.message;
                 });
