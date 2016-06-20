@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.model;
 
+import org.apache.commons.lang.StringUtils;
+
 public class RevisionSymbol {
 
     private String prefix;
@@ -7,9 +9,11 @@ public class RevisionSymbol {
     private long number;
 
     public RevisionSymbol() {
+        this.prefix = StringUtils.EMPTY;
     }
 
     public RevisionSymbol(long number) {
+        this.prefix = StringUtils.EMPTY;
         this.number = number;
     }
 
