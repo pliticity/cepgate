@@ -115,6 +115,17 @@ public class DocumentInfo {
 
     private DocumentState state;
 
+    private Date archivedDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    public Date getArchivedDate() {
+        return archivedDate;
+    }
+
+    public void setArchivedDate(Date archivedDate) {
+        this.archivedDate = archivedDate;
+    }
+
     public DocumentState getState() {
         return state;
     }
@@ -349,6 +360,8 @@ public class DocumentInfo {
         documentInfo.setType(getType());
         documentInfo.setProvider(getProvider());
         documentInfo.setTags(getTags());
+        documentInfo.setRevision(new RevisionSymbol());
+        documentInfo.setState(DocumentState.IN_PROGRESS);
         return documentInfo;
     }
 

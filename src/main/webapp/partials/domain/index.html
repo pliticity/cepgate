@@ -4,107 +4,32 @@
 <ng-include src="'/partials/common/header.html'"></ng-include>
 
     <!-- CONTENT -->
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <ul id="domainTabs" class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#users" refresh-tab aria-controls="users" role="tab"
+                                                      data-toggle="tab">Users</a></li>
+            <li role="presentation" class=""><a disabled refresh-tab href="#invoice" aria-controls="invoice" role="tab"
+                                                data-toggle="tab">Invoice</a></li>
+            <li role="presentation" class=""><a refresh-tab href="#setup" aria-controls="setup" role="tab"
+                                                data-toggle="tab">Setup</a></li>
+            <li role="presentation" class=""><a disabled refresh-tab href="#templates" aria-controls="templates" role="tab"
+                                                data-toggle="tab">Templates</a></li>
+        </ul>
 
-<form id="form.domainForm" name="form.domainForm" class="form-horizontal">
-
-    <div class="row">
-        <div class="col-xs-3 col-xs-offset-3">
-            <div class="form-group">
-                <label for="name" class="col-xs-6 control-label">Name</label>
-                <div class="col-xs-6">
-                    <input placeholder="Name" class="form-control" id="name"
-                           ng-model="domain.name" required=""/>
-                </div>
+        <div class="tab-content" id="domainTabsContent">
+            <div role="tabpanel" class="tab-pane active" id="users">
+                <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="invoice">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="templates">
+            </div>
+            <div role="tabpanel" class="tab-pane" id="setup">
+                <ng-include src="'/partials/domain/setup-tab.html'"></ng-include>
             </div>
         </div>
-        <div class="col-xs-3">
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input id="active" ng-model="domain.active" type="checkbox" required=""> Active
-                    </label>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</form>
-
-<div class="row">
-    <div class="col-xs-6 col-xs-offset-3">
-
-        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="domain.principals">
-            <span us-spinner="{radius:30, width:8, length: 16}"></span>
-            <thead>
-            <tr>
-                <th colspan="4"></th>
-                <th class="text-right">
-                    <button class="btn btn-primary btn-xs" data-toggle="modal"
-                            data-target="#add-user-modal">Add user
-                    </button>
-                </th>
-            </tr>
-            <tr class="info">
-                <th class="text-center">#</th>
-                <th class="text-center">Email</th>
-                <th class="text-center">Active</th>
-                <th class="text-center">User Group</th>
-                <th class="text-center">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
-                </td>
-            </tr>
-            <tr class="animate-row"
-                ng-repeat="row in displayCollection">
-                <td class="text-center">{{$index+1}}</td>
-                <td class="text-center">{{row.email}}</td>
-                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
-                <td>
-                    <div ng-if="row.role != 'GLOBAL_ADMIN'">
-                        <select name="role-{{row.id}}" class="form-control" class="form-control" ng-model="row.role"
-                                id="role-{{row.id}}"
-                                ng-change="changeRole(row)">
-                            <option value="ADMIN">Admin</option>
-                            <option value="USER">User</option>
-                            <option value="DOCUMENT_CONTROL">Document Control</option>
-                            <option value="SALES">Sales</option>
-                            <option value="MANAGEMENT">Management</option>
-                        </select>
-                    </div>
-                    <div ng-if="row.role == 'GLOBAL_ADMIN'">
-                        <input value="Global Admin" disabled class="form-control"/>
-                    </div>
-                </td>
-                <td class="text-center" style="z-index: 100;">
-                </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="4"></td>
-                <td colspan="1" class="text-right">
-                    <label for="itemsPerPage">Items per page</label>
-                    <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="5" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
-
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-2 col-xs-offset-10">
-        <a href="/document#/" class="btn-info btn-xs">Back</a>
-    </div>
-</div>
+
 </span>
-
-<ng-include src="'/partials/domain/add-user-modal.html'"></ng-include>

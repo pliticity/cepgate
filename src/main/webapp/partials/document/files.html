@@ -4,6 +4,19 @@
         <table class="table table-condensed table-hover">
             <thead>
             <tr>
+                <th colspan="3">
+                    <form ng-if="readonly()==false">
+                        <div ng-if="documentInfo.id" ngf-drop="uploadFiles(files,documentInfo.id)" class="drop-box"
+                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
+                        </div>
+                        <div ng-if="!documentInfo.id" ngf-drop="selectNewFiles(files)" class="drop-box"
+                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
+                        </div>
+                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                    </form>
+                </th>
+            </tr>
+            <tr>
                 <th colspan="2"></th>
                 <th class="text-right">
                     <form ng-if="readonly()==false">
@@ -17,7 +30,6 @@
                              ng-model="files" ngf-multiple="true">Add files
                         </div>
                     </form>
-                    <button ng-if="readonly()==false" class="btn btn-info btn-xs" ng-click="archive()">Archive</button>
                 </th>
             </tr>
             <tr class="info">

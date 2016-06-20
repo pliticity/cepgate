@@ -29,7 +29,7 @@ public class RevisionService {
         DocumentInfo document = documentInfoRepository.findOne(docId);
         List<FileInfo> files = document.getFiles();
         document.setFiles(fileService.copyFiles(document.getFiles()));
-        Revision revision = new Revision(document.getRevision(),document);
+        Revision revision = new Revision(document.getRevision(),document,document.getArchivedDate());
         document.setRevision(document.getRevision().next());
         document.getRevisions().add(revision);
         document.setState(DocumentState.IN_PROGRESS);

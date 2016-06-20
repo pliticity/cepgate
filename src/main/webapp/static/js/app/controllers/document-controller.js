@@ -58,10 +58,17 @@
 
         $scope.archive = function () {
             $http({
-                url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
-                method: 'put'
+                method: 'put',
+                url: '/document/' + $scope.documentInfo.id,
+                data: $scope.documentInfo
             }).then(function (succ) {
-                $scope.documentInfo.state = succ.data;
+                $http({
+                    url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
+                    method: 'put'
+                }).then(function (succ) {
+                    $scope.documentInfo.state = succ.data.state;
+                    $scope.documentInfo.archivedDate = succ.data.archivedDate;
+                });
             });
         };
 
@@ -92,6 +99,8 @@
                 $scope.documentInfo.revisions = succ.data;
                 $scope.documentInfo.revision.number++;
                 $scope.documentInfo.state = 'IN_PROGRESS';
+                $scope.documentInfo.archivedDate = null;
+                $scope.documentInfo.revision.prefix = $scope.documentInfo.revision.number.toString();
             });
         };
 

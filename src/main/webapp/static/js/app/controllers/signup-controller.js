@@ -49,9 +49,25 @@
                 $http({
                     method: 'post',
                     url: '/auth/signup',
-                    data: angular.toJson($scope.principal, false)
+                    data: angular.toJson($scope.principal, false),
+                    params: {"signin":true}
                 }).then(function successCallback(response) {
                     $window.location.href = '/document';
+                }, function errorCallback(response) {
+                });
+            }
+            ;
+        };
+
+        $scope.addDomain = function (redirect) {
+            if ($scope.signupForm.$valid) {
+                $http({
+                    method: 'post',
+                    url: '/auth/signup',
+                    data: angular.toJson($scope.principal, false),
+                    params: {"signin":false}
+                }).then(function successCallback(succ) {
+                    $scope.domains.push(succ.data.domain);
                 }, function errorCallback(response) {
                 });
             }

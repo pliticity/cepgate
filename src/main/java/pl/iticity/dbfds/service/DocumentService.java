@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
+import pl.iticity.dbfds.model.mixins.DocumentInfoStateChangeMixin;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
@@ -116,11 +117,18 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         //return newDocumentToJson(documentInfo);
     }
 
-    public DocumentState changeState(String id, DocumentState state){
+    public String changeState(String id, DocumentState state) throws JsonProcessingException {
         DocumentInfo doc = repo.findOne(id);
         doc.setState(state);
+        if(DocumentState.ARCHIVED.equals(state)){
+            doc.setArchivedDate(new Date());
+        }else{
+            doc.setArchivedDate(null);
+        }
         repo.save(doc);
-        return doc.getState();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.addMixIn(DocumentInfo.class, DocumentInfoStateChangeMixin.class);
+        return mapper.writeValueAsString(doc);
     }
 
     @Override

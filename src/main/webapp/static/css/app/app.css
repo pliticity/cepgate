@@ -17,3 +17,15 @@ div.tab-content {
 .sidebar-entry{
     margin:10px;
 }
+
+.drop-box {
+    background: #F8F8F8;
+    border: 3px dashed #DDD;
+    height: 80px;
+    text-align: center;
+    padding-top: 25px;
+    margin: 10px;
+}
+.dragover {
+    border: 3px dashed #337ab7;
+}
