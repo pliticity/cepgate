@@ -115,6 +115,17 @@ public class DocumentInfo {
 
     private DocumentState state;
 
+    private Date archivedDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    public Date getArchivedDate() {
+        return archivedDate;
+    }
+
+    public void setArchivedDate(Date archivedDate) {
+        this.archivedDate = archivedDate;
+    }
+
     public DocumentState getState() {
         return state;
     }

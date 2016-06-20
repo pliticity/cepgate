@@ -180,7 +180,7 @@ public class DocumentController {
 
     @RequestMapping(value = "/{id}/state/{state}", method = RequestMethod.PUT)
     public @ResponseBody
-    DocumentState putDocumentState(@PathVariable("id") String id, @PathVariable("state") DocumentState state){
+    String putDocumentState(@PathVariable("id") String id, @PathVariable("state") DocumentState state) throws JsonProcessingException {
         return service.changeState(id,state);
     }
 

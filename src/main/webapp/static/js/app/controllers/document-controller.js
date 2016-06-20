@@ -61,7 +61,8 @@
                 url: '/document/' + $scope.documentInfo.id + '/state/ARCHIVED',
                 method: 'put'
             }).then(function (succ) {
-                $scope.documentInfo.state = succ.data;
+                $scope.documentInfo.state = succ.data.state;
+                $scope.documentInfo.archivedDate = succ.data.archivedDate;
             });
         };
 
@@ -92,6 +93,7 @@
                 $scope.documentInfo.revisions = succ.data;
                 $scope.documentInfo.revision.number++;
                 $scope.documentInfo.state = 'IN_PROGRESS';
+                $scope.documentInfo.archivedDate = null;
             });
         };
 

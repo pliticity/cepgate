@@ -29,9 +29,9 @@ public class Revision {
     public Revision() {
     }
 
-    public Revision(RevisionSymbol revision, DocumentInfo data) throws JsonProcessingException {
+    public Revision(RevisionSymbol revision, DocumentInfo data, Date date) throws JsonProcessingException {
         this.principal = PrincipalUtils.getCurrentPrincipal();
-        this.date = new Date();
+        this.date = date;
         this.revision = revision;
         ObjectMapper mapper = new ObjectMapper();
         this.data = mapper.writeValueAsString(data);
