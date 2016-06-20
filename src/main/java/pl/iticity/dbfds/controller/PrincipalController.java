@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.mixins.PrincipalMixin;
+import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
+import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -20,6 +22,9 @@ public class PrincipalController {
     @Autowired
     private PrincipalService principalService;
 
+    @Autowired
+    private DomainService domainService;
+
     @RequestMapping(value = "")
     public
     @ResponseBody
@@ -30,9 +35,14 @@ public class PrincipalController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public
     @ResponseBody
-    Principal postCreatePrincipal(@RequestBody Principal principal) throws JsonProcessingException {
+    Principal postCreatePrincipal(@RequestBody Principal principal, @RequestParam("domainId") String domainId) throws JsonProcessingException {
+        AuthorizationProvider.hasRole(Role.ADMIN,domainId == null ? PrincipalUtils.getCurrentDomain() : domainService.findById(domainId));
         principal.setRole(Role.USER);
-        principal.setDomain(PrincipalUtils.getCurrentDomain());
+        if (domainId != null) {
+            principal.setDomain(domainService.findById(domainId));
+        } else {
+            principal.setDomain(PrincipalUtils.getCurrentDomain());
+        }
         principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
         principal.setPhone("12");
         return principalService.save(principal);

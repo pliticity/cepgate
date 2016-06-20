@@ -34,7 +34,9 @@
 
         $scope.save = function () {
             if ($scope.form.userForm.$valid) {
-                $http({url: '/principal', method: 'post', data: $scope.principal});
+                $http({url: '/principal', method: 'post', data: $scope.principal, params:{"domainId" : $scope.domain.id}}).then(function (succ) {
+                    $scope.domain.principals.push(succ.data);
+                });
             }
         };
 

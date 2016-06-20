@@ -35,12 +35,20 @@
         <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="domain.principals">
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
+            <tr>
+                <th colspan="4"></th>
+                <th class="text-right">
+                    <button class="btn btn-primary btn-xs" data-toggle="modal"
+                            data-target="#add-user-modal">Add user
+                    </button>
+                </th>
+            </tr>
             <tr class="info">
                 <th class="text-center">#</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Active</th>
                 <th class="text-center">User Group</th>
-                <th class="text-center">Action</th>
+                <!--<th class="text-center">Action</th>-->
             </tr>
             </thead>
             <tbody>
@@ -69,8 +77,8 @@
                         <input value="Global Admin" disabled class="form-control"/>
                     </div>
                 </td>
-                <td style="z-index: 100;">
-                </td>
+                <!--<td style="z-index: 100;">
+                </td>-->
             </tr>
             </tbody>
             <tfoot>
@@ -96,3 +104,5 @@
         <a href="admin#/" class="btn-info btn-xs">Back</a>
     </div>
 </div>
+
+<ng-include src="'/partials/domain/add-user-modal.html'"></ng-include>

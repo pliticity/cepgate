@@ -42,9 +42,8 @@ public class AuthController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public
     @ResponseBody
-    JsonResponse postSignUp(@RequestBody final Principal principal) {
-        principalService.registerPrincipal(principal);
-        return JsonResponse.success("principal created");
+    Principal postSignUp(@RequestBody final Principal principal, @RequestParam(value = "signin") boolean signin) {
+        return principalService.registerPrincipal(principal,signin);
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.GET)

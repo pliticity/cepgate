@@ -49,7 +49,7 @@
                 <th class="text-center">Email</th>
                 <th class="text-center">Active</th>
                 <th class="text-center">User Group</th>
-                <th class="text-center">Action</th>
+                <!--<th class="text-center">Action</th>-->
             </tr>
             </thead>
             <tbody>
@@ -61,7 +61,8 @@
                 ng-repeat="row in displayCollection">
                 <td class="text-center">{{$index+1}}</td>
                 <td class="text-center">{{row.email}}</td>
-                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
+                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/>
+                </td>
                 <td>
                     <div ng-if="row.role != 'GLOBAL_ADMIN'">
                         <select name="role-{{row.id}}" class="form-control" class="form-control" ng-model="row.role"
@@ -78,8 +79,8 @@
                         <input value="Global Admin" disabled class="form-control"/>
                     </div>
                 </td>
-                <td class="text-center" style="z-index: 100;">
-                </td>
+                <!--<td class="text-center" style="z-index: 100;">
+                </td>-->
             </tr>
             </tbody>
             <tfoot>
@@ -105,6 +106,7 @@
         <a href="/document#/" class="btn-info btn-xs">Back</a>
     </div>
 </div>
-</span>
+
 
 <ng-include src="'/partials/domain/add-user-modal.html'"></ng-include>
+    </span>

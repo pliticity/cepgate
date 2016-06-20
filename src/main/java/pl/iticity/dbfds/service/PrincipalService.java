@@ -50,7 +50,7 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         SecurityUtils.getSubject().logout();
     }
 
-    public void registerPrincipal(Principal principal){
+    public Principal registerPrincipal(Principal principal,boolean signin){
         Principal existingPrincipal = repo.findByEmail(principal.getEmail());
         Domain existingDomain = domainRepository.findByName(principal.getEmail());
 
@@ -68,8 +68,12 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         principal.setRole(Role.ADMIN);
 
         repo.save(principal);
+        principal.getDomain().setNoOfUsers(findByDomain(domain).size());
 
-        authenticate(principal);
+        if(signin) {
+            authenticate(principal);
+        }
+        return principal;
     }
 
     public List<Principal> changeActive(String id, boolean active){
