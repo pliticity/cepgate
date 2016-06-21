@@ -69,7 +69,12 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         fileInfo.setPath(computeContentPath(domain, (Principal) SecurityUtils.getSubject().getPrincipal()));
         fileInfo.setName(fileName);
         fileInfo.setUploadDate(DateTime.now().toDate());
+        fileInfo.setDomain(domain);
         writeFile(inputStream,getOutputStreamFromContent(fileInfo));
+        File file = new File(dataDir + fileInfo.getPath() + fileInfo.getSymbol());
+        double bytes = file.length();
+        double kilobytes = (bytes / 1024);
+        fileInfo.setSize(kilobytes);
         return repo.save(fileInfo);
     }
 
@@ -217,6 +222,18 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         FileInfo copy = createFile(PrincipalUtils.getCurrentDomain(),fileInfo.getName(),fileInfo.getType(),fis);
         repo.save(copy);
         return copy;
+    }
+
+    public long countByDomain(Domain domain) {
+        return repo.findByDomain(domain).size();
+    }
+
+    public double countMemoryByDomain(Domain domain) {
+        double mem = 0;
+        for(FileInfo fileInfo : repo.findByDomain(domain)){
+            mem += fileInfo.getSize();
+        }
+        return mem;
     }
 
     public DefaultConfig getDefaultConfig() {

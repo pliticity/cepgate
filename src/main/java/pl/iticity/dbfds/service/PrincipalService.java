@@ -19,6 +19,7 @@ import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -64,6 +65,7 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
         Domain domain = new Domain();
         domain.setActive(true);
+        domain.setCreationDate(new Date());
         domain.setName(principal.getEmail());
         domainRepository.save(domain);
 
@@ -76,6 +78,7 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         principal.setDomain(domain);
         principal.setActive(true);
         principal.setRole(Role.ADMIN);
+        principal.setCreationDate(new Date());
 
         repo.save(principal);
         principal.getDomain().setNoOfUsers(findByDomain(domain).size());

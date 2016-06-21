@@ -1,11 +1,13 @@
 package pl.iticity.dbfds.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
@@ -27,6 +29,15 @@ public class Domain{
 
     @Transient
     private long noOfUsers;
+
+    @Transient
+    private long noOfFiles;
+
+    @Transient
+    private double memory;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date creationDate;
 
     public long getLastMasterDocumentNumber() {
         return lastMasterDocumentNumber;
@@ -74,5 +85,29 @@ public class Domain{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getNoOfFiles() {
+        return noOfFiles;
+    }
+
+    public void setNoOfFiles(long noOfFiles) {
+        this.noOfFiles = noOfFiles;
+    }
+
+    public double getMemory() {
+        return memory;
+    }
+
+    public void setMemory(double memory) {
+        this.memory = memory;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

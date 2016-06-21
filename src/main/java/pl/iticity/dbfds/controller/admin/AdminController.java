@@ -15,12 +15,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.DomainService;
+import pl.iticity.dbfds.service.FileService;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController{
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private DomainService domainService;
@@ -50,6 +54,8 @@ public class AdminController{
     Domain getDomain(@PathVariable("id") String id) {
         Domain domain = domainService.findById(id);
         domain.setPrincipals(principalService.findByDomain(domain));
+        domain.setNoOfFiles(fileService.countByDomain(domain));
+        domain.setMemory(fileService.countMemoryByDomain(domain));
         return domain;
     }
 
