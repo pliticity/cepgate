@@ -69,6 +69,7 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
         for(DocumentType documentType : DocumentType.getDefault()){
             documentType.setDomain(domain);
+            documentType.setActive(true);
             documentTypeService.save(documentType);
         }
 

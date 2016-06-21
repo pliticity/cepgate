@@ -33,6 +33,8 @@ public class DocumentType {
     @DBRef
     private Domain domain;
 
+    private boolean active;
+
     public DocumentType() {
     }
 
@@ -71,6 +73,14 @@ public class DocumentType {
 
     public void setDomain(Domain domain) {
         this.domain = domain;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @JsonIgnore

@@ -189,8 +189,8 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/types", method = RequestMethod.GET)
-    public @ResponseBody List<DocumentType> getDocumentTypes(){
-        return documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain());
+    public @ResponseBody List<DocumentType> getDocumentTypes(@RequestParam("active") boolean active){
+        return documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
     }
 
     public FileService getFileService() {

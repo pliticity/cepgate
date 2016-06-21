@@ -10,4 +10,6 @@ public interface DocumentTypeRepository extends MongoRepository<DocumentType,Str
 
     public List<DocumentType> findByDomain(Domain domain);
 
+    public List<DocumentType> findByDomainAndActiveIsTrue(Domain domain);
+
 }

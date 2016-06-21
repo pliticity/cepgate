@@ -22,7 +22,7 @@
 
         // EXPOSE SERVICE
 
-        $http({url: '/document/types', method: 'get'}).then(function (succ) {
+        $http({url: '/document/types', method: 'get',params:{active:true}}).then(function (succ) {
             $scope.types = succ.data
         });
 
