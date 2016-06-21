@@ -77,7 +77,7 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         if(documentInfo==null){
             return fname;
         }
-        String name = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getType().name(),documentInfo.getDocumentName(),fname);
+        String name = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getDocType().getName(),documentInfo.getDocumentName(),fname);
         return name;
     }
 

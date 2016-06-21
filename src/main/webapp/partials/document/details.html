@@ -49,17 +49,14 @@
                     </div>
                 </div>
 
-                <div class="form-group" form-error="" form="form.documentForm" field="type"
+                <div class="form-group" form-error="" form="form.documentForm" field="docType"
                      messages='{"required":"This field is required"}'>
                     <div class="row">
-                        <label for="type" class="col-xs-6 control-label">Document Type</label>
+                        <label for="docType" class="col-xs-6 control-label">Document Type</label>
                         <div class="col-xs-6">
-                            <select ng-readonly="readonly()==true" name="type" ng-model="documentInfo.type"
-                                    class="form-control" id="type" required="">
-                                <option value="DRAWING">Drawing</option>
-                                <option value="DOCUMENT">Document</option>
-                                <option value="MOM">MOM</option>
-                                <option value="PICTURE">Picture</option>
+                            <select ng-change="typeSelected()" ng-readonly="readonly()==true" name="docType" ng-model="documentInfo.docType.id"
+                                    class="form-control" id="docType" required="">
+                                <option ng-repeat="dt in types" value="{{dt.id}}">{{dt.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -157,14 +154,12 @@
                     </div>
                 </div>
 
-                <div class="form-group" form-error="" form="form.documentForm" field="typeId"
+                <div class="form-group" form-error="" form="form.documentForm" field="docTypeId"
                      messages='{"required":"This field is required"}'>
                     <div class="row">
-                        <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
+                        <label for="docTypeId" class="col-xs-6 control-label">Document Type ID</label>
                         <div class="col-xs-6">
-                            <input ng-readonly="readonly()==true" placeholder="Document Type ID" class="form-control"
-                                   name="typeId" id="typeId"
-                                   required=""/>
+                            <input ng-readonly="true" disabled id="docTypeId" class="disabled form-control" ng-model="documentInfo.docType.typeId"/>
                         </div>
                     </div>
                 </div>

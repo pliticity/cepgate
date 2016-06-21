@@ -1,0 +1,50 @@
+<div id="add-doc-type-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-doc-type-modal-label">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add-doc-type-modal-label">Add Document Type</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3">
+                        <form id="form.docTypeForm" name="form.docTypeForm" class="form-horizontal">
+
+                            <div class="form-group" form-error="" form="form.docTypeForm" field="name"
+                                 messages='{"required":"This field is required"}'>
+                                <div class="row">
+                                    <label for="name" class="col-xs-6 control-label">Document Type</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" class="form-control"
+                                               ng-model="docType.name"
+                                               name="name"
+                                               id="name" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" form-error="" form="form.docTypeForm" field="typeId"
+                                 messages='{"required":"This field is required"}'>
+                                <div class="row">
+                                    <label for="typeId" class="col-xs-6 control-label">Document Type ID</label>
+                                    <div class="col-xs-6">
+                                        <input type="text" class="form-control"
+                                               ng-model="docType.typeId"
+                                               name="typeId"
+                                               id="typeId" required=""/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addDocType()">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

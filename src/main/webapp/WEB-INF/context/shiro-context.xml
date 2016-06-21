@@ -32,12 +32,14 @@
                 #/admin/** = authc, roles[admin]
                 #/docs/** = authc, perms[document:read]
                 #/member/** = token
-                #/documents/** =  token
+                #/documents/** = token
                 #/api/** = authc
                 # more URL-to-FilterChain definitions here
             </value>
         </property>
     </bean>
+
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"/>
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="iticityRealm"/>
@@ -55,6 +57,7 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <bean id="iticityRealm" class="pl.iticity.dbfds.security.IticityRealm">
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
 </beans>

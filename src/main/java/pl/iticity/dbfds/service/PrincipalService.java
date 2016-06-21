@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.PrincipalSelectMixin;
@@ -25,6 +26,9 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
     @Autowired
     private DomainRepository domainRepository;
+
+    @Autowired
+    private DocumentTypeService documentTypeService;
 
     public String principalsSelectToJson(List<Principal> principals) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,6 +66,12 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         domain.setActive(true);
         domain.setName(principal.getEmail());
         domainRepository.save(domain);
+
+        for(DocumentType documentType : DocumentType.getDefault()){
+            documentType.setDomain(domain);
+            documentType.setActive(true);
+            documentTypeService.save(documentType);
+        }
 
         principal.setDomain(domain);
         principal.setActive(true);

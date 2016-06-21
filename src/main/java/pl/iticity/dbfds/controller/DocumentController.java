@@ -27,6 +27,7 @@ import pl.iticity.dbfds.model.dto.DocToCopyDTO;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
+import pl.iticity.dbfds.service.DocumentTypeService;
 import pl.iticity.dbfds.service.FileService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -48,6 +49,9 @@ public class DocumentController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private DocumentTypeService documentTypeService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getDocumentView() {
@@ -182,6 +186,11 @@ public class DocumentController {
     public @ResponseBody
     String putDocumentState(@PathVariable("id") String id, @PathVariable("state") DocumentState state) throws JsonProcessingException {
         return service.changeState(id,state);
+    }
+
+    @RequestMapping(value = "/types", method = RequestMethod.GET)
+    public @ResponseBody List<DocumentType> getDocumentTypes(@RequestParam("active") boolean active){
+        return documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
     }
 
     public FileService getFileService() {

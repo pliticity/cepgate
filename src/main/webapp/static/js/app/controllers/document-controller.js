@@ -18,8 +18,26 @@
         $scope.users = {};
         $scope.tableId = 'search';
         $scope.revision = false;
+        $scope.types = [];
 
         // EXPOSE SERVICE
+
+        $http({url: '/document/types', method: 'get',params:{active:true}}).then(function (succ) {
+            $scope.types = succ.data
+        });
+
+        $scope.typeSelected = function(){
+            var selected = {};
+            for(var i =0; i<$scope.types.length; i++){
+                var type = $scope.types[i];
+                if(type.id == $scope.documentInfo.docType.id){
+                    selected = type;
+                    break;
+                }
+            }
+            $scope.documentInfo.docType.typeId = selected.typeId;
+            $scope.documentInfo.docType.name = selected.name;
+        };
 
         $scope.auth = authorizationService;
 

@@ -3,11 +3,11 @@ package pl.iticity.dbfds.controller.admin;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.Role;
+import pl.iticity.dbfds.service.DocumentTypeService;
 import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -23,6 +23,9 @@ public class DomainAdminController {
 
     @Autowired
     private PrincipalService principalService;
+
+    @Autowired
+    private DocumentTypeService documentTypeService;
 
     @RequestMapping(value = "", params = {"isAdmin"})
     public
@@ -54,5 +57,17 @@ public class DomainAdminController {
         return domain;
     }
 
+    @RequestMapping(value = "/docType",method = RequestMethod.POST)
+    public
+    @ResponseBody
+    List<DocumentType> postDocumentType(@RequestBody DocumentType documentType) {
+        return documentTypeService.addDocType(documentType,PrincipalUtils.getCurrentDomain());
+    }
 
+    @RequestMapping(value = "/docType/{id}",method = RequestMethod.PUT,params = {"toggle"})
+    public
+    @ResponseBody
+    List<DocumentType> deleteDocType(@PathVariable("id") String id,@RequestParam("toggle") boolean toggle) {
+        return documentTypeService.toggleDocType(id,toggle);
+    }
 }

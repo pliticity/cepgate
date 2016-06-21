@@ -35,10 +35,6 @@ public class DocumentInfo {
         INTERNAL, EXTERNAL;
     }
 
-    public enum Type {
-        DRAWING, DOCUMENT, MOM, PICTURE
-    }
-
     public enum Provider {
         COMPANY,SUPPLIER,CUSTOMER
     }
@@ -67,7 +63,8 @@ public class DocumentInfo {
     private Kind kind;
 
     @NotNull
-    private Type type;
+    @DBRef
+    private DocumentType docType;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
@@ -279,12 +276,12 @@ public class DocumentInfo {
         this.kind = kind;
     }
 
-    public Type getType() {
-        return type;
+    public DocumentType getDocType() {
+        return docType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setDocType(DocumentType docType) {
+        this.docType = docType;
     }
 
     public Date getCreationDate() {
@@ -357,7 +354,7 @@ public class DocumentInfo {
         documentInfo.setPlannedIssueDate(getPlannedIssueDate());
         documentInfo.setResponsibleUser(getResponsibleUser());
         documentInfo.setSecurityGroup(getSecurityGroup());
-        documentInfo.setType(getType());
+        documentInfo.setDocType(getDocType());
         documentInfo.setProvider(getProvider());
         documentInfo.setTags(getTags());
         documentInfo.setRevision(new RevisionSymbol());
