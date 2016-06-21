@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.model;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -23,6 +25,12 @@ public class FileInfo {
     private String symbol;
 
     private String path;
+
+    @DBRef
+    @NotNull
+    private Domain domain;
+
+    private double size;
 
     public String getPath() {
         return path;
@@ -70,5 +78,21 @@ public class FileInfo {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Domain getDomain() {
+        return domain;
+    }
+
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
     }
 }

@@ -4,30 +4,71 @@
 
 <!-- CONTENT -->
 
-<form id="form.domainForm" name="form.domainForm" class="form-horizontal">
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <form id="form.domainForm" name="form.domainForm" class="form-horizontal">
 
-    <div class="row">
-        <div class="col-xs-3 col-xs-offset-3">
-            <div class="form-group">
-                <label for="name" class="col-xs-6 control-label">Name</label>
-                <div class="col-xs-6">
-                    <input placeholder="Name" class="form-control" id="name"
-                           ng-model="domain.name" required=""/>
+            <div class="row">
+                <div class="col-xs-7 col-xs-offset-1">
+                    <div class="form-group">
+                        <label for="name" class="col-xs-6 control-label">Name</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Name" class="form-control" id="name"
+                                   ng-model="domain.name" required=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input id="active" ng-model="domain.active" type="checkbox" required=""> Active
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-3">
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input id="active" ng-model="domain.active" type="checkbox" required=""> Active
-                    </label>
+
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-1">
+                    <div class="form-group">
+                        <label for="name" class="col-xs-6 control-label"># Files</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Name" class="form-control disabled" id="noOfFiles"
+                                   ng-model="domain.noOfFiles" disabled ng-readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-7">
+                    <div class="form-group">
+                        <label for="memory" class="col-xs-6 control-label">Memory used</label>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <input placeholder="memory" class="form-control disabled" id="memory"
+                                       ng-model="domain.memory" disabled ng-readonly="true"/>
+                                <span class="input-group-addon">kB</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-xs-3 col-xs-offset-1">
+                    <div class="form-group">
+                        <label for="creationDate" class="col-xs-6 control-label">Creation Date</label>
+                        <div class="col-xs-6">
+                            <input placeholder="Name" class="form-control disabled" id="creationDate"
+                                   ng-model="domain.creationDate" disabled ng-readonly="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
     </div>
-
-</form>
+</div>
 
 <div class="row">
     <div class="col-xs-6 col-xs-offset-3">
@@ -46,6 +87,7 @@
             <tr class="info">
                 <th class="text-center">#</th>
                 <th class="text-center">Email</th>
+                <th class="text-center">Creation Date</th>
                 <th class="text-center">Active</th>
                 <th class="text-center">User Group</th>
                 <!--<th class="text-center">Action</th>-->
@@ -60,6 +102,7 @@
                 ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
                 <td>{{$index+1}}</td>
                 <td>{{row.email}}</td>
+                <td class="text-center">{{row.creationDate}}</td>
                 <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/></td>
                 <td>
                     <div ng-if="row.role != 'GLOBAL_ADMIN'">

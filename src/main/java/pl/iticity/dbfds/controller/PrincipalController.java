@@ -13,6 +13,7 @@ import pl.iticity.dbfds.service.DomainService;
 import pl.iticity.dbfds.service.PrincipalService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -45,6 +46,7 @@ public class PrincipalController {
         }
         principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
         principal.setPhone("12");
+        principal.setCreationDate(new Date());
         return principalService.save(principal);
     }
 

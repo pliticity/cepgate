@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.security;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * Created by dacho on 23.03.2016.
@@ -64,6 +66,9 @@ public class Principal {
     private Domain domain;
 
     private boolean active;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date creationDate;
 
     public Principal(String email,String password){
         setEmail(email);
@@ -187,6 +192,14 @@ public class Principal {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override
