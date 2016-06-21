@@ -50,7 +50,11 @@ public class Principal {
     @NotNull(message = "Cannot be empty")
     private String phone;
 
+    @Size(min = 1)
+    @NotNull(message = "Cannot be empty")
     private String company;
+
+    private String url;
 
     @NotNull
     private Role role;
@@ -175,6 +179,14 @@ public class Principal {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
