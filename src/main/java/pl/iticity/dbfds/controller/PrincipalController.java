@@ -47,6 +47,7 @@ public class PrincipalController {
         principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
         principal.setPhone("12");
         principal.setCreationDate(new Date());
+        principal.setCompany(PrincipalUtils.getCurrentPrincipal().getCompany());
         return principalService.save(principal);
     }
 
