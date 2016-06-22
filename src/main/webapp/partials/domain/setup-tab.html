@@ -13,9 +13,9 @@
                 </th>
             </tr>
             <tr class="info">
-                <th class="text-center">ID</th>
-                <th class="text-center">Type</th>
-                <th class="text-center">Active</th>
+                <th class="text-left">Type</th>
+                <th class="text-left">ID</th>
+                <th class="text-left">Active</th>
             </tr>
             </thead>
             <tbody>
@@ -24,9 +24,9 @@
                 </td>
             </tr>
             <tr ng-repeat="row in displayCollection" class="animate-row" ng-attr-class="{{row.active==true && 'animate-row active' || 'animate-row' }}">
-                <td class="text-center">{{row.typeId}}</td>
-                <td class="text-center">{{row.name}}</td>
-                <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="toggleDocType(row)"/></td>
+                <td class="text-left">{{row.name}}</td>
+                <td class="text-left">{{row.typeId}}</td>
+                <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleDocType(row)"/></td>
             </tr>
             </tbody>
         </table>
