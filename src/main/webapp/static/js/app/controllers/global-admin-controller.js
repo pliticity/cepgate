@@ -14,6 +14,11 @@
             $window.open("/admin#/domain/" + id,'_self');
         };
 
+        $scope.toggleActive = function (row) {
+            $http({url: '/admin/domain/' + row.id, method: 'put', params: {active: row.active}}).then(function (succ) {
+                $scope.domains = succ.data
+            });
+        };
     }]);
 
 })();

@@ -11,7 +11,7 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="4"></th>
+                <th colspan="7"></th>
                 <th class="text-right">
                     <div data-toggle="modal" data-target="#add-domain-modal"
                          class="btn btn-info btn-xs">Add Domain
@@ -19,38 +19,43 @@
                 </th>
             </tr>
             <tr class="info">
-                <th>#</th>
+                <th>Account number</th>
+                <th>Company</th>
                 <th>Domain Name</th>
+                <th>Creation Date</th>
                 <th>Active</th>
+                <th># Files</th>
+                <th>Memory Used</th>
                 <th># Users</th>
-                <th>Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="8"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr class="animate-row"
                 ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
                 <td ng-click="openDomain(row.id)">{{$index+1}}</td>
+                <td ng-click="openDomain(row.id)">{{row.company}}</td>
                 <td ng-click="openDomain(row.id)">{{row.name}}</td>
-                <td ng-click="openDomain(row.id)">{{row.active}}</td>
+                <td ng-click="openDomain(row.id)">{{row.creationDate}}</td>
+                <td><input type="checkbox" ng-model="row.active" ng-change="toggleActive(row)"/></td>
+                <td ng-click="openDomain(row.id)">{{row.noOfFiles}}</td>
+                <td ng-click="openDomain(row.id)">{{row.memory}}kB</td>
                 <td ng-click="openDomain(row.id)">{{row.noOfUsers}}</td>
-                <td style="z-index: 100;">
-                </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="4"></td>
+                <td colspan="7"></td>
                 <td colspan="1" class="text-right">
                     <label for="itemsPerPage">Items per page</label>
                     <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="5" class="text-center">
+                <td colspan="8" class="text-center">
                     <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
                 </td>
             </tr>

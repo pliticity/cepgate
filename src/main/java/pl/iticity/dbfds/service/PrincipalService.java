@@ -64,6 +64,7 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         }
 
         Domain domain = new Domain();
+        domain.setCompany(principal.getCompany());
         domain.setActive(true);
         domain.setCreationDate(new Date());
         domain.setName(principal.getEmail());

@@ -36,6 +36,8 @@ public class Domain{
     @Transient
     private double memory;
 
+    private String company;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
 
@@ -109,5 +111,13 @@ public class Domain{
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }

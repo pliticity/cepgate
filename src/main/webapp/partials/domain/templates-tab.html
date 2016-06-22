@@ -1,0 +1,35 @@
+<div class="row" ng-controller="TemplateController">
+    <div class="col-xs-10 col-xs-offset-1">
+
+        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="templates">
+            <span us-spinner="{radius:30, width:8, length: 16}"></span>
+            <thead>
+            <tr>
+                <th colspan="2"></th>
+                <th class="text-right">
+                    <button ngf-select="uploadFile(file)" accept=".doc,.docx" ngf-pattern="'.doc,.docx'" ngf-keep="false" ng-model="file" ngf-multiple="false" class="btn btn-primary btn-xs">Add Template</button>
+                </th>
+            </tr>
+            <tr class="info">
+                <th class="text-left">Creation Date</th>
+                <th class="text-left">File</th>
+                <th class="text-left">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="3"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                </td>
+            </tr>
+            <tr ng-repeat="row in displayCollection" class="animate-row">
+                <td ng-click="openFile(row.file.symbol)" class="text-left">{{row.date}}</td>
+                <td ng-click="openFile(row.file.symbol)" class="text-left">{{row.file.name}}</td>
+                <td class="text-left"><button class="btn btn-xs btn-danger" ng-click="remove(row.id)">Delete</button></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<ng-include src="'/partials/domain/add-doc-type-modal.html'"></ng-include>

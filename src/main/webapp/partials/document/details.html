@@ -281,9 +281,20 @@
     </div>
 
     <ul id="details-{{documentInfo.id}}-tabs" class="nav nav-pills" role="tablist">
-        <li role="presentation" class="active"><a href="#in-progress-{{documentInfo.id}}"
-                                                  aria-controls="in-progress-{{documentInfo.id}}" role="tab"
-                                                  data-toggle="tab">Current Revision</a></li>
+        <li role="presentation" class="active">
+            <a href="#in-progress-{{documentInfo.id}}" aria-controls="in-progress-{{documentInfo.id}}" role="tab"
+               data-toggle="tab">
+                <span ng-if="documentInfo.state == 'ARCHIVED' && revision == false">
+                    Archived revison
+                </span>
+                <span ng-if="revision == true">
+                    Revision {{documentInfo.revision.prefix}}
+                </span>
+                <span ng-if="documentInfo.state != 'ARCHIVED' && revision == false">
+                    Current Revision
+                </span>
+            </a>
+        </li>
         <li has-role="DOCUMENT_CONTROL,MANAGEMENT" ng-if="revision==false" role="presentation" class=""><a href="#history-{{documentInfo.id}}"
                                                                     aria-controls="history-{{documentInfo.id}}"
                                                                     role="tab"
