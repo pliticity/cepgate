@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
+    dhdModule.controller('DocumentController', ['$timeout','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function ($timeout,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
 
         // DOCUMENT
 
@@ -253,12 +253,14 @@
         };
 
         $scope.deleteFile = function (documentId, fId) {
-            $http({
-                method: 'delete',
-                url: '/document/' + documentId + '/delete/' + fId
-            }).then(function (response) {
-                $scope.documentInfo.files = response.data;
-            });
+            $timeout(function () {
+                $http({
+                    method: 'delete',
+                    url: '/document/' + documentId + '/delete/' + fId
+                }).then(function (response) {
+                    $scope.documentInfo.files = response.data;
+                });
+            },500);
         };
 
         $scope.uploadFiles = function (files, docId) {

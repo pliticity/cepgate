@@ -43,13 +43,14 @@
                 <td ng-click="openFile(fileInfo.symbol)">{{$index+1}}</td>
                 <td ng-click="openFile(fileInfo.symbol)">{{fileInfo.name}}</td>
                 <td>
-                    <div ng-if="readonly()==false" class="btn btn-danger btn-xs" ng-click="deleteFile(documentInfo.id,fileInfo.id)">
+                    <div ng-if="readonly()==false" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#delete-file-modal-{{fileInfo.id}}">
                         Delete
                     </div>
                     <div ng-if="readonly()==false" data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
                          class="btn btn-info btn-xs">Change name
                     </div>
                     <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
+                    <ng-include src="'/partials/document/files/confirmation-modal.html'"></ng-include>
                 </td>
             </tr>
             <tr ng-if="!documentInfo.id" ng-repeat="file in files">
