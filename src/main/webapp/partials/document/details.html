@@ -1,18 +1,6 @@
 <div style="padding-top: 10px;">
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
 
-        <div class="alert alert-info" ng-if="revision==true">
-            <div class="row">
-                <div class="col-xs-10">
-                    <strong>Warning!</strong> This is a revision of the document
-                </div>
-                <div class="col-xs-2 text-right">
-                    <button ng-if="revision==true" class="btn btn-info btn-xs" ng-click="get(documentInfo.id)">Back
-                    </button>
-                </div>
-            </div>
-        </div>
-
     <form id="form.documentForm" name="form.documentForm" class="form-horizontal">
 
         <div class="row">
@@ -271,6 +259,18 @@
     <div class="alert alert-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'">
         <div class="row">
             <div class="col-xs-10">This document is archived. <button ng-if="revision==false && documentInfo.state == 'ARCHIVED'" class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision</button> to edit.
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info" ng-if="revision==true">
+        <div class="row">
+            <div class="col-xs-10">
+                <strong>Warning!</strong> This is a revision of the document
+            </div>
+            <div class="col-xs-2 text-right">
+                <button ng-if="revision==true" class="btn btn-info btn-xs" ng-click="get(documentInfo.id)">Back
+                </button>
             </div>
         </div>
     </div>
