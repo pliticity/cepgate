@@ -15,8 +15,6 @@
             if ($scope.form.classificationForm.$valid) {
                 $scope.objectify($scope.classification.children);
                 $scope.objectify($scope.classification.parents);
-                $("#add-doc-type-modal").remove();
-                
                 $http({url: '/classification', method: 'post', data: $scope.classification}).then(function (succ) {
                     $scope.classifications = succ.data;
                 });

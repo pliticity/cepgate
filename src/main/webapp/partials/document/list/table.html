@@ -58,7 +58,7 @@
             </button>
             <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>-->
             </button>
-            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="">
+            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="apply">
                 <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
             </select>
             </button>

@@ -8,16 +8,17 @@
                 element.ready(function () {
                     element = $(element[0]);
                     if (element.parent(".hide-native-select").length < 1) {
-                        console.log(element);
+                        var func = function(){};
+                        if(attributes.toggleMultiSelect=='apply'){
+                            func = function (option, checked, select) {
+                                scope.$apply();
+                            };
+                        }
                         element.multiselect({
                             includeSelectAllOption: true,
                             numberDisplayed: 1,
-                            onChange: function (option, checked, select) {
-                                scope.$apply();
-                            },
-                            onSelectAll: function (option, checked, select) {
-                                scope.$apply();
-                            }
+                            onChange: func,
+                            onSelectAll: func
                         });
                     }
                 });
