@@ -1,0 +1,44 @@
+<span ng-controller="ClassificationController">
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+
+        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="classifications">
+            <span us-spinner="{radius:30, width:8, length: 16}"></span>
+            <thead>
+            <tr>
+                <th colspan="4"></th>
+                <th class="text-right">
+                    <button class="btn btn-primary btn-xs" data-toggle="modal"
+                            data-target="#add-classification-modal">Add Classification
+                    </button>
+                </th>
+            </tr>
+            <tr class="info">
+                <th class="text-left">Name</th>
+                <th class="text-left">ID</th>
+                <th class="text-left">Parents</th>
+                <th class="text-left">Children</th>
+                <th class="text-left">Active</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                </td>
+            </tr>
+            <tr ng-repeat="row in displayCollection" class="animate-row"
+                ng-attr-class="{{row.active==true && 'animate-row active' || 'animate-row' }}">
+                <td class="text-left">{{row.name}}</td>
+                <td class="text-left">{{row.classificationId}}</td>
+                <td class="text-left">{{row.parentsIds}}</td>
+                <td class="text-left">{{row.childrenIds}}</td>
+                <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleClassification(row)"/></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<ng-include src="'/partials/domain/setup/add-classification-modal.html'"></ng-include>
+</span>

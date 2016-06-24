@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function (authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
+    dhdModule.controller('DocumentController', ['$timeout','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function ($timeout,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
 
         // DOCUMENT
 
@@ -19,11 +19,16 @@
         $scope.tableId = 'search';
         $scope.revision = false;
         $scope.types = [];
+        $scope.classifications = [];
 
         // EXPOSE SERVICE
 
         $http({url: '/document/types', method: 'get',params:{active:true}}).then(function (succ) {
             $scope.types = succ.data
+        });
+
+        $http({url: '/classification', method: 'get',params:{active:true}}).then(function (succ) {
+            $scope.classifications = succ.data
         });
 
         $scope.typeSelected = function(){
@@ -37,6 +42,19 @@
             }
             $scope.documentInfo.docType.typeId = selected.typeId;
             $scope.documentInfo.docType.name = selected.name;
+        };
+
+        $scope.classificationSelected = function(){
+            var selected = {};
+            for(var i =0; i<$scope.classifications.length; i++){
+                var type = $scope.classifications[i];
+                if(type.id == $scope.documentInfo.classification.id){
+                    selected = type;
+                    break;
+                }
+            }
+            $scope.documentInfo.classification.classificationId = selected.classificationId;
+            $scope.documentInfo.classification.name = selected.name;
         };
 
         $scope.auth = authorizationService;
@@ -209,7 +227,7 @@
             if ($scope.form.documentForm.$valid) {
                 $http({method: 'put', url: '/document/' + $scope.documentInfo.id, data: $scope.documentInfo});
             }
-            $("span[id='tab-name-" + $scope.documentInfo.id + "']").html($scope.documentInfo.documentName);
+            $("span[id='tab-name-" + $scope.documentInfo.id + "']").html($scope.documentInfo.documentNumber);
         };
 
         // FILES
@@ -235,12 +253,14 @@
         };
 
         $scope.deleteFile = function (documentId, fId) {
-            $http({
-                method: 'delete',
-                url: '/document/' + documentId + '/delete/' + fId
-            }).then(function (response) {
-                $scope.documentInfo.files = response.data;
-            });
+            $timeout(function () {
+                $http({
+                    method: 'delete',
+                    url: '/document/' + documentId + '/delete/' + fId
+                }).then(function (response) {
+                    $scope.documentInfo.files = response.data;
+                });
+            },500);
         };
 
         $scope.uploadFiles = function (files, docId) {

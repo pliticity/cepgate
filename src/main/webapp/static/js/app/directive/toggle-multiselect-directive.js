@@ -7,13 +7,20 @@
             $timeout(function () {
                 element.ready(function () {
                     element = $(element[0]);
-                    element.multiselect({
-                        includeSelectAllOption: true, numberDisplayed: 1, onChange: function (option, checked, select) {
-                            scope.$apply();
-                        }, onSelectAll: function (option, checked, select) {
-                            scope.$apply();
+                    if (element.parent(".hide-native-select").length < 1) {
+                        var func = function(){};
+                        if(attributes.toggleMultiSelect=='apply'){
+                            func = function (option, checked, select) {
+                                scope.$apply();
+                            };
                         }
-                    });
+                        element.multiselect({
+                            includeSelectAllOption: true,
+                            numberDisplayed: 1,
+                            onChange: func,
+                            onSelectAll: func
+                        });
+                    }
                 });
             });
         }

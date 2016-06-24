@@ -27,7 +27,7 @@
         <th st-sort="documentNumber">Document Number</th>
         <th st-sort="revision.effective">Revision</th>
         <th st-sort="type">Document Type</th>
-        <th st-sort="documentName">Document Name</th>
+        <th st-sort="documentName">Document Title</th>
         <th st-sort="creationDate">Creation Date</th>
         <th st-sort="createdBy.email">Created By</th>
         <th st-sort="noOfFiles"># Files</th>
@@ -42,23 +42,23 @@
     <tr docId="{{row.id}}" class="animate-row"
         ng-repeat="row in displayCollection">
         <td cs-select="row"></td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.classificationId}}
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.classification.classificationId}}
         </td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.classification.name}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentNumber}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.revision.effective}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.type}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.documentName}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.creationDate}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.createdBy.email}}</td>
-        <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">{{row.noOfFiles}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.classification.name}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentNumber}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.revision.effective}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.type}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentName}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.creationDate}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.createdBy.email}}</td>
+        <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.noOfFiles}}</td>
         <td data="files" style="z-index: 100;">
             <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
                     class="btn btn-danger btn-xs">Delete
             </button>
             <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>-->
             </button>
-            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="">
+            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="apply">
                 <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
             </select>
             </button>
