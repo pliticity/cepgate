@@ -35,7 +35,7 @@
                 </td>
             </tr>
             <tr class="animate-row"
-                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentName}}">
+                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">
                 <td ng-click="openDomain(row.id)">{{$index+1}}</td>
                 <td ng-click="openDomain(row.id)">{{row.company}}</td>
                 <td ng-click="openDomain(row.id)">{{row.name}}</td>

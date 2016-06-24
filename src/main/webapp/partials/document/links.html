@@ -21,12 +21,12 @@
         </thead>
         <tbody>
         <tr ng-repeat="link in documentInfo.links">
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.linkType}}</td>
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.classification.classificationId}}</td>
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.classification.name}}</td>
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.documentNumber}}</td>
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentInfo.revision.effective}}</td>
-            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentName}}">{{link.documentName}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.linkType}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.documentInfo.classification.classificationId}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.documentInfo.classification.name}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.documentInfo.documentNumber}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.documentInfo.revision.effective}}</td>
+            <td add-tab documentId="{{link.documentId}}" documntName="{{link.documentNumber}}">{{link.documentName}}</td>
         </tr>
         </tbody>
 
