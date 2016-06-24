@@ -19,11 +19,16 @@
         $scope.tableId = 'search';
         $scope.revision = false;
         $scope.types = [];
+        $scope.classifications = [];
 
         // EXPOSE SERVICE
 
         $http({url: '/document/types', method: 'get',params:{active:true}}).then(function (succ) {
             $scope.types = succ.data
+        });
+
+        $http({url: '/classification', method: 'get',params:{active:true}}).then(function (succ) {
+            $scope.classifications = succ.data
         });
 
         $scope.typeSelected = function(){
@@ -37,6 +42,19 @@
             }
             $scope.documentInfo.docType.typeId = selected.typeId;
             $scope.documentInfo.docType.name = selected.name;
+        };
+
+        $scope.classificationSelected = function(){
+            var selected = {};
+            for(var i =0; i<$scope.classifications.length; i++){
+                var type = $scope.classifications[i];
+                if(type.id == $scope.documentInfo.classification.id){
+                    selected = type;
+                    break;
+                }
+            }
+            $scope.documentInfo.classification.classificationId = selected.classificationId;
+            $scope.documentInfo.classification.name = selected.name;
         };
 
         $scope.auth = authorizationService;

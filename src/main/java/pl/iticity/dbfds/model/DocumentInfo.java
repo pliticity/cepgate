@@ -45,6 +45,7 @@ public class DocumentInfo {
 
     @ManyToOne
     @NotNull
+    @DBRef
     private Classification classification;
 
     @Max(99999999l)
@@ -348,7 +349,7 @@ public class DocumentInfo {
         documentInfo.setKind(getKind());
         documentInfo.setRemoved(false);
         documentInfo.setCreationDate(new Date());
-        documentInfo.setClassification(getClassification().clone());
+        documentInfo.setClassification(getClassification());
         documentInfo.setDocumentName(getDocumentName());
         documentInfo.setDomain(getDomain());
         documentInfo.setPlannedIssueDate(getPlannedIssueDate());

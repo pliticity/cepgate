@@ -7,13 +7,19 @@
             $timeout(function () {
                 element.ready(function () {
                     element = $(element[0]);
-                    element.multiselect({
-                        includeSelectAllOption: true, numberDisplayed: 1, onChange: function (option, checked, select) {
-                            scope.$apply();
-                        }, onSelectAll: function (option, checked, select) {
-                            scope.$apply();
-                        }
-                    });
+                    if (element.parent(".hide-native-select").length < 1) {
+                        console.log(element);
+                        element.multiselect({
+                            includeSelectAllOption: true,
+                            numberDisplayed: 1,
+                            onChange: function (option, checked, select) {
+                                scope.$apply();
+                            },
+                            onSelectAll: function (option, checked, select) {
+                                scope.$apply();
+                            }
+                        });
+                    }
                 });
             });
         }
