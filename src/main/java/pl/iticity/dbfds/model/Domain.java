@@ -7,6 +7,8 @@ import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +104,8 @@ public class Domain{
     }
 
     public void setMemory(double memory) {
-        this.memory = memory;
+        BigDecimal bd = new BigDecimal(memory).setScale(2, RoundingMode.FLOOR);
+        this.memory = bd.doubleValue();
     }
 
     public Date getCreationDate() {
