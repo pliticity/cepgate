@@ -21,9 +21,11 @@
             }
         };
 
-        $scope.objectify = function(array){
-            for(var i=0; i< array.length; i++){
-                array[i] = JSON.parse(array[i]);
+        $scope.objectify = function (array) {
+            if (array != undefined) {
+                for (var i = 0; i < array.length; i++) {
+                    array[i] = JSON.parse(array[i]);
+                }
             }
         };
 
