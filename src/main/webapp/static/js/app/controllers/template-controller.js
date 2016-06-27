@@ -5,6 +5,7 @@
     dhd.controller('TemplateController', ['$http', '$scope','$window','Upload', function ($http, $scope,$window,Upload) {
 
         $scope.templates = [];
+        $scope.selectedTemplate = {id:""};
 
         $http({url:'/template',method:'get'}).then(function (succ) {
             $scope.templates = succ.data;
@@ -26,6 +27,12 @@
                 data: {file: file}
             }).then(function (resp) {
                 $scope.templates.push(resp.data);
+            });
+        }
+
+        $scope.addFileFromTemplate = function (docId) {
+            $http({url: '/document/' + docId + '/template/' + $scope.selectedTemplate.id, method: 'put'}).then(function (succ) {
+                $scope.documentInfo.files.push(succ.data);
             });
         }
 

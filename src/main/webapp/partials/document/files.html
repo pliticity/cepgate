@@ -32,6 +32,15 @@
                     </form>
                 </th>
             </tr>
+            <tr ng-if="documentInfo.id" ng-controller="TemplateController">
+                <th colspan="2"></th>
+                <th class="text-right">
+                    <select class="form-control" ng-model="selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
+                        <option ng-repeat="t in templates" value="{{t.id}}">{{t.file.name}}</option>
+                    </select>
+                    <button class="btn btn-info btn-xs" ng-click="addFileFromTemplate(documentInfo.id)">Add From Template</button>
+                </th>
+            </tr>
             <tr class="info">
                 <th>#</th>
                 <th>File Name</th>

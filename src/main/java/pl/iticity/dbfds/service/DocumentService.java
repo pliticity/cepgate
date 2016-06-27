@@ -15,6 +15,8 @@ import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoStateChangeMixin;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
+import pl.iticity.dbfds.repository.DocumentTemplateRepository;
+import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -33,6 +35,9 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private DocumentTemplateRepository templateRepository;
 
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -222,5 +227,16 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         from.getLinks().add(new Link(linkTo,LinkType.LINK));
         repo.save(from);
         return repo.findOne(from.getId()).getLinks();
+    }
+
+    public FileInfo appendTemplateFile(String docId, String tId) throws FileNotFoundException {
+        DocumentTemplate template = templateRepository.findOne(tId);
+        AuthorizationProvider.isInDomain(template.getDomain());
+        DocumentInfo doc = findById(docId);
+        AuthorizationProvider.isInDomain(doc.getDomain());
+        FileInfo copy = fileService.copyFile(template.getFile());
+        doc.getFiles().add(copy);
+        repo.save(doc);
+        return copy;
     }
 }

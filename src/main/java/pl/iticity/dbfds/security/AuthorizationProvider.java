@@ -22,4 +22,10 @@ public class AuthorizationProvider {
         }
     }
 
+    public static void isInDomain(Domain domain){
+        if(!domain.getId().equals(PrincipalUtils.getCurrentDomain().getId())){
+            throw new UnauthorizedException();
+        }
+    }
+
 }

@@ -193,6 +193,11 @@ public class DocumentController {
         return documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
     }
 
+    @RequestMapping(value = "/{id}/template/{tId}", method = RequestMethod.PUT)
+    public @ResponseBody FileInfo putDocumentFromTemplate(@PathVariable("id") String id, @PathVariable("tId") String tId) throws FileNotFoundException {
+        return service.appendTemplateFile(id,tId);
+    }
+
     public FileService getFileService() {
         return fileService;
     }
