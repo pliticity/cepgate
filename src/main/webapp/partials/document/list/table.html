@@ -12,6 +12,18 @@
                 class="glyphicon glyphicon-trash"
                 aria-hidden="true"></span>Delete
         </button>
+
+        <div class="btn-group">
+            <button ng-disabled="canSendMail() == false" type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                Email
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a ng-click="sendMail(false)">Attach Files</a></li>
+                <li><a ng-click="sendMail(true)">Only Link</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 

@@ -32,6 +32,7 @@ import pl.iticity.dbfds.model.query.QDocumentInfoBinderCustomizer;
 import pl.iticity.dbfds.service.DocumentService;
 import pl.iticity.dbfds.service.DocumentTypeService;
 import pl.iticity.dbfds.service.FileService;
+import pl.iticity.dbfds.service.MailService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
@@ -52,6 +53,9 @@ public class DocumentController {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private DocumentTypeService documentTypeService;
@@ -199,6 +203,12 @@ public class DocumentController {
     @RequestMapping(value = "/{id}/template/{tId}", method = RequestMethod.PUT)
     public @ResponseBody FileInfo putDocumentFromTemplate(@PathVariable("id") String id, @PathVariable("tId") String tId) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
         return service.appendTemplateFile(id,tId);
+    }
+
+    @RequestMapping(value = "/{id}/mail", method = RequestMethod.POST, params = {"zip"})
+    public @ResponseBody boolean postSendMail(@PathVariable("id") String id,@RequestBody String[] files,@RequestParam("zip") boolean zip){
+        mailService.sendDocument(id,files,zip);
+        return true;
     }
 
     public FileService getFileService() {

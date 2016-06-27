@@ -61,7 +61,6 @@
 
         $scope.canDownload = function () {
             var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;
-            0
             return flag;
         };
         $scope.canCopy = function () {
@@ -280,7 +279,18 @@
                     $scope.uploadFile(files, index + 1, docId);
                 }
             });
-        }
+        };
+
+        $scope.sendMail = function (zip) {
+            $scope.doForSelectedRows(function (e) {
+                fileService.mailFiles(e,zip);
+            });
+        };
+
+        $scope.canSendMail = function () {
+            var flag = $("table#" + $scope.tableId + " tr.st-selected td[data='files'] select option:selected").length > 0;
+            return flag;
+        };
     }]);
 
 })();

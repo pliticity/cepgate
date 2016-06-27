@@ -19,9 +19,25 @@
             });
         };
 
+        this.mailFiles = function (filesId, zip) {
+            var files = [];
+            for (var i = 0; i < filesId.length; i++) {
+                var fId = filesId[i];
+                $("#files-" + fId + " option:selected").map(function (a, item) {
+                    return item.value
+                }).each(function (index, item) {
+                    files.push(item);
+                });
+            }
+
+            $http({url: '/document/0/mail',params:{zip:zip}, method: 'post', data: files}).then(function(succ){
+                console.log('succ');
+            });
+        };
+
         this.anySelected = function(fileId){
             return $("#files-" + fileId + " option:selected").length>0;
-        }
+        };
 
         this.selectedFiles = function(rowId){
             var farray = [];
