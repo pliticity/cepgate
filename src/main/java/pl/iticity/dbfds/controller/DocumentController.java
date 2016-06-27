@@ -11,6 +11,9 @@ import com.mysema.query.types.Visitor;
 import com.mysema.query.types.expr.BooleanExpression;
 import com.mysema.query.types.path.StringPath;
 import org.apache.log4j.Logger;
+import org.apache.poi.hpsf.MarkUnsupportedException;
+import org.apache.poi.hpsf.NoPropertySetStreamException;
+import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
 import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +197,7 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/{id}/template/{tId}", method = RequestMethod.PUT)
-    public @ResponseBody FileInfo putDocumentFromTemplate(@PathVariable("id") String id, @PathVariable("tId") String tId) throws FileNotFoundException {
+    public @ResponseBody FileInfo putDocumentFromTemplate(@PathVariable("id") String id, @PathVariable("tId") String tId) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
         return service.appendTemplateFile(id,tId);
     }
 

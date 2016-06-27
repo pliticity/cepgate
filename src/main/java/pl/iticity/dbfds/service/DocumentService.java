@@ -6,6 +6,9 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.mysema.query.types.Predicate;
 import org.apache.log4j.Logger;
+import org.apache.poi.hpsf.MarkUnsupportedException;
+import org.apache.poi.hpsf.NoPropertySetStreamException;
+import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +41,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     private FileService fileService;
 
     @Autowired
-    private DocumentTemplateRepository templateRepository;
+    private TemplateService templateService;
 
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -229,12 +233,13 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         return repo.findOne(from.getId()).getLinks();
     }
 
-    public FileInfo appendTemplateFile(String docId, String tId) throws FileNotFoundException {
-        DocumentTemplate template = templateRepository.findOne(tId);
+    public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
+        DocumentTemplate template = templateService.findById(tId);
         AuthorizationProvider.isInDomain(template.getDomain());
         DocumentInfo doc = findById(docId);
         AuthorizationProvider.isInDomain(doc.getDomain());
         FileInfo copy = fileService.copyFile(template.getFile());
+        templateService.appendMetadataToTemplate(copy,doc);
         doc.getFiles().add(copy);
         repo.save(doc);
         return copy;
