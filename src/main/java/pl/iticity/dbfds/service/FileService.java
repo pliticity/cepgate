@@ -61,12 +61,11 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         return repo.findBySymbol(symbol);
     }
 
-    @Transactional
-    public FileInfo createFile(Domain domain, String fileName, String mime, InputStream inputStream) {
+    public FileInfo createFile(Domain domain, String fileName, String mime, InputStream inputStream, Principal principal) {
         FileInfo fileInfo = new FileInfo();
         fileInfo.setType(mime);
         fileInfo.setSymbol(computeSymbol(fileName));
-        fileInfo.setPath(computeContentPath(domain, (Principal) SecurityUtils.getSubject().getPrincipal()));
+        fileInfo.setPath(computeContentPath(domain, principal));
         fileInfo.setName(fileName);
         fileInfo.setUploadDate(DateTime.now().toDate());
         fileInfo.setDomain(domain);
@@ -76,6 +75,10 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         double kilobytes = (bytes / 1024);
         fileInfo.setSize(kilobytes);
         return repo.save(fileInfo);
+    }
+
+    public FileInfo createFile(Domain domain, String fileName, String mime, InputStream inputStream) {
+        return createFile(domain,fileName,mime,inputStream,PrincipalUtils.getCurrentPrincipal());
     }
 
     public String createFileDownloadName(DocumentInfo documentInfo,String fname){

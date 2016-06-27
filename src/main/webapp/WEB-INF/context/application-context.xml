@@ -15,6 +15,7 @@
 
     <import resource="spring-data-context.xml"/>
     <import resource="shiro-context.xml"/>
+    <import resource="spring-int-context.xml"/>
 
     <context:component-scan base-package="pl.iticity.dbfds"/>
 

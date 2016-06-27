@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+                               http://www.springframework.org/schema/integration/mail
+    http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <int-mail:inbound-channel-adapter id="imapAdapter"
+                                      store-uri="imaps://cepgate1:BL:SU26t@imap.domeneshop.no/INBOX"
+                                      java-mail-properties="javaMailProperties"
+                                      channel="receiveChannel"
+                                      should-delete-messages="true"
+                                      should-mark-messages-as-read="true"
+                                      auto-startup="true" >
+        <int:poller max-messages-per-poll="1" fixed-rate="5000" />
+    </int-mail:inbound-channel-adapter>
+
+    <int:channel id="receiveChannel" fixed-subscriber="true"/>
+
+    <int:service-activator input-channel="receiveChannel" auto-startup="true" ref="mailActivator" method="activate"/>
+
+    <bean id="mailActivator" class="pl.iticity.dbfds.integration.mail.MailActivator"/>
+
+    <util:properties id="javaMailProperties">
+        <prop key="mail.imap.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+        <prop key="mail.imap.socketFactory.fallback">false</prop>
+        <prop key="mail.store.protocol">imaps</prop>
+        <prop key="mail.debug">false</prop>
+    </util:properties>
+
+</beans>

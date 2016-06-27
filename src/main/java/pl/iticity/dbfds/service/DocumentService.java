@@ -85,7 +85,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         DocumentInfo documentInfo = repo.findOne(docId);
         DocumentInfo copy = documentInfo.clone();
         copy.getLinks().add(new Link(documentInfo,LinkType.COPY_FROM));
-        copy.setMasterDocumentNumber(getNextMasterDocumentNumber());
+        copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
         copy.setDocumentNumber(String.valueOf(copy.getMasterDocumentNumber()));
         List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInfo.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
             @Override
@@ -116,7 +116,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
         DocumentInfo documentInfo = new DocumentInfo();
-        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber());
+        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
         documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
@@ -147,8 +147,8 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         return super.save(documentInfo);
     }
 
-    public Long getNextMasterDocumentNumber() {
-        Domain d = domainService.findById(PrincipalUtils.getCurrentDomain().getId());
+    public Long getNextMasterDocumentNumber(Domain domain) {
+        Domain d = domainService.findById(domain.getId());
         long id = d.getLastMasterDocumentNumber() +1;
         d.setLastMasterDocumentNumber(id);
         domainService.save(d);
