@@ -87,6 +87,13 @@ public class MailActivator{
             mail.setText("cepgate has accepted your document");
             mail.setTo(principal.getEmail());
             mailSender.send(mail);
+        }else{
+            SimpleMailMessage mail = new SimpleMailMessage();
+            mail.setSubject("rejected "+payload.getSubject());
+            mail.setFrom("info@cepgate.com");
+            mail.setText("cepgate has rejected your document");
+            mail.setTo(principal.getEmail());
+            mailSender.send(mail);
         }
     }
 
