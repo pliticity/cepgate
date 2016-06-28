@@ -92,7 +92,7 @@ public class MailActivator{
             mail.setSubject("rejected "+payload.getSubject());
             mail.setFrom("info@cepgate.com");
             mail.setText("cepgate has rejected your document");
-            mail.setTo(principal.getEmail());
+            mail.setTo(from);
             mailSender.send(mail);
         }
     }
