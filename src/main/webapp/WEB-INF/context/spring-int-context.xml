@@ -12,7 +12,7 @@
     http://www.springframework.org/schema/util/spring-util.xsd">
 
     <int-mail:inbound-channel-adapter id="imapAdapter"
-                                      store-uri="imaps://cepgate1:BL:SU26t@imap.domeneshop.no/INBOX"
+                                      store-uri="imaps://${imap.user}:${imap.pass}@${imap.server}/${imap.folder}"
                                       java-mail-properties="javaMailProperties"
                                       channel="receiveChannel"
                                       should-delete-messages="true"
