@@ -13,7 +13,7 @@
     <context:property-placeholder location="file:#{systemEnvironment['CEPGATE_CONF']}"/>
 
     <bean class="pl.iticity.dbfds.util.DefaultConfig">
-        <constructor-arg name="configPath" value="${config.path}"/>
+        <property name="dataPath" value="${data.path}"/>
     </bean>
 
     <context:spring-configured/>
@@ -25,9 +25,9 @@
     <context:component-scan base-package="pl.iticity.dbfds"/>
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="smtp.domeneshop.no"/>
-        <property name="username" value="cepgate1"/>
-        <property name="password" value="BL:SU26t"/>
+        <property name="host" value="${smtp.host}"/>
+        <property name="username" value="${smtp.user}"/>
+        <property name="password" value="${smtp.pass}"/>
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.auth">true</prop>

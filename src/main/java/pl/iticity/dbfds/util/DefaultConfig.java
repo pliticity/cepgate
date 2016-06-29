@@ -6,17 +6,13 @@ import java.util.Properties;
 
 public class DefaultConfig {
 
-    public static final String DATA_PATH = "dataPath";
+    private String dataPath;
 
-    private Properties properties;
-
-    public DefaultConfig(String configPath) throws IOException {
-        properties = new Properties();
-        properties.load(new FileInputStream(configPath));
+    public String getDataPath() {
+        return dataPath;
     }
 
-    public String getProperty(String property) {
-        return properties.getProperty(property);
+    public void setDataPath(String dataPath) {
+        this.dataPath = dataPath;
     }
-
 }

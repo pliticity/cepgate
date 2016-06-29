@@ -45,7 +45,7 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
 
     @PostConstruct
     public void postConstruct() {
-        dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
+        dataDir = defaultConfig.getDataPath();
     }
 
     public void changeName(FileInfo fileInfo){

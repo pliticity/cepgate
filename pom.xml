@@ -193,11 +193,6 @@
     <profiles>
         <profile>
             <id>openshift</id>
-            <!--<properties>
-                <mongodb.url>mongodb://admin:Sztg4y4WQN_x@${env.OPENSHIFT_MONGODB_DB_HOST}:${env.OPENSHIFT_MONGODB_DB_PORT}/webapp</mongodb.url>
-                <config.path>${env.OPENSHIFT_DATA_DIR}config.properties</config.path>
-                <db.name>webapp</db.name>
-            </properties>-->
             <build>
                 <finalName>c-webapp</finalName>
                 <plugins>
@@ -273,10 +268,6 @@
         </profile>
         <profile>
             <id>pmajchrz</id>
-            <properties>
-                <mongodb.url>mongodb://dhd:dhd@ds011472.mlab.com:11472/dhd</mongodb.url>
-                <config.path>B:\\Workspace\\dhd\\data\\config.properties</config.path>
-            </properties>
 
             <build>
                 <finalName>c-webapp</finalName>
@@ -353,12 +344,6 @@
         </profile>
         <profile>
             <id>pmajchrz-linux</id>
-            <!--<properties>
-                <mongodb.url>mongodb://cuberix:cuberix@localhost:27017/cuberix</mongodb.url>
-                <config.path>/home/pmajchrz/other/dbfds/data/config.properties</config.path>
-                <db.name>cuberix</db.name>
-            </properties>-->
-
             <build>
                 <finalName>c-webapp</finalName>
                 <plugins>

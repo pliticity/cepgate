@@ -40,7 +40,7 @@ public class FileServlet implements Servlet {
     public void init(ServletConfig servletConfig) throws ServletException {
         this.servletConfig = servletConfig;
         defaultConfig = getApplicationContext().getBean(DefaultConfig.class);
-        dataDir = defaultConfig.getProperty(DefaultConfig.DATA_PATH);
+        dataDir = defaultConfig.getDataPath();
         fileService = getApplicationContext().getBean(FileService.class);
         documentInfoRepository = getApplicationContext().getBean(DocumentInfoRepository.class);
     }
