@@ -40,7 +40,7 @@
                             <div class="form-group" form-error="" form="form.classificationForm" field="parents"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
-                                    <label for="parents" class="col-xs-6 control-label">Parents</label>
+                                    <label for="parents" class="col-xs-6 control-label">Parent</label>
                                     <div class="col-xs-6">
                                         <select ng-model="classification.parents" id="parents" multiple="multiple" toggle-multi-select="">
                                             <option ng-repeat="c in classifications" value="{{c}}">{{c.classificationId}}</option>
@@ -52,7 +52,7 @@
                             <div class="form-group" form-error="" form="form.classificationForm" field="children"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
-                                    <label for="children" class="col-xs-6 control-label">Children</label>
+                                    <label for="children" class="col-xs-6 control-label">Child</label>
                                     <div class="col-xs-6">
                                         <select ng-model="classification.children" id="children" multiple="multiple" toggle-multi-select="">
                                             <option ng-repeat="c in classifications" value="{{c}}">{{c.classificationId}}</option>

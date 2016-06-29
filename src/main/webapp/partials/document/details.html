@@ -12,7 +12,10 @@
                     <div class="row">
                         <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
                         <div class="col-xs-6">
-                            <input ng-readonly="true" disabled id="classificationId" class="disabled form-control" ng-model="documentInfo.classification.classificationId"/>
+                            <select ng-change="classificationSelected()" ng-readonly="readonly()==true" name="classificationId" ng-model="documentInfo.classification.id"
+                                    class="form-control" id="classificationId" required="">
+                                <option ng-repeat="c in classifications" value="{{c.id}}">{{c.classificationId}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -116,10 +119,7 @@
                     <div class="row">
                         <label for="classificationName" class="col-xs-6 control-label">Classification Name</label>
                         <div class="col-xs-6">
-                            <select ng-change="classificationSelected()" ng-readonly="readonly()==true" name="classificationName" ng-model="documentInfo.classification.id"
-                                    class="form-control" id="classificationName" required="">
-                                <option ng-repeat="c in classifications" value="{{c.id}}">{{c.name}}</option>
-                            </select>
+                            <input ng-readonly="true" disabled id="classificationName" class="disabled form-control" ng-model="documentInfo.classification.name"/>
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@
         });
 
         $http({url: '/classification', method: 'get',params:{active:true}}).then(function (succ) {
-            $scope.classifications = succ.data
+            $scope.classifications = succ.data;
         });
 
         $scope.typeSelected = function(){
