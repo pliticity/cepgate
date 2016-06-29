@@ -7,6 +7,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
@@ -30,6 +31,9 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
     @Autowired
     private DocumentTypeService documentTypeService;
+
+    @Autowired
+    private ClassificationService classificationService;
 
     public String principalsSelectToJson(List<Principal> principals) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -74,6 +78,12 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
             documentType.setDomain(domain);
             documentType.setActive(true);
             documentTypeService.save(documentType);
+        }
+
+        for(Classification classification : Classification.getDefault()){
+            classification.setDomain(domain);
+            classification.setActive(true);
+            classificationService.save(classification);
         }
 
         principal.setDomain(domain);

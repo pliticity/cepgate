@@ -18,6 +18,7 @@ public class DocumentType {
     public static final DocumentType DOC = new DocumentType("DOC","Document");
     public static final DocumentType MOM = new DocumentType("MOM","Minutes of Meeting");
     public static final DocumentType PI = new DocumentType("PI","Pictures");
+    public static final DocumentType EMAIL = new DocumentType("EM","E-Mail");
 
     @Id
     @GeneratedValue
@@ -86,6 +87,6 @@ public class DocumentType {
     @JsonIgnore
     @Transient
     public static List<DocumentType> getDefault(){
-        return Lists.newArrayList(XD,DOC,MOM,PI);
+        return Lists.newArrayList(XD,DOC,MOM,PI,EMAIL);
     }
 }

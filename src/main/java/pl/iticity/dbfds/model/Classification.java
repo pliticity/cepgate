@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
@@ -19,6 +20,8 @@ import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
 public class Classification {
+
+    public static Classification EMAIL = new Classification("E-Mail","EM");
 
     @Id
     @GeneratedValue
@@ -42,6 +45,14 @@ public class Classification {
     private Domain domain;
 
     private boolean active;
+
+    public Classification() {
+    }
+
+    public Classification(String name, String classificationId) {
+        this.name = name;
+        this.classificationId = classificationId;
+    }
 
     public String getId() {
         return id;
@@ -133,5 +144,11 @@ public class Classification {
 
     public void setParentsIds(String ids){
         //do nothing
+    }
+
+    @JsonIgnore
+    @Transient
+    public static List<Classification> getDefault(){
+        return Lists.newArrayList(EMAIL);
     }
 }

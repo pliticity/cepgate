@@ -14,6 +14,7 @@
 
     <bean class="pl.iticity.dbfds.util.DefaultConfig">
         <property name="dataPath" value="${data.path}"/>
+        <property name="smtpFrom" value="${smtp.from}"/>
     </bean>
 
     <context:spring-configured/>

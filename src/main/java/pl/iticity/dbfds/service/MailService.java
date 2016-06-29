@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.security.AuthorizationProvider;
+import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.mail.MessagingException;
@@ -31,6 +32,9 @@ public class MailService {
     private DocumentService documentService;
 
     @Autowired
+    private DefaultConfig defaultConfig;
+
+    @Autowired
     private FileService fileService;
 
     public void sendDocument(String docId, String[] files, boolean zip) {
@@ -40,7 +44,7 @@ public class MailService {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
 
-            helper.setFrom("info@cepgate.com");
+            helper.setFrom(defaultConfig.getSmtpFrom());
             helper.setTo(PrincipalUtils.getCurrentPrincipal().getEmail());
             helper.setSubject("files");
 

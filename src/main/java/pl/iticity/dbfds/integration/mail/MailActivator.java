@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.integration.mail;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.sun.mail.imap.IMAPMessage;
 import org.apache.log4j.Logger;
@@ -8,14 +10,13 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.DocumentState;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.model.RevisionSymbol;
+import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.*;
+import pl.iticity.dbfds.util.DefaultConfig;
 
+import javax.annotation.Nullable;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -28,6 +29,9 @@ import java.util.Date;
 import java.util.List;
 
 public class MailActivator{
+
+    @Autowired
+    private DefaultConfig defaultConfig;
 
     @Autowired
     private DocumentService documentService;
@@ -60,11 +64,35 @@ public class MailActivator{
             DocumentInfo doc = new DocumentInfo();
             doc.setState(DocumentState.IN_PROGRESS);
             doc.setRevision(new RevisionSymbol(0l));
-            doc.setClassification(classificationService.findByDomain(principal.getDomain(),true).get(0));
+            Classification emailClassitication = Iterables.find(classificationService.findByDomain(principal.getDomain(), false), new Predicate<Classification>() {
+                @Override
+                public boolean apply(@Nullable Classification classification) {
+                    return Classification.EMAIL.getClassificationId().equals(classification.getClassificationId());
+                }
+            }, null);
+            if(emailClassitication==null){
+                emailClassitication = Classification.EMAIL;
+                emailClassitication.setActive(true);
+                emailClassitication.setDomain(principal.getDomain());
+                classificationService.save(emailClassitication);
+            }
+            doc.setClassification(emailClassitication);
             doc.setCreatedBy(principal);
             doc.setCreationDate(new Date());
             doc.setDocumentName(payload.getSubject());
-            doc.setDocType(documentTypeService.findByDomain(principal.getDomain(),true).get(0));
+            DocumentType emailDocType = Iterables.find(documentTypeService.findByDomain(principal.getDomain(), false), new Predicate<DocumentType>() {
+                @Override
+                public boolean apply(@Nullable DocumentType documentType) {
+                    return DocumentType.EMAIL.getTypeId().equals(documentType.getTypeId());
+                }
+            }, null);
+            if(emailDocType==null){
+                emailDocType = DocumentType.EMAIL;
+                emailDocType.setActive(true);
+                emailDocType.setDomain(principal.getDomain());
+                documentTypeService.save(emailDocType);
+            }
+            doc.setDocType(emailDocType);
             doc.setDomain(principal.getDomain());
             doc.setKind(DocumentInfo.Kind.INTERNAL);
             doc.setRemoved(false);
@@ -83,14 +111,14 @@ public class MailActivator{
 
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setSubject("accepted "+payload.getSubject());
-            mail.setFrom("info@cepgate.com");
+            mail.setFrom(defaultConfig.getSmtpFrom());
             mail.setText("cepgate has accepted your document");
             mail.setTo(principal.getEmail());
             mailSender.send(mail);
         }else{
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setSubject("rejected "+payload.getSubject());
-            mail.setFrom("info@cepgate.com");
+            mail.setFrom(defaultConfig.getSmtpFrom());
             mail.setText("cepgate has rejected your document");
             mail.setTo(from);
             mailSender.send(mail);

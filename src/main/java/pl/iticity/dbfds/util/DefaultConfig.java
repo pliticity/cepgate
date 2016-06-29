@@ -8,6 +8,16 @@ public class DefaultConfig {
 
     private String dataPath;
 
+    private String smtpFrom;
+
+    public String getSmtpFrom() {
+        return smtpFrom;
+    }
+
+    public void setSmtpFrom(String smtpFrom) {
+        this.smtpFrom = smtpFrom;
+    }
+
     public String getDataPath() {
         return dataPath;
     }
