@@ -1,4 +1,4 @@
-<span ng-controller="ClassificationController">
+<span ng-controller="ClassificationController" ng-init="getClassifications()">
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
 
@@ -6,10 +6,10 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="4"></th>
+                <th colspan="5"></th>
                 <th class="text-right">
                     <button class="btn btn-primary btn-xs" data-toggle="modal"
-                            data-target="#add-classification-modal">Add Classification
+                            data-target="#add-classification-modal-0">Add Classification
                     </button>
                 </th>
             </tr>
@@ -19,20 +19,27 @@
                 <th class="text-left">Parent</th>
                 <th class="text-left">Child</th>
                 <th class="text-left">Active</th>
+                <th class="text-left">Edit</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="6"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr ng-repeat="row in displayCollection" class="animate-row"
                 ng-attr-class="{{row.active==true && 'animate-row active' || 'animate-row' }}">
                 <td class="text-left">{{row.name}}</td>
                 <td class="text-left">{{row.classificationId}}</td>
-                <td class="text-left">{{row.parentsIds}}</td>
-                <td class="text-left">{{row.childrenIds}}</td>
+                <td class="text-left">{{row.parentsIds.join()}}</td>
+                <td class="text-left">{{row.childrenIds.join()}}</td>
                 <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleClassification(row)"/></td>
+                <td class="text-left">
+                    <button class="btn btn-warning btn-xs" data-toggle="modal"
+                            data-target="#add-classification-modal-{{row.id}}">Edit
+                    </button>
+                    <div ng-include="'/partials/domain/setup/add-classification-modal.html'" ng-controller="ClassificationController" ng-init="classification=row; getClassifications();"></div>
+                </td>
             </tr>
             </tbody>
         </table>

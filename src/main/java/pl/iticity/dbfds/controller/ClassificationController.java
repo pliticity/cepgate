@@ -2,6 +2,7 @@ package pl.iticity.dbfds.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.Classification;
@@ -24,8 +25,17 @@ public class ClassificationController {
     private ClassificationService classificationService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody List<Classification> getDocumentTypes(@RequestParam("active") boolean active){
-        return classificationService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
+    public @ResponseBody List<Classification> getDocumentTypes(@RequestParam("active") boolean active,@RequestParam("without") String without){
+        if(StringUtils.isEmpty(without) || "0".equals(without)){
+            return classificationService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
+        }else{
+            return classificationService.findByDomain(PrincipalUtils.getCurrentDomain(),active,without);
+        }
+    }
+
+    @RequestMapping(value = "/exists", method = RequestMethod.GET)
+    public @ResponseBody boolean getDocumentTypes(@RequestParam("id") String id, @RequestParam("clId") String clId){
+        return classificationService.exists(clId,id);
     }
 
     @RequestMapping(value = "",method = RequestMethod.POST)

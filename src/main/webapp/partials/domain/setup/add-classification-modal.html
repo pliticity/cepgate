@@ -1,17 +1,17 @@
-<div id="add-classification-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-classification-modal-label">
+<div id="add-classification-modal-{{classification.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="add-classification-modal-label-{{classification.id}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="add-classification-modal-label">Add Classification</h4>
+                <h4 class="modal-title" id="add-classification-modal-label-{{classification.id}}">Add Classification</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3">
-                        <form id="form.classificationForm" name="form.classificationForm" class="form-horizontal">
+                        <form id="form.classificationForm{{classification.id}}" name="form.classificationForm{{classification.id}}" class="form-horizontal">
 
-                            <div class="form-group" form-error="" form="form.classificationForm" field="name"
+                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="name"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
                                     <label for="name" class="col-xs-6 control-label">Classification Name</label>
@@ -24,12 +24,12 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" form-error="" form="form.classificationForm" field="classificationId"
-                                 messages='{"required":"This field is required"}'>
+                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="classificationId"
+                                 messages='{"required":"This field is required","exists":"Exists"}'>
                                 <div class="row">
                                     <label for="classificationId" class="col-xs-6 control-label">Classification ID</label>
                                     <div class="col-xs-6">
-                                        <input type="text" class="form-control"
+                                        <input ng-model-options="{ allowInvalid:true,updateOn:'default' }" classification-exists="{{classification.id}}" type="text" class="form-control"
                                                ng-model="classification.classificationId"
                                                name="classificationId"
                                                id="classificationId" required=""/>
@@ -37,25 +37,25 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" form-error="" form="form.classificationForm" field="parents"
+                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="parents"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
                                     <label for="parents" class="col-xs-6 control-label">Parent</label>
                                     <div class="col-xs-6">
-                                        <select ng-model="classification.parents" id="parents" multiple="multiple" toggle-multi-select="">
-                                            <option ng-repeat="c in classifications" value="{{c}}">{{c.classificationId}}</option>
+                                        <select ng-model="classification.parentsIds" id="parents" multiple="multiple" toggle-multi-select="">
+                                            <option ng-repeat="c in classifications" value="{{c.classificationId}}">{{c.classificationId}}</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group" form-error="" form="form.classificationForm" field="children"
+                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="children"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
                                     <label for="children" class="col-xs-6 control-label">Child</label>
                                     <div class="col-xs-6">
-                                        <select ng-model="classification.children" id="children" multiple="multiple" toggle-multi-select="">
-                                            <option ng-repeat="c in classifications" value="{{c}}">{{c.classificationId}}</option>
+                                        <select ng-model="classification.childrenIds" id="children" multiple="multiple" toggle-multi-select="">
+                                            <option ng-repeat="c in classifications" value="{{c.classificationId}}">{{c.classificationId}}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addClassification()">Add</button>
+                <button type="button" class="btn btn-primary" ng-click="addClassification()">Save</button>
             </div>
         </div>
     </div>

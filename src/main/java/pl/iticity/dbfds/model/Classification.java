@@ -4,9 +4,13 @@ package pl.iticity.dbfds.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.annotation.Nullable;
@@ -19,6 +23,11 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
+@CompoundIndexes(value =
+        {
+                @CompoundIndex(def = "{'classificationId' : 1,'domain' :1}", unique = true)
+        }
+)
 public class Classification {
 
     public static Classification EMAIL = new Classification("E-Mail","EM");
@@ -117,33 +126,65 @@ public class Classification {
     }
 
     @Transient
-    public String getChildrenIds(){
-        return Joiner.on(",").join(Iterables.transform(getChildren(), new Function<Classification, String>() {
+    public String[] getChildrenIds(){
+        if(getChildren().size()<1){
+            return new String[0];
+        }
+        List<String> list = Lists.newArrayList(Iterables.transform(getChildren(), new Function<Classification, String>() {
             @Nullable
             @Override
             public String apply(@Nullable Classification classification) {
                 return classification.getClassificationId();
             }
         }));
+        return list.toArray(new String[list.size()]);
     }
 
-    public void setChildrenIds(String ids){
-        //do nothing
+    public void setChildrenIds(String[] ids){
+        for(final String id : Sets.newHashSet(ids)){
+            Classification cl = Iterables.find(getChildren(), new Predicate<Classification>() {
+                @Override
+                public boolean apply(@Nullable Classification classification) {
+                    return id.equals(classification.getClassificationId());
+                }
+            }, null);
+            if(cl==null) {
+                Classification c = new Classification();
+                c.setClassificationId(id);
+                getChildren().add(c);
+            }
+        }
     }
 
     @Transient
-    public String getParentsIds(){
-        return Joiner.on(",").join(Iterables.transform(getParents(), new Function<Classification, String>() {
+    public String[] getParentsIds() {
+        if (getParents().size() < 1) {
+            return new String[0];
+        }
+        List<String> list = Lists.newArrayList(Iterables.transform(getParents(), new Function<Classification, String>() {
             @Nullable
             @Override
             public String apply(@Nullable Classification classification) {
                 return classification.getClassificationId();
             }
         }));
+        return list.toArray(new String[list.size()]);
     }
 
-    public void setParentsIds(String ids){
-        //do nothing
+    public void setParentsIds(String[] ids) {
+        for (final String id : Sets.newHashSet(ids)) {
+            Classification cl = Iterables.find(getParents(), new Predicate<Classification>() {
+                @Override
+                public boolean apply(@Nullable Classification classification) {
+                    return id.equals(classification.getClassificationId());
+                }
+            }, null);
+            if (cl == null) {
+                Classification c = new Classification();
+                c.setClassificationId(id);
+                getParents().add(c);
+            }
+        }
     }
 
     @JsonIgnore

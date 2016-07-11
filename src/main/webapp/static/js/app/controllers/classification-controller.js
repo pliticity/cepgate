@@ -2,21 +2,62 @@
 
     var dhd = angular.module('dhd');
 
-    dhd.controller('ClassificationController', ['$http', '$scope', function ($http, $scope) {
+    dhd.directive('classificationExists', function ($http, $q) {
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                ngModel.$asyncValidators.exists = function (modelValue, viewValue) {
+                    var deferred = $q.defer();
+                        $http({
+                            method: 'get',
+                            url: '/classification/exists',
+                            params: {id:attrs.classificationExists, clId: modelValue}
+                        }).then(function successCallback(response) {
+                            if (response.data == true) {
+                                deferred.reject('Classification exists');
+                            } else {
+                                return deferred.resolve();
+                            }
+
+                        }, function errorCallback(response) {
+                        });
+                    return deferred.promise;
+                };
+            }
+        };
+    });
+
+    dhd.controller('ClassificationController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
 
         $scope.classifications = [];
-        $scope.classification = {};
+        $scope.classification = {id:'0'};
 
-        $http({url: '/classification', method: 'get',params:{active:false}}).then(function (succ) {
-            $scope.classifications = succ.data;
-        });
+        $scope.getClassifications = function () {
+            $http({
+                url: '/classification',
+                method: 'get',
+                params: {active: false, without: $scope.classification.id}
+            }).then(function (succ) {
+                $scope.classifications = succ.data;
+            });
+        }
 
         $scope.addClassification = function () {
-            if ($scope.form.classificationForm.$valid) {
-                $scope.objectify($scope.classification.children);
-                $scope.objectify($scope.classification.parents);
+            var form = $scope.form['classificationForm'+$scope.classification.id];
+            form.$submitted=true;
+            console.log(form);
+            if (form.$valid) {
+                //console.log($scope.classification.children);
+                //$scope.objectify($scope.classification.children);
+                //$scope.objectify($scope.classification.parents);
+                $("#add-classification-modal-"+$scope.classification.id).modal('hide');
                 $http({url: '/classification', method: 'post', data: $scope.classification}).then(function (succ) {
-                    $scope.classifications = succ.data;
+                    $timeout(function () {
+                        $("#setup").html("");
+                        var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
+                        $("#setup").html(setup);
+                    },500);
+                    //$scope.classifications = succ.data;
                 });
             }
         };

@@ -13,4 +13,8 @@ public interface ClassificationRepository extends MongoRepository<Classification
 
     public List<Classification> findByDomainAndActiveIsTrue(Domain domain);
 
+    public List<Classification> findByDomainAndIdNot(Domain domain,String id);
+
+    public Classification findByDomainAndClassificationId(Domain domain, String clId);
+
 }
