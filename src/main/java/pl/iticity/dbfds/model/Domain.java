@@ -22,6 +22,8 @@ public class Domain{
     @Indexed(unique = true)
     private String name;
 
+    private String accountNo;
+
     private boolean active;
 
     private long lastMasterDocumentNumber;
@@ -122,5 +124,13 @@ public class Domain{
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
     }
 }

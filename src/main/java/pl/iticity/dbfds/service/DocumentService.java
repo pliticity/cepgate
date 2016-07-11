@@ -26,6 +26,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -115,9 +116,11 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
     }
 
     public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
+        Domain domain = PrincipalUtils.getCurrentDomain();
         DocumentInfo documentInfo = new DocumentInfo();
         documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        documentInfo.setDocumentNumber(String.valueOf(documentInfo.getMasterDocumentNumber()));
+        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(),documentInfo.getMasterDocumentNumber());
+        documentInfo.setDocumentNumber(docNo);
         documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInfo.setCreationDate(new Date());
         documentInfo.setRevision(new RevisionSymbol(0l));

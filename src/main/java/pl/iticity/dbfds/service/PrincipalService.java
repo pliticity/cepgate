@@ -72,6 +72,9 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         domain.setActive(true);
         domain.setCreationDate(new Date());
         domain.setName(principal.getEmail());
+        int num = domainRepository.findAll().size()+1;
+        String formatted = String.format("%04d", num);
+        domain.setAccountNo("CG"+formatted);
         domainRepository.save(domain);
 
         for(DocumentType documentType : DocumentType.getDefault()){
