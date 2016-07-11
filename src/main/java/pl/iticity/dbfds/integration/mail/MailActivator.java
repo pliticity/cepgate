@@ -23,8 +23,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMultipart;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 
@@ -96,8 +95,6 @@ public class MailActivator{
             doc.setDomain(principal.getDomain());
             doc.setKind(DocumentInfo.Kind.INTERNAL);
             doc.setRemoved(false);
-            doc.setResponsibleUser(principal);
-            doc.setPlannedIssueDate(new Date());
             doc.setMasterDocumentNumber(documentService.getNextMasterDocumentNumber(principal.getDomain()));
             doc.setDocumentNumber(String.valueOf(doc.getMasterDocumentNumber()));
             documentInfoRepository.save(doc);
@@ -108,6 +105,8 @@ public class MailActivator{
                 doc.setFiles(files);
                 documentInfoRepository.save(doc);
             }
+
+            documentService.changeState(doc.getId(),DocumentState.ARCHIVED);
 
             SimpleMailMessage mail = new SimpleMailMessage();
             mail.setSubject("accepted "+payload.getSubject());
@@ -133,7 +132,15 @@ public class MailActivator{
             Object content = bp.getContent();
             if (content instanceof String)
             {
-                // handle string
+                FileInfo fi = Iterables.find(files, new Predicate<FileInfo>() {
+                    @Override
+                    public boolean apply(@Nullable FileInfo fileInfo) {
+                        return "mail.txt".equals(fileInfo.getName());
+                    }
+                }, null);
+                if(fi==null){
+                    files.add(createTxt(principal, (String) content));
+                }
             }
             else if (content instanceof InputStream)
             {
@@ -153,6 +160,11 @@ public class MailActivator{
                 handleMultipart(mp2,principal,files);
             }
         }
+    }
+
+    private FileInfo createTxt(Principal principal, String text){
+        ByteArrayInputStream bais = new ByteArrayInputStream(text.getBytes());
+        return fileService.createFile(principal.getDomain(),"mail.txt","text/plain",bais,principal);
     }
 
 }

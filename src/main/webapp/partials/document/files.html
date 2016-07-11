@@ -32,7 +32,7 @@
                     </form>
                 </th>
             </tr>
-            <tr ng-if="documentInfo.id" ng-controller="TemplateController">
+            <tr ng-if="documentInfo.id && readonly()==false" ng-controller="TemplateController">
                 <th colspan="2"></th>
                 <th class="text-right">
                     <select class="form-control" ng-model="selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
