@@ -60,6 +60,7 @@ public class DomainAdminController {
         domain.setPrincipals(principalService.findByDomain(domain));
         domain.setNoOfFiles(fileService.countByDomain(domain));
         domain.setMemory(fileService.countMemoryByDomain(domain));
+        domain.setNoOfUsers(domain.getPrincipals().size());
         return domain;
     }
 
