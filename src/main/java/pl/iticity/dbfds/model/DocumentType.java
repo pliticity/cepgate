@@ -14,11 +14,11 @@ import java.util.List;
 @org.springframework.data.mongodb.core.mapping.Document
 public class DocumentType {
 
-    public static final DocumentType XD = new DocumentType("XD","Drawing");
+    public static final DocumentType XD = new DocumentType("XX","Drawing");
     public static final DocumentType DOC = new DocumentType("DOC","Document");
     public static final DocumentType MOM = new DocumentType("MOM","Minutes of Meeting");
-    public static final DocumentType PI = new DocumentType("PI","Pictures");
-    public static final DocumentType EMAIL = new DocumentType("EM","E-Mail");
+    public static final DocumentType PI = new DocumentType("PI","Picture");
+    public static final DocumentType EMAIL = new DocumentType("e-mail","e-mail");
 
     @Id
     @GeneratedValue
