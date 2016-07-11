@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -13,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.mixins.FileInfoMixin;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.FileRepository;
+import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -237,6 +241,19 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
             mem += fileInfo.getSize();
         }
         return mem;
+    }
+
+    public String updateFileInfo(InputStream inputStream, String fileId, String docId) throws JsonProcessingException {
+        FileInfo fileInfo = repo.findOne(fileId);
+        AuthorizationProvider.isInDomain(fileInfo.getDomain());
+        removeContent(docId,fileId);
+        fileInfo = createFile(fileInfo.getDomain(),fileInfo.getName(),fileInfo.getType(),inputStream);
+        DocumentInfo doc = documentInfoRepository.findOne(docId);
+        doc.getFiles().add(fileInfo);
+        documentInfoRepository.save(doc);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.addMixIn(FileInfo.class, FileInfoMixin.class);
+        return mapper.writeValueAsString(fileInfo);
     }
 
     public DefaultConfig getDefaultConfig() {

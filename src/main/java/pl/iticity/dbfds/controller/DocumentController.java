@@ -135,6 +135,13 @@ public class DocumentController {
         return service.appendFile(id, fileInfo);
     }
 
+    @RequestMapping(value = "/{id}/reupload/{fId}", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    String putReUploadFiles(@PathVariable("id") String id,@PathVariable("fId") String fid, @RequestParam("file") MultipartFile file) throws IOException {
+        return fileService.updateFileInfo(file.getInputStream(),fid,id);
+    }
+
     @RequestMapping(value = "/{id}/delete/{fileId}", method = RequestMethod.DELETE)
     public
     @ResponseBody
