@@ -43,17 +43,15 @@ public class Classification {
     @NotNull
     private String name;
 
-    @DBRef
-    private List<Classification> children;
-
-    @DBRef
-    private List<Classification> parents;
-
     @NotNull
     @DBRef
     private Domain domain;
 
     private boolean active;
+
+    private String[] childrenIds;
+
+    private String[] parentsIds;
 
     public Classification() {
     }
@@ -69,28 +67,6 @@ public class Classification {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<Classification> getChildren() {
-        if(children==null){
-            children = Lists.newArrayList();
-        }
-        return children;
-    }
-
-    public void setChildren(List<Classification> children) {
-        this.children = children;
-    }
-
-    public List<Classification> getParents() {
-        if(parents==null){
-            parents = Lists.newArrayList();
-        }
-        return parents;
-    }
-
-    public void setParents(List<Classification> parents) {
-        this.parents = parents;
     }
 
     public Domain getDomain() {
@@ -125,66 +101,20 @@ public class Classification {
         this.classificationId = classificationId;
     }
 
-    @Transient
-    public String[] getChildrenIds(){
-        if(getChildren().size()<1){
-            return new String[0];
-        }
-        List<String> list = Lists.newArrayList(Iterables.transform(getChildren(), new Function<Classification, String>() {
-            @Nullable
-            @Override
-            public String apply(@Nullable Classification classification) {
-                return classification.getClassificationId();
-            }
-        }));
-        return list.toArray(new String[list.size()]);
+    public String[] getChildrenIds() {
+        return childrenIds;
     }
 
-    public void setChildrenIds(String[] ids){
-        for(final String id : Sets.newHashSet(ids)){
-            Classification cl = Iterables.find(getChildren(), new Predicate<Classification>() {
-                @Override
-                public boolean apply(@Nullable Classification classification) {
-                    return id.equals(classification.getClassificationId());
-                }
-            }, null);
-            if(cl==null) {
-                Classification c = new Classification();
-                c.setClassificationId(id);
-                getChildren().add(c);
-            }
-        }
+    public void setChildrenIds(String[] childrenIds) {
+        this.childrenIds = childrenIds;
     }
 
-    @Transient
     public String[] getParentsIds() {
-        if (getParents().size() < 1) {
-            return new String[0];
-        }
-        List<String> list = Lists.newArrayList(Iterables.transform(getParents(), new Function<Classification, String>() {
-            @Nullable
-            @Override
-            public String apply(@Nullable Classification classification) {
-                return classification.getClassificationId();
-            }
-        }));
-        return list.toArray(new String[list.size()]);
+        return parentsIds;
     }
 
-    public void setParentsIds(String[] ids) {
-        for (final String id : Sets.newHashSet(ids)) {
-            Classification cl = Iterables.find(getParents(), new Predicate<Classification>() {
-                @Override
-                public boolean apply(@Nullable Classification classification) {
-                    return id.equals(classification.getClassificationId());
-                }
-            }, null);
-            if (cl == null) {
-                Classification c = new Classification();
-                c.setClassificationId(id);
-                getParents().add(c);
-            }
-        }
+    public void setParentsIds(String[] parentsIds) {
+        this.parentsIds = parentsIds;
     }
 
     @JsonIgnore

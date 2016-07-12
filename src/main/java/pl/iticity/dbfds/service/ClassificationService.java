@@ -42,8 +42,6 @@ public class ClassificationService extends AbstractService<Classification,Classi
         }
         classification.setDomain(domain);
         classification.setActive(true);
-        classification.setChildren(transform(classification.getChildren()));
-        classification.setParents(transform(classification.getParents()));
         repo.save(classification);
         return findByDomain(domain,false);
     }
