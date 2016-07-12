@@ -3,107 +3,38 @@
 
 <ng-include src="'/partials/common/header.html'"></ng-include>
 
-    <!-- CONTENT -->
-<div class="row" style="margin-bottom: 20px;">
-    <div class="col-xs-10 col-xs-offset-1">
-
-        <div class="col-xs-3">
-            <div class="form-group">
-                <label for="noOfUsers" class="col-xs-6 control-label"># Users</label>
-                <div class="col-xs-6">
-                    <input placeholder="noOfUsers" class="form-control disabled" id="noOfUsers"
-                           ng-model="domain.noOfUsers" disabled ng-readonly="true"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-3">
-            <div class="form-group">
-                <label for="noOfFiles" class="col-xs-6 control-label"># Files</label>
-                <div class="col-xs-6">
-                    <input placeholder="noOfFiles" class="form-control disabled" id="noOfFiles"
-                           ng-model="domain.noOfFiles" disabled ng-readonly="true"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xs-6">
-            <div class="form-group">
-                <label for="memory" class="col-xs-3 control-label">Memory used</label>
-                <div class="col-xs-9">
-                    <div class="input-group">
-                        <input placeholder="memory" class="form-control disabled" id="memory"
-                               ng-model="domain.memory" disabled ng-readonly="true"/>
-                        <span class="input-group-addon">kB</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
+            <ul id="domainTabs" class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="#info" aria-controls="info" role="tab"
+                                                          data-toggle="tab">Account Info</a></li>
+                <li role="presentation" class=""><a href="#users" aria-controls="users" role="tab"
+                                                    data-toggle="tab">Users</a></li>
+                <li role="presentation" class=""><a disabled href="#invoice" aria-controls="invoice" role="tab"
+                                                    data-toggle="tab">Invoice</a></li>
+                <li role="presentation" class=""><a href="#setup" aria-controls="setup" role="tab"
+                                                    data-toggle="tab">Setup</a></li>
+                <li role="presentation" class=""><a disabled href="#templates" aria-controls="templates" role="tab"
+                                                    data-toggle="tab">Templates</a></li>
+            </ul>
 
-            <div class="col-xs-6">
-                <div class="form-group">
-                    <label for="name" class="col-xs-4 control-label">Account Super User</label>
-                    <div class="col-xs-8">
-                        <input placeholder="Name" class="form-control" id="name"
-                               ng-model="domain.name" disabled ng-readonly="true" required=""/>
-                    </div>
+            <div class="tab-content" id="domainTabsContent">
+                <div role="tabpanel" class="tab-pane active" id="info">
+                    <ng-include src="'/partials/domain/info-tab.html'"></ng-include>
                 </div>
-            </div>
-
-            <div class="col-xs-1">
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input id="active" ng-model="domain.active" type="checkbox" required=""> Active
-                        </label>
-                    </div>
+                <div role="tabpanel" class="tab-pane" id="users">
+                    <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
                 </div>
-            </div>
-
-            <div class="col-xs-5">
-                <div class="form-group">
-                    <label for="creationDate" class="col-xs-4 control-label">Creation Date</label>
-                    <div class="col-xs-8">
-                        <input placeholder="Name" class="form-control disabled" id="creationDate"
-                               ng-model="domain.creationDate" disabled ng-readonly="true"/>
-                    </div>
+                <div role="tabpanel" class="tab-pane" id="invoice">
+                </div>
+                <div role="tabpanel" class="tab-pane" id="templates">
+                    <ng-include src="'/partials/domain/templates-tab.html'"></ng-include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="setup">
+                    <ng-include src="'/partials/domain/setup-tab.html'"></ng-include>
                 </div>
             </div>
         </div>
     </div>
-
-
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-        <ul id="domainTabs" class="nav nav-pills" role="tablist">
-            <li role="presentation" class="active"><a href="#users" aria-controls="users" role="tab"
-                                                      data-toggle="tab">Users</a></li>
-            <li role="presentation" class=""><a disabled href="#invoice" aria-controls="invoice" role="tab"
-                                                data-toggle="tab">Invoice</a></li>
-            <li role="presentation" class=""><a href="#setup" aria-controls="setup" role="tab"
-                                                data-toggle="tab">Setup</a></li>
-            <li role="presentation" class=""><a disabled href="#templates" aria-controls="templates" role="tab"
-                                                data-toggle="tab">Templates</a></li>
-        </ul>
-
-        <div class="tab-content" id="domainTabsContent">
-            <div role="tabpanel" class="tab-pane active" id="users">
-                <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="invoice">
-            </div>
-            <div role="tabpanel" class="tab-pane" id="templates">
-                <ng-include src="'/partials/domain/templates-tab.html'"></ng-include>
-            </div>
-            <div role="tabpanel" class="tab-pane" id="setup">
-                <ng-include src="'/partials/domain/setup-tab.html'"></ng-include>
-            </div>
-        </div>
-    </div>
-</div>
 
 </span>
