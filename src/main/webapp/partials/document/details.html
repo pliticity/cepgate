@@ -129,10 +129,15 @@
                     <div class="row">
                         <label for="securityGroup" class="col-xs-6 control-label">Security Group</label>
                         <div class="col-xs-6">
-                            <input ng-readonly="readonly()==true" placeholder="Security Group" class="form-control"
-                                   name="securityGroup"
-                                   id="securityGroup"
-                                   ng-model="documentInfo.securityGroup" required=""/>
+                            <select ng-readonly="readonly()==true" placeholder="Security Group" class="form-control"
+                                    name="securityGroup"
+                                    id="securityGroup"
+                                    ng-model="documentInfo.securityGroup" required="">
+                                <option value="User">User</option>
+                                <option value="Document Control">Document Control</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Management">Management</option>
+                            </select>
                         </div>
                     </div>
                 </div>
