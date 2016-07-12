@@ -184,9 +184,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-xs-6 control-label">Tags</label>
-                    <div class="col-xs-6">
-                        <tags-input ng-readonly="readonly()==true" ng-model="documentInfo.tags" id="tags" name="tags"/>
+                    <div class="row">
+                        <label class="col-xs-6 control-label">Tags</label>
+                        <div class="col-xs-6">
+                            <tags-input ng-readonly="readonly()==true" ng-model="documentInfo.tags" id="tags"
+                                        name="tags"/>
+                        </div>
                     </div>
                 </div>
 
@@ -230,15 +233,13 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-8">
+            <div class="col-xs-4">
 
                 <div class="alert alert-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'">
                     <div class="row">
                         <div class="col-xs-10">This document is archived.
-                            <button ng-if="revision==false && documentInfo.state == 'ARCHIVED'"
-                                    class="btn btn-info btn-xs" ng-click="createRevision()">Create Revision
-                            </button>
-                            to edit.
+                            <a ng-if="revision==false && documentInfo.state == 'ARCHIVED'" ng-click="createRevision()">Archive
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -258,7 +259,7 @@
 
             </div>
 
-            <div class="col-xs-4 text-right">
+            <div class="col-xs-4 col-xs-offset-4 text-right">
                 <input ng-if="readonly()==false && documentInfo.id" class="btn btn-primary" type="button"
                        ng-click="save()" value="Save"/>
                 <input ng-if="revision==false && documentInfo.id && !documentInfo.favourite" class="btn btn-warning"
@@ -313,9 +314,9 @@
         <div role="tabpanel" class="tab-pane active" id="in-progress-{{documentInfo.id}}">
 
             <div class="row text-left">
-                    <div class="col-xs-4 form-group" form-error="" form="form.documentForm" field="state" messages='{"required":"This field is required"}'>
+                    <div class="col-xs-3 form-group" form-error="" form="form.documentForm" field="state" messages='{"required":"This field is required"}'>
                         <div class="row">
-                            <label for="state" class="col-xs-6 control-label">State</label>
+                            <label for="state" class="col-xs-2 control-label">State</label>
                             <div class="col-xs-6">
                                 <input class="form-control disabled" name="state" id="state"
                                        ng-model="documentInfo.state" ng-readonly="true"/>
@@ -323,10 +324,10 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-4 form-group" form-error="" form="form.documentForm" field="revision"
+                    <div class="col-xs-3 form-group" form-error="" form="form.documentForm" field="revision"
                          messages='{"required":"This field is required"}'>
                         <div class="row">
-                            <label for="revision" class="col-xs-6 control-label">Revision</label>
+                            <label for="revision" class="col-xs-2 control-label">Revision</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input ng-readonly="readonly()==true" class="form-control" name="revision"
@@ -341,7 +342,7 @@
                     <div class="col-xs-4 form-group" form-error="" form="form.documentForm" field="archivedDate"
                          messages='{"required":"This field is required"}'>
                         <div class="row">
-                            <label for="revision" class="col-xs-6 control-label">Revision Date</label>
+                            <label for="revision" class="col-xs-4 control-label">Revision Date</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <input ng-readonly="true" class="form-control" disabled name="archivedDate"

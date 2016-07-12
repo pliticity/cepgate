@@ -27,7 +27,7 @@
             $scope.types = succ.data
         });
 
-        $http({url: '/classification', method: 'get',params:{active:true}}).then(function (succ) {
+        $http({url: '/classification', method: 'get',params:{active:true,without:'0'}}).then(function (succ) {
             $scope.classifications = succ.data;
         });
 

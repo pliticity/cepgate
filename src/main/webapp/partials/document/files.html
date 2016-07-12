@@ -3,42 +3,26 @@
     <div class="table-responsive">
         <table class="table table-condensed table-hover">
             <thead>
-            <tr>
-                <th colspan="3">
-                    <form ng-if="readonly()==false">
-                        <div ng-if="documentInfo.id" ngf-drop="uploadFiles(files,documentInfo.id)" class="drop-box"
-                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
-                        </div>
-                        <div ng-if="!documentInfo.id" ngf-drop="selectNewFiles(files)" class="drop-box"
-                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
-                        </div>
-                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
-                    </form>
-                </th>
-            </tr>
-            <tr>
+            <tr ng-controller="TemplateController">
                 <th colspan="2"></th>
                 <th class="text-right">
+                    <select ng-if="documentInfo.id && readonly()==false" class="form-control" ng-model="selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
+                        <option ng-repeat="t in templates" value="{{t.id}}">{{t.file.name}}</option>
+                    </select>
                     <form ng-if="readonly()==false">
-                        <div ng-if="documentInfo.id" class="btn btn-info btn-xs"
+                        <div>
+                        <div ng-if="documentInfo.id" style="float:right;" class="btn btn-info btn-xs"
                              ngf-select="uploadFiles(files,documentInfo.id)"
                              ngf-keep="false" ng-model="files" ngf-multiple="true">Add files
                         </div>
-                        <div ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id"
+                        <div style="float:right;" ngf-select="selectNewFiles(files)" ng-if="!documentInfo.id"
                              class="btn btn-info btn-xs"
                              ngf-keep="true"
                              ng-model="files" ngf-multiple="true">Add files
                         </div>
+                        <button style="float:right;" ng-if="documentInfo.id && readonly()==false" class="btn btn-info btn-xs" ng-click="addFileFromTemplate(documentInfo.id)">Add From Template</button>
+                        </div>
                     </form>
-                </th>
-            </tr>
-            <tr ng-if="documentInfo.id && readonly()==false" ng-controller="TemplateController">
-                <th colspan="2"></th>
-                <th class="text-right">
-                    <select class="form-control" ng-model="selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
-                        <option ng-repeat="t in templates" value="{{t.id}}">{{t.file.name}}</option>
-                    </select>
-                    <button class="btn btn-info btn-xs" ng-click="addFileFromTemplate(documentInfo.id)">Add From Template</button>
                 </th>
             </tr>
             <tr class="info">
@@ -67,6 +51,19 @@
                 <td>{{file.name}}</td>
                 <td>
                     <div class="btn btn-danger btn-xs" ng-click="deleteNewFile($index)">Delete</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <form ng-if="readonly()==false">
+                        <div ng-if="documentInfo.id" ngf-drop="uploadFiles(files,documentInfo.id)" class="drop-box"
+                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
+                        </div>
+                        <div ng-if="!documentInfo.id" ngf-drop="selectNewFiles(files)" class="drop-box"
+                             ngf-drag-over-class="'dragover'" ng-model="files" ngf-multiple="true">Drop files here
+                        </div>
+                        <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
+                    </form>
                 </td>
             </tr>
             </tbody>
