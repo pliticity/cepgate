@@ -17,7 +17,7 @@
                 <th class="text-left">Name</th>
                 <th class="text-left">ID</th>
                 <th class="text-left">Parent</th>
-                <th class="text-left">Child</th>
+                <th class="text-left">Type</th>
                 <th class="text-left">Active</th>
                 <th class="text-left">Edit</th>
             </tr>
@@ -32,7 +32,7 @@
                 <td class="text-left">{{row.name}}</td>
                 <td class="text-left">{{row.classificationId}}</td>
                 <td class="text-left">{{row.parentsIds.join()}}</td>
-                <td class="text-left">{{row.childrenIds.join()}}</td>
+                <td class="text-left">{{row.type}}</td>
                 <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleClassification(row)"/></td>
                 <td class="text-left">
                     <button class="btn btn-warning btn-xs" data-toggle="modal"

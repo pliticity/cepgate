@@ -49,13 +49,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="children"
+                            <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="type"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
-                                    <label for="children" class="col-xs-6 control-label">Child</label>
+                                    <label for="type" class="col-xs-6 control-label">Type</label>
                                     <div class="col-xs-6">
-                                        <select ng-model="classification.childrenIds" id="children" multiple="multiple" toggle-multi-select="">
-                                            <option ng-repeat="c in classifications" value="{{c.classificationId}}">{{c.classificationId}}</option>
+                                        <select class="form-control" ng-model="classification.type" id="type">
+                                            <option value="Product Line">Product Line</option>
+                                            <option value="Product Family">Product Family</option>
+                                            <option value="Product Group">Product Group</option>
+                                            <option value="Product Model">Product Model</option>
+                                            <option value="Component">Component</option>
                                         </select>
                                     </div>
                                 </div>

@@ -49,7 +49,7 @@ public class Classification {
 
     private boolean active;
 
-    private String[] childrenIds;
+    private String type;
 
     private String[] parentsIds;
 
@@ -101,12 +101,12 @@ public class Classification {
         this.classificationId = classificationId;
     }
 
-    public String[] getChildrenIds() {
-        return childrenIds;
+    public String getType() {
+        return type;
     }
 
-    public void setChildrenIds(String[] childrenIds) {
-        this.childrenIds = childrenIds;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String[] getParentsIds() {
