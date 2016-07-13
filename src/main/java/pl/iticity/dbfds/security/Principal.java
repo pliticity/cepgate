@@ -204,8 +204,12 @@ public class Principal {
 
     public String getAcronym(){
         StringBuilder builder = new StringBuilder();
-        builder.append(getFirstName().toUpperCase().charAt(0));
-        builder.append(getLastName().toUpperCase().charAt(0));
+        if(!StringUtils.isEmpty(getFirstName())){
+            builder.append(getFirstName().toUpperCase().charAt(0));
+        }
+        if(!StringUtils.isEmpty(getLastName())) {
+            builder.append(getLastName().toUpperCase().charAt(0));
+        }
         return builder.toString();
     }
 
