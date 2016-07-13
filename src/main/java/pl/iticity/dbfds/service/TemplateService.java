@@ -9,6 +9,7 @@ import org.apache.poi.poifs.filesystem.DirectoryEntry;
 import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
@@ -17,9 +18,11 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.repository.DocumentTemplateRepository;
 import pl.iticity.dbfds.repository.DocumentTypeRepository;
+import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +33,9 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private DefaultConfig defaultConfig;
 
     public List<DocumentTemplate> findByDomain(Domain domain) {
         return repo.findByDomain(domain);
@@ -43,12 +49,22 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
         return repo.save(template);
     }
 
-    public void appendMetadataToTemplate(FileInfo fileInfo, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
-        File file = fileService.getFileForFileInfo(fileInfo);
-
+    private File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
+            File newFile = new File(String.valueOf(System.currentTimeMillis()));
         try{
             OPCPackage opc = OPCPackage.open(file);
             PackageProperties pp = opc.getPackageProperties();
+            XWPFDocument document = new XWPFDocument(opc);
+
+            for(Method m : DocumentInfo.class.getMethods()){
+                if(m.getName().startsWith("get")){
+                    String result = String.valueOf(m.invoke(documentInfo));
+                    document.getProperties().getCustomProperties().addProperty(m.getName().substring(3,m.getName().length()),result);
+                }
+            }
+
+            document.getProperties().commit();
+            document.write(new FileOutputStream(newFile));
 
             Nullable<String> foo = pp.getLastModifiedByProperty();
             pp.setCreatorProperty(PrincipalUtils.getCurrentPrincipal().getEmail());
@@ -61,6 +77,17 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
+        return newFile;
+    }
+
+    public FileInfo copyFileAndFillMeta(FileInfo fileInfo,DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
+        String filePath = defaultConfig.getDataPath() + fileInfo.getPath() + fileInfo.getSymbol();
+        File file = new File(filePath);
+        File newFile = appendMetadataToTemplate(file,documentInfo);
+        FileInputStream fis = new FileInputStream(newFile);
+        FileInfo copy = fileService.createFile(PrincipalUtils.getCurrentDomain(),fileInfo.getName(),fileInfo.getType(),fis);
+        newFile.delete();
+        return copy;
     }
 
 }

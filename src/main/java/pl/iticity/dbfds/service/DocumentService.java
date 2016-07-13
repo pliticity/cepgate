@@ -241,8 +241,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         AuthorizationProvider.isInDomain(template.getDomain());
         DocumentInfo doc = findById(docId);
         AuthorizationProvider.isInDomain(doc.getDomain());
-        FileInfo copy = fileService.copyFile(template.getFile());
-        templateService.appendMetadataToTemplate(copy,doc);
+        FileInfo copy = templateService.copyFileAndFillMeta(template.getFile(),doc);
         doc.getFiles().add(copy);
         repo.save(doc);
         return copy;
