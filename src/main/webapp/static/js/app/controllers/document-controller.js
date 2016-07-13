@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['$timeout','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window', function ($timeout,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window) {
+    dhdModule.controller('DocumentController', ['$timeout','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
 
         // DOCUMENT
 
@@ -20,6 +20,23 @@
         $scope.revision = false;
         $scope.types = [];
         $scope.classifications = [];
+
+        $scope.openDic = function () {
+            if ($route.current.params.id) {
+                Document.get({id: $route.current.params.id}, function (res) {
+                    var id = res.id;
+                    var name = res.documentNumber;
+
+                    var link = "<li id='tab-" + id + "' role='presentation'><a close-tab=" + id + " href='#" + id + "' aria-controls='" + id + "' role='tab'data-toggle='tab'><span id='tab-name-" + id + "'>" + name + "</span></li>";
+                    var tab = "<div role='tabpanel' class='tab-pane' id='" + id + "' ng-controller='DocumentController'> <div ng-init=\"get('" + id + "')\"></div> <ng-include src=\"'/partials/document/details.html'\"></ng-include></div>";
+
+                    $("#documentTabs").append($compile(link)($scope));
+                    $("#documentsTabContent").append($compile(tab)($scope));
+
+                    $("#tab-" + id + " a:last").tab('show');
+                });
+            }
+        };
 
         // EXPOSE SERVICE
 

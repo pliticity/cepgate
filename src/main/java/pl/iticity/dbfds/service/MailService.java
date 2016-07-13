@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -23,6 +24,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.StringWriter;
 import java.text.MessageFormat;
@@ -47,7 +49,7 @@ public class MailService {
     @Autowired
     private FileService fileService;
 
-    public void sendDocument(String docId, String[] files, boolean zip) {
+    public void sendDocument(String docId, String[] files, boolean zip,HttpServletRequest request) {
         //DocumentInfo doc = documentService.findById(docId);
         //AuthorizationProvider.isInDomain(doc.getDomain());
         MimeMessage mail = mailSender.createMimeMessage();
@@ -61,7 +63,7 @@ public class MailService {
             StringBuilder text = new StringBuilder("This is an e-mail generated from Cepgate.");
             for (String f : files) {
                 DocumentInfo doc = documentInfoRepository.findByFiles_Id(f);
-                text.append(fillTemplate(doc));
+                text.append(fillTemplate(doc,request));
             }
             helper.setText(text.toString(),true);
 
@@ -72,9 +74,9 @@ public class MailService {
                     helper.addAttachment(fileInfo.getName(), file);
                 }
             }else{
-                FileInfo fileInfo = fileService.zipFiles(files);
-                String msg = MessageFormat.format("<a href=\"http://webapp-cepgate.rhcloud.com/file/{0}?temp=true\">link to files</a> this is a one time link",fileInfo.getSymbol());
-                helper.setText(msg,true);
+               // FileInfo fileInfo = fileService.zipFiles(files);
+             //   String msg = MessageFormat.format("<a href=\"http://webapp-cepgate.rhcloud.com/file/{0}?temp=true\">link to files</a> this is a one time link",fileInfo.getSymbol());
+             //   helper.setText(msg,true);
             }
 
 
@@ -84,7 +86,7 @@ public class MailService {
         mailSender.send(mail);
     }
 
-    private String fillTemplate(DocumentInfo documentInfo){
+    private String fillTemplate(DocumentInfo documentInfo,HttpServletRequest request){
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
@@ -97,8 +99,15 @@ public class MailService {
         context.put("documentTitle", documentInfo.getDocumentName());
         context.put("documentNumber", documentInfo.getDocumentNumber());
         context.put("revision", documentInfo.getRevision().getEffective());
+        context.put("link",generateLink(documentInfo,request));
         StringWriter writer = new StringWriter();
         t.merge( context, writer );
         return writer.toString();
+    }
+
+    private String generateLink(DocumentInfo documentInfo,HttpServletRequest request){
+        String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
+        base+="document#/dic/"+documentInfo.getId();
+        return base;
     }
 }

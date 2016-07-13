@@ -8,7 +8,9 @@
             $routeProvider.when('/', {
                 templateUrl: 'partials/document/index.html'
             }).when('/domain/:id', {
-                templateUrl: 'partials/domain/index.html',
+                templateUrl: 'partials/domain/index.html'
+            }).when('/dic/:id', {
+                templateUrl: 'partials/document/dic.html'
             }).otherwise({
                 redirectTo: '/'
             });

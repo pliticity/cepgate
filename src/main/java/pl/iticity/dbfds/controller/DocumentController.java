@@ -36,6 +36,7 @@ import pl.iticity.dbfds.service.MailService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.PathParam;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -213,8 +214,8 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/{id}/mail", method = RequestMethod.POST, params = {"zip"})
-    public @ResponseBody boolean postSendMail(@PathVariable("id") String id,@RequestBody String[] files,@RequestParam("zip") boolean zip){
-        mailService.sendDocument(id,files,zip);
+    public @ResponseBody boolean postSendMail(@PathVariable("id") String id, @RequestBody String[] files, @RequestParam("zip") boolean zip, HttpServletRequest request){
+        mailService.sendDocument(id,files,zip,request);
         return true;
     }
 
