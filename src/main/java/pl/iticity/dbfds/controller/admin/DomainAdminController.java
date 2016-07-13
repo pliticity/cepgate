@@ -1,11 +1,15 @@
 package pl.iticity.dbfds.controller.admin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.mixins.DomainOwnerMixin;
+import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.DocumentTypeService;
 import pl.iticity.dbfds.service.DomainService;
@@ -55,13 +59,17 @@ public class DomainAdminController {
     @RequestMapping("/{id}")
     public
     @ResponseBody
-    Domain getDomain(@PathVariable("id") String id) {
+    String getDomain(@PathVariable("id") String id) throws JsonProcessingException {
         Domain domain = domainService.findById(id);
         domain.setPrincipals(principalService.findByDomain(domain));
         domain.setNoOfFiles(fileService.countByDomain(domain));
         domain.setMemory(fileService.countMemoryByDomain(domain));
         domain.setNoOfUsers(domain.getPrincipals().size());
-        return domain;
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.addMixIn(Principal.class, DomainOwnerMixin.class);
+        domain.setOwner(PrincipalUtils.getCurrentPrincipal());
+        return mapper.writeValueAsString(domain);
     }
 
     @RequestMapping(value = "/docType",method = RequestMethod.POST)

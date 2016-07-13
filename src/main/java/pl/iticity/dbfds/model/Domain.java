@@ -3,6 +3,7 @@ package pl.iticity.dbfds.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,9 @@ public class Domain{
     private boolean active;
 
     private long lastMasterDocumentNumber;
+
+    @Transient
+    private Principal owner;
 
     @Transient
     private List<Principal> principals;
@@ -132,5 +136,13 @@ public class Domain{
 
     public void setAccountNo(String accountNo) {
         this.accountNo = accountNo;
+    }
+
+    public Principal getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Principal owner) {
+        this.owner = owner;
     }
 }
