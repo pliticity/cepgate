@@ -183,6 +183,11 @@
             <artifactId>spring-integration-mail</artifactId>
             <version>4.2.6.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
 
 
 

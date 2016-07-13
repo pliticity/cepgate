@@ -1,0 +1,12 @@
+<html>
+<body>
+<br/>
+Classification ID: $classificationId <br/>
+Classification Name: $classificationName <br/>
+Document Title: $documentTitle <br/>
+Document Number: $documentNumber <br/>
+Revison : $revision <br/>
+Link : <a href="#">link to cepgate</a> <br/>
+<br/>
+</body>
+</html>
