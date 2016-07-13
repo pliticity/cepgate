@@ -243,8 +243,6 @@
                 <div class="alert alert-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'">
                     <div class="row">
                         <div class="col-xs-10">This document is archived.
-                            <a ng-if="revision==false && documentInfo.state == 'ARCHIVED'" ng-click="createRevision()">Archive
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -272,6 +270,8 @@
                        ng-click="favourite()" value="Mark as favourite"/>
 
                 <button ng-if="readonly()==false && documentInfo.id" class="btn btn-info" ng-click="archive()">Archive</button>
+                <a class="btn btn-info" ng-if="revision==false && documentInfo.state == 'ARCHIVED'" ng-click="createRevision()">Create New Revison
+                </a>
 
                 <input ng-if="revision==false && documentInfo.id && documentInfo.favourite" class="btn btn-default"
                        type="button"
