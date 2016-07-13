@@ -2,6 +2,6 @@ package pl.iticity.dbfds.model.mixins;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"id","email","password","role","domain","active","creationDate"})
+@JsonIgnoreProperties({"id","password","domain"})
 public class DomainOwnerMixin {
 }

@@ -62,7 +62,7 @@
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.type}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentName}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.creationDate}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.createdBy.email}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.createdBy.email}} ({{row.createdBy.acronym}})</td>
         <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.noOfFiles}}</td>
         <td data="files" style="z-index: 100;">
             <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"

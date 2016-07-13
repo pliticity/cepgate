@@ -5,7 +5,7 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="4"></th>
+                <th colspan="5"></th>
                 <th class="text-right">
                     <button class="btn btn-primary btn-xs" data-toggle="modal"
                             data-target="#add-user-modal">Add user
@@ -14,6 +14,7 @@
             </tr>
             <tr class="info">
                 <th class="text-center">#</th>
+                <th class="text-center">Acronym</th>
                 <th class="text-center">Email</th>
                 <th class="text-center">Creation Date</th>
                 <th class="text-center">Active</th>
@@ -23,12 +24,13 @@
             </thead>
             <tbody>
             <tr>
-                <td colspan="5"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="6"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr class="animate-row"
                 ng-repeat="row in displayCollection">
                 <td class="text-center">{{$index+1}}</td>
+                <td class="text-center">{{row.acronym}}</td>
                 <td class="text-center">{{row.email}}</td>
                 <td class="text-center">{{row.creationDate}}</td>
                 <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/>

@@ -202,6 +202,13 @@ public class Principal {
         this.creationDate = creationDate;
     }
 
+    public String getAcronym(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(getFirstName().toUpperCase().charAt(0));
+        builder.append(getLastName().toUpperCase().charAt(0));
+        return builder.toString();
+    }
+
     @Override
     public String toString() {
         return getEmail();
