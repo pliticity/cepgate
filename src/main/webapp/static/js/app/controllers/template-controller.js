@@ -33,6 +33,8 @@
         $scope.addFileFromTemplate = function (docId) {
             $http({url: '/document/' + docId + '/template/' + $scope.selectedTemplate.id, method: 'put'}).then(function (succ) {
                 $scope.documentInfo.files.push(succ.data);
+            },function(reject){
+                alert("Could not create file from the template.");
             });
         }
 
