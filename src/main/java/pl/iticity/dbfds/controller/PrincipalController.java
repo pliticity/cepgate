@@ -72,4 +72,12 @@ public class PrincipalController {
         return mapper.writeValueAsString(PrincipalUtils.getCurrentPrincipal());
     }
 
+    @RequestMapping(value = "/{id}", params = {"key","value"}, method = RequestMethod.PUT)
+    public
+    @ResponseBody
+    boolean putUpdate(@PathVariable("id") String id, @RequestParam("key") String key, @RequestParam("value") String value) {
+        principalService.updatePrincipalStringField(id,key,value);
+        return true;
+    }
+
 }

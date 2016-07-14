@@ -40,6 +40,10 @@
             }
         };
 
+        $scope.setPrincipal = function(pr){
+            $scope.principal =pr;
+        }
+
     }]);
 
 })();

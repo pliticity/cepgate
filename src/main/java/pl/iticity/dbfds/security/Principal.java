@@ -4,6 +4,8 @@ package pl.iticity.dbfds.security;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Domain;
@@ -14,11 +16,13 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-/**
- * Created by dacho on 23.03.2016.
- */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @org.springframework.data.mongodb.core.mapping.Document
+@CompoundIndexes(value =
+        {
+                @CompoundIndex(def = "{'acronym' : 1,'domain' :1}", unique = true)
+        }
+)
 public class Principal {
 
     @Id
@@ -66,6 +70,8 @@ public class Principal {
     private Domain domain;
 
     private boolean active;
+
+    private String acronym;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
@@ -202,15 +208,12 @@ public class Principal {
         this.creationDate = creationDate;
     }
 
-    public String getAcronym(){
-        StringBuilder builder = new StringBuilder();
-        if(!StringUtils.isEmpty(getFirstName())){
-            builder.append(getFirstName().toUpperCase().charAt(0));
-        }
-        if(!StringUtils.isEmpty(getLastName())) {
-            builder.append(getLastName().toUpperCase().charAt(0));
-        }
-        return builder.toString();
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
     }
 
     @Override

@@ -16,6 +16,13 @@
     </div>
 
     <div class="form-group">
+        <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="acronym">Acronym:</label>
+        <div class="col-sm-5">
+            <input type="text" name="acronym" id="acronym" ng-model="principal.acronym"/>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="col-lg-3 col-md-3 col-sm-4 control-label input-sm" for="email"><span class="required">*</span>
             Email:</label>
         <div class="col-sm-7">
@@ -25,7 +32,7 @@
     </div>
 
 
-    <div ng-messages="signupForm.email.$error">
+    <div ng-messages="userForm.email.$error">
         <small class="col-sm4 alert alert-danger" ng-message="exists">Already exists</small>
     </div>
 

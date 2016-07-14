@@ -2,6 +2,7 @@ package pl.iticity.dbfds.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -20,6 +21,8 @@ import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
@@ -129,6 +132,27 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
 
     public List<Principal> findByDomain(Domain domain){
         return repo.findByDomain(domain);
+    }
+
+    public void updatePrincipalStringField(String id, String field, String value) {
+        Principal principal = repo.findOne(id);
+        AuthorizationProvider.hasRole(Role.ADMIN, principal.getDomain());
+        String methodName = "set" + StringUtils.capitalize(field);
+        try {
+            Method method = Principal.class.getMethod(methodName, String.class);
+            method.invoke(principal, value);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        try {
+            repo.save(principal);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -42,6 +42,10 @@
                 });
         };
 
+        $scope.updateUser = function (field, row) {
+            $http({url: '/principal/' + row.id, method: 'put', params: {key: field, value: row[field]}});
+        }
+
     }]);
 
 })();
