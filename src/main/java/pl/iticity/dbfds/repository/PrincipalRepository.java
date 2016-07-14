@@ -17,4 +17,5 @@ public interface PrincipalRepository extends MongoRepository<Principal,String>{
 
     public List<Principal> findByDomain(Domain domain);
 
+    public Principal findByDomainAndAcronym(Domain domain, String acronym);
 }

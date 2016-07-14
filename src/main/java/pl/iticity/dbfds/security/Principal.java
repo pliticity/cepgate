@@ -18,11 +18,6 @@ import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @org.springframework.data.mongodb.core.mapping.Document
-@CompoundIndexes(value =
-        {
-                @CompoundIndex(def = "{'acronym' : 1,'domain' :1}", unique = true)
-        }
-)
 public class Principal {
 
     @Id

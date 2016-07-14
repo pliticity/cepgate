@@ -149,10 +149,16 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
             e.printStackTrace();
         }
         try {
-            repo.save(principal);
+            if(!acronymExistsInDomain(principal.getAcronym(),principal.getDomain())){
+                repo.save(principal);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean acronymExistsInDomain(String acronym, Domain domain){
+        return repo.findByDomainAndAcronym(domain,acronym) != null;
     }
 
 }
