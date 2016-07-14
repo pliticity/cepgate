@@ -51,4 +51,9 @@ public class ClassificationController {
     List<Classification> toggleClassification(@PathVariable("id") String id,@RequestParam("toggle") boolean toggle) {
         return classificationService.toggleClassification(id,toggle);
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public @ResponseBody List<Classification> deleteClassification(@PathVariable("id") String id){
+        return classificationService.deleteClassification(id);
+    }
 }

@@ -9,11 +9,11 @@ import java.util.List;
 
 public interface ClassificationRepository extends MongoRepository<Classification,String> {
 
-    public List<Classification> findByDomain(Domain domain);
+    public List<Classification> findByDomainAndRemovedIsFalse(Domain domain);
 
-    public List<Classification> findByDomainAndActiveIsTrue(Domain domain);
+    public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalse(Domain domain);
 
-    public List<Classification> findByDomainAndIdNot(Domain domain,String id);
+    public List<Classification> findByDomainAndIdNotAndRemovedIsFalse(Domain domain, String id);
 
     public Classification findByDomainAndClassificationId(Domain domain, String clId);
 

@@ -5,10 +5,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.ClassificationRepository;
-import pl.iticity.dbfds.repository.DocumentTypeRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -24,16 +22,16 @@ public class ClassificationService extends AbstractService<Classification,Classi
             domain = PrincipalUtils.getCurrentDomain();
         }
         if(onlyActive){
-            return repo.findByDomainAndActiveIsTrue(domain);
+            return repo.findByDomainAndActiveIsTrueAndRemovedIsFalse(domain);
         }
-        return repo.findByDomain(domain);
+        return repo.findByDomainAndRemovedIsFalse(domain);
     }
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive, String without){
         if(domain==null){
             domain = PrincipalUtils.getCurrentDomain();
         }
-        return repo.findByDomainAndIdNot(domain,without);
+        return repo.findByDomainAndIdNotAndRemovedIsFalse(domain,without);
     }
 
     public List<Classification> addClassification(Classification classification,Domain domain){
@@ -73,6 +71,15 @@ public class ClassificationService extends AbstractService<Classification,Classi
             return false;
         }
         return true;
+    }
+
+    public List<Classification> deleteClassification(String id){
+        Classification classification = repo.findOne(id);
+        AuthorizationProvider.hasRole(Role.ADMIN,classification.getDomain());
+        classification.setRemoved(true);
+        classification.setActive(false);
+        repo.save(classification);
+        return findByDomain(classification.getDomain(),false);
     }
 
 }

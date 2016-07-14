@@ -19,7 +19,7 @@
                 <th class="text-left">Parent</th>
                 <th class="text-left">Type</th>
                 <th class="text-left">Active</th>
-                <th class="text-left">Edit</th>
+                <th class="text-left">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -37,6 +37,8 @@
                 <td class="text-left">
                     <button class="btn btn-warning btn-xs" data-toggle="modal"
                             data-target="#add-classification-modal-{{row.id}}">Edit
+                    </button>
+                    <button ng-if="row.defaultValue == false" class="btn btn-danger btn-xs" ng-click="remove(row)">Delete
                     </button>
                     <div ng-include="'/partials/domain/setup/add-classification-modal.html'" ng-controller="ClassificationController" ng-init="classification=row; getClassifications();"></div>
                 </td>

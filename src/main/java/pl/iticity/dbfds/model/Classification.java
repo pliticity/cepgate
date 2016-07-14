@@ -30,7 +30,7 @@ import java.util.List;
 )
 public class Classification {
 
-    public static Classification EMAIL = new Classification("E-Mail","EM");
+    public static Classification EMAIL = new Classification("E-Mail","EM",true);
 
     @Id
     @GeneratedValue
@@ -53,12 +53,17 @@ public class Classification {
 
     private String[] parentsIds;
 
+    private boolean defaultValue;
+
+    private boolean removed;
+
     public Classification() {
     }
 
-    public Classification(String name, String classificationId) {
+    public Classification(String name, String classificationId, boolean defaultValue) {
         this.name = name;
         this.classificationId = classificationId;
+        this.defaultValue = defaultValue;
     }
 
     public String getId() {
@@ -121,5 +126,21 @@ public class Classification {
     @Transient
     public static List<Classification> getDefault(){
         return Lists.newArrayList(EMAIL);
+    }
+
+    public boolean isDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(boolean defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }

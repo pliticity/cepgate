@@ -76,6 +76,14 @@
             });
         };
 
+        $scope.remove = function(row){
+            if(row.defaultValue==false){
+                $http({url: '/classification/'+row.id, method: 'delete'}).then(function (succ) {
+                    $scope.classifications = succ.data;
+                });
+            }
+        }
+
     }]);
 
 })();
