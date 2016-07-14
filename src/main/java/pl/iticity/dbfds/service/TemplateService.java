@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.service;
 
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 import org.apache.poi.hpsf.*;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -12,10 +13,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.DocumentTemplate;
-import pl.iticity.dbfds.model.Domain;
-import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.repository.DocumentTemplateRepository;
 import pl.iticity.dbfds.repository.DocumentTypeRepository;
 import pl.iticity.dbfds.util.DefaultConfig;
@@ -25,6 +23,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TemplateService extends AbstractService<DocumentTemplate, DocumentTemplateRepository> {
@@ -50,18 +49,29 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
     }
 
     private File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
-            File newFile = new File(String.valueOf(System.currentTimeMillis()));
+
+            File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
         try{
             OPCPackage opc = OPCPackage.open(file);
             PackageProperties pp = opc.getPackageProperties();
             XWPFDocument document = new XWPFDocument(opc);
 
-            for(Method m : DocumentInfo.class.getMethods()){
-                if(m.getName().startsWith("get")){
-                    String result = String.valueOf(m.invoke(documentInfo));
-                    document.getProperties().getCustomProperties().addProperty(m.getName().substring(3,m.getName().length()),result);
-                }
+            document.getProperties().getCustomProperties().addProperty("classificationName", documentInfo.getClassification().getName());
+            document.getProperties().getCustomProperties().addProperty("classificationId", documentInfo.getClassification().getClassificationId());
+            document.getProperties().getCustomProperties().addProperty("documentType", documentInfo.getDocType().getName());
+            document.getProperties().getCustomProperties().addProperty("documentTypeID", documentInfo.getDocType().getTypeId());
+            document.getProperties().getCustomProperties().addProperty("documentNumber", documentInfo.getDocumentNumber());
+            String rDate = "";
+            String rNumber = "";
+            if(documentInfo.getRevisions() != null && !documentInfo.getRevisions().isEmpty()){
+                Revision r = documentInfo.getRevisions().get(documentInfo.getRevisions().size()-1);
+                rNumber= r.getRevision().getEffective();
+                rDate = r.getDate().toString();
             }
+            document.getProperties().getCustomProperties().addProperty("revisionDate", rDate);
+            document.getProperties().getCustomProperties().addProperty("revisionNumber", rNumber);
+            document.getProperties().getCustomProperties().addProperty("documentTitle", documentInfo.getDocumentName());
+            document.getProperties().getCustomProperties().addProperty("documentResponsibleAcronym", documentInfo.getResponsibleUser() !=null ? documentInfo.getResponsibleUser().getAcronym() : "");
 
             document.getProperties().commit();
             document.write(new FileOutputStream(newFile));
