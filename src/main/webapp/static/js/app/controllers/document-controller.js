@@ -20,6 +20,7 @@
         $scope.revision = false;
         $scope.types = [];
         $scope.classifications = [];
+        $scope.mail = {};
 
         $scope.openDic = function () {
             if ($route.current.params.id) {
@@ -300,7 +301,7 @@
 
         $scope.sendMail = function (zip) {
             $scope.doForSelectedRows(function (e) {
-                fileService.mailFiles(e,zip);
+                fileService.mailFiles(e,zip,$scope.mail,$scope.tableId);
             });
         };
 

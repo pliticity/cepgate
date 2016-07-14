@@ -1,0 +1,44 @@
+<div class="modal fade" id="mail-modal-{{tableId}}" tabindex="-1"
+     role="dialog" aria-labelledby="mail-modal-label-{{tableId}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="mail-modal-label-{{tableId}}">Send E-mail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label for="subject" class="col-xs-3 control-label">Subject</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" id="subject"
+                               ng-model="mail.subject" required=""/>
+                    </div>
+                    <label for="recipient" class="col-xs-3 control-label">Recipient</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" id="recipient"
+                               ng-model="mail.recipient" required=""/>
+                    </div>
+                    <label for="message" class="col-xs-3 control-label">Message</label>
+                    <div class="col-xs-9">
+                        <textarea id="message" class="form-control" ng-model="mail.message"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <div class="btn-group">
+                    <button ng-disabled="canSendMail() == false" type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                        Email
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="sendMail(false)">Attach Files</a></li>
+                        <li><a ng-click="sendMail(true)">Only Link</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

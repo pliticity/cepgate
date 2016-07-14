@@ -214,8 +214,8 @@ public class DocumentController {
     }
 
     @RequestMapping(value = "/{id}/mail", method = RequestMethod.POST, params = {"zip"})
-    public @ResponseBody boolean postSendMail(@PathVariable("id") String id, @RequestBody String[] files, @RequestParam("zip") boolean zip, HttpServletRequest request){
-        mailService.sendDocument(id,files,zip,request);
+    public @ResponseBody boolean postSendMail(@PathVariable("id") String id, @RequestBody Mail mail, @RequestParam("zip") boolean zip, HttpServletRequest request){
+        mailService.sendDocument(mail,zip,request);
         return true;
     }
 

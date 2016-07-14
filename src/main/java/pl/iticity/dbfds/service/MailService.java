@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -17,6 +18,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.Mail;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.util.DefaultConfig;
@@ -49,7 +51,7 @@ public class MailService {
     @Autowired
     private FileService fileService;
 
-    public void sendDocument(String docId, String[] files, boolean zip,HttpServletRequest request) {
+    public void sendDocument(Mail email, boolean zip, HttpServletRequest request) {
         //DocumentInfo doc = documentService.findById(docId);
         //AuthorizationProvider.isInDomain(doc.getDomain());
         MimeMessage mail = mailSender.createMimeMessage();
@@ -57,18 +59,28 @@ public class MailService {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
 
             helper.setFrom(defaultConfig.getSmtpFrom());
-            helper.setTo(PrincipalUtils.getCurrentPrincipal().getEmail());
-            helper.setSubject("This is an e-mail generated from Cepgate.");
-
-            StringBuilder text = new StringBuilder("This is an e-mail generated from Cepgate.");
-            for (String f : files) {
+            if(StringUtils.isEmpty(email.getRecipient()) || !EmailValidator.getInstance().isValid(email.getRecipient())){
+                helper.setTo(PrincipalUtils.getCurrentPrincipal().getEmail());
+            }else{
+                helper.setTo(email.getRecipient());
+            }
+            if(StringUtils.isEmpty(email.getSubject())) {
+                helper.setSubject("This is an e-mail generated from Cepgate.");
+            }else{
+                helper.setSubject(email.getSubject());
+            }
+            StringBuilder text = new StringBuilder("This is an e-mail generated from Cepgate.<br/>");
+            if(!StringUtils.isEmpty(email.getMessage())){
+                text.append("<br/>"+email.getMessage()+"<br/>");
+            }
+            for (String f : email.getFiles()) {
                 DocumentInfo doc = documentInfoRepository.findByFiles_Id(f);
                 text.append(fillTemplate(doc,request));
             }
             helper.setText(text.toString(),true);
 
             if (!zip) {
-                for (String f : files) {
+                for (String f : email.getFiles()) {
                     FileInfo fileInfo = fileService.findById(f);
                     File file = fileService.getFileForFileInfo(fileInfo);
                     helper.addAttachment(fileInfo.getName(), file);

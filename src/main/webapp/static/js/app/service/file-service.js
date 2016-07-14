@@ -19,7 +19,7 @@
             });
         };
 
-        this.mailFiles = function (filesId, zip) {
+        this.mailFiles = function (filesId, zip,mail,tId) {
             var files = [];
             for (var i = 0; i < filesId.length; i++) {
                 var fId = filesId[i];
@@ -30,9 +30,13 @@
                 });
             }
 
-            $http({url: '/document/0/mail',params:{zip:zip}, method: 'post', data: files}).then(function(succ){
+            mail.files = files;
+
+            $http({url: '/document/0/mail',params:{zip:zip}, method: 'post', data: mail}).then(function(succ){
                 console.log('succ');
             });
+
+            $("#mail-modal-"+tId).modal('hide');
         };
 
         this.anySelected = function(fileId){

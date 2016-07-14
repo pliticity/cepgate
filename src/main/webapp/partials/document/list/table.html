@@ -13,17 +13,12 @@
                 aria-hidden="true"></span>Delete
         </button>
 
-        <div class="btn-group">
-            <button ng-disabled="canSendMail() == false" type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                Email
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a ng-click="sendMail(false)">Attach Files</a></li>
-                <li><a ng-click="sendMail(true)">Only Link</a></li>
-            </ul>
-        </div>
+        <button ng-disabled="canSendMail() == false" class="btn btn-default btn-icon" data-toggle="modal" data-target="#mail-modal-{{tableId}}"><span
+                class="glyphicon glyphicon-envelope"
+                aria-hidden="true"></span>Email
+        </button>
+
+        <ng-include src="'/partials/document/mail-modal.html'"></ng-include>
     </div>
 </div>
 
