@@ -134,31 +134,9 @@ public class PrincipalService extends AbstractService<Principal,PrincipalReposit
         return repo.findByDomain(domain);
     }
 
-    public void updatePrincipalStringField(String id, String field, String value) {
-        Principal principal = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN, principal.getDomain());
-        String methodName = "set" + StringUtils.capitalize(field);
-        try {
-            Method method = Principal.class.getMethod(methodName, String.class);
-            method.invoke(principal, value);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        try {
-            if(!acronymExistsInDomain(principal.getAcronym(),principal.getDomain())){
-                repo.save(principal);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean acronymExistsInDomain(String acronym, Domain domain){
-        return repo.findByDomainAndAcronym(domain,acronym) != null;
+    public boolean acronymExistsInDomain(String id, String acronym, Domain domain){
+        Principal p = repo.findByDomainAndAcronym(domain,acronym);
+        return p !=null && !p.getId().equals(id);
     }
 
 }

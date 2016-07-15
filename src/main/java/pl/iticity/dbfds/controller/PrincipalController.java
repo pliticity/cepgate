@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.PrincipalMixin;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
@@ -72,12 +73,24 @@ public class PrincipalController {
         return mapper.writeValueAsString(PrincipalUtils.getCurrentPrincipal());
     }
 
-    @RequestMapping(value = "/{id}", params = {"key","value"}, method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public
     @ResponseBody
-    boolean putUpdate(@PathVariable("id") String id, @RequestParam("key") String key, @RequestParam("value") String value) {
-        principalService.updatePrincipalStringField(id,key,value);
-        return true;
+    List<Principal> postCreatePrincipal(@RequestBody Principal principal) throws JsonProcessingException {
+        Principal dbPrincipal = principalService.findById(principal.getId());
+        AuthorizationProvider.hasRole(Role.ADMIN, dbPrincipal.getDomain());
+        dbPrincipal.setFirstName(principal.getFirstName());
+        dbPrincipal.setLastName(principal.getLastName());
+        dbPrincipal.setAcronym(principal.getAcronym());
+        principalService.save(dbPrincipal);
+        return principalService.findByDomain(dbPrincipal.getDomain());
+    }
+
+    @RequestMapping(value = "/acronym", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    boolean getExists(@RequestParam(name = "id") String id, @RequestParam(name = "q") String acronym) {
+        return principalService.acronymExistsInDomain(id,acronym,PrincipalUtils.getCurrentDomain());
     }
 
 }

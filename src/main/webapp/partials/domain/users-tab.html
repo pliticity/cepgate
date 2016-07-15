@@ -5,7 +5,7 @@
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
-                <th colspan="7"></th>
+                <th colspan="8"></th>
                 <th class="text-right">
                     <button class="btn btn-primary btn-xs" data-toggle="modal"
                             data-target="#add-user-modal">Add user
@@ -21,21 +21,21 @@
                 <th st-sort="creationDate" class="text-center">Creation Date</th>
                 <th class="text-center">Active</th>
                 <th st-sort="role" class="text-center">User Group</th>
-                <!--<th class="text-center">Action</th>-->
+                <th class="text-center">Action</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td colspan="8"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+                <td colspan="9"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
                 </td>
             </tr>
             <tr class="animate-row"
                 ng-repeat="row in displayCollection">
                 <td class="text-center">{{$index+1}}</td>
-                <td class="text-center"><input class="form-control" ng-model="row.acronym" ng-change="updateUser('acronym',row)"/></td>
+                <td class="text-center">{{row.acronym}}</td>
                 <td class="text-center">{{row.email}}</td>
-                <td class="text-center"><input class="form-control" ng-model="row.firstName" ng-change="updateUser('firstName',row)"/></td>
-                <td class="text-center"><input class="form-control" ng-model="row.lastName" ng-change="updateUser('lastName',row)"/></td>
+                <td class="text-center">{{row.firstName}}</td>
+                <td class="text-center">{{row.lastName}}</td>
                 <td class="text-center">{{row.creationDate}}</td>
                 <td class="text-center"><input type="checkbox" ng-model="row.active" ng-change="changeActive(row)"/>
                 </td>
@@ -55,20 +55,22 @@
                         <input value="Global Admin" disabled class="form-control"/>
                     </div>
                 </td>
-                <!--<td class="text-center" style="z-index: 100;">
-                </td>-->
+                <td ng-controller="PrincipalController" class="text-center" style="z-index: 100;">
+                    <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#edit-user-modal-{{row.id}}">Edit</button>
+                    <ng-include ng-init="setPrincipal(row)" src="'/partials/domain/edit-user-modal.html'"></ng-include>
+                </td>
             </tr>
             </tbody>
             <tfoot>
             <tr>
-                <td colspan="7"></td>
+                <td colspan="8"></td>
                 <td colspan="1" class="text-right">
                     <label for="itemsPerPage">Items per page</label>
                     <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
                 </td>
             </tr>
             <tr>
-                <td colspan="8" class="text-center">
+                <td colspan="9" class="text-center">
                     <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
                 </td>
             </tr>

@@ -45,7 +45,6 @@
         $scope.addClassification = function () {
             var form = $scope.form['classificationForm'+$scope.classification.id];
             form.$submitted=true;
-            console.log(form);
             if (form.$valid) {
                 //console.log($scope.classification.children);
                 //$scope.objectify($scope.classification.children);

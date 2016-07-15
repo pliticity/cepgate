@@ -1,0 +1,66 @@
+<div id="edit-user-modal-{{principal.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit-user-modal-label-{{principal.id}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="edit-user-modal-label-{{principal.id}}">Edit user</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-10">
+
+                        <form id="form.userForm{{principal.id}}" name="form.userForm{{principal.id}}">
+                            <div class="form-group" form-error="" form="form.userForm{{principal.id}}" field="firstName"
+                                 messages='{"required":"This field is required"}'>
+                                <div class="row">
+                                    <label for="firstName" class="col-xs-3 control-label">First Name</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control"
+                                               ng-model="principal.firstName"
+                                               name="firstName"
+                                               id="firstName"
+                                               required=""/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" form-error="" form="form.userForm{{principal.id}}" field="lastName"
+                                 messages='{"required":"This field is required"}'>
+                                <div class="row">
+                                    <label for="lastName" class="col-xs-3 control-label">Last Name</label>
+                                    <div class="col-xs-9">
+                                        <input type="text" class="form-control"
+                                               ng-model="principal.lastName"
+                                               name="lastName"
+                                               id="lastName"
+                                               required=""/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" form-error="" form="form.userForm{{principal.id}}" field="acronym"
+                                 messages='{"required":"This field is required","acronym":"Acronym already exists"}'>
+                                <div class="row">
+                                    <label for="acronym" class="col-xs-3 control-label">Acronym</label>
+                                    <div class="col-xs-9">
+                                        <input ng-model-options="{ allowInvalid:true,updateOn:'default' }" acronym-validator="{{principal.id}}" type="text" class="form-control"
+                                               ng-model="principal.acronym"
+                                               name="acronym"
+                                               id="acronym"
+                                               required=""/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-click="edit()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
