@@ -87,7 +87,8 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
         DocumentInfo copy = documentInfo.clone();
         copy.getLinks().add(new Link(documentInfo,LinkType.COPY_FROM));
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        copy.setDocumentNumber(String.valueOf(copy.getMasterDocumentNumber()));
+        String docNo = MessageFormat.format("{0}-{1}",documentInfo.getDomain().getAccountNo(),copy.getMasterDocumentNumber());
+        copy.setDocumentNumber(docNo);
         List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInfo.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
             @Override
             public boolean apply(@Nullable FileInfo fileInfo) {
