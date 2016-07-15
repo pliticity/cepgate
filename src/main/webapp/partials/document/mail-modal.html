@@ -15,10 +15,12 @@
                                ng-model="mail.subject" required=""/>
                     </div>
                     <label for="recipient" class="col-xs-3 control-label">Recipient</label>
-                    <div class="col-xs-9">
-                        <input class="form-control" id="recipient"
-                               ng-model="mail.recipient" required=""/>
+                    <div class="col-xs-9" ng-controller="PrincipalListController as ctrl" ng-init="currentPrincipal()">
+                        <select id="recipient" class="form-control" ng-model="mail.recipient">
+                            <option ng-repeat="p in principals" value="{{p.email}}">{{p.email}}</option>
+                        </select>
                     </div>
+
                     <label for="message" class="col-xs-3 control-label">Message</label>
                     <div class="col-xs-9">
                         <textarea id="message" class="form-control" ng-model="mail.message"/>
@@ -26,18 +28,14 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <div class="btn-group">
-                    <button ng-disabled="canSendMail() == false" type="button" class="btn btn-default btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                        Email
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a ng-click="sendMail(false)">Attach Files</a></li>
-                        <li><a ng-click="sendMail(true)">Only Link</a></li>
-                    </ul>
+                <div style="margin:5px;" class="checkbox" style="margin:5px; float: right;">
+                    <label>
+                        <input id="attachFiles" ng-model="attachFiles" type="checkbox"> Attach Files
+                    </label>
                 </div>
+
+                <button type="button" class="btn btn-default" style="margin:5px; float: right;" ng-click="sendMail(attachFiles)">Send</button>
+                <button style="margin:5px; float: right;" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
