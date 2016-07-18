@@ -13,7 +13,7 @@
                 aria-hidden="true"></span>Delete
         </button>
 
-        <button ng-disabled="canSendMail() == false" class="btn btn-default btn-icon" data-toggle="modal" data-target="#mail-modal-{{tableId}}"><span
+        <button ng-click="mailPopupOpened(tableId)" ng-disabled="canSendMail() == false" class="btn btn-default btn-icon" data-toggle="modal" data-target="#mail-modal-{{tableId}}"><span
                 class="glyphicon glyphicon-envelope"
                 aria-hidden="true"></span>Email
         </button>
@@ -65,7 +65,7 @@
             </button>
             <ng-include src="'/partials/document/confirmation-modal.html'"></ng-include>-->
             </button>
-            <select ng-if="row.noOfFiles>0" id="files-{{row.id}}" multiple="multiple" toggle-multi-select="apply">
+            <select ng-if="row.noOfFiles>0" id="files-{{tableId}}-{{row.id}}" multiple="multiple" toggle-multi-select="apply">
                 <option ng-repeat="file in row.files" value="{{file.id}}">{{file.name}}</option>
             </select>
             </button>

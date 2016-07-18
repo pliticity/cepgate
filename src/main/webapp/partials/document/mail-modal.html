@@ -26,6 +26,23 @@
                         <textarea id="message" class="form-control" ng-model="mail.message"/>
                     </div>
                 </div>
+                <div class="row" style="margin-left: 15px;margin-right: 15px;">
+                    <table style="margin-top: 10px;" class="table table-condensed table-hover"
+                           st-table="displayCollection"
+                           st-safe-src="fNames[tableId]">
+                        <span us-spinner="{radius:30, width:8, length: 16}"></span>
+                        <thead>
+                        <tr class="info">
+                            <th>File Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in displayCollection">
+                            <td>{{row}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <div style="margin:5px;" class="checkbox" style="margin:5px; float: right;">

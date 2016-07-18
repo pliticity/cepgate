@@ -34,4 +34,8 @@ public class FileController {
         return true;
     }
 
+    @RequestMapping(value = "/names",method = RequestMethod.POST)
+    public @ResponseBody String[] getFileName(@RequestBody String[] ids){
+        return fileService.getFileNames(ids);
+    }
 }

@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.model;
 
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.GeneratedValue;
@@ -31,6 +32,9 @@ public class FileInfo {
     private Domain domain;
 
     private double size;
+
+    @Transient
+    private String downloadName;
 
     public String getPath() {
         return path;
@@ -94,5 +98,13 @@ public class FileInfo {
 
     public void setSize(double size) {
         this.size = size;
+    }
+
+    public String getDownloadName() {
+        return downloadName;
+    }
+
+    public void setDownloadName(String downloadName) {
+        this.downloadName = downloadName;
     }
 }

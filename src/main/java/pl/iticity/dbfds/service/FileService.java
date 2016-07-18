@@ -256,6 +256,16 @@ public class FileService extends AbstractService<FileInfo, FileRepository> {
         return mapper.writeValueAsString(fileInfo);
     }
 
+    public String[] getFileNames(String[] ids){
+        List<String> names = Lists.newArrayList();
+        for(String id : ids){
+            DocumentInfo info = documentInfoRepository.findByFiles_Id(id);
+            FileInfo file = findById(id);
+            names.add(createFileDownloadName(info,file.getName()));
+        }
+        return names.toArray(new String[names.size()]);
+    }
+
     public DefaultConfig getDefaultConfig() {
         return defaultConfig;
     }

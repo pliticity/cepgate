@@ -4,11 +4,11 @@
 
     dhd.service('fileService', ['$http', '$window', function ($http, $window) {
 
-        this.downloadFiles = function (filesId) {
+        this.downloadFiles = function (filesId,tableId) {
             var files = [];
             for (var i = 0; i < filesId.length; i++) {
                 var fId = filesId[i];
-                $("#files-" + fId + " option:selected").map(function (a, item) {
+                $("#files-"+tableId+"-" + fId + " option:selected").map(function (a, item) {
                     return item.value
                 }).each(function (index, item) {
                     files.push(item);
@@ -23,7 +23,7 @@
             var files = [];
             for (var i = 0; i < filesId.length; i++) {
                 var fId = filesId[i];
-                $("#files-" + fId + " option:selected").map(function (a, item) {
+                $("#files-"+$scope.tableId+"-" + fId + " option:selected").map(function (a, item) {
                     return item.value
                 }).each(function (index, item) {
                     files.push(item);
@@ -39,19 +39,25 @@
             $("#mail-modal-"+tId).modal('hide');
         };
 
-        this.anySelected = function(fileId){
-            return $("#files-" + fileId + " option:selected").length>0;
+        this.anySelected = function(fileId,tableId){
+            return $("#files-"+tableId+"-" + fileId + " option:selected").length>0;
         };
 
-        this.selectedFiles = function(rowId){
+        this.selectedFiles = function(rowId,tableId){
             var farray = [];
-            $("#files-" + rowId + " option:selected").map(function (a, item) {
+            $("#files-"+tableId+"-" + rowId + " option:selected").map(function (a, item) {
                 return item.value
             }).each(function (index, item) {
                 farray.push(item);
             });
             return farray;
         }
+
+        this.fileNames = function (fNames,tableId, fileIds) {
+            $http({url: '/files/names', method: 'post', data: fileIds}).then(function (succ) {
+                fNames[tableId] = succ.data;
+            });
+        };
 
     }]);
 

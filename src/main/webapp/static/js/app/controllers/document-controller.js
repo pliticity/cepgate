@@ -21,6 +21,21 @@
         $scope.types = [];
         $scope.classifications = [];
         $scope.mail = {};
+        $scope.fNames = {};
+
+        $scope.mailPopupOpened = function (tableId) {
+            var files = [];
+            $scope.doForSelectedRows(function (rows) {
+                for (var i = 0; i < rows.length; i++) {
+                    var fls = fileService.selectedFiles(rows[i],tableId);
+                    console.log(fls);
+                    for (var j = 0; j < fls.length; j++) {
+                        files.push((fls[j]));
+                    }
+                }
+            });
+            fileService.fileNames($scope.fNames,$scope.tableId,files);
+        };
 
         $scope.openDic = function () {
             if ($route.current.params.id) {
@@ -178,7 +193,6 @@
             $("table#" + $scope.tableId + " tr.st-selected").each(function (i, e) {
                 ids.push($(e).attr("docId"));
             });
-            console.log(ids);
             func(ids);
         };
 
@@ -186,7 +200,7 @@
             $scope.doForSelectedRows(function (e) {
                 var docDto = [];
                 e.forEach(function(i){
-                    var fArray = fileService.selectedFiles(i);
+                    var fArray = fileService.selectedFiles(i,$scope.tableId);
                     docDto.push({"id":i,"files":fArray});
                 });
                 $http({url: '/document/copy', method: 'post', data: docDto}).then(function (s) {
@@ -258,7 +272,7 @@
         };
 
         $scope.download = function (filesId) {
-            fileService.downloadFiles(filesId);
+            fileService.downloadFiles(filesId,$scope.tableId);
         };
 
         $scope.selectNewFiles = function (files) {
