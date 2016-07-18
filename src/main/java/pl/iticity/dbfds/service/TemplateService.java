@@ -1,8 +1,11 @@
 package pl.iticity.dbfds.service;
 
 import com.google.common.collect.Maps;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.POIXMLProperties;
 import org.apache.poi.hpsf.*;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageProperties;
 import org.apache.poi.openxml4j.util.Nullable;
@@ -11,9 +14,12 @@ import org.apache.poi.poifs.filesystem.DocumentEntry;
 import org.apache.poi.poifs.filesystem.DocumentInputStream;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.openxmlformats.schemas.officeDocument.x2006.customProperties.CTProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.DocumentTemplateRepository;
 import pl.iticity.dbfds.repository.DocumentTypeRepository;
 import pl.iticity.dbfds.util.DefaultConfig;
@@ -48,19 +54,21 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
         return repo.save(template);
     }
 
-    private File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
+    public File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
 
             File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
         try{
             OPCPackage opc = OPCPackage.open(file);
-            PackageProperties pp = opc.getPackageProperties();
+            //PackageProperties pp = opc.getPackageProperties();
             XWPFDocument document = new XWPFDocument(opc);
 
-            document.getProperties().getCustomProperties().addProperty("classificationName", documentInfo.getClassification().getName());
-            document.getProperties().getCustomProperties().addProperty("classificationId", documentInfo.getClassification().getClassificationId());
-            document.getProperties().getCustomProperties().addProperty("documentType", documentInfo.getDocType().getName());
-            document.getProperties().getCustomProperties().addProperty("documentTypeID", documentInfo.getDocType().getTypeId());
-            document.getProperties().getCustomProperties().addProperty("documentNumber", documentInfo.getDocumentNumber());
+            POIXMLProperties.CustomProperties properties = document.getProperties().getCustomProperties();
+
+            setDocProperty("classificationName", documentInfo.getClassification().getName(),properties);
+            setDocProperty("classificationId", documentInfo.getClassification().getClassificationId(),properties);
+            setDocProperty("documentType", documentInfo.getDocType().getName(),properties);
+            setDocProperty("documentTypeID", documentInfo.getDocType().getTypeId(),properties);
+            setDocProperty("documentNumber", documentInfo.getDocumentNumber(),properties);
             String rDate = "";
             String rNumber = "";
             if(documentInfo.getRevisions() != null && !documentInfo.getRevisions().isEmpty()){
@@ -68,26 +76,34 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
                 rNumber= r.getRevision().getEffective();
                 rDate = r.getDate().toString();
             }
-            document.getProperties().getCustomProperties().addProperty("revisionDate", rDate);
-            document.getProperties().getCustomProperties().addProperty("revisionNumber", rNumber);
-            document.getProperties().getCustomProperties().addProperty("documentTitle", documentInfo.getDocumentName());
-            document.getProperties().getCustomProperties().addProperty("documentResponsibleAcronym", documentInfo.getResponsibleUser() !=null ? documentInfo.getResponsibleUser().getAcronym() : "");
+            setDocProperty("revisionDate", rDate,properties);
+            setDocProperty("revisionNumber", rNumber,properties);
+            setDocProperty("documentTitle", documentInfo.getDocumentName(),properties);
+            setDocProperty("documentResponsibleAcronym", documentInfo.getResponsibleUser() !=null ? documentInfo.getResponsibleUser().getAcronym() : "",properties);
 
             document.getProperties().commit();
             document.write(new FileOutputStream(newFile));
 
-            Nullable<String> foo = pp.getLastModifiedByProperty();
+/*            Nullable<String> foo = pp.getLastModifiedByProperty();
             pp.setCreatorProperty(PrincipalUtils.getCurrentPrincipal().getEmail());
             pp.setLastModifiedByProperty(PrincipalUtils.getCurrentPrincipal().getEmail() + System.currentTimeMillis());
             pp.setModifiedProperty(new Nullable<Date>(new Date()));
             pp.setTitleProperty(documentInfo.getDocumentName());
-            pp.setSubjectProperty(documentInfo.getDocumentName());
+            pp.setSubjectProperty(documentInfo.getDocumentName());*/
 
             opc.close();
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
         return newFile;
+    }
+
+    private void setDocProperty(String field, String value, POIXMLProperties.CustomProperties properties){
+        if(properties.contains(field)){
+            properties.getProperty(field).setLpwstr(value);
+        }else{
+            properties.addProperty(field,value);
+        }
     }
 
     public FileInfo copyFileAndFillMeta(FileInfo fileInfo,DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
@@ -100,4 +116,31 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
         return copy;
     }
 
+    public DocumentTemplate createTemplate(MultipartFile file) throws IOException, InvalidFormatException {
+        FileInfo fileInfo = fileService.createFile(PrincipalUtils.getCurrentDomain(), file.getOriginalFilename(), file.getContentType(), file.getInputStream());
+
+        String filePath = defaultConfig.getDataPath() + fileInfo.getPath() + fileInfo.getSymbol();
+        File templateFile = new File(filePath);
+        File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
+        File newFile2 = new File(defaultConfig.getDataPath()+"/temp/2"+String.valueOf(System.currentTimeMillis()));
+        FileUtils.copyFile(templateFile,newFile);
+
+        try {
+            OPCPackage opc = OPCPackage.open(newFile);
+            XWPFDocument document = new XWPFDocument(opc);
+
+            setDocProperty("test", "test",document.getProperties().getCustomProperties());
+            document.getProperties().commit();
+            document.write(new FileOutputStream(newFile2));
+            opc.close();
+        }catch (Exception e){
+            fileService.removeContent(fileInfo);
+            throw new IllegalArgumentException("The template is invalid.");
+        } finally {
+            newFile.delete();
+            newFile2.delete();
+        }
+
+        return create(fileInfo);
+    }
 }

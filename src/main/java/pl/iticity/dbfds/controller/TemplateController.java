@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.controller;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +44,8 @@ public class TemplateController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public
     @ResponseBody
-    DocumentTemplate postUploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        FileInfo fileInfo = fileService.createFile(PrincipalUtils.getCurrentDomain(), file.getOriginalFilename(), file.getContentType(), file.getInputStream());
-        return templateService.create(fileInfo);
+    DocumentTemplate postUploadFile(@RequestParam("file") MultipartFile file) throws IOException, InvalidFormatException {
+        return templateService.createTemplate(file);
     }
 
 }

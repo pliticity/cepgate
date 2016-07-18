@@ -22,12 +22,16 @@
         };
 
         $scope.uploadFile = function (file) {
-            Upload.upload({
-                url: '/template/upload',
-                data: {file: file}
-            }).then(function (resp) {
-                $scope.templates.push(resp.data);
-            });
+            if (file != null) {
+                Upload.upload({
+                    url: '/template/upload',
+                    data: {file: file}
+                }).then(function (resp) {
+                    $scope.templates.push(resp.data);
+                }, function (err) {
+                    alert("Given template is invalid");
+                });
+            }
         }
 
         $scope.addFileFromTemplate = function (docId) {
