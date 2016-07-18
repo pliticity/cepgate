@@ -23,7 +23,7 @@
             var files = [];
             for (var i = 0; i < filesId.length; i++) {
                 var fId = filesId[i];
-                $("#files-"+$scope.tableId+"-" + fId + " option:selected").map(function (a, item) {
+                $("#files-"+tId+"-" + fId + " option:selected").map(function (a, item) {
                     return item.value
                 }).each(function (index, item) {
                     files.push(item);
