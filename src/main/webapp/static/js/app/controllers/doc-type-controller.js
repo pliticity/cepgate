@@ -5,6 +5,7 @@
     cepgate.controller('DocTypeController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
 
         $scope.docType ={};
+        $scope.form = {};
 
         $scope.getTypes = function () {
             $http({url: '/document/types', method: 'get', params: {active: false}}).then(function (succ) {
@@ -21,12 +22,13 @@
         };
 
         $scope.addDocType = function () {
-            var form = $scope.form['docTypeForm'+this.docType.id];
+            console.log('docTypeForm'+$scope.docType.id);
+            var form = $scope.form['docTypeForm'+$scope.docType.id];
             form.$submitted=true;
             if (form.$valid) {
-                $("#add-doc-type-"+this.docType.id+"-modal").modal('hide');
+                $("#add-doc-type-"+$scope.docType.id+"-modal").modal('hide');
                 $http({url: '/domain/docType', method: 'post', data: $scope.docType}).then(function (succ) {
-                    $scope.types = succ.data;
+                    //$scope.types = succ.data;
                     $timeout(function () {
                         $("#setup").html("");
                         var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
