@@ -18,12 +18,15 @@ public class DocumentTypeService extends AbstractService<DocumentType,DocumentTy
             domain = PrincipalUtils.getCurrentDomain();
         }
         if(onlyActive){
-            return repo.findByDomainAndActiveIsTrue(domain);
+            return repo.findByDomainAndActiveIsTrueAndRemovedIsFalse(domain);
         }
-        return repo.findByDomain(domain);
+        return repo.findByDomainAndRemovedIsFalse(domain);
     }
 
     public List<DocumentType> addDocType(DocumentType documentType,Domain domain){
+        if(repo.findOne(documentType.getId())==null){
+            documentType.setId(null);
+        }
         documentType.setDomain(domain);
         documentType.setActive(true);
         repo.save(documentType);
@@ -36,6 +39,15 @@ public class DocumentTypeService extends AbstractService<DocumentType,DocumentTy
         type.setActive(toggle);
         repo.save(type);
         return findByDomain(type.getDomain(),false);
+    }
+
+    public List<DocumentType> deleteDocType(String id){
+        DocumentType docType = repo.findOne(id);
+        AuthorizationProvider.hasRole(Role.ADMIN,docType.getDomain());
+        docType.setRemoved(true);
+        docType.setActive(false);
+        repo.save(docType);
+        return findByDomain(docType.getDomain(),false);
     }
 
 }

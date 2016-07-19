@@ -9,12 +9,7 @@
 
         $scope.form = {};
         $scope.domain = Domain.get({id: $route.current.params.id});
-        $scope.types =[];
-        $scope.docType ={};
 
-        $http({url: '/document/types', method: 'get',params:{active:false}}).then(function (succ) {
-            $scope.types = succ.data
-        });
 
         $scope.changeActive = function (row) {
             $http({url: '/principal/' + row.id, method: 'post', params: {'active': row.active}}).then(function (succ) {
@@ -28,19 +23,19 @@
             });
         };
 
-        $scope.addDocType = function () {
+/*        $scope.addDocType = function () {
             if ($scope.form.docTypeForm.$valid) {
                 $http({url: '/domain/docType', method: 'post', data: $scope.docType}).then(function (succ) {
                     $scope.types = succ.data;
                 });
             }
-        };
+        };*/
 
-        $scope.toggleDocType = function (row) {
+/*        $scope.toggleDocType = function (row) {
                 $http({url: '/domain/docType/'+row.id, method: 'put',params:{toggle:row.active}}).then(function (succ) {
                     $scope.types = succ.data;
                 });
-        };
+        };*/
 
     }]);
 

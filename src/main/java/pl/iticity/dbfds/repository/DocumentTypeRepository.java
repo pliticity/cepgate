@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface DocumentTypeRepository extends MongoRepository<DocumentType,String> {
 
-    public List<DocumentType> findByDomain(Domain domain);
+    public List<DocumentType> findByDomainAndRemovedIsFalse(Domain domain);
 
-    public List<DocumentType> findByDomainAndActiveIsTrue(Domain domain);
+    public List<DocumentType> findByDomainAndActiveIsTrueAndRemovedIsFalse(Domain domain);
 
 }
