@@ -96,6 +96,8 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
             }
         }));
         copy.setFiles(fileService.copyFiles(filesToCopy));
+        copy.setPlannedIssueDate(null);
+        copy.setResponsibleUser(null);
         repo.save(copy);
 
         documentInfo.getLinks().add(new Link(copy,LinkType.COPY_TO));
