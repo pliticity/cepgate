@@ -23,7 +23,7 @@ public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, St
 
     public DocumentInfo findByFiles_Id(String id);
 
-    public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(Principal principal, Date date, DocumentActivity.ActivityType type);
+    public List<DocumentInfo> findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateDesc(Principal principal, Date date, DocumentActivity.ActivityType type);
 
     public List<DocumentInfo> findByDomainAndRemovedIsFalseAndDocumentNumberLike(Domain domain, String docName);
 

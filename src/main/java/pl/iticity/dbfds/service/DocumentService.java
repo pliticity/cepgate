@@ -18,7 +18,6 @@ import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoStateChangeMixin;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
-import pl.iticity.dbfds.repository.DocumentTemplateRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -171,7 +170,7 @@ public class DocumentService extends AbstractService<DocumentInfo, DocumentInfoR
 
     public List<DocumentInfo> findRecent() {
         LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
-        return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateAsc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
+        return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateDesc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
     }
 
     public List<DocumentInfo> findByPredicate(Predicate predicate) {
