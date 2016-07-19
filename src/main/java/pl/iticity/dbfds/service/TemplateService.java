@@ -27,6 +27,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.io.*;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,8 @@ public class TemplateService extends AbstractService<DocumentTemplate, DocumentT
             if(documentInfo.getRevisions() != null && !documentInfo.getRevisions().isEmpty()){
                 Revision r = documentInfo.getRevisions().get(documentInfo.getRevisions().size()-1);
                 rNumber= r.getRevision().getEffective();
-                rDate = r.getDate().toString();
+                SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
+                rDate = format.format(r.getDate());
             }
             setDocProperty("revisionDate", rDate,properties);
             setDocProperty("revisionNumber", rNumber,properties);
