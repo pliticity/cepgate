@@ -3,6 +3,7 @@ package pl.iticity.dbfds.model.product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.Domain;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +17,9 @@ public class ProductInformationCarrier {
     @Id
     @GeneratedValue
     private String id;
+
+    @DBRef
+    private Domain domain;
 
     @ManyToOne
     @NotNull
@@ -34,5 +38,11 @@ public class ProductInformationCarrier {
 
     private String color;
 
+    public Domain getDomain() {
+        return domain;
+    }
 
+    public void setDomain(Domain domain) {
+        this.domain = domain;
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
-public abstract class AbstractService<MODEL,REPO extends MongoRepository<MODEL,String>> {
+public abstract class AbstractService<MODEL,REPO extends MongoRepository<MODEL,String>> implements Service<MODEL> {
 
     @Autowired
     protected REPO repo;

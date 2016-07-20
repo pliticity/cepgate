@@ -1,0 +1,37 @@
+<div ng-controller="ProjectListController as ctrl" ng-init="ctrl.getProjects()">
+    <table class="table table-condensed table-hover with-top-margin" st-table="displayCollection"
+           st-safe-src="ctrl.projects">
+        <span us-spinner="{radius:30, width:8, length: 16}"></span>
+        <thead>
+        <tr class="info">
+            <th></th>
+            <th st-sort="name">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="2"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+            </td>
+        </tr>
+        <tr docId="{{row.id}}" class="animate-row" ng-repeat="row in displayCollection">
+            <td cs-select="row"></td>
+            <td>{{row.name}}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="1"></td>
+            <td colspan="1" class="text-right">
+                <label for="itemsPerPage">Items per page</label>
+                <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="text-center">
+                <div st-pagination="" st-items-by-page="itemsPerPage"
+                     st-template="/partials/document/list/pagination.html"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

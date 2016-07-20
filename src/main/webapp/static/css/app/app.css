@@ -29,3 +29,7 @@ div.tab-content {
 .dragover {
     border: 3px dashed #337ab7;
 }
+
+table.with-top-margin {
+    margin-top: 10px;
+}
