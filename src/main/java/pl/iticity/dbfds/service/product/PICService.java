@@ -1,12 +1,12 @@
-package pl.iticity.dbfds.repository.project;
+package pl.iticity.dbfds.service.product;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
+import pl.iticity.dbfds.service.Service;
 
 import java.util.List;
 
-public interface PICRepository extends MongoRepository<ProductInformationCarrier,String> {
+public interface PICService extends Service<ProductInformationCarrier> {
 
     public List<ProductInformationCarrier> findByDomain(Domain domain);
 

@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.model.mixins.project;
+package pl.iticity.dbfds.model.mixins.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
