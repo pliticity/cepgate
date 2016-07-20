@@ -12,9 +12,10 @@
         var ctrl = this;
 
         ctrl.products = [];
+        ctrl.queryParams = {};
 
         ctrl.getProducts = function(){
-            ctrl.products = Product.query();
+            ctrl.products = Product.query(ctrl.queryParams);
         }
 
     }]);

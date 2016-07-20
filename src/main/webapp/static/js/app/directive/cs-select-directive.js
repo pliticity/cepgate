@@ -1,8 +1,8 @@
     (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive('csSelect', function () {
+        common.directive('csSelect', function () {
         return {
             require: '^stTable',
             template: '<input type="checkbox"/>',

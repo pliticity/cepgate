@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive("formError", ['$compile', function ($compile) {
+    common.directive("formError", ['$compile', function ($compile) {
         return {
             compile: function (element, attrs) {
 

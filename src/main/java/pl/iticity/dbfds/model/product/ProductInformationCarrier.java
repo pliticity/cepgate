@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.Scoped;
+import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,14 +14,11 @@ import javax.validation.constraints.NotNull;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "products")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductInformationCarrier {
+public class ProductInformationCarrier extends Scoped{
 
     @Id
     @GeneratedValue
     private String id;
-
-    @DBRef
-    private Domain domain;
 
     @ManyToOne
     @NotNull
@@ -38,11 +37,4 @@ public class ProductInformationCarrier {
 
     private String color;
 
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
-    }
 }

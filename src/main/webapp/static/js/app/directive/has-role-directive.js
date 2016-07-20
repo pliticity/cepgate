@@ -1,8 +1,8 @@
     (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive('hasRole',['authorizationService','$compile', function (authorizationService,$compile) {
+        common.directive('hasRole',['authorizationService','$compile', function (authorizationService,$compile) {
         return function (scope, element, attrs) {
             //element.removeAttr('has-role');
             var roles = [];

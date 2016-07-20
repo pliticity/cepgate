@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive("addTab", ['$compile', function ($compile) {
+    common.directive("addTab", ['$compile', function ($compile) {
         return function (scope, element, attrs) {
             element.bind("click", function () {
 

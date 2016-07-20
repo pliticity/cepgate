@@ -20,12 +20,19 @@ public class ProductListController extends BaseController{
     @Autowired
     private PICService picService;
 
-    @RequestMapping(value = "/query", method = RequestMethod.GET)
+    @RequestMapping(value = "/query",params = {"my"}, method = RequestMethod.GET)
     public
     @ResponseBody
-    String getProductList() {
-        List<ProductInformationCarrier> list = picService.findByDomain(PrincipalUtils.getCurrentDomain());
+    String getMyProductList() {
+        List<ProductInformationCarrier> list = picService.findByDomainAndPrincipal(PrincipalUtils.getCurrentDomain(),PrincipalUtils.getCurrentPrincipal());
         return convertToString(ProductInformationCarrier.class, ListPICMixin.class,list);
     }
 
+    @RequestMapping(value = "/query",params = {"all"}, method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getAllProductList() {
+        List<ProductInformationCarrier> list = picService.findByDomain(PrincipalUtils.getCurrentDomain());
+        return convertToString(ProductInformationCarrier.class, ListPICMixin.class,list);
+    }
 }

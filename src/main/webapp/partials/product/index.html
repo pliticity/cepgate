@@ -5,7 +5,26 @@
 <div class="row">
     <div class="col-xs-10 col-xs-offset-1">
 
-        <ng-include src="'/partials/product/list/table.html'"></ng-include>
+        <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#my" refresh-tab aria-controls="my" role="tab"
+                                                      data-toggle="tab">My Products</a></li>
+            <li role="presentation" class=""><a refresh-tab href="#all" aria-controls="all" role="tab"
+                                                data-toggle="tab">All Products</a></li>
+            <li role="presentation" class=""><a refresh-tab href="#new" aria-controls="new" role="tab"
+                                                data-toggle="tab">New Product</a></li>
+        </ul>
+
+        <div class="tab-content" id="documentsTabContent" >
+            <div role="tabpanel" class="tab-pane active" id="my">
+                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getProducts()"></ng-include>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="all">
+                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getProducts()"></ng-include>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="new">
+                <ng-include ng-controller="ProductController as ctrl" src="'/partials/product/details/product.html'"></ng-include>
+            </div>
+        </div>
 
     </div>
 </div>

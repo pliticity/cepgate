@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive("closeTab", ['$compile', function ($compile) {
+    common.directive("closeTab", ['$compile', function ($compile) {
         return function (scope, element, attrs) {
             var id = attrs.closeTab;
 

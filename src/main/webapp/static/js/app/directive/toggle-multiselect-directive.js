@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    dhd.directive("toggleMultiSelect", ['$compile', '$timeout', function ($compile, $timeout) {
+    common.directive("toggleMultiSelect", ['$compile', '$timeout', function ($compile, $timeout) {
         return function (scope, element, attributes) {
             $timeout(function () {
                 element.ready(function () {
