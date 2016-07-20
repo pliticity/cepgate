@@ -1,9 +1,9 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
 
-    dhd.controller('HeaderController', ['$http', '$location', 'principalService', '$scope', function ($http, $location, principalService, $scope) {
+    common.controller('HeaderController', ['$http', '$location', 'principalService', '$scope', function ($http, $location, principalService, $scope) {
 
         $scope.admin = false;
         $scope.globalAdmin = false;

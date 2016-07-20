@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var admin = angular.module('admin', ['dhd','auth','ngResource', 'ngRoute', 'smart-table', 'ngLoadingSpinner']);
+    var admin = angular.module('admin', ['common','dhd','auth','ngResource', 'ngRoute', 'smart-table', 'ngLoadingSpinner']);
 
     admin.config(['$routeProvider',
         function ($routeProvider) {

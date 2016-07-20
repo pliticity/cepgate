@@ -9,12 +9,12 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/app/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/app/bootstrap-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/app/angular-tags-input.bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/app/datepicker.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/app/app.css"/>
 
 </head>
 
-<body ng-app="admin" ng-cloak="">
+<body ng-app="project" ng-cloak="">
 
 <div id="view" ng-view=""></div>
 
@@ -43,20 +43,25 @@
 <script src="/static/js/app/lib/angular/angular-material.js"></script>
 <script src="/static/js/app/lib/angular/angular-aria.js"></script>
 
-<!-- DHD -->
+<script src="/static/js/app/lib/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+
+<!-- CEPGATE -->
+
+<!-- MODULE -->
 
 <script src="/static/js/app/module/common.js"></script>
-<script src="/static/js/app/module/dhd.js"></script>
-<script src="/static/js/app/module/auth.js"></script>
-<script src="/static/js/app/module/admin.js"></script>
+<script src="/static/js/app/module/project.js"></script>
+
+
+<!-- SERVICE -->
 
 <script src="/static/js/app/service/principal-service.js"></script>
 
-<script src="/static/js/app/controllers/global-admin-controller.js"></script>
-<script src="/static/js/app/controllers/admin-domain-controller.js"></script>
+<!-- CONTROLLER -->
+
 <script src="/static/js/app/controllers/header-controller.js"></script>
-<script src="/static/js/app/controllers/signup-controller.js"></script>
-<script src="/static/js/app/controllers/principal-controller.js"></script>
+<script src="/static/js/app/controllers/project/project-list-controller.js"></script>
+
 
 </body>
 

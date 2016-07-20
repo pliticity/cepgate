@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var common = angular.module('common');
 
-    var principalService = dhd.service('principalService', ['$http', '$route', function ($http, $route) {
+    common.service('principalService', ['$http', '$route', function ($http, $route) {
 
         this.resolveDomain = function () {
             return $http({
