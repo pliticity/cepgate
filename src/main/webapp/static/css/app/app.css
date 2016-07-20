@@ -33,3 +33,7 @@ div.tab-content {
 table.with-top-margin {
     margin-top: 10px;
 }
+
+div.with-top-padding{
+    padding-top: 10px;
+}

@@ -1,0 +1,35 @@
+<div class="with-top-padding">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+
+    <form name="ctrl.productForm" class="form-horizontal">
+
+        <!-- FIRST ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group">
+                        <label class="col-xs-6 control-label">Classification Name</label>
+                        <div class="col-xs-6">
+                            <select ng-change="ctrl.onClassificationSelected()" name="classificationName" ng-model="ctrl.product.classification.id"
+                                    class="form-control" id="classificationName" required="">
+                                <option ng-repeat="c in ctrl.classifications" value="{{c.id}}">{{c.name}} ({{c.classificationId}})</option>
+                            </select>
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group">
+                        <label for="classificationId" class="col-xs-6 control-label">Classification Id</label>
+                        <div class="col-xs-6">
+                            <input ng-readonly="true" disabled id="classificationId" class="disabled form-control" ng-model="ctrl.product.classification.classificationId"/>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
