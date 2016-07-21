@@ -2,7 +2,7 @@
 
     var product = angular.module('product');
 
-    product.controller('ProductController', ['$http', '$scope','Product','classificationService', function ($http, $scope,Product,classificationService) {
+    product.controller('ProductController', ['$http', '$scope','classificationService','productService', function ($http, $scope,classificationService,productService) {
 
         var ctrl = this;
 
@@ -16,6 +16,10 @@
 
         ctrl.onClassificationSelected = function(){
             classificationService.onClassificationSelected(ctrl.classifications,ctrl.product.classification);
+        };
+
+        ctrl.saveProduct = function(){
+            productService.saveProduct(ctrl.productForm,ctrl.product);
         };
 
         // INIT FUNCTIONS

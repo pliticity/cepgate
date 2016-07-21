@@ -2,12 +2,7 @@
 
     var product = angular.module('product');
 
-    product.factory('Product', ['$resource',
-        function ($resource) {
-            return $resource('/product/:id', {}, {'query': {'url': '/product/query', 'isArray': true}});
-        }]);
-
-    product.controller('ProductListController', ['$http', '$scope','Product', function ($http, $scope,Product) {
+    product.controller('ProductListController', ['$http', '$scope','productService', function ($http, $scope,productService) {
 
         var ctrl = this;
 
@@ -15,7 +10,7 @@
         ctrl.queryParams = {};
 
         ctrl.getProducts = function(){
-            ctrl.products = Product.query(ctrl.queryParams);
+            ctrl.products = productService.getAll(ctrl.queryParams);
         }
 
     }]);
