@@ -2,7 +2,12 @@
 
     var common = angular.module('common');
 
-    common.service('principalService', ['$http', '$route', function ($http, $route) {
+    common.factory('Principal', ['$resource',
+        function ($resource) {
+            return $resource('/product/:id', {}, {'query': {url: '/principal', method: 'get', 'isArray': true}});
+        }]);
+
+    common.service('principalService', ['$http', '$route','Principal', function ($http, $route,Principal) {
 
         this.resolveDomain = function () {
             return $http({
@@ -23,6 +28,10 @@
                 return succ.data;
             });
         };
+
+        this.getPrincipalsInDomain = function(){
+            return Principal.query();
+        }
 
     }]);
 

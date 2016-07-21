@@ -22,7 +22,7 @@
                 <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getProducts()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="new">
-                <ng-include ng-controller="ProductController as ctrl" src="'/partials/product/details/product.html'"></ng-include>
+                <ng-include ng-controller="ProductController as ctrl" src="'/partials/product/details/product.html'" ng-init="ctrl.newProduct()"></ng-include>
             </div>
         </div>
 

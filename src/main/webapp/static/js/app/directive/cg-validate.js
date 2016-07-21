@@ -16,7 +16,7 @@
                 var form = scope.cgValidate.form;
                 var field = form[scope.cgValidate.field];
              scope.$watch(function(){
-                 if((form.$submitted || !field.$pristine) && field.$invalid){
+                 if(form.$submitted && field.$invalid){
                      element.addClass(cgValidate.errorClass);
                  }else{
                      element.removeClass(cgValidate.errorClass);

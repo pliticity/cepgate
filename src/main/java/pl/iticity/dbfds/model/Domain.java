@@ -29,6 +29,8 @@ public class Domain{
 
     private long lastMasterDocumentNumber;
 
+    private long lastMasterProductNumber;
+
     @Transient
     private Principal owner;
 
@@ -144,5 +146,13 @@ public class Domain{
 
     public void setOwner(Principal owner) {
         this.owner = owner;
+    }
+
+    public long getLastMasterProductNumber() {
+        return lastMasterProductNumber;
+    }
+
+    public void setLastMasterProductNumber(long lastMasterProductNumber) {
+        this.lastMasterProductNumber = lastMasterProductNumber;
     }
 }
