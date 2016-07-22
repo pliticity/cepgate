@@ -2,6 +2,8 @@ package pl.iticity.dbfds.model.product;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
@@ -16,6 +18,11 @@ import java.util.Date;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "products")
 @JsonIgnoreProperties(ignoreUnknown = true)
+@CompoundIndexes(value =
+        {
+                @CompoundIndex(def = "{'masterProductNumber' : 1,'domain' :1}", unique = true)
+        }
+)
 public class ProductInformationCarrier extends Scoped{
 
     @Id
