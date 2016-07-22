@@ -10,11 +10,11 @@
     common.service('classificationService', ['$http','Classification', function ($http,Classification) {
 
         this.getAll = function(active){
-            return Classification.query({active:active,without:'0'});
+            return Classification.query({active:active,for:'0'});
         };
 
         this.getAllWithout = function(active,classificationId){
-            return Classification.query({active:active,without:classificationId});
+            return Classification.query({active:active,for:classificationId});
         };
 
         this.onClassificationSelected = function(classifications, classification){
