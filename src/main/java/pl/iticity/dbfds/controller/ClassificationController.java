@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.mixins.classification.ListClassificationMixin;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -12,18 +13,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/classification")
-public class ClassificationController {
+public class ClassificationController extends BaseController {
 
     @Autowired
     private ClassificationService classificationService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody List<Classification> getDocumentTypes(@RequestParam("active") boolean active,@RequestParam("without") String without){
-        if(StringUtils.isEmpty(without) || "0".equals(without)){
-            return classificationService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
-        }else{
-            return classificationService.findByDomain(PrincipalUtils.getCurrentDomain(),active,without);
-        }
+    public @ResponseBody String getClassifications(@RequestParam("active") boolean active, @RequestParam("for") String forClassification){
+        List<Classification> classifications = null;
+        classifications =classificationService.findByDomainForClassification(PrincipalUtils.getCurrentDomain(),active,forClassification);
+        return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.GET)
@@ -34,19 +33,22 @@ public class ClassificationController {
     @RequestMapping(value = "",method = RequestMethod.POST)
     public
     @ResponseBody
-    List<Classification> postClassification(@RequestBody Classification classification) {
-        return classificationService.addClassification(classification,PrincipalUtils.getCurrentDomain());
+    String postClassification(@RequestBody Classification classification) {
+        List<Classification> classifications = classificationService.addClassification(classification,PrincipalUtils.getCurrentDomain());
+        return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.PUT,params = {"toggle"})
     public
     @ResponseBody
-    List<Classification> toggleClassification(@PathVariable("id") String id,@RequestParam("toggle") boolean toggle) {
-        return classificationService.toggleClassification(id,toggle);
+    String toggleClassification(@PathVariable("id") String id,@RequestParam("toggle") boolean toggle) {
+        List<Classification> classifications = classificationService.toggleClassification(id,toggle);
+        return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public @ResponseBody List<Classification> deleteClassification(@PathVariable("id") String id){
-        return classificationService.deleteClassification(id);
+    public @ResponseBody String deleteClassification(@PathVariable("id") String id){
+        List<Classification> classifications = classificationService.deleteClassification(id);
+        return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 }

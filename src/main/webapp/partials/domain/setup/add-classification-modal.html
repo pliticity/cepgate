@@ -40,10 +40,10 @@
                             <div class="form-group" form-error="" form="form.classificationForm{{classification.id}}" field="parents"
                                  messages='{"required":"This field is required"}'>
                                 <div class="row">
-                                    <label for="parents" class="col-xs-6 control-label">Parent</label>
+                                    <label class="col-xs-6 control-label">Parent</label>
                                     <div class="col-xs-6">
-                                        <select ng-model="classification.parentsIds" id="parents" multiple="multiple" toggle-multi-select="">
-                                            <option ng-repeat="c in classifications" value="{{c.classificationId}}">{{c.name}} ({{c.classificationId}})</option>
+                                        <select ng-model="classification.parentIds" multiple="multiple" toggle-multi-select="">
+                                            <option ng-repeat="c in classifications" value="{{c.id}}">{{c.name}} ({{c.classificationId}})</option>
                                         </select>
                                     </div>
                                 </div>

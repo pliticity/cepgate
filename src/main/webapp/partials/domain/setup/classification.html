@@ -31,7 +31,7 @@
                 ng-attr-class="{{row.active==true && 'animate-row active' || 'animate-row' }}">
                 <td class="text-left">{{row.name}}</td>
                 <td class="text-left">{{row.classificationId}}</td>
-                <td class="text-left">{{row.parentsIds.join()}}</td>
+                <td class="text-left">{{mapParents(row)}}</td>
                 <td class="text-left">{{row.type}}</td>
                 <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleClassification(row)"/></td>
                 <td class="text-left">

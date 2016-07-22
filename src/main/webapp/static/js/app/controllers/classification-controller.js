@@ -36,11 +36,19 @@
             $http({
                 url: '/classification',
                 method: 'get',
-                params: {active: false, without: $scope.classification.id}
+                params: {active: false, for: $scope.classification.id}
             }).then(function (succ) {
                 $scope.classifications = succ.data;
             });
-        }
+        };
+
+        $scope.mapParents = function (row) {
+            if (row.parents != null) {
+                return row.parents.map(function (elem) {
+                    return elem.classificationId;
+                }).join(",");
+            }
+        };
 
         $scope.addClassification = function () {
             var form = $scope.form['classificationForm'+$scope.classification.id];

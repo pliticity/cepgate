@@ -1,9 +1,11 @@
 package pl.iticity.dbfds.service.common;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.ClassificationRepository;
@@ -35,14 +37,60 @@ public class ClassificationService extends AbstractService<Classification,Classi
         return repo.findByDomainAndIdNotAndRemovedIsFalse(domain,without);
     }
 
-    public List<Classification> addClassification(Classification classification,Domain domain){
+    public List<Classification> findByDomainForClassification(Domain domain, boolean onlyActive, String forClassification){
+        if(domain==null){
+            domain = PrincipalUtils.getCurrentDomain();
+        }
+        Classification classification = null;
+        if(!StringUtils.isEmpty(forClassification)){
+            classification = repo.findOne(forClassification);
+        }
+        if(classification == null){
+            return repo.findByDomainAndRemovedIsFalse(domain);
+        }else{
+            List<Classification> classifications = repo.findByDomainAndIdNotAndRemovedIsFalse(domain,classification.getId());
+            final Classification finalClassification = classification;
+            Iterables.removeIf(classifications, new Predicate<Classification>() {
+                @Override
+                public boolean apply(@Nullable Classification thisClassification) {
+                    return violatesCircularDependency(finalClassification,thisClassification);
+                }
+            });
+            return classifications;
+        }
+    }
+
+    public List<Classification> addClassification(final Classification classification, Domain domain){
         if(repo.findOne(classification.getId())==null){
            classification.setId(null);
         }
         classification.setDomain(domain);
         classification.setActive(true);
+        if(classification.getParents()!=null){
+            Iterables.removeIf(classification.getParents(), new Predicate<Classification>() {
+                @Override
+                public boolean apply(@Nullable Classification thisClassification) {
+                    return violatesCircularDependency(classification,thisClassification);
+                }
+            });
+        }
         repo.save(classification);
         return findByDomain(domain,false);
+    }
+
+    private boolean violatesCircularDependency(Classification thisC, Classification fromList){
+        if(fromList.getParents()==null){
+            return false;
+        }else if(fromList.getParents().contains(thisC)) {
+            return true;
+        }else{
+            for(Classification c : fromList.getParents()){
+              if(violatesCircularDependency(thisC,c)){
+                  return true;
+              }
+            }
+        }
+        return false;
     }
 
     private List<Classification> transform(List<Classification> classifications){

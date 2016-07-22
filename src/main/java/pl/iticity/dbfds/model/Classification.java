@@ -2,6 +2,7 @@ package pl.iticity.dbfds.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -30,13 +31,13 @@ import java.util.List;
 )
 public class Classification {
 
-    public static Classification EMAIL = new Classification("E-Mail","EM",true);
+    public static Classification EMAIL = new Classification("E-Mail", "EM", true);
 
     @Id
     @GeneratedValue
     private String id;
 
-    @Size(min=1,max=25)
+    @Size(min = 1, max = 25)
     @NotNull
     private String classificationId;
 
@@ -51,7 +52,9 @@ public class Classification {
 
     private String type;
 
-    private String[] parentsIds;
+    @DBRef
+    @JsonIgnoreProperties(value = {"parents","removed","defaultValue","type","active","domain","parentIds"})
+    private List<Classification> parents;
 
     private boolean defaultValue;
 
@@ -114,17 +117,17 @@ public class Classification {
         this.type = type;
     }
 
-    public String[] getParentsIds() {
-        return parentsIds;
+    public List<Classification> getParents() {
+        return parents;
     }
 
-    public void setParentsIds(String[] parentsIds) {
-        this.parentsIds = parentsIds;
+    public void setParents(List<Classification> parents) {
+        this.parents = parents;
     }
 
     @JsonIgnore
     @Transient
-    public static List<Classification> getDefault(){
+    public static List<Classification> getDefault() {
         return Lists.newArrayList(EMAIL);
     }
 
@@ -142,5 +145,48 @@ public class Classification {
 
     public void setRemoved(boolean removed) {
         this.removed = removed;
+    }
+
+    public List<String> getParentIds() {
+        if (getParents() != null) {
+            return Lists.newArrayList(Iterables.transform(getParents(), new Function<Classification, String>() {
+                @Nullable
+                @Override
+                public String apply(@Nullable Classification classification) {
+                    return classification.getId();
+                }
+            }));
+        }
+        return null;
+    }
+
+    public void setParentIds(List<String> parentIds) {
+        if (parentIds != null) {
+            this.parents = Lists.newArrayList(Iterables.transform(parentIds, new Function<String, Classification>() {
+                @Nullable
+                @Override
+                public Classification apply(@Nullable String s) {
+                    Classification c = new Classification();
+                    c.setId(s);
+                    return c;
+                }
+            }));
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Classification that = (Classification) o;
+
+        return id != null ? id.equals(that.id) : that.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
