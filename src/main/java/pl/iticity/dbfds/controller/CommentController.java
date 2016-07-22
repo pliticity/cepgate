@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.Comment;
-import pl.iticity.dbfds.service.CommentService;
+import pl.iticity.dbfds.service.document.CommentService;
 
 import java.util.List;
 

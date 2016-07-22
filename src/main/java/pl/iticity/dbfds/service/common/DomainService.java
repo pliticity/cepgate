@@ -1,8 +1,9 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.common;
 
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.DomainRepository;
+import pl.iticity.dbfds.service.AbstractService;
 
 @Service
 public class DomainService extends AbstractService<Domain,DomainRepository> {

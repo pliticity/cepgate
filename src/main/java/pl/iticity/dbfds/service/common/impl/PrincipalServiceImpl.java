@@ -1,33 +1,31 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.common.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
-import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.PrincipalSelectMixin;
 import pl.iticity.dbfds.repository.DomainRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.security.Role;
-import pl.iticity.dbfds.util.PrincipalUtils;
+import pl.iticity.dbfds.service.AbstractService;
+import pl.iticity.dbfds.service.common.ClassificationService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.document.DocumentTypeService;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class PrincipalService extends AbstractService<Principal,PrincipalRepository>{
+public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRepository> implements PrincipalService {
 
     @Autowired
     private DomainRepository domainRepository;

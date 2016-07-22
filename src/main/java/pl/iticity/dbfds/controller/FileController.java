@@ -7,14 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.service.FileService;
+import pl.iticity.dbfds.service.document.FileService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 @Controller
 @RequestMapping("/files")

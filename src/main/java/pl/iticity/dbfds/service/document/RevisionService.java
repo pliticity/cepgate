@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.base.Predicate;
@@ -7,13 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
-import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 @Service

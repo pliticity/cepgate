@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.PrincipalMixin;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
-import pl.iticity.dbfds.service.DomainService;
-import pl.iticity.dbfds.service.PrincipalService;
+import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.common.impl.PrincipalServiceImpl;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.Date;

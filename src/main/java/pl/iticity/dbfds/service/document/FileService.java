@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.FileRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 

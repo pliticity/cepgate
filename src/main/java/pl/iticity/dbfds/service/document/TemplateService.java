@@ -1,36 +1,25 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.document;
 
-import com.google.common.collect.Maps;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.POIXMLProperties;
 import org.apache.poi.hpsf.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.openxml4j.opc.PackageProperties;
-import org.apache.poi.openxml4j.util.Nullable;
-import org.apache.poi.poifs.filesystem.DirectoryEntry;
-import org.apache.poi.poifs.filesystem.DocumentEntry;
-import org.apache.poi.poifs.filesystem.DocumentInputStream;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.openxmlformats.schemas.officeDocument.x2006.customProperties.CTProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.*;
-import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.repository.DocumentTemplateRepository;
-import pl.iticity.dbfds.repository.DocumentTypeRepository;
+import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TemplateService extends AbstractService<DocumentTemplate, DocumentTemplateRepository> {

@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.iticity.dbfds.model.Comment;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Revision;
-import pl.iticity.dbfds.model.RevisionSymbol;
-import pl.iticity.dbfds.service.CommentService;
-import pl.iticity.dbfds.service.RevisionService;
+import pl.iticity.dbfds.service.document.RevisionService;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

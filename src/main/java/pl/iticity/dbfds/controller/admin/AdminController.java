@@ -1,24 +1,18 @@
 package pl.iticity.dbfds.controller.admin;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 
 import java.util.*;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.*;
-import org.omg.CORBA.UnknownUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
-import pl.iticity.dbfds.service.DomainService;
-import pl.iticity.dbfds.service.FileService;
-import pl.iticity.dbfds.service.PrincipalService;
-import pl.iticity.dbfds.util.PrincipalUtils;
+import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.common.impl.PrincipalServiceImpl;
 
 @Controller
 @RequestMapping("/admin")

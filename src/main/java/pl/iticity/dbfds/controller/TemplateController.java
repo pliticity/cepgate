@@ -5,12 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.iticity.dbfds.model.Comment;
 import pl.iticity.dbfds.model.DocumentTemplate;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.service.CommentService;
-import pl.iticity.dbfds.service.FileService;
-import pl.iticity.dbfds.service.TemplateService;
+import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.document.TemplateService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.io.IOException;

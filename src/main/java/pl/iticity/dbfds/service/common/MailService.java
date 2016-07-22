@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.common;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -9,27 +9,22 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailParseException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.model.Mail;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
-import pl.iticity.dbfds.security.AuthorizationProvider;
+import pl.iticity.dbfds.service.document.DocumentService;
+import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.StringWriter;
-import java.text.MessageFormat;
 
 @Service
 public class MailService {
@@ -104,7 +99,7 @@ public class MailService {
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         ve.init();
         ///home/pmajchrz/other/dbfds/dbfds/src/main/
-        Template t = ve.getTemplate( "/templates/mail/files.vm" );
+        Template t = ve.getTemplate("/templates/mail/files.vm");
         VelocityContext context = new VelocityContext();
         context.put("classificationId", documentInfo.getClassification().getClassificationId());
         context.put("classificationName", documentInfo.getClassification().getName());

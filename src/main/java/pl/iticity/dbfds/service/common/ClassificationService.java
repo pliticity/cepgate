@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.common;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
@@ -9,13 +9,14 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.ClassificationRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
+import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 @Service
-public class ClassificationService extends AbstractService<Classification,ClassificationRepository>{
+public class ClassificationService extends AbstractService<Classification,ClassificationRepository> {
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){

@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['$timeout','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
+    dhdModule.controller('DocumentController', ['$timeout','settingsService','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,settingsService,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
 
         // DOCUMENT
 
@@ -22,6 +22,8 @@
         $scope.classifications = [];
         $scope.mail = {};
         $scope.fNames = {};
+
+        $scope.settings = settingsService.settings;
 
         $scope.mailPopupOpened = function (tableId) {
             var files = [];

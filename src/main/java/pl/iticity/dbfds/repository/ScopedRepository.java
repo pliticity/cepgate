@@ -12,4 +12,5 @@ public interface ScopedRepository<MODEL> {
 
     public List<MODEL> findByDomainAndPrincipalAndRemovedIsFalse(Domain domain, Principal principal);
 
+    public MODEL findOneByDomainAndPrincipalAndRemovedIsFalse(Domain domain, Principal principal);
 }

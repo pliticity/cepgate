@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.document;
 
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.DocumentType;
@@ -6,12 +6,13 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.DocumentTypeRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
+import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;
 
 @Service
-public class DocumentTypeService extends AbstractService<DocumentType,DocumentTypeRepository>{
+public class DocumentTypeService extends AbstractService<DocumentType,DocumentTypeRepository> {
 
     public List<DocumentType> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){

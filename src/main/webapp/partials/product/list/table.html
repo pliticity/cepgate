@@ -40,12 +40,12 @@
         <td colspan="10"></td>
         <td colspan="1" class="text-right">
             <label for="itemsPerPage">Items per page</label>
-            <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+            <input id="itemsPerPage" class="form-control input-sm" ng-model="ctrl.settings.itemsPerPage" ng-change="ctrl.settings.update()"/>
         </td>
     </tr>
     <tr>
         <td colspan="11" class="text-center">
-            <div st-pagination="" st-items-by-page="itemsPerPage"
+            <div st-pagination="" st-items-by-page="ctrl.settings.itemsPerPage"
                  st-template="/partials/document/list/pagination.html"></div>
         </td>
     </tr>

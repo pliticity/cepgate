@@ -4,17 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentTemplate;
-import pl.iticity.dbfds.model.DocumentType;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.service.ClassificationService;
-import pl.iticity.dbfds.service.FileService;
-import pl.iticity.dbfds.service.TemplateService;
+import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller

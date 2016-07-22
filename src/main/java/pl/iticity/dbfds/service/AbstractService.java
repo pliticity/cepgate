@@ -1,7 +1,6 @@
 package pl.iticity.dbfds.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

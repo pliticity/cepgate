@@ -11,10 +11,11 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.DomainOwnerMixin;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
-import pl.iticity.dbfds.service.DocumentTypeService;
-import pl.iticity.dbfds.service.DomainService;
-import pl.iticity.dbfds.service.FileService;
-import pl.iticity.dbfds.service.PrincipalService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.document.DocumentTypeService;
+import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.common.impl.PrincipalServiceImpl;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;

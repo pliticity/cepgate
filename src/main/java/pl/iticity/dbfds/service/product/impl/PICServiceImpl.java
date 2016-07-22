@@ -6,18 +6,16 @@ import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.product.ProductState;
 import pl.iticity.dbfds.repository.product.PICRepository;
-import pl.iticity.dbfds.security.Principal;
-import pl.iticity.dbfds.service.AbstractService;
-import pl.iticity.dbfds.service.DomainService;
+import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.product.PICService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.List;
 
 @Service
-public class PICServiceImpl extends AbstractService<ProductInformationCarrier, PICRepository> implements PICService {
+public class PICServiceImpl extends AbstractScopedService<ProductInformationCarrier, PICRepository> implements PICService {
 
     @Autowired
     private DomainService domainService;
@@ -48,16 +46,6 @@ public class PICServiceImpl extends AbstractService<ProductInformationCarrier, P
         d.setLastMasterProductNumber(id);
         domainService.save(d);
         return id;
-    }
-
-    @Override
-    public List<ProductInformationCarrier> findByDomain(Domain domain) {
-        return repo.findByDomainAndRemovedIsFalse(domain);
-    }
-
-    @Override
-    public List<ProductInformationCarrier> findByDomainAndPrincipal(Domain domain, Principal principal) {
-        return repo.findByDomainAndPrincipalAndRemovedIsFalse(domain,principal);
     }
 
 }

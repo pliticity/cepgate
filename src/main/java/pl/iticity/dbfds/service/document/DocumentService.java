@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.service;
+package pl.iticity.dbfds.service.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +20,8 @@ import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
 import pl.iticity.dbfds.repository.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
+import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
