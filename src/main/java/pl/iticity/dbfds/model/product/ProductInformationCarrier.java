@@ -81,6 +81,8 @@ public class ProductInformationCarrier extends Scoped{
 
     private String salesText;
 
+    private ProductOwner productOwner;
+
     public String getId() {
         return id;
     }
@@ -263,5 +265,13 @@ public class ProductInformationCarrier extends Scoped{
 
     public void setSalesText(String salesText) {
         this.salesText = salesText;
+    }
+
+    public ProductOwner getProductOwner() {
+        return productOwner;
+    }
+
+    public void setProductOwner(ProductOwner productOwner) {
+        this.productOwner = productOwner;
     }
 }
