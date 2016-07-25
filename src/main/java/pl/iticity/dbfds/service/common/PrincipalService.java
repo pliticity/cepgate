@@ -29,4 +29,6 @@ public interface PrincipalService extends Service<Principal>{
 
     public boolean acronymExistsInDomain(String id, String acronym, Domain domain);
 
+    public Principal addPrincipal(Principal principal,String domainId);
+
 }

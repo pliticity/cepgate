@@ -33,8 +33,8 @@ public class PrincipalUtils {
         return rng.nextBytes().toBase64();
     }
 
-    public static String hashPassword(String password,String salt){
-        String hashedPasswordBase64 = new Sha256Hash(password, salt, 1024).toBase64();
+    public static String hashPassword(String password){
+        String hashedPasswordBase64 = new Sha256Hash(password, "SALT", 1024).toBase64();
         return hashedPasswordBase64;
     }
 

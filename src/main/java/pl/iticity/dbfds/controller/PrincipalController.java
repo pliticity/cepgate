@@ -38,18 +38,7 @@ public class PrincipalController {
     public
     @ResponseBody
     Principal postCreatePrincipal(@RequestBody Principal principal, @RequestParam("domainId") String domainId) throws JsonProcessingException {
-        AuthorizationProvider.hasRole(Role.ADMIN,domainId == null ? PrincipalUtils.getCurrentDomain() : domainService.findById(domainId));
-        principal.setRole(Role.USER);
-        if (domainId != null) {
-            principal.setDomain(domainService.findById(domainId));
-        } else {
-            principal.setDomain(PrincipalUtils.getCurrentDomain());
-        }
-        principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
-        principal.setPhone("12");
-        principal.setCreationDate(new Date());
-        principal.setCompany(PrincipalUtils.getCurrentPrincipal().getCompany());
-        return principalService.save(principal);
+        return principalService.addPrincipal(principal,domainId);
     }
 
     @RequestMapping(value = "/{id}", params = {"active"}, method = RequestMethod.POST)

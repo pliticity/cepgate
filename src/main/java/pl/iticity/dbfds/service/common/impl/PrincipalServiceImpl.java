@@ -18,8 +18,10 @@ import pl.iticity.dbfds.repository.PrincipalRepository;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.ClassificationService;
+import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.DocumentTypeService;
+import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -36,6 +38,9 @@ public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRep
     @Autowired
     private ClassificationService classificationService;
 
+    @Autowired
+    private DomainService domainService;
+
     public String principalsSelectToJson(List<Principal> principals) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(Principal.class, PrincipalSelectMixin.class);
@@ -51,7 +56,7 @@ public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRep
 
             @Override
             public Object getCredentials() {
-                return principal.getPassword();
+                return PrincipalUtils.hashPassword(principal.getPassword());
             }
         });
     }
@@ -73,6 +78,8 @@ public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRep
         domain.setActive(true);
         domain.setCreationDate(new Date());
         domain.setName(principal.getEmail());
+        String pass = principal.getPassword();
+        principal.setPassword(PrincipalUtils.hashPassword(pass));
         int num = domainRepository.findAll().size()+1;
         String formatted = String.format("%04d", num);
         domain.setAccountNo("CG"+formatted);
@@ -99,6 +106,7 @@ public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRep
         principal.getDomain().setNoOfUsers(findByDomain(domain).size());
 
         if(signin) {
+            principal.setPassword(pass);
             authenticate(principal);
         }
         return principal;
@@ -135,6 +143,23 @@ public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRep
     public boolean acronymExistsInDomain(String id, String acronym, Domain domain){
         Principal p = repo.findByDomainAndAcronym(domain,acronym);
         return p !=null && !p.getId().equals(id);
+    }
+
+    @Override
+    public Principal addPrincipal(Principal principal, String domainId) {
+        AuthorizationProvider.hasRole(Role.ADMIN,domainId == null ? PrincipalUtils.getCurrentDomain() : domainService.findById(domainId));
+        principal.setRole(Role.USER);
+        if (domainId != null) {
+            principal.setDomain(domainService.findById(domainId));
+        } else {
+            principal.setDomain(PrincipalUtils.getCurrentDomain());
+        }
+        principal.setPassword(PrincipalUtils.hashPassword(principal.getPassword()));
+        principal.setCountry(PrincipalUtils.getCurrentPrincipal().getCountry());
+        principal.setPhone("12");
+        principal.setCreationDate(new Date());
+        principal.setCompany(PrincipalUtils.getCurrentPrincipal().getCompany());
+        return save(principal);
     }
 
 }
