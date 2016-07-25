@@ -238,7 +238,13 @@
                 <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productLifeCycle'}">
                     <label class="col-xs-6 control-label">Product Life Cycle</label>
                     <div class="col-xs-6">
-                        <input ng-readonly="true" disabled name="productLifeCycle" class="disabled form-control" ng-model="ctrl.product.productLifeCycle"/>
+                        <select name="productLifeCycle" class="form-control" ng-model="ctrl.product.productLifeCycle">
+                            <option value="DEVELOPMENT">Development</option>
+                            <option value="INTRODUCTION">Introduction</option>
+                            <option value="GROWTH">Growth</option>
+                            <option value="MATURITY">Maturity</option>
+                            <option value="DECLINE">Decline</option>
+                        </select>
                     </div>
                 </div>
             </div>

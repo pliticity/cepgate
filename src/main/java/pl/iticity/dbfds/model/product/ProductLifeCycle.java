@@ -1,5 +1,7 @@
 package pl.iticity.dbfds.model.product;
 
-public class ProductLifeCycle {
+public enum ProductLifeCycle {
+
+    DEVELOPMENT, INTRODUCTION, GROWTH, MATURITY, DECLINE;
 
 }
