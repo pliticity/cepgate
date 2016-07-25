@@ -29,7 +29,7 @@ import java.util.List;
                 @CompoundIndex(def = "{'classificationId' : 1,'domain' :1}", unique = true)
         }
 )
-public class Classification {
+public class Classification extends Scoped{
 
     public static Classification EMAIL = new Classification("E-Mail", "EM", true);
 
@@ -44,10 +44,6 @@ public class Classification {
     @NotNull
     private String name;
 
-    @NotNull
-    @DBRef
-    private Domain domain;
-
     private boolean active;
 
     private String type;
@@ -57,8 +53,6 @@ public class Classification {
     private List<Classification> parents;
 
     private boolean defaultValue;
-
-    private boolean removed;
 
     public Classification() {
     }
@@ -75,14 +69,6 @@ public class Classification {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
     }
 
     public boolean isActive() {
@@ -137,14 +123,6 @@ public class Classification {
 
     public void setDefaultValue(boolean defaultValue) {
         this.defaultValue = defaultValue;
-    }
-
-    public boolean isRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(boolean removed) {
-        this.removed = removed;
     }
 
     public List<String> getParentIds() {

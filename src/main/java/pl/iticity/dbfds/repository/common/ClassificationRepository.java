@@ -1,15 +1,14 @@
-package pl.iticity.dbfds.repository;
+package pl.iticity.dbfds.repository.common;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
 
-public interface ClassificationRepository extends MongoRepository<Classification,String> {
-
-    public List<Classification> findByDomainAndRemovedIsFalse(Domain domain);
+public interface ClassificationRepository extends MongoRepository<Classification,String>, ScopedRepository<Classification> {
 
     public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalse(Domain domain);
 

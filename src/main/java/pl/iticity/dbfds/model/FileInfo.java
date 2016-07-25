@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class FileInfo {
+public class FileInfo extends Scoped{
 
     @Id
     @GeneratedValue
@@ -26,10 +26,6 @@ public class FileInfo {
     private String symbol;
 
     private String path;
-
-    @DBRef
-    @NotNull
-    private Domain domain;
 
     private double size;
 
@@ -82,14 +78,6 @@ public class FileInfo {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
     }
 
     public double getSize() {

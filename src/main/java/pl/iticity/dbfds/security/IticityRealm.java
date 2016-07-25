@@ -1,7 +1,7 @@
 package pl.iticity.dbfds.security;
 
 import org.apache.commons.lang.StringUtils;
-import pl.iticity.dbfds.repository.PrincipalRepository;
+import pl.iticity.dbfds.repository.common.PrincipalRepository;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -12,9 +12,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * Created by dacho on 23.03.2016.
- */
 public class IticityRealm extends AuthorizingRealm {
 
 

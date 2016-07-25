@@ -2,7 +2,7 @@ package pl.iticity.dbfds.service.common.impl;
 
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.Settings;
-import pl.iticity.dbfds.repository.SettingsRepository;
+import pl.iticity.dbfds.repository.common.SettingsRepository;
 import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.common.SettingsService;
 import pl.iticity.dbfds.util.PrincipalUtils;

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class DocumentType {
+public class DocumentType extends Scoped{
 
     public static final DocumentType XD = new DocumentType("XX","Drawing",true);
     public static final DocumentType DOC = new DocumentType("DOC","Document",true);
@@ -30,15 +30,9 @@ public class DocumentType {
     @NotNull
     private String name;
 
-    @NotNull
-    @DBRef
-    private Domain domain;
-
     private boolean active;
 
     private boolean defaultValue;
-
-    private boolean removed;
 
     public DocumentType() {
     }
@@ -73,14 +67,6 @@ public class DocumentType {
         this.id = id;
     }
 
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -103,11 +89,4 @@ public class DocumentType {
         this.defaultValue = defaultValue;
     }
 
-    public boolean isRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(boolean removed) {
-        this.removed = removed;
-    }
 }

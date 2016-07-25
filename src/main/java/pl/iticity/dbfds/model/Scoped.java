@@ -9,13 +9,13 @@ public class Scoped {
 
     @DBRef
     @NotNull
-    private Domain domain;
+    protected Domain domain;
 
     @DBRef
     @NotNull
-    private Principal principal;
+    protected Principal principal;
 
-    private boolean removed;
+    protected boolean removed;
 
     public Domain getDomain() {
         return domain;

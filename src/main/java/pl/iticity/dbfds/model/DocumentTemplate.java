@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class DocumentTemplate {
+public class DocumentTemplate extends Scoped{
 
     @Id
     @GeneratedValue
@@ -17,10 +17,6 @@ public class DocumentTemplate {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date date;
-
-    @DBRef
-    @NotNull
-    private Domain domain;
 
     @DBRef
     @NotNull
@@ -40,14 +36,6 @@ public class DocumentTemplate {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Domain getDomain() {
-        return domain;
-    }
-
-    public void setDomain(Domain domain) {
-        this.domain = domain;
     }
 
     public FileInfo getFile() {

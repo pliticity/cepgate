@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.repository;
+package pl.iticity.dbfds.repository.document;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
