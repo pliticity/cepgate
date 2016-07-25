@@ -38,12 +38,12 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
     }
 
     @Override
-    public Long getNextMasterProductNumber(Domain domain) {
+    public String getNextMasterProductNumber(Domain domain) {
         Domain d = domainService.findById(domain.getId());
         long id = d.getLastMasterProductNumber() +1;
         d.setLastMasterProductNumber(id);
         domainService.save(d);
-        return id;
+        return MessageFormat.format("P{0}",id);
     }
 
 }

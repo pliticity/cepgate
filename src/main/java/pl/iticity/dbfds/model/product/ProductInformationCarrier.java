@@ -49,7 +49,7 @@ public class ProductInformationCarrier extends Scoped{
     private String productIdNumber;
 
     @NotNull
-    private Long masterProductNumber;
+    private String masterProductNumber;
 
     private String hsCode;
 
@@ -155,11 +155,11 @@ public class ProductInformationCarrier extends Scoped{
         this.productIdNumber = productIdNumber;
     }
 
-    public Long getMasterProductNumber() {
+    public String getMasterProductNumber() {
         return masterProductNumber;
     }
 
-    public void setMasterProductNumber(Long masterProductNumber) {
+    public void setMasterProductNumber(String masterProductNumber) {
         this.masterProductNumber = masterProductNumber;
     }
 

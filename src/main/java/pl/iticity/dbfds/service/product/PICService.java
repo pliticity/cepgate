@@ -13,7 +13,7 @@ public interface PICService extends ScopedService<ProductInformationCarrier> {
 
     public ProductInformationCarrier createNew();
 
-    public Long getNextMasterProductNumber(Domain domain);
+    public String getNextMasterProductNumber(Domain domain);
 
     public List<ProductInformationCarrier> findByDomain(Domain domain);
 
