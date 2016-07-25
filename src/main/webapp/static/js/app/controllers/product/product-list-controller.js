@@ -11,7 +11,7 @@
 
         ctrl.settings = settingsService.settings;
 
-        ctrl.getProducts = function(){
+        ctrl.getProducts = function () {
             ctrl.products = productService.getAll(ctrl.queryParams);
         }
 

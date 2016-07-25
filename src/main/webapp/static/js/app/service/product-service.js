@@ -13,6 +13,10 @@
             return Product.query(params);
         };
 
+        this.getOne = function (id) {
+            return Product.get({id:id});
+        };
+
         this.saveProduct = function (form, product) {
             form.$submitted = true;
             if (form.$valid) {

@@ -21,7 +21,7 @@
         <td colspan="11"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
         </td>
     </tr>
-    <tr docId="{{row.id}}" class="animate-row" ng-repeat="row in displayCollection">
+    <tr cg-add-tab="{open : true, id: row.id, name: row.name, tabsId:'product-tabs', factory:'product',onChildren:true, except: [0]}" class="animate-row" ng-repeat="row in displayCollection">
         <td cs-select="row"></td>
         <td></td>
         <td></td>

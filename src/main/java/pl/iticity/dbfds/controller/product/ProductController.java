@@ -2,10 +2,7 @@ package pl.iticity.dbfds.controller.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.controller.BaseController;
 import pl.iticity.dbfds.model.mixins.product.DetailsPICMixin;
 import pl.iticity.dbfds.model.mixins.product.ListPICMixin;
@@ -34,6 +31,13 @@ public class ProductController extends BaseController {
     @ResponseBody
     String postSaveProduct(@RequestBody ProductInformationCarrier pic) {
         return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class,picService.savePIC(pic));
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getProduct(@PathVariable("id") String id) {
+        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class,picService.findById(id));
     }
 
 }

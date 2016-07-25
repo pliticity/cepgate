@@ -23,8 +23,8 @@
 
         // INIT FUNCTIONS
 
-        ctrl.setProduct = function(product){
-            ctrl.product = product;
+        ctrl.setProduct = function(productId){
+            ctrl.product = productService.getOne(productId);
         };
 
         ctrl.newProduct = function(){
