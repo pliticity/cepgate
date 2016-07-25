@@ -34,8 +34,6 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
         pic.setCreationDate(new Date());
         pic.setState(ProductState.IN_PROGRESS);
         pic.setMasterProductNumber(getNextMasterProductNumber(PrincipalUtils.getCurrentDomain()));
-        String idNumber = MessageFormat.format("{0}-{1}",PrincipalUtils.getCurrentDomain().getAccountNo(),pic.getMasterProductNumber());
-        pic.setProductIdNumber(idNumber);
         return pic;
     }
 
