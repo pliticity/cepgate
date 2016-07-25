@@ -1,16 +1,113 @@
 <ng-include src="'/partials/common/header.html'"></ng-include>
 
 <div class="row">
-    <div class="col-xs-6 col-xs-offset-3">
-        <a style="margin: 15px;" class="btn btn-default btn-lg" href="/document"><span class="glyphicon glyphicon-file" aria-hidden="true"></span> Document Mode</a>
+    <div class="col-xs-3 col-xs-offset-3">
+        <a style="margin: 15px;" class="btn btn-default btn-lg" href="/document"><span class="glyphicon glyphicon-file"
+                                                                                       aria-hidden="true"></span>
+            Document Mode</a>
+    </div>
 
-        <a style="margin: 15px;" disabled class="btn btn-default btn-lg disabled" href="/project"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Project Mode</a>
+    <div class="col-xs-3">
+        <div style="margin: 15px;" class="btn-group">
+            <a href="/project" disabled="" class="disabled btn btn-default btn-lg"><span
+                    class="glyphicon glyphicon-stats"
+                    aria-hidden="true"></span>Project Mode</a>
+            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu multi-level" role="menu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">System</a>
+                    <ul class="dropdown-menu multi-level" role="menu">
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">System Sections</a>
+                            <ul class="dropdown-menu multi-level" role="menu">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#">Product Model</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Documents for Level 4</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-6 col-xs-offset-3">
-        <a style="margin: 15px;" disabled class="btn btn-default btn-lg disabled" href="/document"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> Quotation Mode</a>
-
-        <a style="margin: 15px;" class="btn btn-default btn-lg" href="/product"><span class="glyphicon glyphicon-apple" aria-hidden="true"></span> Product Mode</a>
+    <div class="col-xs-3 col-xs-offset-3">
+        <div style="margin: 15px;" class="btn-group">
+            <a href="/quotation" disabled="" class="disabled btn btn-default btn-lg"><span
+                    class="glyphicon glyphicon-tag"
+                    aria-hidden="true"></span>Quotation
+                Mode</a>
+            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu multi-level" role="menu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">System</a>
+                    <ul class="dropdown-menu multi-level" role="menu">
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">System Sections</a>
+                            <ul class="dropdown-menu multi-level" role="menu">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#">Product Model</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Documents for Level 4</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div style="margin: 15px;" class="btn-group">
+            <a href="/product" class=" btn btn-default btn-lg"><span
+                    class="glyphicon glyphicon-apple"
+                    aria-hidden="true"></span>Product
+                Mode</a>
+            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu multi-level" role="menu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">Product Line</a>
+                    <ul class="dropdown-menu multi-level" role="menu">
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">Product Family</a>
+                            <ul class="dropdown-menu multi-level" role="menu">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#">Product Group</a>
+                                    <ul class="dropdown-menu multi-level" role="menu">
+                                        <li class="dropdown-submenu">
+                                            <a tabindex="-1" href="#">Product Model</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#">Documents for level 4</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
