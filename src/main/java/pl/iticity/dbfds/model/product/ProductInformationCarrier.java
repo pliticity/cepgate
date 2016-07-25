@@ -34,31 +34,23 @@ public class ProductInformationCarrier extends Scoped{
     @DBRef
     private Classification classification;
 
-    @NotNull
     private String name;
 
-    @NotNull
     private String productId;
 
-    @NotNull
     private String weight;
 
-    @NotNull
     private String codeA;
 
-    @NotNull
     private String codeB;
 
-    @NotNull
     private String color;
 
-    @NotNull
     private String productIdNumber;
 
     @NotNull
     private Long masterProductNumber;
 
-    @NotNull
     private String hsCode;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
@@ -71,30 +63,22 @@ public class ProductInformationCarrier extends Scoped{
     @DBRef
     private Principal owner;
 
-    @NotNull
     private String country;
 
-    @NotNull
     private String deliveryLocation;
 
-    @NotNull
     private String manufacturingLocation;
 
     private ProductLifeCycle productLifeCycle;
 
-    @NotNull
     private ProductState state;
 
-    @NotNull
     private String deliveryTime;
 
-    @NotNull
     private String internalComments;
 
-    @NotNull
     private String oneLineDescription;
 
-    @NotNull
     private String salesText;
 
     public String getId() {
