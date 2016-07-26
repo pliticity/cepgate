@@ -1,9 +1,11 @@
 package pl.iticity.dbfds.service.common.impl;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDSimpleFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -17,9 +19,10 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.common.TransmittalService;
 import pl.iticity.dbfds.service.document.FileService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.Date;
 
@@ -48,7 +51,7 @@ public class TransmittalServiceImpl implements TransmittalService {
 
     private void drawTable(PDPageContentStream contentStream, Principal sender, Principal recipient, DocumentInfo documentInfo) throws IOException {
         int lineY = 700;
-        PDFont font = PDType1Font.HELVETICA_BOLD;
+        PDFont font = PDType1Font.HELVETICA;
         contentStream.setFont(font, 12);
 
         contentStream.beginText();
@@ -89,7 +92,7 @@ public class TransmittalServiceImpl implements TransmittalService {
 
         contentStream.beginText();
         lineY = newLine(contentStream,lineY);
-        contentStream.showText(MessageFormat.format("Document Title : {0}",documentInfo.getDocumentName()));
+        contentStream.showText(MessageFormat.format("Document Title : {0}",StringEscapeUtils.escapeJava(documentInfo.getDocumentName())));
         contentStream.endText();
 
         contentStream.beginText();
