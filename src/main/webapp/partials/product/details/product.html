@@ -111,10 +111,10 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productIdNumber'}">
-                    <label class="col-xs-6 control-label">ID Number</label>
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'serialNumber'}">
+                    <label class="col-xs-6 control-label">Serial Number</label>
                     <div class="col-xs-6">
-                        <input name="productIdNumber" class="form-control" ng-model="ctrl.product.productIdNumber"/>
+                        <input name="serialNumber" ng-readonly="true" disabled class="disabled form-control" ng-model="ctrl.product.serialNumber"/>
                     </div>
                 </div>
             </div>

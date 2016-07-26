@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -46,7 +45,7 @@ public class ProductInformationCarrier extends Scoped{
 
     private String color;
 
-    private String productIdNumber;
+    private String serialNumber;
 
     @NotNull
     private String masterProductNumber;
@@ -147,12 +146,12 @@ public class ProductInformationCarrier extends Scoped{
         this.color = color;
     }
 
-    public String getProductIdNumber() {
-        return productIdNumber;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setProductIdNumber(String productIdNumber) {
-        this.productIdNumber = productIdNumber;
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public String getMasterProductNumber() {
