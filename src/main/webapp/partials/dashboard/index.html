@@ -1,113 +1,105 @@
 <ng-include src="'/partials/common/header.html'"></ng-include>
 
+<span class="dashboard">
 <div class="row">
     <div class="col-xs-3 col-xs-offset-3">
-        <a style="margin: 15px;" class="btn btn-default btn-lg" href="/document"><span class="glyphicon glyphicon-file"
-                                                                                       aria-hidden="true"></span>
+        <a class="btn btn-default btn-lg item button" href="/document"><span class="glyphicon glyphicon-file"
+                                                                 aria-hidden="true"></span>
             Document Mode</a>
     </div>
 
-    <div class="col-xs-3">
-        <div style="margin: 15px;" class="btn-group">
-            <a href="/project" disabled="" class="disabled btn btn-default btn-lg"><span
-                    class="glyphicon glyphicon-stats"
-                    aria-hidden="true"></span>Project Mode</a>
-            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu multi-level" role="menu">
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#">System</a>
-                    <ul class="dropdown-menu multi-level" role="menu">
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#">System Sections</a>
-                            <ul class="dropdown-menu multi-level" role="menu">
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#">Product Model</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Documents for Level 4</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <div class="col-xs-3 text-right">
+        <a href="/project" disabled="" class="disabled btn btn-default btn-lg item button"><span
+                class="glyphicon glyphicon-stats"
+                aria-hidden="true"></span>Project Mode</a>
     </div>
 </div>
 <div class="row">
     <div class="col-xs-3 col-xs-offset-3">
-        <div style="margin: 15px;" class="btn-group">
-            <a href="/quotation" disabled="" class="disabled btn btn-default btn-lg"><span
-                    class="glyphicon glyphicon-tag"
-                    aria-hidden="true"></span>Quotation
-                Mode</a>
-            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu multi-level" role="menu">
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#">System</a>
-                    <ul class="dropdown-menu multi-level" role="menu">
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#">System Sections</a>
-                            <ul class="dropdown-menu multi-level" role="menu">
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#">Product Model</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Documents for Level 4</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <a href="/quotation" disabled="" class="disabled btn btn-default btn-lg item button"><span
+                class="glyphicon glyphicon-tag"
+                aria-hidden="true"></span>Quotation
+            Mode</a>
     </div>
-    <div class="col-xs-3">
-        <div style="margin: 15px;" class="btn-group">
-            <a href="/product" class=" btn btn-default btn-lg"><span
-                    class="glyphicon glyphicon-apple"
-                    aria-hidden="true"></span>Product
-                Mode</a>
-            <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
-            </button>
-            <ul class="dropdown-menu multi-level" role="menu">
-                <li class="dropdown-submenu">
-                    <a tabindex="-1" href="#">Product Line</a>
-                    <ul class="dropdown-menu multi-level" role="menu">
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#">Product Family</a>
-                            <ul class="dropdown-menu multi-level" role="menu">
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#">Product Group</a>
-                                    <ul class="dropdown-menu multi-level" role="menu">
-                                        <li class="dropdown-submenu">
-                                            <a tabindex="-1" href="#">Product Model</a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="#">Documents for level 4</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <div class="col-xs-3 text-right">
+        <a href="/product" class=" btn btn-default btn-lg item button"><span
+                class="glyphicon glyphicon-apple"
+                aria-hidden="true"></span>Product
+            Mode</a>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-xs-offset-3 col-xs-6">
+        <div id="dashboard-tree" class="item"></div>
+    </div>
+</div>
+
+</span>
+
+<script>
+
+    function getTree() {
+        return [{
+            text: 'Product',
+            state: {
+                expanded: false
+            },
+            nodes: [{
+                text: 'Product Line',
+                state: {
+                    expanded: false
+                },
+                nodes: [{
+                    text: 'Product Family',
+                    nodes: [{
+                        text: 'Product Group',
+                        nodes: [{text: 'Product Model', nodes: [{text: 'Documents for level 4'}]}]
+                    }]
+                }]
+            }]
+        }, {
+            text: 'Project',
+            state: {
+                expanded: false
+            },
+            nodes: [{
+                text: 'System',
+                state: {
+                    expanded: false
+                },
+                nodes: [{
+                    text: 'System Sections',
+                    nodes: [{
+                        text: 'Product Model',
+                        nodes: [{text: 'Documents for Level 4'}]
+                    }]
+                }]
+            }]
+        }, {
+            text: 'Quotation',
+            state: {
+                expanded: false
+            },
+            nodes: [{
+                text: 'System',
+                state: {
+                    expanded: false
+                },
+                nodes: [{
+                    text: 'System Sections',
+                    nodes: [{
+                        text: 'Product Model',
+                        nodes: [{text: 'Documents for Level 4'}]
+                    }]
+                }]
+            }]
+        }];
+    }
+    ;
+
+    $(document).ready(function () {
+        $('#dashboard-tree').treeview({data: getTree()});
+    });
+</script>
 

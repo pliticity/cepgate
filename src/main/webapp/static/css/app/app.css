@@ -1,3 +1,16 @@
+.dashboard .item{
+    margin: 15px;
+}
+
+.dashboard .button{
+    width: 270px;
+}
+
+.dashboard-tree{
+    width: 188px;
+    margin: 15px;
+}
+
 body {
     padding-top: 65px;
 }
