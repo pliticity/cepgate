@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface MailService {
 
-    public void sendDocument(Mail email, boolean zip, HttpServletRequest request);
+    public void sendDocument(Mail email, boolean zip, HttpServletRequest request, boolean appendTransmittal);
 
 }

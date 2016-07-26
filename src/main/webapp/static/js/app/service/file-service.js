@@ -19,7 +19,7 @@
             });
         };
 
-        this.mailFiles = function (filesId, zip,mail,tId) {
+        this.mailFiles = function (filesId, zip,mail,tId,transmittal) {
             var files = [];
             for (var i = 0; i < filesId.length; i++) {
                 var fId = filesId[i];
@@ -32,8 +32,7 @@
 
             mail.files = files;
 
-            $http({url: '/document/0/mail',params:{zip:zip}, method: 'post', data: mail}).then(function(succ){
-                console.log('succ');
+            $http({url: '/document/0/mail',params:{zip:zip,transmittal:transmittal}, method: 'post', data: mail}).then(function(succ){
             });
 
             $("#mail-modal-"+tId).modal('hide');

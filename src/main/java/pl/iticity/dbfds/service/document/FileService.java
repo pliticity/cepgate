@@ -48,4 +48,6 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public String[] getFileNames(String[] ids);
 
+    public File createTempFile();
+
 }

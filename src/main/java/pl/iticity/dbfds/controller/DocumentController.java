@@ -196,9 +196,9 @@ public class DocumentController {
         return service.appendTemplateFile(id,tId);
     }
 
-    @RequestMapping(value = "/{id}/mail", method = RequestMethod.POST, params = {"zip"})
-    public @ResponseBody boolean postSendMail(@PathVariable("id") String id, @RequestBody Mail mail, @RequestParam("zip") boolean zip, HttpServletRequest request){
-        mailService.sendDocument(mail,zip,request);
+    @RequestMapping(value = "/{id}/mail", method = RequestMethod.POST, params = {"zip","transmittal"})
+    public @ResponseBody boolean postSendMail(@PathVariable("id") String id, @RequestBody Mail mail, @RequestParam("zip") boolean zip,@RequestParam("transmittal") boolean transmittal, HttpServletRequest request){
+        mailService.sendDocument(mail,zip,request,transmittal);
         return true;
     }
 

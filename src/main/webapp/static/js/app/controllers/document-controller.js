@@ -321,9 +321,9 @@
 
         $scope.attachFiles = false;
 
-        $scope.sendMail = function (zip) {
+        $scope.sendMail = function (zip,transmittal) {
             $scope.doForSelectedRows(function (e) {
-                fileService.mailFiles(e,!zip,$scope.mail,$scope.tableId);
+                fileService.mailFiles(e,!zip,$scope.mail,$scope.tableId,transmittal);
             });
         };
 

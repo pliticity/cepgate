@@ -16,7 +16,10 @@ import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.FileInfo;
 import pl.iticity.dbfds.model.Mail;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
+import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.common.MailService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.common.TransmittalService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.util.DefaultConfig;
@@ -25,6 +28,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.InputStream;
 import java.io.StringWriter;
 
 @Service
@@ -47,10 +51,18 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private FileService fileService;
 
-    public void sendDocument(Mail email, boolean zip, HttpServletRequest request) {
+    @Autowired
+    private TransmittalService transmittalService;
+
+    @Autowired
+    private PrincipalService principalService;
+
+    public void sendDocument(Mail email, boolean zip, HttpServletRequest request, boolean appendTransmittal) {
         //DocumentInfo doc = documentService.findById(docId);
         //AuthorizationProvider.isInDomain(doc.getDomain());
         MimeMessage mail = mailSender.createMimeMessage();
+        File transmittal = null;
+
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
 
@@ -81,10 +93,14 @@ public class MailServiceImpl implements MailService {
                     File file = fileService.getFileForFileInfo(fileInfo);
                     helper.addAttachment(fileInfo.getName(), file);
                 }
-            }else{
-               // FileInfo fileInfo = fileService.zipFiles(files);
-             //   String msg = MessageFormat.format("<a href=\"http://webapp-cepgate.rhcloud.com/file/{0}?temp=true\">link to files</a> this is a one time link",fileInfo.getSymbol());
-             //   helper.setText(msg,true);
+            }
+
+            if(appendTransmittal){
+                Principal sender = PrincipalUtils.getCurrentPrincipal();
+                Principal recipient = principalService.findByEmail(email.getRecipient());
+                DocumentInfo doc = documentInfoRepository.findByFiles_Id(email.getFiles()[0]);
+                transmittal = transmittalService.createTransmittal(sender,recipient,doc);
+                helper.addAttachment("transmittal.pdf",transmittal);
             }
 
 
@@ -92,6 +108,9 @@ public class MailServiceImpl implements MailService {
             logger.error(e.getMessage(), e);
         }
         mailSender.send(mail);
+        if(transmittal!=null){
+            transmittal.delete();
+        }
     }
 
     private String fillTemplate(DocumentInfo documentInfo,HttpServletRequest request){

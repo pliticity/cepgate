@@ -275,6 +275,12 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo, FileReposit
         return names.toArray(new String[names.size()]);
     }
 
+    @Override
+    public File createTempFile() {
+        File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
+        return newFile;
+    }
+
     public DefaultConfig getDefaultConfig() {
         return defaultConfig;
     }
