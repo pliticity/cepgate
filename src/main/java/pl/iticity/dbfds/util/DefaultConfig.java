@@ -23,6 +23,7 @@ public class DefaultConfig {
     }
 
     public void setDataPath(String dataPath) {
+        System.setProperty("pdfbox.fontcache", dataPath);
         this.dataPath = dataPath;
     }
 }
