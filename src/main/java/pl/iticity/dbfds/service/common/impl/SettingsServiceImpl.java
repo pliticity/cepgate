@@ -8,7 +8,7 @@ import pl.iticity.dbfds.service.common.SettingsService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 @Service
-public class SettingsServiceImpl extends AbstractScopedService<Settings,SettingsRepository> implements SettingsService{
+public class SettingsServiceImpl extends AbstractScopedService<Settings,String,SettingsRepository> implements SettingsService{
     @Override
     public boolean updateSettings(Settings settings) {
         Settings sets = repo.findOneByDomainAndPrincipalAndRemovedIsFalse(PrincipalUtils.getCurrentDomain(),PrincipalUtils.getCurrentPrincipal());

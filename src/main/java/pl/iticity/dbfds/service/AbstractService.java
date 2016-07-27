@@ -3,9 +3,10 @@ package pl.iticity.dbfds.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractService<MODEL,REPO extends MongoRepository<MODEL,String>> implements Service<MODEL> {
+public abstract class AbstractService<MODEL,ID extends Serializable,REPO extends MongoRepository<MODEL,ID>> implements Service<MODEL> {
 
     @Autowired
     protected REPO repo;
@@ -22,7 +23,7 @@ public abstract class AbstractService<MODEL,REPO extends MongoRepository<MODEL,S
         repo.delete(model);
     }
 
-    public MODEL findById(String id){
+    public MODEL findById(ID id){
         return repo.findOne(id);
     }
 

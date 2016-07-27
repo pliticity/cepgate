@@ -8,7 +8,7 @@ import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
 
-public interface ClassificationRepository extends MongoRepository<Classification,String>, ScopedRepository<Classification> {
+public interface ClassificationRepository extends ScopedRepository<Classification,String> {
 
     public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalse(Domain domain);
 

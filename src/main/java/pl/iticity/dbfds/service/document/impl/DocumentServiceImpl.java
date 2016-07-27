@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class DocumentServiceImpl extends AbstractService<DocumentInfo, DocumentInfoRepository> implements DocumentService {
+public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, DocumentInfoRepository> implements DocumentService {
 
     private static final Logger logger = Logger.getLogger(DocumentServiceImpl.class);
 

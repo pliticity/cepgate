@@ -7,7 +7,7 @@ import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
 
-public interface FileRepository extends MongoRepository<FileInfo, String>,ScopedRepository<FileInfo> {
+public interface FileRepository extends ScopedRepository<FileInfo,String> {
 
     public FileInfo findBySymbol(String symbol);
 

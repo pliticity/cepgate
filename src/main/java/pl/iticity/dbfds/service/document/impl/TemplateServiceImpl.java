@@ -30,7 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate, DocumentTemplateRepository> implements TemplateService {
+public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,String, DocumentTemplateRepository> implements TemplateService {
 
     private static final Logger logger = Logger.getLogger(TemplateServiceImpl.class);
 

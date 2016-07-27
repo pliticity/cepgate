@@ -7,7 +7,7 @@ import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
 
-public interface DocumentTemplateRepository extends MongoRepository<DocumentTemplate, String>, ScopedRepository<DocumentTemplate> {
+public interface DocumentTemplateRepository extends ScopedRepository<DocumentTemplate,String> {
 
     public List<DocumentTemplate> findByDomain(Domain domain);
 

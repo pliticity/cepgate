@@ -14,7 +14,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import java.util.List;
 
 @Service
-public class DocumentTypeServiceImpl extends AbstractScopedService<DocumentType,DocumentTypeRepository> implements DocumentTypeService {
+public class DocumentTypeServiceImpl extends AbstractScopedService<DocumentType,String,DocumentTypeRepository> implements DocumentTypeService {
 
     public List<DocumentType> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){

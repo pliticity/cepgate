@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class PrincipalServiceImpl extends AbstractService<Principal,PrincipalRepository> implements PrincipalService {
+public class PrincipalServiceImpl extends AbstractService<Principal,String,PrincipalRepository> implements PrincipalService {
 
     @Autowired
     private DomainRepository domainRepository;

@@ -8,6 +8,6 @@ import pl.iticity.dbfds.security.Principal;
 
 import java.util.List;
 
-public interface PICRepository extends MongoRepository<ProductInformationCarrier,String>, ScopedRepository<ProductInformationCarrier> {
+public interface PICRepository extends ScopedRepository<ProductInformationCarrier,String> {
 
 }

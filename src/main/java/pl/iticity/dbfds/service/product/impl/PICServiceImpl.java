@@ -15,7 +15,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 @Service
-public class PICServiceImpl extends AbstractScopedService<ProductInformationCarrier, PICRepository> implements PICService {
+public class PICServiceImpl extends AbstractScopedService<ProductInformationCarrier,String, PICRepository> implements PICService {
 
     @Autowired
     private DomainService domainService;

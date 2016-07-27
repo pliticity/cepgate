@@ -37,7 +37,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Service
-public class FileServiceImpl extends AbstractScopedService<FileInfo, FileRepository> implements FileService {
+public class FileServiceImpl extends AbstractScopedService<FileInfo,String, FileRepository> implements FileService {
 
     private static final Logger logger = Logger.getLogger(FileServiceImpl.class.getName());
 

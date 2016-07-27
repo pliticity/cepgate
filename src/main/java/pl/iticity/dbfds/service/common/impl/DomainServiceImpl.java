@@ -7,7 +7,7 @@ import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.DomainService;
 
 @Service
-public class DomainServiceImpl extends AbstractService<Domain,DomainRepository> implements DomainService {
+public class DomainServiceImpl extends AbstractService<Domain,String,DomainRepository> implements DomainService {
 
     public Domain findByName(String name){
         return repo.findByName(name);

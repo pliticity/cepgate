@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Service
-public class ClassificationServiceImpl extends AbstractScopedService<Classification,ClassificationRepository> implements ClassificationService {
+public class ClassificationServiceImpl extends AbstractScopedService<Classification,String,ClassificationRepository> implements ClassificationService {
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){
