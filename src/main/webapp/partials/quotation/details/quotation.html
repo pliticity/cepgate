@@ -1,0 +1,42 @@
+<div class="with-top-padding">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+
+    <form name="ctrl.quotationForm" class="form-horizontal">
+
+        <!-- FIRST ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'symbol'}">
+                    <label class="col-xs-6 control-label">Quotation number</label>
+                    <div class="col-xs-6">
+                        <input name="symbol" class="form-control" ng-model="ctrl.quotation.symbol" required=""/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'name'}">
+                    <label class="col-xs-6 control-label">Quotation name</label>
+                    <div class="col-xs-6">
+                        <input name="name" class="form-control" ng-model="ctrl.quotation.name" required=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="row">
+
+            <div class="col-xs-12 text-right">
+                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveQuotation()">Save</button>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>

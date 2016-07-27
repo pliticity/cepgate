@@ -12,13 +12,25 @@
             };
         }]);
 
-    common.service('tabService', ['$compile','ProductTab', function ($compile,ProductTab) {
+    common.factory('QuotationTab', [function () {
+        return {
+            content: function (tabsId,id) {
+                var tabId = "{0}-{1}".format(tabsId, id);
+                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='QuotationController as ctrl' src=\"'/partials/quotation/details/quotation.html'\" ng-init=\"ctrl.setQuotation('{1}')\"></ng-include></div>".format(tabId,id);
+                return tab;
+            }
+        };
+    }]);
+
+    common.service('tabService', ['$compile','ProductTab','QuotationTab', function ($compile,ProductTab,QuotationTab) {
 
         var tabService = this;
 
         tabService.getFactory = function(factory){
           if(factory == 'product'){
               return ProductTab;
+          }else if(factory == 'quotation'){
+              return QuotationTab;
           }
         };
 

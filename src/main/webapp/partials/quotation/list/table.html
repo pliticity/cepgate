@@ -1,0 +1,51 @@
+<table class="table table-condensed table-hover with-top-margin" st-table="displayCollection"
+       st-safe-src="ctrl.quotations">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+    <thead>
+    <tr class="info">
+        <th></th>
+        <th st-sort="name">Quotation number</th>
+        <th st-sort="name">Quotation name</th>
+        <th st-sort="name">Quotation Manager</th>
+        <th st-sort="name">Client</th>
+        <th st-sort="name">Quotation start date</th>
+        <th st-sort="name">Quotation end date</th>
+        <th st-sort="name">Quotation value</th>
+        <th st-sort="name">Quotation Cost</th>
+        <th st-sort="name">Quotation Gross Margin </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="10"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        </td>
+    </tr>
+    <tr cg-add-tab="{open : true, id: row.id, name: row.name, tabsId:'quotation-tabs', factory:'quotation',onChildren:true, except: [0]}" class="animate-row" ng-repeat="row in displayCollection">
+        <td cs-select="row"></td>
+        <td>{{row.symbol}}</td>
+        <td>{{row.name}}</td>
+        <td>{{row.manager.email}}</td>
+        <td>{{row.client}}</td>
+        <td>{{row.startDate}}</td>
+        <td>{{row.endDate}}</td>
+        <td>{{row.value}}</td>
+        <td>{{row.cost}}</td>
+        <td>{{row.grossMargin}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="9"></td>
+        <td colspan="1" class="text-right">
+            <label for="itemsPerPage">Items per page</label>
+            <input id="itemsPerPage" class="form-control input-sm" ng-model="ctrl.settings.itemsPerPage" ng-change="ctrl.settings.update()"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10" class="text-center">
+            <div st-pagination="" st-items-by-page="ctrl.settingsN.itemsPerPage"
+                 st-template="/partials/document/list/pagination.html"></div>
+        </td>
+    </tr>
+    </tfoot>
+</table>
