@@ -5,7 +5,7 @@ Classification ID: $classificationId <br/>
 Classification Name: $classificationName <br/>
 Document Title: $documentTitle <br/>
 Document Number: $documentNumber <br/>
-Revison : $revision <br/>
+Revision : $revision <br/>
 Link : <a href="$link">$link</a> <br/>
 <br/>
 </body>
