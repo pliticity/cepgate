@@ -16,10 +16,10 @@
 
         <div class="tab-content" id="product-tabs-content" >
             <div role="tabpanel" class="tab-pane active" id="my">
-                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getProducts()"></ng-include>
+                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="all">
-                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getProducts()"></ng-include>
+                <ng-include ng-controller="ProductListController as ctrl" src="'/partials/product/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="new">
                 <ng-include ng-controller="ProductController as ctrl" src="'/partials/product/details/product.html'" ng-init="ctrl.newProduct()"></ng-include>
