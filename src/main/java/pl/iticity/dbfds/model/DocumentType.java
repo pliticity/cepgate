@@ -17,7 +17,7 @@ public class DocumentType extends Scoped{
     public static final DocumentType XD = new DocumentType("XX","Drawing",true);
     public static final DocumentType DOC = new DocumentType("DOC","Document",true);
     public static final DocumentType MOM = new DocumentType("MOM","Minutes of Meeting",true);
-    public static final DocumentType PI = new DocumentType("PI","Picture",true);
+    public static final DocumentType PI = new DocumentType("Picture","Picture",true);
     public static final DocumentType EMAIL = new DocumentType("e-mail","e-mail",true);
 
     @Id
