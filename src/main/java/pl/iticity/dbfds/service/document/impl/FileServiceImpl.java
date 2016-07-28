@@ -28,6 +28,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.List;
@@ -244,12 +245,15 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         return repo.findByDomain(domain).size();
     }
 
-    public double countMemoryByDomain(Domain domain) {
+    public BigDecimal countMemoryByDomain(Domain domain) {
         double mem = 0;
         for(FileInfo fileInfo : repo.findByDomain(domain)){
             mem += fileInfo.getSize();
         }
-        return mem;
+        BigDecimal bigDecimal = new BigDecimal(mem);
+        bigDecimal = bigDecimal.divide(new BigDecimal(1000000));
+        bigDecimal = bigDecimal.setScale(4,BigDecimal.ROUND_FLOOR);
+        return bigDecimal;
     }
 
     public String updateFileInfo(InputStream inputStream, String fileId, String docId) throws JsonProcessingException {

@@ -8,6 +8,7 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.ScopedService;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface FileService extends ScopedService<FileInfo> {
@@ -42,7 +43,7 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public long countByDomain(Domain domain);
 
-    public double countMemoryByDomain(Domain domain);
+    public BigDecimal countMemoryByDomain(Domain domain);
 
     public String updateFileInfo(InputStream inputStream, String fileId, String docId) throws JsonProcessingException;
 

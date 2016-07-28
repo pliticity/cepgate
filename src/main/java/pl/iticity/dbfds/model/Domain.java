@@ -44,7 +44,7 @@ public class Domain{
     private long noOfFiles;
 
     @Transient
-    private double memory;
+    private String memory;
 
     private String company;
 
@@ -107,13 +107,12 @@ public class Domain{
         this.noOfFiles = noOfFiles;
     }
 
-    public double getMemory() {
+    public String getMemory() {
         return memory;
     }
 
-    public void setMemory(double memory) {
-        BigDecimal bd = new BigDecimal(memory).setScale(2, RoundingMode.FLOOR);
-        this.memory = bd.doubleValue();
+    public void setMemory(BigDecimal bigDecimal) {
+        this.memory = bigDecimal.toPlainString();
     }
 
     public Date getCreationDate() {
