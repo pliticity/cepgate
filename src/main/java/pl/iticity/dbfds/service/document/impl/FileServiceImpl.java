@@ -245,7 +245,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         return repo.findByDomain(domain).size();
     }
 
-    public BigDecimal countMemoryByDomain(Domain domain) {
+    public double countMemoryByDomain(Domain domain) {
         double mem = 0;
         for(FileInfo fileInfo : repo.findByDomain(domain)){
             mem += fileInfo.getSize();
@@ -253,7 +253,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         BigDecimal bigDecimal = new BigDecimal(mem);
         bigDecimal = bigDecimal.divide(new BigDecimal(1000000));
         bigDecimal = bigDecimal.setScale(4,BigDecimal.ROUND_FLOOR);
-        return bigDecimal;
+        return bigDecimal.doubleValue();
     }
 
     public String updateFileInfo(InputStream inputStream, String fileId, String docId) throws JsonProcessingException {

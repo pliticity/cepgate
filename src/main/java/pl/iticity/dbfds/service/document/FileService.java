@@ -43,7 +43,7 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public long countByDomain(Domain domain);
 
-    public BigDecimal countMemoryByDomain(Domain domain);
+    public double countMemoryByDomain(Domain domain);
 
     public String updateFileInfo(InputStream inputStream, String fileId, String docId) throws JsonProcessingException;
 

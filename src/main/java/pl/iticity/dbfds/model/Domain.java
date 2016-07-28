@@ -1,6 +1,7 @@
 package pl.iticity.dbfds.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -14,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Domain{
 
     @Id
@@ -44,7 +46,7 @@ public class Domain{
     private long noOfFiles;
 
     @Transient
-    private String memory;
+    private double memory;
 
     private String company;
 
@@ -107,12 +109,13 @@ public class Domain{
         this.noOfFiles = noOfFiles;
     }
 
-    public String getMemory() {
+    public double getMemory() {
         return memory;
     }
 
-    public void setMemory(BigDecimal bigDecimal) {
-        this.memory = bigDecimal.toPlainString();
+    public void setMemory(double memory) {
+        BigDecimal mem = new BigDecimal(memory).setScale(4,BigDecimal.ROUND_FLOOR);
+        this.memory = mem.doubleValue();
     }
 
     public Date getCreationDate() {
