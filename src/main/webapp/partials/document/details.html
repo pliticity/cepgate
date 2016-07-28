@@ -207,29 +207,13 @@
                 <div class="form-group" form-error="" form="form.documentForm" field="provider"
                      messages='{"required":"This field is required"}'>
                     <div class="row">
-                        <label class="col-xs-6 control-label">Provider</label>
+                        <label class="col-xs-6 control-label">Document Provider</label>
                         <div class="col-xs-6">
-                            <div class="radio">
-                                <label>
-                                    <input ng-readonly="readonly()==true" type="radio" name="provider"
-                                           id="provider_company"
-                                           ng-model="documentInfo.provider" value="COMPANY"/> Company
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input ng-readonly="readonly()==true" type="radio" name="provider"
-                                           id="provider_supplier"
-                                           ng-model="documentInfo.provider" value="SUPPLIER"/> Supplier
-                                </label>
-                            </div>
-                            <div class="radio">
-                                <label>
-                                    <input ng-readonly="readonly()==true" type="radio" name="provider"
-                                           id="provider_customer"
-                                           ng-model="documentInfo.provider" value="CUSTOMER"/> Customer
-                                </label>
-                            </div>
+                            <select class="form-control" ng-readonly="readonly()==true" name="provider" ng-model="documentInfo.provider">
+                                <option value="COMPANY">Company</option>
+                                <option value="SUPPLIER">Supplier</option>
+                                <option value="CUSTOMER">Customer</option>
+                            </select>
                         </div>
                     </div>
                 </div>
