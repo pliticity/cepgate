@@ -16,7 +16,7 @@
         };
 
         ctrl.saveProduct = function(){
-            if(productService.saveProduct(ctrl.productForm,ctrl.product)==true){
+            if(productService.saveProduct(ctrl.productForm,ctrl.product)==true && ctrl.product.id == null){
                 ctrl.product = productService.getNew();
             };
         };

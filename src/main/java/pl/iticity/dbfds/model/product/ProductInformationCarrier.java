@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "products")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -272,5 +273,48 @@ public class ProductInformationCarrier extends Scoped{
 
     public void setProductOwner(ProductOwner productOwner) {
         this.productOwner = productOwner;
+    }
+
+    /**
+     *
+     */
+
+    public String getProductLine(){
+        return getClassificationLevelByType("Product Line");
+    }
+
+    public String getProductFamily(){
+        return getClassificationLevelByType("Product Family");
+    }
+
+    public String getProductGroup(){
+        return getClassificationLevelByType("Product Group");
+    }
+
+    private String getClassificationLevelByType(String type){
+        String level = "missing";
+        if(getClassification()!=null && type != null){
+            Classification c = recursive(getClassification(),type);
+            if(c!=null){
+                level = c.getName();
+            }
+        }
+        return level;
+    }
+
+    private Classification recursive(Classification c, String type){
+        if(type.equals(c.getType())){
+            return c;
+        }else if(c.getParents() == null || c.getParents().isEmpty()){
+            return null;
+        }else{
+            for(Classification cl : c.getParents()){
+                Classification cla = recursive(cl,type);
+                if(cla != null){
+                    return cla;
+                }
+            }
+            return null;
+        }
     }
 }

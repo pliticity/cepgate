@@ -23,9 +23,9 @@
     </tr>
     <tr cg-add-tab="{open : true, id: row.id, name: row.name, tabsId:'product-tabs', factory:'product',onChildren:true, except: [0]}" class="animate-row" ng-repeat="row in displayCollection">
         <td cs-select="row"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>{{row.productLine}}</td>
+        <td>{{row.productFamily}}</td>
+        <td>{{row.productGroup}}</td>
         <td>{{row.name}}</td>
         <td>{{row.productId}}</td>
         <td>{{row.state}}</td>
