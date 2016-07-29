@@ -32,7 +32,7 @@
         };
 
         ctrl.getClassifications = function(){
-            ctrl.classifications = classificationService.getAll(true);
+            ctrl.classifications = classificationService.getAllForProduct();
         };
 
         ctrl.getPrincipals = function(){

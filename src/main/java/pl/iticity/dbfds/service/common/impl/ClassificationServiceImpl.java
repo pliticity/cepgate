@@ -136,4 +136,10 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         return findByDomain(classification.getDomain(),false);
     }
 
+    @Override
+    public List<Classification> findForProduct() {
+        List<String> types = Lists.newArrayList("Product Line","Product Family","Product Group","Product Model");
+        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(PrincipalUtils.getCurrentDomain(),types);
+    }
+
 }

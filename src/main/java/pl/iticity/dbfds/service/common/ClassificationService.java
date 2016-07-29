@@ -34,4 +34,5 @@ public interface ClassificationService extends ScopedService<Classification> {
 
     public List<Classification> deleteClassification(String id);
 
+    public List<Classification> findForProduct();
 }

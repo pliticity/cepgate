@@ -25,6 +25,11 @@ public class ClassificationController extends BaseController {
         return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
+    @RequestMapping(value = "", method = RequestMethod.GET, params = {"product"})
+    public @ResponseBody String getClassifications(@RequestParam("product") boolean product){
+        return convertToString(Classification.class, ListClassificationMixin.class,classificationService.findForProduct());
+    }
+
     @RequestMapping(value = "/exists", method = RequestMethod.GET)
     public @ResponseBody boolean getDocumentTypes(@RequestParam("id") String id, @RequestParam("clId") String clId){
         return classificationService.exists(clId,id);
