@@ -22,7 +22,17 @@
         };
     }]);
 
-    common.service('tabService', ['$compile','ProductTab','QuotationTab', function ($compile,ProductTab,QuotationTab) {
+    common.factory('ProjectTab', [function () {
+        return {
+            content: function (tabsId,id) {
+                var tabId = "{0}-{1}".format(tabsId, id);
+                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='ProjectController as ctrl' src=\"'/partials/project/details/project.html'\" ng-init=\"ctrl.setProject('{1}')\"></ng-include></div>".format(tabId,id);
+                return tab;
+            }
+        };
+    }]);
+
+    common.service('tabService', ['$compile','ProductTab','QuotationTab','ProjectTab', function ($compile,ProductTab,QuotationTab,ProjectTab) {
 
         var tabService = this;
 
@@ -31,6 +41,8 @@
               return ProductTab;
           }else if(factory == 'quotation'){
               return QuotationTab;
+          }else if(factory == 'project'){
+              return ProjectTab;
           }
         };
 

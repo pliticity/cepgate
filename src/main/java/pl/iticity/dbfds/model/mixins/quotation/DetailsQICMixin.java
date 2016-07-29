@@ -7,7 +7,4 @@ import pl.iticity.dbfds.security.Principal;
 @JsonIgnoreProperties(value = {"domain","principal"})
 public abstract class DetailsQICMixin {
 
-    @JsonIgnoreProperties(value = {"password", "lastName", "firstName", "country", "phone", "company", "role", "domain","url","active","acronym","creationDate"})
-    abstract Principal getManager();
-
 }

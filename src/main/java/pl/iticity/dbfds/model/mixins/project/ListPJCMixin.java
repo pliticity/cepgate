@@ -1,9 +1,9 @@
-package pl.iticity.dbfds.model.mixins.quotation;
+package pl.iticity.dbfds.model.mixins.project;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pl.iticity.dbfds.security.Principal;
 
 @JsonIgnoreProperties(value = {"domain","principal"})
-public abstract class ListQICMixin {
+public abstract class ListPJCMixin {
 
 }
