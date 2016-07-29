@@ -2,10 +2,12 @@ package pl.iticity.dbfds.service.product.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.product.ProductState;
 import pl.iticity.dbfds.repository.product.PICRepository;
+import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.product.PICService;
@@ -20,11 +22,27 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
     @Autowired
     private DomainService domainService;
 
+    @Autowired
+    private ClassificationService classificationService;
+
     @Override
     public ProductInformationCarrier savePIC(ProductInformationCarrier pic) {
         pic.setDomain(PrincipalUtils.getCurrentDomain());
         pic.setPrincipal(PrincipalUtils.getCurrentPrincipal());
-        return repo.save(pic);
+        repo.save(pic);
+        if (pic.getProductId() != null && !classificationService.exists(pic.getProductId(), null)) {
+            Classification classification = new Classification();
+            classification.setId("-1");
+            classification.setDomain(pic.getDomain());
+            classification.setActive(true);
+            classification.setPrincipal(pic.getPrincipal());
+            classification.setRemoved(false);
+            classification.setType("Product Model");
+            classification.setName(pic.getName() != null ? pic.getName() : "PRODUCT HAD NO NAME");
+            classification.setClassificationId(pic.getProductId() != null ? pic.getProductId() : "PRODUCT HAD NO ID");
+            classificationService.addClassification(classification, pic.getDomain());
+        }
+        return pic;
     }
 
     @Override
