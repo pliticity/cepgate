@@ -30,6 +30,7 @@
 
     <context:component-scan base-package="pl.iticity.dbfds.controller"/>
 
+    <mvc:resources mapping="/favicon.ico" location="/static/img/app/favicon.ico"/>
     <mvc:resources mapping="/static/**" location="/static/"/>
     <mvc:resources mapping="/partials/**" location="/partials/"/>
 

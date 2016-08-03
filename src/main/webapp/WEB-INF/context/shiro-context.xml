@@ -20,6 +20,7 @@
         </property>-->
         <property name="filterChainDefinitions">
             <value>
+                /favicon.ico = anon
                 /static/** = anon
                 /partials/** = anon
                 /auth/** = anon
