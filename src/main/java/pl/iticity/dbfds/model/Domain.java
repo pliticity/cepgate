@@ -33,6 +33,8 @@ public class Domain{
 
     private long lastMasterProductNumber;
 
+    private long lastMasterQuotationNumber;
+
     @Transient
     private Principal owner;
 
@@ -156,5 +158,13 @@ public class Domain{
 
     public void setLastMasterProductNumber(long lastMasterProductNumber) {
         this.lastMasterProductNumber = lastMasterProductNumber;
+    }
+
+    public long getLastMasterQuotationNumber() {
+        return lastMasterQuotationNumber;
+    }
+
+    public void setLastMasterQuotationNumber(long lastMasterQuotationNumber) {
+        this.lastMasterQuotationNumber = lastMasterQuotationNumber;
     }
 }

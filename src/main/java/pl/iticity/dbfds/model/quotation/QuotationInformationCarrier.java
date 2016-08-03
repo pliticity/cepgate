@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.model.quotation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
@@ -30,9 +31,8 @@ public class QuotationInformationCarrier extends Scoped {
 
     private String name;
 
-    private String createdBy;
-
-    private String manager;
+    @DBRef
+    private Principal qicManager;
 
     private String clientNumber;
 
@@ -52,6 +52,8 @@ public class QuotationInformationCarrier extends Scoped {
 
     private String customerInspectionDate;
 
+    private String masterNumber;
+
     private String value;
 
     private String cost;
@@ -68,7 +70,8 @@ public class QuotationInformationCarrier extends Scoped {
 
     private String deliveryDate;
 
-    private String creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date creationDate;
 
     private String tba;
 
@@ -98,10 +101,6 @@ public class QuotationInformationCarrier extends Scoped {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getManager() {
-        return manager;
     }
 
     public String getValue() {
@@ -264,24 +263,12 @@ public class QuotationInformationCarrier extends Scoped {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 
     public Classification getClassification() {
@@ -290,5 +277,21 @@ public class QuotationInformationCarrier extends Scoped {
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    public String getMasterNumber() {
+        return masterNumber;
+    }
+
+    public void setMasterNumber(String masterNumber) {
+        this.masterNumber = masterNumber;
+    }
+
+    public Principal getQicManager() {
+        return qicManager;
+    }
+
+    public void setQicManager(Principal qicManager) {
+        this.qicManager = qicManager;
     }
 }

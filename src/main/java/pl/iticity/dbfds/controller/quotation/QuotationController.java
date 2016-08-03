@@ -19,7 +19,7 @@ public class QuotationController extends BaseController {
     public
     @ResponseBody
     String getNewQuotation() {
-        return convertToString(QuotationInformationCarrier.class, DetailsQICMixin.class, new QuotationInformationCarrier());
+        return convertToString(QuotationInformationCarrier.class, DetailsQICMixin.class, qicService.newQIC());
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

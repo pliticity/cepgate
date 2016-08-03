@@ -145,7 +145,7 @@
                 <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'creationDate'}">
                     <label class="col-xs-6 control-label">Quotation Creation Date</label>
                     <div class="col-xs-6">
-                        <input name="creationDate" class="form-control" ng-model="ctrl.quotation.creationDate"/>
+                        <input ng-readonly="true" name="creationDate" disabled class="disabled form-control" ng-model="ctrl.quotation.creationDate"/>
                     </div>
                 </div>
             </div>
@@ -165,10 +165,10 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'createdBy'}">
+                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'principal'}">
                     <label class="col-xs-6 control-label">Quotation Created By</label>
                     <div class="col-xs-6">
-                        <input name="createdBy" class="form-control" ng-model="ctrl.quotation.createdBy"/>
+                        <input ng-readonly="true" name="principal" disabled class="disabled form-control" ng-model="ctrl.quotation.principal.email"/>
                     </div>
                 </div>
             </div>
@@ -188,10 +188,12 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'manager'}">
+                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'qicManager'}">
                     <label class="col-xs-6 control-label">Quotation Manager</label>
                     <div class="col-xs-6">
-                        <input name="manager" class="form-control" ng-model="ctrl.quotation.manager"/>
+                        <select name="qicManager" class="form-control" ng-model="ctrl.quotation.qicManager.id">
+                           <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -211,10 +213,10 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'value'}">
-                    <label class="col-xs-6 control-label">Quotation Value</label>
+                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'masterNumber'}">
+                    <label class="col-xs-6 control-label">Master Quotation Number</label>
                     <div class="col-xs-6">
-                        <input name="value" class="form-control" ng-model="ctrl.quotation.value"/>
+                        <input ng-readonly="true" name="masterNumber" disabled class="disabled form-control" ng-model="ctrl.quotation.masterNumber"/>
                     </div>
                 </div>
             </div>
