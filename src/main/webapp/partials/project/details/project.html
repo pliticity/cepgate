@@ -145,7 +145,7 @@
                 <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'creationDate'}">
                     <label class="col-xs-6 control-label">Project Creation Date</label>
                     <div class="col-xs-6">
-                        <input name="creationDate" class="form-control" ng-model="ctrl.project.creationDate"/>
+                        <input ng-readonly="true" name="creationDate" disabled class="disabled form-control" ng-model="ctrl.project.creationDate"/>
                     </div>
                 </div>
             </div>
@@ -165,10 +165,10 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'createdBy'}">
+                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'principal'}">
                     <label class="col-xs-6 control-label">Project Created By</label>
                     <div class="col-xs-6">
-                        <input name="createdBy" class="form-control" ng-model="ctrl.project.createdBy"/>
+                        <input ng-readonly="true" name="principal" disabled class="disabled form-control" ng-model="ctrl.project.principal.email"/>
                     </div>
                 </div>
             </div>
@@ -188,10 +188,12 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'manager'}">
+                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'pjcManager'}">
                     <label class="col-xs-6 control-label">Project Manager</label>
                     <div class="col-xs-6">
-                        <input name="manager" class="form-control" ng-model="ctrl.project.manager"/>
+                        <select name="pjcManager" class="form-control" ng-model="ctrl.project.pjcManager.id">
+                            <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -211,10 +213,10 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'value'}">
-                    <label class="col-xs-6 control-label">Project Value</label>
+                <div class="form-group" cg-validate="{form: ctrl.projectForm, field: 'masterNumber'}">
+                    <label class="col-xs-6 control-label">Master Project Number</label>
                     <div class="col-xs-6">
-                        <input name="value" class="form-control" ng-model="ctrl.project.value"/>
+                        <input ng-readonly="true" name="masterNumber" disabled class="disabled form-control" ng-model="ctrl.project.masterNumber"/>
                     </div>
                 </div>
             </div>

@@ -1,14 +1,17 @@
 package pl.iticity.dbfds.model.project;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Scoped;
+import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "projects")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -28,9 +31,8 @@ public class ProjectInformationCarrier extends Scoped {
 
     private String name;
 
-    private String createdBy;
-
-    private String manager;
+    @DBRef
+    private Principal pjcManager;
 
     private String clientNumber;
 
@@ -52,6 +54,8 @@ public class ProjectInformationCarrier extends Scoped {
 
     private String value;
 
+    private String masterNumber;
+
     private String cost;
 
     private String grossMargin;
@@ -66,7 +70,8 @@ public class ProjectInformationCarrier extends Scoped {
 
     private String deliveryDate;
 
-    private String creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date creationDate;
 
     private String tba;
 
@@ -96,10 +101,6 @@ public class ProjectInformationCarrier extends Scoped {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getManager() {
-        return manager;
     }
 
     public String getValue() {
@@ -262,31 +263,35 @@ public class ProjectInformationCarrier extends Scoped {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setManager(String manager) {
-        this.manager = manager;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public Classification getClassification() {
         return classification;
     }
 
     public void setClassification(Classification classification) {
         this.classification = classification;
+    }
+
+    public String getMasterNumber() {
+        return masterNumber;
+    }
+
+    public void setMasterNumber(String masterNumber) {
+        this.masterNumber = masterNumber;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Principal getPjcManager() {
+        return pjcManager;
+    }
+
+    public void setPjcManager(Principal pjcManager) {
+        this.pjcManager = pjcManager;
     }
 }

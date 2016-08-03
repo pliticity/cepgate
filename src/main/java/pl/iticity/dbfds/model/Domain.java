@@ -35,6 +35,8 @@ public class Domain{
 
     private long lastMasterQuotationNumber;
 
+    private long lastMasterProjectNumber;
+
     @Transient
     private Principal owner;
 
@@ -166,5 +168,13 @@ public class Domain{
 
     public void setLastMasterQuotationNumber(long lastMasterQuotationNumber) {
         this.lastMasterQuotationNumber = lastMasterQuotationNumber;
+    }
+
+    public long getLastMasterProjectNumber() {
+        return lastMasterProjectNumber;
+    }
+
+    public void setLastMasterProjectNumber(long lastMasterProjectNumber) {
+        this.lastMasterProjectNumber = lastMasterProjectNumber;
     }
 }
