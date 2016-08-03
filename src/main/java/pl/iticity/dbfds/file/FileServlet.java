@@ -68,7 +68,7 @@ public class FileServlet implements Servlet {
                 filePath = dataDir + fileInfo.getPath() + fileInfo.getSymbol();
                 String name = fileService.createFileDownloadName(documentInfoRepository.findByFiles_Id(fileInfo.getId()),fileInfo.getName());
                 servletResponse.setContentType(fileInfo.getType());
-                ((HttpServletResponse)servletResponse).setHeader("Content-Disposition", "attachment;filename=".concat(name));
+                ((HttpServletResponse)servletResponse).setHeader("Content-Disposition", "attachment;filename=\"".concat(name)+"\"");
             }
         }
         if (filePath != null) {

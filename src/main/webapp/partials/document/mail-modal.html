@@ -14,13 +14,41 @@
                         <input class="form-control" id="subject"
                                ng-model="mail.subject" required=""/>
                     </div>
+                </div>
+                <div class="row" ng-if="transmittal==null || transmittal==false">
                     <label for="recipient" class="col-xs-3 control-label">Recipient</label>
-                    <div class="col-xs-9" ng-controller="PrincipalListController as ctrl" ng-init="currentPrincipal()">
+                    <div class="col-xs-9" ng-controller="PrincipalListController as ctrl"
+                         ng-init="currentPrincipal()">
                         <select id="recipient" class="form-control" ng-model="mail.recipient">
                             <option ng-repeat="p in principals" value="{{p.email}}">{{p.email}}</option>
                         </select>
                     </div>
-
+                </div>
+                <div class="row" ng-if="transmittal==true">
+                    <label for="recipient" class="col-xs-3 control-label">Recipient Company</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" name="recipient" ng-model="mail.company"/>
+                    </div>
+                </div>
+                <div class="row" ng-if="transmittal==true">
+                    <label for="recipient" class="col-xs-3 control-label">Recipient Address</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" name="recipient" ng-model="mail.address"/>
+                    </div>
+                </div>
+                <div class="row" ng-if="transmittal==true">
+                    <label for="recipient" class="col-xs-3 control-label">Recipient Phone</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" name="recipient" ng-model="mail.phone"/>
+                    </div>
+                </div>
+                <div class="row" ng-if="transmittal==true">
+                    <label for="recipient" class="col-xs-3 control-label">Recipient Email</label>
+                    <div class="col-xs-9">
+                        <input class="form-control" name="recipient" ng-model="mail.recipient"/>
+                    </div>
+                </div>
+                <div class="row">
                     <label for="message" class="col-xs-3 control-label">Message</label>
                     <div class="col-xs-9">
                         <textarea id="message" class="form-control" ng-model="mail.message"/>

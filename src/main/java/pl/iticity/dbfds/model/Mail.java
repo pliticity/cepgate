@@ -8,6 +8,12 @@ public class Mail {
 
     private String message;
 
+    private String company;
+
+    private String address;
+
+    private String phone;
+
     private String[] files;
 
     public String getSubject() {
@@ -40,5 +46,29 @@ public class Mail {
 
     public void setFiles(String[] files) {
         this.files = files;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
