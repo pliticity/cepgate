@@ -2,8 +2,7 @@ package pl.iticity.dbfds.service.project.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
 import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.project.PJCRepository;
@@ -16,6 +15,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarrier,String,PJCRepository> implements PJCService {
@@ -62,5 +62,13 @@ public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarr
         d.setLastMasterProjectNumber(id);
         domainService.save(d);
         return id;
+    }
+
+    @Override
+    public List<Link> linkDocument(String linkFromId, DocumentInfo linkTo){
+        ProjectInformationCarrier pjcFrom = repo.findOne(linkFromId);
+        pjcFrom.getLinks().add(new Link(linkTo, LinkType.LINK));
+        repo.save(pjcFrom);
+        return repo.findOne(pjcFrom.getId()).getLinks();
     }
 }

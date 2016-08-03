@@ -2,7 +2,7 @@
 
     var project = angular.module('project');
 
-    project.controller('ProjectController', ['$http', '$scope','principalService','projectService','classificationService', function ($http, $scope,principalService,projectService,classificationService) {
+    project.controller('ProjectController', ['$http', '$scope','principalService','projectService','classificationService','$window', function ($http, $scope,principalService,projectService,classificationService,$window) {
 
         var ctrl = this;
 
@@ -19,6 +19,10 @@
             if(projectService.saveProject(ctrl.projectForm,ctrl.project)==true && ctrl.project.id == null){
                 ctrl.project = projectService.getNew();
             };
+        };
+
+        ctrl.openDic = function(id){
+            $window.location.href = '/document#/dic/'+id;
         };
 
         // INIT FUNCTIONS

@@ -2,8 +2,10 @@ package pl.iticity.dbfds.model.project;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.Link;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -12,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "projects")
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -78,6 +81,8 @@ public class ProjectInformationCarrier extends Scoped {
     private String deliveryAddress;
 
     private String comments;
+
+    private List<Link> links;
 
     public String getId() {
         return id;
@@ -293,5 +298,16 @@ public class ProjectInformationCarrier extends Scoped {
 
     public void setPjcManager(Principal pjcManager) {
         this.pjcManager = pjcManager;
+    }
+
+    public List<Link> getLinks() {
+        if(links==null){
+            links = Lists.newArrayList();
+        }
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }
