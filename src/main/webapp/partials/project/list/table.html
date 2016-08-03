@@ -11,14 +11,11 @@
         <th st-sort="name">Project start date</th>
         <th st-sort="name">Project end date</th>
         <th st-sort="name">Project value</th>
-        <th st-sort="name"># Number of products</th>
-        <th st-sort="name"># Number of documents</th>
-        <th st-sort="name"># Number of Quality</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td colspan="11"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
+        <td colspan="8"><input st-search placeholder="Search" class="input-sm form-control" type="search"/>
         </td>
     </tr>
     <tr cg-add-tab="{open : true, id: row.id, name: row.name, tabsId:'project-tabs', factory:'project',onChildren:true, except: [0]}" class="animate-row" ng-repeat="row in displayCollection">
@@ -30,21 +27,18 @@
         <td>{{row.startDate}}</td>
         <td>{{row.endDate}}</td>
         <td>{{row.value}}</td>
-        <td></td>
-        <td></td>
-        <td></td>
     </tr>
     </tbody>
     <tfoot>
     <tr>
-        <td colspan="10"></td>
+        <td colspan="7"></td>
         <td colspan="1" class="text-right">
             <label for="itemsPerPage">Items per page</label>
             <input id="itemsPerPage" class="form-control input-sm" ng-model="ctrl.settings.itemsPerPage" ng-change="ctrl.settings.update()"/>
         </td>
     </tr>
     <tr>
-        <td colspan="11" class="text-center">
+        <td colspan="8" class="text-center">
             <div st-pagination="" st-items-by-page="ctrl.settingsN.itemsPerPage"
                  st-template="/partials/document/list/pagination.html"></div>
         </td>
