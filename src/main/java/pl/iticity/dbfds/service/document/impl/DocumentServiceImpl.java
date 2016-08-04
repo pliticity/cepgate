@@ -21,7 +21,9 @@ import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.AbstractService;
+import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.TemplateService;
@@ -47,6 +49,12 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
 
     @Autowired
     private TemplateService templateService;
+
+    @Autowired
+    private LinkService linkService;
+
+    @Autowired
+    private ClassificationService classificationService;
 
     public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -116,10 +124,19 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         repo.save(documentInfo);
     }
 
-    public DocumentInfo create(DocumentInfo documentInfo) {
+    public DocumentInfo create(DocumentInfo doc) {
         Domain current = PrincipalUtils.getCurrentDomain();
-        documentInfo.setDomain(current);
-        return repo.save(documentInfo);
+        doc.setDomain(current);
+        doc.setClassification(classificationService.findById(doc.getClassification().getId()));
+        doc = repo.save(doc);
+        if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
+            try {
+                linkService.createLink(doc.getClassification().getModelId(), (Class<? extends Linkable>) Class.forName(doc.getClassification().getModelClazz()),doc);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return doc;
     }
 
     public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
@@ -154,7 +171,16 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
     public DocumentInfo save(DocumentInfo documentInfo) {
         DocumentInfo doc = repo.findOne(documentInfo.getId());
         documentInfo.setRevisions(doc.getRevisions());
-        return super.save(documentInfo);
+        super.save(documentInfo);
+        doc = repo.findOne(documentInfo.getId());
+        if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
+            try {
+                linkService.createLink(doc.getClassification().getModelId(), (Class<? extends Linkable>) Class.forName(doc.getClassification().getModelClazz()),doc);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return doc;
     }
 
     public Long getNextMasterDocumentNumber(Domain domain) {

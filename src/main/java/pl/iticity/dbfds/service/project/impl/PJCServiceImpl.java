@@ -41,6 +41,8 @@ public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarr
             classification.setType("Project");
             classification.setName(pjc.getName() != null ? pjc.getName() : "PROJECT HAD NO NAME");
             classification.setClassificationId(pjc.getSymbol());
+            classification.setModelId(pjc.getId());
+            classification.setModelClazz(ProjectInformationCarrier.class.getName());
             classificationService.addClassification(classification, pjc.getDomain());
         }
         return pjc;

@@ -48,6 +48,10 @@ public class Classification extends Scoped{
 
     private String type;
 
+    private String modelId;
+
+    private String modelClazz;
+
     @DBRef
     @JsonIgnoreProperties(value = {"parents","removed","defaultValue","type","active","domain","parentIds"})
     private List<Classification> parents;
@@ -166,5 +170,21 @@ public class Classification extends Scoped{
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
+    }
+
+    public String getModelId() {
+        return modelId;
+    }
+
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
+    }
+
+    public String getModelClazz() {
+        return modelClazz;
+    }
+
+    public void setModelClazz(String modelClazz) {
+        this.modelClazz = modelClazz;
     }
 }

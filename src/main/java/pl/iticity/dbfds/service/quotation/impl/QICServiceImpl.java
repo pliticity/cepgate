@@ -39,6 +39,8 @@ public class QICServiceImpl extends AbstractScopedService<QuotationInformationCa
             classification.setType("Quotation");
             classification.setName(qic.getName() != null ? qic.getName() : "QUOTATION HAD NO NAME");
             classification.setClassificationId(qic.getSymbol());
+            classification.setModelId(qic.getId());
+            classification.setModelClazz(QuotationInformationCarrier.class.getName());
             classificationService.addClassification(classification, qic.getDomain());
         }
         return qic;

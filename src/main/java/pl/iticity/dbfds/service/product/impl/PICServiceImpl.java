@@ -6,6 +6,7 @@ import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.product.ProductState;
+import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.product.PICRepository;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
@@ -40,6 +41,8 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
             classification.setType("Product Model");
             classification.setName(pic.getName() != null ? pic.getName() : "PRODUCT HAD NO NAME");
             classification.setClassificationId(pic.getProductId() != null ? pic.getProductId() : "PRODUCT HAD NO ID");
+            classification.setModelId(pic.getId());
+            classification.setModelClazz(ProductInformationCarrier.class.getName());
             classificationService.addClassification(classification, pic.getDomain());
         }
         return pic;
