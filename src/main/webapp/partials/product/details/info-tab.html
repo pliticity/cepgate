@@ -1,0 +1,356 @@
+<div class="with-top-padding">
+    <span us-spinner="{radius:30, width:8, length: 16}"></span>
+
+    <form name="ctrl.productForm" class="form-horizontal">
+
+        <!-- FIRST ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'classificationName'}">
+                    <label class="col-xs-6 control-label">Classification Name</label>
+                    <div class="col-xs-6">
+                        <select ng-change="ctrl.onClassificationSelected()" name="classificationName"
+                                ng-model="ctrl.product.classification.id"
+                                class="form-control" required="">
+                            <option ng-repeat="c in ctrl.classifications" value="{{c.id}}">{{c.name}}
+                                ({{c.classificationId}})
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'classificationId'}">
+                    <label class="col-xs-6 control-label">Classification Id</label>
+                    <div class="col-xs-6">
+                        <input ng-readonly="true" name="classificationId" disabled class="disabled form-control"
+                               ng-model="ctrl.product.classification.classificationId" required=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SECOND ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'name'}">
+                    <label class="col-xs-6 control-label">Name</label>
+                    <div class="col-xs-6">
+                        <input name="name" class="form-control" ng-model="ctrl.product.name"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productId'}">
+                    <label class="col-xs-6 control-label">ID</label>
+                    <div class="col-xs-6">
+                        <input name="productId" class="form-control" ng-model="ctrl.product.productId"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- THIRD ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'weight'}">
+                    <label class="col-xs-6 control-label">Weight [kg]</label>
+                    <div class="col-xs-6">
+                        <input name="weight" class="form-control" ng-model="ctrl.product.weight"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'codeA'}">
+                    <label class="col-xs-6 control-label">Product Code A</label>
+                    <div class="col-xs-6">
+                        <input name="codeA" class="form-control" ng-model="ctrl.product.codeA"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOURTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'color'}">
+                    <label class="col-xs-6 control-label">Color</label>
+                    <div class="col-xs-6">
+                        <input name="color" class="form-control" ng-model="ctrl.product.color"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'codeB'}">
+                    <label class="col-xs-6 control-label">Product Code B</label>
+                    <div class="col-xs-6">
+                        <input name="codeB" class="form-control" ng-model="ctrl.product.codeB"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FIFTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'serialNumber'}">
+                    <label class="col-xs-6 control-label">Serial Number</label>
+                    <div class="col-xs-6">
+                        <input name="serialNumber" ng-readonly="true" disabled class="disabled form-control" ng-model="ctrl.product.serialNumber"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'masterProductNumber'}">
+                    <label class="col-xs-6 control-label">Master Product Number</label>
+                    <div class="col-xs-6">
+                        <input ng-readonly="true" disabled name="masterProductNumber" class="disabled form-control"
+                               ng-model="ctrl.product.masterProductNumber" required=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SIXTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'hsCode'}">
+                    <label class="col-xs-6 control-label">HS Code</label>
+                    <div class="col-xs-6">
+                        <input name="hsCode" class="form-control" ng-model="ctrl.product.hsCode"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'creationDate'}">
+                    <label class="col-xs-6 control-label">Product Creation Date</label>
+                    <div class="col-xs-6">
+                        <input ng-readonly="true" disabled name="creationDate" class="disabled form-control"
+                               ng-model="ctrl.product.creationDate" required=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SEVENTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'responsibleUser'}">
+                    <label class="col-xs-6 control-label">Product Responsible</label>
+                    <div class="col-xs-6">
+                        <select name="responsibleUser"
+                                ng-model="ctrl.product.responsibleUser.id"
+                                class="form-control">
+                            <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'createdBy'}">
+                    <label class="col-xs-6 control-label">Product Created By</label>
+                    <div class="col-xs-6">
+                        <input ng-readonly="true" disabled name="createdBy" class="disabled form-control"
+                               ng-model="ctrl.product.principal.email" required=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- EIGHT ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'owner'}">
+                    <label class="col-xs-6 control-label">Product Manager</label>
+                    <div class="col-xs-6">
+                        <select name="owner"
+                                ng-model="ctrl.product.owner.id"
+                                class="form-control">
+                            <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'country'}">
+                    <label class="col-xs-6 control-label">Country of Origin</label>
+                    <div class="col-xs-6">
+                        <input name="country" class="form-control" ng-model="ctrl.product.country"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- NINTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'deliveryLocation'}">
+                    <label class="col-xs-6 control-label">Delivery Location</label>
+                    <div class="col-xs-6">
+                        <input name="deliveryLocation" class="form-control" ng-model="ctrl.product.deliveryLocation"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'manufacturingLocation'}">
+                    <label class="col-xs-6 control-label">Manufacturing Location</label>
+                    <div class="col-xs-6">
+                        <input name="manufacturingLocation" class="form-control"
+                               ng-model="ctrl.product.manufacturingLocation"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TENTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productLifeCycle'}">
+                    <label class="col-xs-6 control-label">Product Life Cycle</label>
+                    <div class="col-xs-6">
+                        <select name="productLifeCycle" class="form-control" ng-model="ctrl.product.productLifeCycle">
+                            <option value="DEVELOPMENT">Development</option>
+                            <option value="INTRODUCTION">Introduction</option>
+                            <option value="GROWTH">Growth</option>
+                            <option value="MATURITY">Maturity</option>
+                            <option value="DECLINE">Decline</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'state'}">
+                    <label class="col-xs-6 control-label">State</label>
+                    <div class="col-xs-6">
+                        <select name="state" class="disabled form-control"
+                                ng-model="ctrl.product.state">
+                            <option value="IN_PROGRESS">In Progress</option>
+                            <option value="ACTIVE">Active</option>
+                            <option value="OBSOLETE">Obsolete</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ELEVENTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'deliveryTime'}">
+                    <label class="col-xs-6 control-label">Delivery Time [weeks]</label>
+                    <div class="col-xs-6">
+                        <input name="deliveryTime" class="form-control" ng-model="ctrl.product.deliveryTime"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'internalComments'}">
+                    <label class="col-xs-6 control-label">Internal Comments</label>
+                    <div class="col-xs-6">
+                        <input name="internalComments" class="form-control" ng-model="ctrl.product.internalComments"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TWELFTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'oneLineDescription'}">
+                    <label class="col-xs-6 control-label">One Line Description</label>
+                    <div class="col-xs-6">
+                        <input name="oneLineDescription" class="form-control"
+                               ng-model="ctrl.product.oneLineDescription"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productOwner'}">
+                    <label class="col-xs-6 control-label">Product Owner</label>
+                    <div class="col-xs-6">
+                        <select name="productOwner" class="form-control" ng-model="ctrl.product.productOwner">
+                            <option value="PROPRIETARY">Proprietary</option>
+                            <option value="THIRD_PARTY_PLUS">Third Party with added value</option>
+                            <option value="THIRD_PARTY">Third Party</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- THIRTEENTH ROW -->
+
+        <div class="row">
+
+            <div class="col-xs-12">
+                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'salesText'}">
+                    <label class="col-xs-3 control-label">Sales Text</label>
+                    <div class="col-xs-9">
+                        <textarea name="salesText" class="form-control" ng-model="ctrl.product.salesText"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="row">
+
+            <div class="col-xs-12 text-right">
+                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveProduct()">Save</button>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
