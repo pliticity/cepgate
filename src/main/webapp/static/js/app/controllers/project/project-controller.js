@@ -21,10 +21,6 @@
             };
         };
 
-        ctrl.openDic = function(id){
-            $window.location.href = '/document#/dic/'+id;
-        };
-
         // INIT FUNCTIONS
 
         ctrl.setProject = function(projectId){

@@ -63,12 +63,4 @@ public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarr
         domainService.save(d);
         return id;
     }
-
-    @Override
-    public List<Link> linkDocument(String linkFromId, DocumentInfo linkTo){
-        ProjectInformationCarrier pjcFrom = repo.findOne(linkFromId);
-        pjcFrom.getLinks().add(new Link(linkTo, LinkType.LINK));
-        repo.save(pjcFrom);
-        return repo.findOne(pjcFrom.getId()).getLinks();
-    }
 }

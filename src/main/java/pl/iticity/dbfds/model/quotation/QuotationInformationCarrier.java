@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.Link;
+import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -12,10 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "quotations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QuotationInformationCarrier extends Scoped {
+public class QuotationInformationCarrier extends Scoped implements Linkable {
 
     @Id
     @GeneratedValue
@@ -78,6 +81,18 @@ public class QuotationInformationCarrier extends Scoped {
     private String deliveryAddress;
 
     private String comments;
+
+    private List<Link> links;
+
+    @Override
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    @Override
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
 
     public String getId() {
         return id;

@@ -1,12 +1,12 @@
-<div ng-controller="LinkController as ctrl" class="modal fade" id="link-doc-modal-{{documentInfo.id}}"
+<div class="modal fade" id="link-modal-{{linkCtrl.linkable.id}}"
      role="dialog"
-     aria-labelledby="link-doc-modal-label-{{documentInfo.id}}">
+     aria-labelledby="link-modal-label-{{linkCtrl.linkable.id}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="link-doc-modal-label-{{documentInfo.id}}">Link document</h4>
+                <h4 class="modal-title" id="link-modal-label-{{linkCtrl.linkable.id}}">Link document</h4>
             </div>
             <div class="modal-body">
                 <div layout="column">
@@ -15,18 +15,18 @@
                             <p>Find <code>Document</code> by its number.
                             </p>
                             <md-autocomplete
-                                    md-search-text="ctrl.searchText"
-                                    md-items="item in ctrl.querySearch(ctrl.searchText)"
+                                    md-search-text="linkCtrl.searchText"
+                                    md-items="item in linkCtrl.querySearch(linkCtrl.searchText)"
                                     md-item-text="item.documentName"
-                                    md-selected-item="ctrl.selectedItem"
+                                    md-selected-item="linkCtrl.selectedItem"
                                     md-min-length="3"
                                     placeholder="Link to which document?">
                                 <md-item-template>
-                                <div style="position: relative;z-index:100;" md-highlight-text="ctrl.searchText"
+                                <div style="position: relative;z-index:10;" md-highlight-text="linkCtrl.searchText"
                                       md-highlight-flags="^i">{{item.documentName}}</div>
                                 </md-item-template>
                                 <md-not-found>
-                                    No documents matching "{{ctrl.searchText}}" were found.
+                                    No documents matching "{{linkCtrl.searchText}}" were found.
                                 </md-not-found>
                             </md-autocomplete>
                         </form>
@@ -36,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.linkDoc(documentInfo.id)">Link
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="linkCtrl.link()">Link
                 </button>
             </div>
         </div>

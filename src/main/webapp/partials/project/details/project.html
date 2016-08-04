@@ -13,7 +13,7 @@
                 <ng-include src="'/partials/project/details/info-tab.html'"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="project-docs-{{ctrl.project.id}}">
-                <ng-include src="'/partials/project/details/link-tab.html'"></ng-include>
+                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.project,'project')" src="'/partials/common/links.html'"></ng-include>
             </div>
         </div>
 

@@ -236,13 +236,6 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         return objectMapper.writeValueAsString(documents);
     }
 
-    public List<Link> linkDocuments(String linkFromId, DocumentInfo linkTo){
-        DocumentInfo from = repo.findOne(linkFromId);
-        from.getLinks().add(new Link(linkTo,LinkType.LINK));
-        repo.save(from);
-        return repo.findOne(from.getId()).getLinks();
-    }
-
     public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
         DocumentTemplate template = templateService.findById(tId);
         AuthorizationProvider.isInDomain(template.getDomain());

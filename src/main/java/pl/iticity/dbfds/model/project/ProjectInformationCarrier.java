@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Link;
+import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "projects")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProjectInformationCarrier extends Scoped {
+public class ProjectInformationCarrier extends Scoped implements Linkable{
 
     @Id
     @GeneratedValue

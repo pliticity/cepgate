@@ -1,0 +1,45 @@
+<table class="table table-condensed table-hover">
+    <thead>
+    <tr>
+        <th colspan="7" class="text-right">
+            <div data-toggle="modal" data-target="#link-modal-{{linkCtrl.linkable.id}}"
+                 class="btn btn-info btn-xs">Link document
+            </div>
+        </th>
+    </tr>
+    <tr class="info">
+        <th>Link Type</th>
+        <th>Classification ID</th>
+        <th>Classification Name</th>
+        <th>Document Number</th>
+        <th>Revision</th>
+        <th>Document Title</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="link in linkCtrl.linkable.links">
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.linkType}}</td>
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
+            {{link.documentInfo.classification.classificationId}}
+        </td>
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
+            {{link.documentInfo.classification.name}}
+        </td>
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
+            {{link.documentInfo.documentNumber}}
+        </td>
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
+            {{link.documentInfo.revision.effective}}
+        </td>
+        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.documentName}}
+        </td>
+        <td>
+            <button class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+<ng-include src="'/partials/common/link-modal.html'"></ng-include>

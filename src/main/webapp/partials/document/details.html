@@ -351,7 +351,7 @@
             <ng-include src="'/partials/document/comments.html'"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="links-{{documentInfo.id}}">
-            <ng-include src="'/partials/document/links.html'"></ng-include>
+            <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/links.html'" ng-init="linkCtrl.setLinkable(documentInfo,'document')"></ng-include>
         </div>
     </div>
 

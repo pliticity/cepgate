@@ -53,7 +53,5 @@ public interface DocumentService extends Service<DocumentInfo> {
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException;
 
-    public List<Link> linkDocuments(String linkFromId, DocumentInfo linkTo);
-
     public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException;
 }

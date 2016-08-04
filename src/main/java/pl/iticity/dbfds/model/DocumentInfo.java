@@ -29,7 +29,7 @@ import java.util.List;
         }
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DocumentInfo {
+public class DocumentInfo implements Linkable{
 
     public enum Kind {
         INTERNAL, EXTERNAL;

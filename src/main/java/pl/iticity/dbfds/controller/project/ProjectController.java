@@ -9,6 +9,7 @@ import pl.iticity.dbfds.model.Link;
 import pl.iticity.dbfds.model.mixins.project.DetailsPJCMixin;
 import pl.iticity.dbfds.model.mixins.quotation.DetailsQICMixin;
 import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
+import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.project.PJCService;
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class ProjectController extends BaseController {
 
     @Autowired
     private PJCService pjcService;
+
+    @Autowired
+    private LinkService linkService;
 
     @RequestMapping(value = "", params = {"new"}, method = RequestMethod.GET)
     public
@@ -44,7 +48,13 @@ public class ProjectController extends BaseController {
     @RequestMapping(value = "/link/{pId}", method = RequestMethod.POST)
     public @ResponseBody
     List<Link> postLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody DocumentInfo linkTo){
-        return pjcService.linkDocument(pId,linkTo);
+        return linkService.createLink(pId,ProjectInformationCarrier.class,linkTo);
+    }
+
+    @RequestMapping(value = "/link/{pId}", method = RequestMethod.DELETE)
+    public @ResponseBody
+    List<Link> deleteLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody Link link){
+        return linkService.deleteLink(pId,ProjectInformationCarrier.class,link);
     }
 
 }

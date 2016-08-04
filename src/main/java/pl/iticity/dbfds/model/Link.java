@@ -57,4 +57,27 @@ public class Link {
     public void setLinkType(LinkType linkType) {
         this.linkType = linkType;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Link link = (Link) o;
+
+        if (!documentId.equals(link.documentId)) return false;
+        if (!documentName.equals(link.documentName)) return false;
+        if (!documentInfo.getId().equals(link.documentInfo.getId())) return false;
+        return linkType == link.linkType;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = documentId.hashCode();
+        result = 31 * result + documentName.hashCode();
+        result = 31 * result + documentInfo.getId().hashCode();
+        result = 31 * result + linkType.hashCode();
+        return result;
+    }
 }

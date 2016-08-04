@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.dto.DocToCopyDTO;
+import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
+import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.DocumentTypeService;
 import pl.iticity.dbfds.service.document.FileService;
@@ -43,6 +45,9 @@ public class DocumentController {
 
     @Autowired
     private DocumentTypeService documentTypeService;
+
+    @Autowired
+    private LinkService linkService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String getDocumentView() {
@@ -175,9 +180,16 @@ public class DocumentController {
         return service.autoCompleteDocument(docName);
     }
 
-    @RequestMapping(value = "/link/{docId}", method = RequestMethod.POST)
-    public @ResponseBody List<Link> postLinkDocuments(@PathVariable(value = "docId") String docId,@RequestBody DocumentInfo linkTo){
-        return service.linkDocuments(docId,linkTo);
+    @RequestMapping(value = "/link/{pId}", method = RequestMethod.POST)
+    public @ResponseBody
+    List<Link> postLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody DocumentInfo linkTo){
+        return linkService.createLink(pId,DocumentInfo.class,linkTo);
+    }
+
+    @RequestMapping(value = "/link/{pId}", method = RequestMethod.DELETE)
+    public @ResponseBody
+    List<Link> deleteLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody Link link){
+        return linkService.deleteLink(pId,DocumentInfo.class,link);
     }
 
     @RequestMapping(value = "/{id}/state/{state}", method = RequestMethod.PUT)

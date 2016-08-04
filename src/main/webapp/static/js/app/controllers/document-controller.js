@@ -237,7 +237,7 @@
         };
 
         $scope.get = function (documentId) {
-            Document.get({id: documentId}, function (res) {
+            $scope.documentInfo = Document.get({id: documentId}, function (res) {
                 $scope.documentInfo = res;
                 $scope.revision=false;
                 //$scope.documentInfo.creationDate = new Date($scope.documentInfo.creationDate);

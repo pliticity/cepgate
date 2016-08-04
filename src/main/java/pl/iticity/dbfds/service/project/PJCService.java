@@ -17,6 +17,4 @@ public interface PJCService extends ScopedService<ProjectInformationCarrier>{
 
     public Long getNextMasterNumber(Domain domain);
 
-    public List<Link> linkDocument(String linkFromId, DocumentInfo linkTo);
-
 }
