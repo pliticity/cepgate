@@ -5,9 +5,13 @@
 
     common.controller('HeaderController', ['$http', '$location', 'principalService', '$scope', function ($http, $location, principalService, $scope) {
 
+        var ctrl = this;
+
         $scope.admin = false;
         $scope.globalAdmin = false;
         $scope.domain = '';
+
+        ctrl.password;
 
         $scope.navigateToAdmin = function () {
             $location.path('/domain/' + $scope.domain);
@@ -41,6 +45,11 @@
             }).then(function (succ) {
                 $scope.globalAdmin = succ.data;
             });
+        };
+
+        ctrl.changePassword = function(){
+            $http({url:'/principal/password',method:'post',data:{password:ctrl.password}});
+            ctrl.password = null;
         };
 
         $scope.resolveDomain();

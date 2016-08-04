@@ -31,4 +31,6 @@ public interface PrincipalService extends Service<Principal>{
 
     public Principal addPrincipal(Principal principal,String domainId);
 
+    public void changePassword(Principal principal);
+
 }

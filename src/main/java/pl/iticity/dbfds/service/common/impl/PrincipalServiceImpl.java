@@ -2,6 +2,7 @@ package pl.iticity.dbfds.service.common.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -160,6 +161,15 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
         principal.setCreationDate(new Date());
         principal.setCompany(PrincipalUtils.getCurrentPrincipal().getCompany());
         return save(principal);
+    }
+
+    @Override
+    public void changePassword(Principal principal) {
+        if (StringUtils.isNotEmpty(principal.getPassword())) {
+            Principal p = PrincipalUtils.getCurrentPrincipal();
+            p.setPassword(PrincipalUtils.hashPassword(principal.getPassword()));
+            repo.save(p);
+        }
     }
 
 }

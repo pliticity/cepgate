@@ -82,4 +82,12 @@ public class PrincipalController {
         return principalService.acronymExistsInDomain(id,acronym,PrincipalUtils.getCurrentDomain());
     }
 
+    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    boolean postPassword(@RequestBody Principal principal) {
+        principalService.changePassword(principal);
+        return true;
+    }
+
 }
