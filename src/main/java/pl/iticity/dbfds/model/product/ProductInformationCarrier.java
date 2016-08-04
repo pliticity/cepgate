@@ -2,6 +2,7 @@ package pl.iticity.dbfds.model.product;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -89,6 +90,9 @@ public class ProductInformationCarrier extends Scoped implements Linkable{
 
     @Override
     public List<Link> getLinks() {
+        if(links==null){
+            links = Lists.newArrayList();
+        }
         return links;
     }
 
