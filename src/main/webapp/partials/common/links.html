@@ -35,7 +35,7 @@
         <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.documentName}}
         </td>
         <td>
-            <button class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete</button>
+            <button ng-disabled="link.documentInfo.classification.modelId!=null" class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete Link</button>
         </td>
     </tr>
     </tbody>

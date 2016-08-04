@@ -112,7 +112,27 @@
                         allAreEmpty = false;
                     }
                 });
-                return allAreEmpty;
+                if(allAreEmpty){
+                    var ids = [];
+                    $("table#" + $scope.tableId + " tr.st-selected").each(function (i, e) {
+                        ids.push($(e).attr("docId"));
+                    });
+
+                    var c = true;
+
+                    for(var i=0; i < $scope.documents.length ;i++){
+                        var e = $scope.documents[i];
+                        if(ids.containsObject(e.id)){
+                            if(e.classification.modelId!=null){
+                                c = false;
+                            }
+                        }
+                    }
+
+                    return c;
+                }else{
+                    return false;
+                }
             } else {
                 return false;
             }
