@@ -86,6 +86,13 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
         domain.setAccountNo("CG"+formatted);
         domainRepository.save(domain);
 
+        principal.setDomain(domain);
+        principal.setActive(true);
+        principal.setRole(Role.ADMIN);
+        principal.setCreationDate(new Date());
+
+        repo.save(principal);
+
         for(DocumentType documentType : DocumentType.getDefault()){
             documentType.setDomain(domain);
             documentType.setActive(true);
@@ -100,12 +107,7 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
             classificationService.save(classification);
         }
 
-        principal.setDomain(domain);
-        principal.setActive(true);
-        principal.setRole(Role.ADMIN);
-        principal.setCreationDate(new Date());
 
-        repo.save(principal);
         principal.getDomain().setNoOfUsers(findByDomain(domain).size());
 
         if(signin) {
