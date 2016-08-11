@@ -89,12 +89,14 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
         for(DocumentType documentType : DocumentType.getDefault()){
             documentType.setDomain(domain);
             documentType.setActive(true);
+            documentType.setPrincipal(principal);
             documentTypeService.save(documentType);
         }
 
         for(Classification classification : Classification.getDefault()){
             classification.setDomain(domain);
             classification.setActive(true);
+            classification.setPrincipal(principal);
             classificationService.save(classification);
         }
 
