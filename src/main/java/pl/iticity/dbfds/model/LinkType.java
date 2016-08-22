@@ -2,6 +2,6 @@ package pl.iticity.dbfds.model;
 
 public enum LinkType {
 
-    LINK, COPY, COPY_FROM,COPY_TO
+    PROJECT,PRODUCT,QUOTATION,DOCUMENT,LINK, COPY, COPY_FROM,COPY_TO
 
 }

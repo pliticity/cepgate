@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.service.common.impl;
 
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,10 +10,14 @@ import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Link;
 import pl.iticity.dbfds.model.LinkType;
 import pl.iticity.dbfds.model.Linkable;
+import pl.iticity.dbfds.model.product.ProductInformationCarrier;
+import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
+import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.document.DocumentService;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class LinkServiceImpl implements LinkService{
@@ -27,7 +32,10 @@ public class LinkServiceImpl implements LinkService{
     public List<Link> createLink(String id,Class<? extends Linkable> clazz, DocumentInfo doc) {
         doc = documentService.findById(doc.getId());
         Linkable linkable = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),clazz);
-        Link link = new Link(doc, LinkType.LINK);
+
+        LinkType linkType = DocumentInfo.class.equals(clazz) ? LinkType.DOCUMENT : LinkType.LINK;
+
+        Link link = new Link(doc, linkType);
         if(!linkable.getLinks().contains(link)){
             linkable.getLinks().add(link);
         }
