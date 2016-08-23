@@ -42,7 +42,7 @@
                 <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'name'}">
                     <label class="col-xs-6 control-label">Product Name</label>
                     <div class="col-xs-6">
-                        <input name="name" class="form-control" ng-model="ctrl.product.name"/>
+                        <input name="name" class="form-control" ng-model="ctrl.product.name" required="required"/>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productId'}">
                     <label class="col-xs-6 control-label">Product ID</label>
                     <div class="col-xs-6">
-                        <input name="productId" class="form-control" ng-model="ctrl.product.productId"/>
+                        <input name="productId" class="form-control" ng-model="ctrl.product.productId" required="required"/>
                     </div>
                 </div>
             </div>

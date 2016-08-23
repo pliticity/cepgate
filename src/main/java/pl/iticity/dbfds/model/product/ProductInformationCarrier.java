@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -37,8 +38,12 @@ public class ProductInformationCarrier extends Scoped implements Linkable{
     @DBRef
     private Classification classification;
 
+    @NotNull
+    @Size(min = 1)
     private String name;
 
+    @NotNull
+    @Size(min = 1)
     private String productId;
 
     private String weight;
