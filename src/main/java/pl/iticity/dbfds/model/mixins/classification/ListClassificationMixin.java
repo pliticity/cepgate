@@ -6,7 +6,7 @@ import pl.iticity.dbfds.security.Principal;
 
 import java.util.List;
 
-@JsonIgnoreProperties(value = {"removed","domain"})
+@JsonIgnoreProperties(value = {"removed","domain","principal"})
 public abstract class ListClassificationMixin {
 
     @JsonIgnoreProperties(value = {"parents","removed","defaultValue","type","active","domain","parentIds"})

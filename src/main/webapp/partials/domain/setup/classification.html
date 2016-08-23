@@ -38,7 +38,7 @@
                     <button ng-if="row.defaultValue == false" class="btn btn-warning btn-xs" data-toggle="modal"
                             data-target="#add-classification-modal-{{row.id}}">Edit
                     </button>
-                    <button ng-if="row.defaultValue == false" class="btn btn-danger btn-xs" ng-click="remove(row)">Delete
+                    <button ng-if="row.assigned == false && row.defaultValue == false" class="btn btn-danger btn-xs" ng-click="remove(row)">Delete
                     </button>
                     <div ng-if="row.defaultValue == false" ng-include="'/partials/domain/setup/add-classification-modal.html'" ng-controller="ClassificationController" ng-init="classification=row; getClassifications();"></div>
                 </td>

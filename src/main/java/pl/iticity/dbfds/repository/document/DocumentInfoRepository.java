@@ -5,6 +5,7 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import pl.iticity.dbfds.model.DocumentActivity;
 import pl.iticity.dbfds.model.DocumentInfo;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.repository.ClassifiableRepository;
 import pl.iticity.dbfds.security.Principal;
 
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by pmajchrz on 4/7/16.
  */
-public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, String>, QueryDslPredicateExecutor<DocumentInfo> {
+public interface DocumentInfoRepository extends MongoRepository<DocumentInfo, String>, QueryDslPredicateExecutor<DocumentInfo>, ClassifiableRepository<DocumentInfo> {
 
     public List<DocumentInfo> findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(Principal principal);
 

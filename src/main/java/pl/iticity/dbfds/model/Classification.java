@@ -58,6 +58,9 @@ public class Classification extends Scoped{
 
     private boolean defaultValue;
 
+    @Transient
+    private boolean assigned;
+
     public Classification() {
     }
 
@@ -186,5 +189,13 @@ public class Classification extends Scoped{
 
     public void setModelClazz(String modelClazz) {
         this.modelClazz = modelClazz;
+    }
+
+    public boolean isAssigned() {
+        return assigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        this.assigned = assigned;
     }
 }

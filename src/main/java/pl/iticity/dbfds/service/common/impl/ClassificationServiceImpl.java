@@ -4,10 +4,13 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.repository.ClassifiableRepository;
 import pl.iticity.dbfds.repository.common.ClassificationRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
@@ -21,6 +24,9 @@ import java.util.List;
 
 @Service
 public class ClassificationServiceImpl extends AbstractScopedService<Classification,String,ClassificationRepository> implements ClassificationService {
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){
@@ -48,7 +54,11 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
             classification = repo.findOne(forClassification);
         }
         if(classification == null){
-            return repo.findByDomainAndRemovedIsFalse(domain);
+            List<Classification> classifications = repo.findByDomainAndRemovedIsFalse(domain);
+            for (Classification c : classifications) {
+                c.setAssigned(isAssigned(c));
+            }
+            return classifications;
         }else{
             List<Classification> classifications = repo.findByDomainAndIdNotAndRemovedIsFalse(domain,classification.getId());
             final Classification finalClassification = classification;
@@ -58,6 +68,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
                     return violatesCircularDependency(finalClassification,thisClassification);
                 }
             });
+            for(Classification c : classifications){
+                c.setAssigned(isAssigned(c));
+            }
             return classifications;
         }
     }
@@ -129,10 +142,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
     public List<Classification> deleteClassification(String id){
         Classification classification = repo.findOne(id);
         AuthorizationProvider.hasRole(Role.ADMIN,classification.getDomain());
-        classification.setRemoved(true);
-        classification.setActive(false);
-        classification.setPrincipal(PrincipalUtils.getCurrentPrincipal());
-        repo.save(classification);
+        if(!isAssigned(classification)) {
+            repo.delete(classification);
+        }
         return findByDomain(classification.getDomain(),false);
     }
 
@@ -140,6 +152,17 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
     public List<Classification> findForProduct() {
         List<String> types = Lists.newArrayList("Product Line","Product Family","Product Group","Product Model");
         return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(PrincipalUtils.getCurrentDomain(),types);
+    }
+
+    @Override
+    public boolean isAssigned(Classification classification) {
+        for(ClassifiableRepository cr : applicationContext.getBeansOfType(ClassifiableRepository.class).values()){
+            List list = cr.findByClassification(classification);
+            if(list!=null && !list.isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
