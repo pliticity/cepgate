@@ -33,9 +33,9 @@ public class LinkServiceImpl implements LinkService{
         doc = documentService.findById(doc.getId());
         Linkable linkable = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),clazz);
 
-        LinkType linkType = DocumentInfo.class.equals(clazz) ? LinkType.DOCUMENT : LinkType.LINK;
+        //LinkType linkType = DocumentInfo.class.equals(clazz) ? LinkType.DOCUMENT : LinkType.LINK;
 
-        Link link = new Link(doc, linkType);
+        Link link = new Link(doc, LinkType.DOCUMENT);
         if(!linkable.getLinks().contains(link)){
             linkable.getLinks().add(link);
         }
