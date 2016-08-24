@@ -15,7 +15,7 @@
                             };
                         }
                         element.multiselect({
-                            includeSelectAllOption: true,
+                            includeSelectAllOption: false,
                             numberDisplayed: 1,
                             onChange: func,
                             onSelectAll: func
