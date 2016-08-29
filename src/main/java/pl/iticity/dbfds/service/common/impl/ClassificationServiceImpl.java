@@ -139,13 +139,27 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         return true;
     }
 
-    public List<Classification> deleteClassification(String id){
+    public List<Classification> deleteClassification(final String id) {
         Classification classification = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,classification.getDomain());
-        if(!isAssigned(classification)) {
+        AuthorizationProvider.hasRole(Role.ADMIN, classification.getDomain());
+        if (!isAssigned(classification)) {
+            List<Classification> classifications = repo.findByDomainAndRemovedIsFalse(classification.getDomain());
+            for (Classification c : classifications) {
+                if (c.getParents() != null) {
+                    Iterables.removeIf(c.getParents(), new Predicate<Classification>() {
+                        @Override
+                        public boolean apply(@Nullable Classification classification) {
+                            return id != null && id.equals(classification.getId());
+                        }
+                    });
+                    c.setPrincipal(PrincipalUtils.getCurrentPrincipal());
+                    c.setDomain(PrincipalUtils.getCurrentDomain());
+                    repo.save(c);
+                }
+            }
             repo.delete(classification);
         }
-        return findByDomain(classification.getDomain(),false);
+        return findByDomain(classification.getDomain(), false);
     }
 
     @Override
