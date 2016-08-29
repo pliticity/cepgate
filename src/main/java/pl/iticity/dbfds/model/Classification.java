@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
@@ -132,30 +133,18 @@ public class Classification extends Scoped{
         this.defaultValue = defaultValue;
     }
 
-    public List<String> getParentIds() {
-        if (getParents() != null) {
-            return Lists.newArrayList(Iterables.transform(getParents(), new Function<Classification, String>() {
-                @Nullable
-                @Override
-                public String apply(@Nullable Classification classification) {
-                    return classification.getId();
-                }
-            }));
+    public String getParentIds() {
+        if (getParents() != null && !getParents().isEmpty()) {
+            return getParents().get(0).getId();
         }
         return null;
     }
 
-    public void setParentIds(List<String> parentIds) {
-        if (parentIds != null) {
-            this.parents = Lists.newArrayList(Iterables.transform(parentIds, new Function<String, Classification>() {
-                @Nullable
-                @Override
-                public Classification apply(@Nullable String s) {
-                    Classification c = new Classification();
-                    c.setId(s);
-                    return c;
-                }
-            }));
+    public void setParentIds(String parentIds) {
+        if (StringUtils.isNotEmpty(parentIds)) {
+            Classification c = new Classification();
+            c.setId(parentIds);
+            this.parents = Lists.newArrayList(c);
         }
     }
 

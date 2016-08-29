@@ -42,7 +42,7 @@
                                 <div class="row">
                                     <label class="col-xs-6 control-label">Parent</label>
                                     <div class="col-xs-6">
-                                        <select ng-model="classification.parentIds" multiple="multiple" toggle-multi-select="">
+                                        <select class="form-control" ng-model="classification.parentIds">
                                             <option ng-repeat="c in classifications" value="{{c.id}}">{{c.name}} ({{c.classificationId}})</option>
                                         </select>
                                     </div>
