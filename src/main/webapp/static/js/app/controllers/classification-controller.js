@@ -79,7 +79,11 @@
 
         $scope.toggleClassification = function (row) {
             $http({url: '/classification/'+row.id, method: 'put',params:{toggle:row.active}}).then(function (succ) {
-                $scope.classifications = succ.data;
+                $timeout(function () {
+                    $("#setup").html("");
+                    var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
+                    $("#setup").html(setup);
+                },0);
             });
         };
 
