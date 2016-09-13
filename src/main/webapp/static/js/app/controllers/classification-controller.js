@@ -60,9 +60,9 @@
                 $("#add-classification-modal-"+$scope.classification.id).modal('hide');
                 $http({url: '/classification', method: 'post', data: $scope.classification}).then(function (succ) {
                     $timeout(function () {
-                        $("#setup").html("");
-                        var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
-                        $("#setup").html(setup);
+                        $("#classifications").html("");
+                        var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                        $("#classifications").html(setup);
                     },500);
                     //$scope.classifications = succ.data;
                 });
@@ -80,9 +80,9 @@
         $scope.toggleClassification = function (row) {
             $http({url: '/classification/'+row.id, method: 'put',params:{toggle:row.active}}).then(function (succ) {
                 $timeout(function () {
-                    $("#setup").html("");
-                    var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
-                    $("#setup").html(setup);
+                    $("#classifications").html("");
+                    var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                    $("#classifications").html(setup);
                 },0);
             });
         };
@@ -91,9 +91,9 @@
             if(row.defaultValue==false){
                 $http({url: '/classification/'+row.id, method: 'delete'}).then(function (succ) {
                     $timeout(function () {
-                        $("#setup").html("");
-                        var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
-                        $("#setup").html(setup);
+                        $("#classifications").html("");
+                        var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                        $("#classifications").html(setup);
                     },0);
                 });
             }

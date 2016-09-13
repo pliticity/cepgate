@@ -12,6 +12,8 @@
                                                     data-toggle="tab">Users</a></li>
                 <li role="presentation" class=""><a href="#setup" aria-controls="setup" role="tab"
                                                     data-toggle="tab">Setup</a></li>
+                <li role="presentation" class=""><a disabled href="#classifications" aria-controls="templates" role="tab"
+                                                    data-toggle="tab">Classifications</a></li>
                 <li role="presentation" class=""><a disabled href="#templates" aria-controls="templates" role="tab"
                                                     data-toggle="tab">Templates</a></li>
             </ul>
@@ -22,6 +24,9 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="users">
                     <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="classifications">
+                    <ng-include src="'/partials/domain/setup/classification.html'"></ng-include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="templates">
                     <ng-include src="'/partials/domain/templates-tab.html'"></ng-include>
