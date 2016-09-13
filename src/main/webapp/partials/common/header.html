@@ -18,9 +18,18 @@
     </div>
     <div id="navbarCollapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="/dashboard#/"><span style="margin-right: 5px;" class="glyphicon glyphicon-th"
-                                             aria-hidden="true"></span>
-                Dashboard</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false"><span style="margin-right: 5px;" class="glyphicon glyphicon-th-large"
+                                               aria-hidden="true"></span>Menu</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/dashboard#/">Dashboard</a></li>
+                    <li><a href="/document#/">Document Mode</a></li>
+                    <li><a href="/product#/">Product Mode</a></li>
+                    <li><a href="/quotation#/">Quotation Mode</a></li>
+                    <li><a href="/project#/">Project Mode</a></li>
+                </ul>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" style="margin-right: 40px;">
             <li ng-if="globalAdmin==true">
