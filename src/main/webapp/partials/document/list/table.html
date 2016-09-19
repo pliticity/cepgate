@@ -56,7 +56,7 @@
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.revision.effective}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.docType.name}} ({{row.docType.typeId}})</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentName}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.creationDate}}</td>
+        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.creationDate | date:'dd/MM/yyyy'}}</td>
         <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.createdBy.email}} ({{row.createdBy.acronym}})</td>
         <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.noOfFiles}}</td>
         <td data="files" style="z-index: 100;">
