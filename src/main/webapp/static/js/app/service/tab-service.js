@@ -16,7 +16,7 @@
         return {
             content: function (tabsId,id) {
                 var tabId = "{0}-{1}".format(tabsId, id);
-                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='QuotationController as ctrl' src=\"'/partials/quotation/details/quotation.html'\" ng-init=\"ctrl.setQuotation('{1}')\"></ng-include></div>".format(tabId,id);
+                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='QuotationController as ctrl' src=\"'/partials/quotation/details/quotation.html'\" ng-init=\"ctrl.setModel('{1}')\"></ng-include></div>".format(tabId,id);
                 return tab;
             }
         };

@@ -16,13 +16,13 @@
 
         <div class="tab-content" id="quotation-tabs-content" >
             <div role="tabpanel" class="tab-pane active" id="my">
-                <ng-include ng-controller="QuotationListController as ctrl" src="'/partials/quotation/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getQuotations()"></ng-include>
+                <ng-include ng-controller="QuotationListController as ctrl" src="'/partials/quotation/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="all">
-                <ng-include ng-controller="QuotationListController as ctrl" src="'/partials/quotation/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getQuotations()"></ng-include>
+                <ng-include ng-controller="QuotationListController as ctrl" src="'/partials/quotation/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="new">
-                <ng-include ng-controller="QuotationController as ctrl" src="'/partials/quotation/details/quotation.html'" ng-init="ctrl.newQuotation()"></ng-include>
+                <ng-include ng-controller="QuotationController as ctrl" src="'/partials/quotation/details/quotation.html'" ng-init="ctrl.newModel()"></ng-include>
             </div>
         </div>
 

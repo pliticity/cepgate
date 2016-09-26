@@ -1,19 +1,19 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <ul class="nav nav-pills" role="tablist" id="quotation-details-tabs-{{ctrl.quotation.id}}">
-            <li role="presentation" class="active"><a href="#quotation-info-{{ctrl.quotation.id}}" aria-controls="quotation-info-{{ctrl.quotation.id}}" role="tab"
+        <ul class="nav nav-pills" role="tablist" id="quotation-details-tabs-{{ctrl.model.id}}">
+            <li role="presentation" class="active"><a href="#quotation-info-{{ctrl.model.id}}" aria-controls="quotation-info-{{ctrl.model.id}}" role="tab"
                                                       data-toggle="tab">quotation Info</a></li>
-            <li role="presentation" class=""><a href="#quotation-docs-{{ctrl.quotation.id}}" aria-controls="quotation-docs-{{ctrl.quotation.id}}" role="tab"
+            <li role="presentation" class=""><a href="#quotation-docs-{{ctrl.model.id}}" aria-controls="quotation-docs-{{ctrl.model.id}}" role="tab"
                                                 data-toggle="tab">Documents</a></li>
         </ul>
 
-        <div class="tab-content" id="quotation-details-tabs-{{ctrl.quotation.id}}-content" >
-            <div role="tabpanel" class="tab-pane active" id="quotation-info-{{ctrl.quotation.id}}">
+        <div class="tab-content" id="quotation-details-tabs-{{ctrl.model.id}}-content" >
+            <div role="tabpanel" class="tab-pane active" id="quotation-info-{{ctrl.model.id}}">
                 <ng-include src="'/partials/quotation/details/info-tab.html'"></ng-include>
             </div>
-            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="quotation-docs-{{ctrl.quotation.id}}">
-                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.quotation,'quotation')" src="'/partials/common/links.html'"></ng-include>
+            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="quotation-docs-{{ctrl.model.id}}">
+                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.model,'quotation')" src="'/partials/common/links.html'"></ng-include>
             </div>
         </div>
 

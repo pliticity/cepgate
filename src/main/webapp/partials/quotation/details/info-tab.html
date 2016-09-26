@@ -1,18 +1,18 @@
 <div class="with-top-padding">
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
 
-    <form name="ctrl.quotationForm" class="form-horizontal">
+    <form name="ctrl.modelForm" class="form-horizontal">
 
         <!-- 1 ROW -->
 
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'classificationName'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'classificationName'}">
                     <label class="col-xs-6 control-label">Classification Name</label>
                     <div class="col-xs-6">
                         <select ng-change="ctrl.onClassificationSelected()" name="classificationName"
-                                ng-model="ctrl.quotation.classification.id"
+                                ng-model="ctrl.model.classification.id"
                                 class="form-control" required="">
                             <option ng-repeat="c in ctrl.classifications" value="{{c.id}}">{{c.name}}
                                 ({{c.classificationId}})
@@ -23,11 +23,11 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'classificationId'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'classificationId'}">
                     <label class="col-xs-6 control-label">Classification Id</label>
                     <div class="col-xs-6">
                         <input ng-readonly="true" name="classificationId" disabled class="disabled form-control"
-                               ng-model="ctrl.quotation.classification.classificationId" required=""/>
+                               ng-model="ctrl.model.classification.classificationId" required=""/>
                     </div>
                 </div>
             </div>
@@ -39,19 +39,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'name'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'name'}">
                     <label class="col-xs-6 control-label">Quotation Name</label>
                     <div class="col-xs-6">
-                        <input name="name" class="form-control" ng-model="ctrl.quotation.name"/>
+                        <input name="name" class="form-control" ng-model="ctrl.model.name"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'symbol'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'symbol'}">
                     <label class="col-xs-6 control-label">Quotation Number</label>
                     <div class="col-xs-6">
-                        <input name="symbol" class="form-control" ng-model="ctrl.quotation.symbol"/>
+                        <input name="symbol" class="form-control" ng-model="ctrl.model.symbol"/>
                     </div>
                 </div>
             </div>
@@ -62,19 +62,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'startDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'startDate'}">
                     <label class="col-xs-6 control-label">Quotation Start Date</label>
                     <div class="col-xs-6">
-                        <input name="startDate" class="form-control" ng-model="ctrl.quotation.startDate"/>
+                        <input name="startDate" class="form-control" ng-model="ctrl.model.startDate"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'endCustomer'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'endCustomer'}">
                     <label class="col-xs-6 control-label">End Customer</label>
                     <div class="col-xs-6">
-                        <input name="endCustomer" class="form-control" ng-model="ctrl.quotation.endCustomer"/>
+                        <input name="endCustomer" class="form-control" ng-model="ctrl.model.endCustomer"/>
                     </div>
                 </div>
             </div>
@@ -85,21 +85,21 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'customerInspectionDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'customerInspectionDate'}">
                     <label class="col-xs-6 control-label">Customer Inspection Date</label>
                     <div class="col-xs-6">
                         <input name="customerInspectionDate" class="form-control"
-                               ng-model="ctrl.quotation.customerInspectionDate"/>
+                               ng-model="ctrl.model.customerInspectionDate"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'endCustomerCountry'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'endCustomerCountry'}">
                     <label class="col-xs-6 control-label">End Customer Country</label>
                     <div class="col-xs-6">
                         <input name="endCustomerCountry" class="form-control"
-                               ng-model="ctrl.quotation.endCustomerCountry"/>
+                               ng-model="ctrl.model.endCustomerCountry"/>
                     </div>
                 </div>
             </div>
@@ -110,19 +110,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'shipmentDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'shipmentDate'}">
                     <label class="col-xs-6 control-label">Shipment Date</label>
                     <div class="col-xs-6">
-                        <input name="shipmentDate" class="form-control" ng-model="ctrl.quotation.shipmentDate"/>
+                        <input name="shipmentDate" class="form-control" ng-model="ctrl.model.shipmentDate"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'endCustomerPlant'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'endCustomerPlant'}">
                     <label class="col-xs-6 control-label">End Customer Plant</label>
                     <div class="col-xs-6">
-                        <input name="endCustomerPlant" class="form-control" ng-model="ctrl.quotation.endCustomerPlant"/>
+                        <input name="endCustomerPlant" class="form-control" ng-model="ctrl.model.endCustomerPlant"/>
                     </div>
                 </div>
             </div>
@@ -133,19 +133,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'deliveryDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'deliveryDate'}">
                     <label class="col-xs-6 control-label">Delivery Date</label>
                     <div class="col-xs-6">
-                        <input name="deliveryDate" class="form-control" ng-model="ctrl.quotation.deliveryDate"/>
+                        <input name="deliveryDate" class="form-control" ng-model="ctrl.model.deliveryDate"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'creationDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'creationDate'}">
                     <label class="col-xs-6 control-label">Quotation Creation Date</label>
                     <div class="col-xs-6">
-                        <input ng-readonly="true" name="creationDate" disabled class="disabled form-control" ng-model="ctrl.quotation.creationDate"/>
+                        <input ng-readonly="true" name="creationDate" disabled class="disabled form-control" ng-model="ctrl.model.creationDate"/>
                     </div>
                 </div>
             </div>
@@ -156,19 +156,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'endDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'endDate'}">
                     <label class="col-xs-6 control-label">Quotation End Date</label>
                     <div class="col-xs-6">
-                        <input name="endDate" class="form-control" ng-model="ctrl.quotation.endDate"/>
+                        <input name="endDate" class="form-control" ng-model="ctrl.model.endDate"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'principal'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'principal'}">
                     <label class="col-xs-6 control-label">Quotation Created By</label>
                     <div class="col-xs-6">
-                        <input ng-readonly="true" name="principal" disabled class="disabled form-control" ng-model="ctrl.quotation.principal.email"/>
+                        <input ng-readonly="true" name="principal" disabled class="disabled form-control" ng-model="ctrl.model.principal.email"/>
                     </div>
                 </div>
             </div>
@@ -179,19 +179,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientNumber'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientNumber'}">
                     <label class="col-xs-6 control-label">Client Number</label>
                     <div class="col-xs-6">
-                        <input name="clientNumber" class="form-control" ng-model="ctrl.quotation.clientNumber"/>
+                        <input name="clientNumber" class="form-control" ng-model="ctrl.model.clientNumber"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'qicManager'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'qicManager'}">
                     <label class="col-xs-6 control-label">Quotation Manager</label>
                     <div class="col-xs-6">
-                        <select name="qicManager" class="form-control" ng-model="ctrl.quotation.qicManager.id">
+                        <select name="qicManager" class="form-control" ng-model="ctrl.model.qicManager.id">
                             <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
                         </select>
                     </div>
@@ -204,19 +204,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientName'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientName'}">
                     <label class="col-xs-6 control-label">Client Name</label>
                     <div class="col-xs-6">
-                        <input name="clientName" class="form-control" ng-model="ctrl.quotation.clientName"/>
+                        <input name="clientName" class="form-control" ng-model="ctrl.model.clientName"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'masterNumber'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'masterNumber'}">
                     <label class="col-xs-6 control-label">Master Quotation Number</label>
                     <div class="col-xs-6">
-                        <input ng-readonly="true" name="masterNumber" disabled class="disabled form-control" ng-model="ctrl.quotation.masterNumber"/>
+                        <input ng-readonly="true" name="masterNumber" disabled class="disabled form-control" ng-model="ctrl.model.masterNumber"/>
                     </div>
                 </div>
             </div>
@@ -227,19 +227,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientCountry'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientCountry'}">
                     <label class="col-xs-6 control-label">Client Country</label>
                     <div class="col-xs-6">
-                        <input name="clientCountry" class="form-control" ng-model="ctrl.quotation.clientCountry"/>
+                        <input name="clientCountry" class="form-control" ng-model="ctrl.model.clientCountry"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'tba'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'tba'}">
                     <label class="col-xs-6 control-label">TBA</label>
                     <div class="col-xs-6">
-                        <input name="tba" class="form-control" ng-model="ctrl.quotation.tba"/>
+                        <input name="tba" class="form-control" ng-model="ctrl.model.tba"/>
                     </div>
                 </div>
             </div>
@@ -249,19 +249,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientVatRegNo'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientVatRegNo'}">
                     <label class="col-xs-6 control-label">Client VAT reg. Number</label>
                     <div class="col-xs-6">
-                        <input name="clientVatRegNo" class="form-control" ng-model="ctrl.quotation.clientVatRegNo"/>
+                        <input name="clientVatRegNo" class="form-control" ng-model="ctrl.model.clientVatRegNo"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'value'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'value'}">
                     <label class="col-xs-6 control-label">Quotation Value</label>
                     <div class="col-xs-6">
-                        <input name="value" class="form-control" ng-model="ctrl.quotation.value"/>
+                        <input name="value" class="form-control" ng-model="ctrl.model.value"/>
                     </div>
                 </div>
             </div>
@@ -271,20 +271,20 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientContactPerson'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientContactPerson'}">
                     <label class="col-xs-6 control-label">Client Contact Person</label>
                     <div class="col-xs-6">
                         <input name="clientContactPerson" class="form-control"
-                               ng-model="ctrl.quotation.clientContactPerson"/>
+                               ng-model="ctrl.model.clientContactPerson"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'cost'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'cost'}">
                     <label class="col-xs-6 control-label">Quotation Cost</label>
                     <div class="col-xs-6">
-                        <input name="cost" class="form-control" ng-model="ctrl.quotation.cost"/>
+                        <input name="cost" class="form-control" ng-model="ctrl.model.cost"/>
                     </div>
                 </div>
             </div>
@@ -295,34 +295,34 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'clientAddress'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'clientAddress'}">
                     <label class="col-xs-6 control-label">Client Address</label>
                     <div class="col-xs-6">
                         <textarea rows="6" name="clientAddress" class="form-control"
-                                  ng-model="ctrl.quotation.clientAddress"/>
+                                  ng-model="ctrl.model.clientAddress"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'grossMargin'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'grossMargin'}">
                     <label class="col-xs-6 control-label">Quotation Gross Margin</label>
                     <div class="col-xs-6">
-                        <input name="grossMargin" class="form-control" ng-model="ctrl.quotation.grossMargin"/>
+                        <input name="grossMargin" class="form-control" ng-model="ctrl.model.grossMargin"/>
                     </div>
                 </div>
 
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'comments'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'comments'}">
                     <label class="col-xs-6 control-label">Internal Comments</label>
                     <div class="col-xs-6">
-                        <input name="comments" class="form-control" ng-model="ctrl.quotation.comments"/>
+                        <input name="comments" class="form-control" ng-model="ctrl.model.comments"/>
                     </div>
                 </div>
 
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'comments'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'comments'}">
                     <label class="col-xs-6 control-label">Internal Comments</label>
                     <div class="col-xs-6">
-                        <input name="comments" class="form-control" ng-model="ctrl.quotation.comments"/>
+                        <input name="comments" class="form-control" ng-model="ctrl.model.comments"/>
                     </div>
                 </div>
             </div>
@@ -333,11 +333,11 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.quotationForm, field: 'deliveryAddress'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'deliveryAddress'}">
                     <label class="col-xs-6 control-label">Delivery Address</label>
                     <div class="col-xs-6">
                         <textarea rows="3" name="deliveryAddress" class="form-control"
-                                  ng-model="ctrl.quotation.deliveryAddress"/>
+                                  ng-model="ctrl.model.deliveryAddress"/>
                     </div>
                 </div>
             </div>
@@ -350,7 +350,7 @@
         <div class="row">
 
             <div class="col-xs-12 text-right">
-                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveQuotation()">Save</button>
+                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveModel()">Save</button>
             </div>
 
         </div>
