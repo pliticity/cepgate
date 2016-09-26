@@ -1,10 +1,15 @@
-function CgModelController(ctrl,modelService){
+function CgModelController(ctrl,modelService,tabService,tabName,tabsId,factory,$scope){
 
     ctrl.model = {};
     ctrl.modelForm = {};
 
     ctrl.saveModel = function(){
-        if(modelService.saveModel(ctrl.modelForm,ctrl.model)==true){
+        var callback = function(resp){
+            var args = {open : true, id: resp.id, name: resp[tabName], tabsId:tabsId, factory:factory};
+            tabService.addTab(args,$scope);
+        };
+
+        if(modelService.save(ctrl.modelForm,ctrl.model,callback)==true){
             ctrl.model = modelService.getNew();
         };
     };

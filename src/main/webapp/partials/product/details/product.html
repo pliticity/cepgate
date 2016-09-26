@@ -1,19 +1,19 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <ul class="nav nav-pills" role="tablist" id="product-details-tabs-{{ctrl.product.id}}">
-            <li role="presentation" class="active"><a href="#product-info-{{ctrl.product.id}}" aria-controls="product-info-{{ctrl.product.id}}" role="tab"
-                                                      data-toggle="tab">product Info</a></li>
-            <li role="presentation" class=""><a href="#product-docs-{{ctrl.product.id}}" aria-controls="product-docs-{{ctrl.product.id}}" role="tab"
+        <ul class="nav nav-pills" role="tablist" id="product-details-tabs-{{ctrl.model.id}}">
+            <li role="presentation" class="active"><a href="#product-info-{{ctrl.model.id}}" aria-controls="product-info-{{ctrl.model.id}}" role="tab"
+                                                      data-toggle="tab">Product Info</a></li>
+            <li role="presentation" class=""><a href="#product-docs-{{ctrl.model.id}}" aria-controls="product-docs-{{ctrl.model.id}}" role="tab"
                                                 data-toggle="tab">Documents</a></li>
         </ul>
 
-        <div class="tab-content" id="product-details-tabs-{{ctrl.product.id}}-content" >
-            <div role="tabpanel" class="tab-pane active" id="product-info-{{ctrl.product.id}}">
+        <div class="tab-content" id="product-details-tabs-{{ctrl.model.id}}-content" >
+            <div role="tabpanel" class="tab-pane active" id="product-info-{{ctrl.model.id}}">
                 <ng-include src="'/partials/product/details/info-tab.html'"></ng-include>
             </div>
-            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="product-docs-{{ctrl.product.id}}">
-                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.product,'product')" src="'/partials/common/links.html'"></ng-include>
+            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="product-docs-{{ctrl.model.id}}">
+                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.model,'product')" src="'/partials/common/links.html'"></ng-include>
             </div>
         </div>
 

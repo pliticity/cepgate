@@ -1,18 +1,18 @@
 <div class="with-top-padding">
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
 
-    <form name="ctrl.productForm" class="form-horizontal">
+    <form name="ctrl.modelForm" class="form-horizontal">
 
         <!-- FIRST ROW -->
 
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'classificationName'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'classificationName'}">
                     <label class="col-xs-6 control-label">Classification Name</label>
                     <div class="col-xs-6">
                         <select ng-change="ctrl.onClassificationSelected()" name="classificationName"
-                                ng-model="ctrl.product.classification.id"
+                                ng-model="ctrl.model.classification.id"
                                 class="form-control" required="">
                             <option ng-repeat="c in ctrl.classifications" value="{{c.id}}">{{c.name}}
                                 ({{c.classificationId}})
@@ -23,11 +23,11 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'classificationId'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'classificationId'}">
                     <label class="col-xs-6 control-label">Classification Id</label>
                     <div class="col-xs-6">
                         <input ng-readonly="true" name="classificationId" disabled class="disabled form-control"
-                               ng-model="ctrl.product.classification.classificationId" required=""/>
+                               ng-model="ctrl.model.classification.classificationId" required=""/>
                     </div>
                 </div>
             </div>
@@ -39,19 +39,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'name'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'name'}">
                     <label class="col-xs-6 control-label">Product Name</label>
                     <div class="col-xs-6">
-                        <input name="name" class="form-control" ng-model="ctrl.product.name" required="required"/>
+                        <input name="name" class="form-control" ng-model="ctrl.model.name" required="required"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productId'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'productId'}">
                     <label class="col-xs-6 control-label">Product ID</label>
                     <div class="col-xs-6">
-                        <input name="productId" class="form-control" ng-model="ctrl.product.productId" required="required"/>
+                        <input name="productId" class="form-control" ng-model="ctrl.model.productId" required="required"/>
                     </div>
                 </div>
             </div>
@@ -63,19 +63,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'weight'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'weight'}">
                     <label class="col-xs-6 control-label">Weight [kg]</label>
                     <div class="col-xs-6">
-                        <input name="weight" class="form-control" ng-model="ctrl.product.weight"/>
+                        <input name="weight" class="form-control" ng-model="ctrl.model.weight"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'codeA'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'codeA'}">
                     <label class="col-xs-6 control-label">Product Code A</label>
                     <div class="col-xs-6">
-                        <input name="codeA" class="form-control" ng-model="ctrl.product.codeA"/>
+                        <input name="codeA" class="form-control" ng-model="ctrl.model.codeA"/>
                     </div>
                 </div>
             </div>
@@ -87,19 +87,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'color'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'color'}">
                     <label class="col-xs-6 control-label">Color</label>
                     <div class="col-xs-6">
-                        <input name="color" class="form-control" ng-model="ctrl.product.color"/>
+                        <input name="color" class="form-control" ng-model="ctrl.model.color"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'codeB'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'codeB'}">
                     <label class="col-xs-6 control-label">Product Code B</label>
                     <div class="col-xs-6">
-                        <input name="codeB" class="form-control" ng-model="ctrl.product.codeB"/>
+                        <input name="codeB" class="form-control" ng-model="ctrl.model.codeB"/>
                     </div>
                 </div>
             </div>
@@ -111,20 +111,20 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'serialNumber'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'serialNumber'}">
                     <label class="col-xs-6 control-label">Serial Number</label>
                     <div class="col-xs-6">
-                        <input name="serialNumber" ng-readonly="true" disabled class="disabled form-control" ng-model="ctrl.product.serialNumber"/>
+                        <input name="serialNumber" ng-readonly="true" disabled class="disabled form-control" ng-model="ctrl.model.serialNumber"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'masterProductNumber'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'masterProductNumber'}">
                     <label class="col-xs-6 control-label">Master Product Number</label>
                     <div class="col-xs-6">
                         <input ng-readonly="true" disabled name="masterProductNumber" class="disabled form-control"
-                               ng-model="ctrl.product.masterProductNumber" required=""/>
+                               ng-model="ctrl.model.masterProductNumber" required=""/>
                     </div>
                 </div>
             </div>
@@ -136,20 +136,20 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'hsCode'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'hsCode'}">
                     <label class="col-xs-6 control-label">HS Code</label>
                     <div class="col-xs-6">
-                        <input name="hsCode" class="form-control" ng-model="ctrl.product.hsCode"/>
+                        <input name="hsCode" class="form-control" ng-model="ctrl.model.hsCode"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'creationDate'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'creationDate'}">
                     <label class="col-xs-6 control-label">Product Creation Date</label>
                     <div class="col-xs-6">
                         <input ng-readonly="true" disabled name="creationDate" class="disabled form-control"
-                               ng-model="ctrl.product.creationDate" required=""/>
+                               ng-model="ctrl.model.creationDate" required=""/>
                     </div>
                 </div>
             </div>
@@ -161,11 +161,11 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'responsibleUser'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'responsibleUser'}">
                     <label class="col-xs-6 control-label">Product Responsible</label>
                     <div class="col-xs-6">
                         <select name="responsibleUser"
-                                ng-model="ctrl.product.responsibleUser.id"
+                                ng-model="ctrl.model.responsibleUser.id"
                                 class="form-control">
                             <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
                         </select>
@@ -174,11 +174,11 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'createdBy'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'createdBy'}">
                     <label class="col-xs-6 control-label">Product Created By</label>
                     <div class="col-xs-6">
                         <input ng-readonly="true" disabled name="createdBy" class="disabled form-control"
-                               ng-model="ctrl.product.principal.email" required=""/>
+                               ng-model="ctrl.model.principal.email" required=""/>
                     </div>
                 </div>
             </div>
@@ -190,11 +190,11 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'owner'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'owner'}">
                     <label class="col-xs-6 control-label">Product Manager</label>
                     <div class="col-xs-6">
                         <select name="owner"
-                                ng-model="ctrl.product.owner.id"
+                                ng-model="ctrl.model.owner.id"
                                 class="form-control">
                             <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
                         </select>
@@ -203,10 +203,10 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'country'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'country'}">
                     <label class="col-xs-6 control-label">Country of Origin</label>
                     <div class="col-xs-6">
-                        <input name="country" class="form-control" ng-model="ctrl.product.country"/>
+                        <input name="country" class="form-control" ng-model="ctrl.model.country"/>
                     </div>
                 </div>
             </div>
@@ -218,20 +218,20 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'deliveryLocation'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'deliveryLocation'}">
                     <label class="col-xs-6 control-label">Delivery Location</label>
                     <div class="col-xs-6">
-                        <input name="deliveryLocation" class="form-control" ng-model="ctrl.product.deliveryLocation"/>
+                        <input name="deliveryLocation" class="form-control" ng-model="ctrl.model.deliveryLocation"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'manufacturingLocation'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'manufacturingLocation'}">
                     <label class="col-xs-6 control-label">Manufacturing Location</label>
                     <div class="col-xs-6">
                         <input name="manufacturingLocation" class="form-control"
-                               ng-model="ctrl.product.manufacturingLocation"/>
+                               ng-model="ctrl.model.manufacturingLocation"/>
                     </div>
                 </div>
             </div>
@@ -243,10 +243,10 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productLifeCycle'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'productLifeCycle'}">
                     <label class="col-xs-6 control-label">Product Life Cycle</label>
                     <div class="col-xs-6">
-                        <select name="productLifeCycle" class="form-control" ng-model="ctrl.product.productLifeCycle">
+                        <select name="productLifeCycle" class="form-control" ng-model="ctrl.model.productLifeCycle">
                             <option value="DEVELOPMENT">Development</option>
                             <option value="INTRODUCTION">Introduction</option>
                             <option value="GROWTH">Growth</option>
@@ -258,11 +258,11 @@
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'state'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'state'}">
                     <label class="col-xs-6 control-label">State</label>
                     <div class="col-xs-6">
                         <select name="state" class="disabled form-control"
-                                ng-model="ctrl.product.state">
+                                ng-model="ctrl.model.state">
                             <option value="IN_PROGRESS">In Progress</option>
                             <option value="ACTIVE">Active</option>
                             <option value="OBSOLETE">Obsolete</option>
@@ -278,19 +278,19 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'deliveryTime'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'deliveryTime'}">
                     <label class="col-xs-6 control-label">Delivery Time [weeks]</label>
                     <div class="col-xs-6">
-                        <input name="deliveryTime" class="form-control" ng-model="ctrl.product.deliveryTime"/>
+                        <input name="deliveryTime" class="form-control" ng-model="ctrl.model.deliveryTime"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'internalComments'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'internalComments'}">
                     <label class="col-xs-6 control-label">Internal Comments</label>
                     <div class="col-xs-6">
-                        <input name="internalComments" class="form-control" ng-model="ctrl.product.internalComments"/>
+                        <input name="internalComments" class="form-control" ng-model="ctrl.model.internalComments"/>
                     </div>
                 </div>
             </div>
@@ -302,20 +302,20 @@
         <div class="row">
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'oneLineDescription'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'oneLineDescription'}">
                     <label class="col-xs-6 control-label">One Line Description</label>
                     <div class="col-xs-6">
                         <input name="oneLineDescription" class="form-control"
-                               ng-model="ctrl.product.oneLineDescription"/>
+                               ng-model="ctrl.model.oneLineDescription"/>
                     </div>
                 </div>
             </div>
 
             <div class="col-xs-6">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'productOwner'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'productOwner'}">
                     <label class="col-xs-6 control-label">Product Owner</label>
                     <div class="col-xs-6">
-                        <select name="productOwner" class="form-control" ng-model="ctrl.product.productOwner">
+                        <select name="productOwner" class="form-control" ng-model="ctrl.model.productOwner">
                             <option value="PROPRIETARY">Proprietary</option>
                             <option value="THIRD_PARTY_PLUS">Third Party with added value</option>
                             <option value="THIRD_PARTY">Third Party</option>
@@ -331,10 +331,10 @@
         <div class="row">
 
             <div class="col-xs-12">
-                <div class="form-group" cg-validate="{form: ctrl.productForm, field: 'salesText'}">
+                <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'salesText'}">
                     <label class="col-xs-3 control-label">Sales Text</label>
                     <div class="col-xs-9">
-                        <textarea name="salesText" class="form-control" ng-model="ctrl.product.salesText"/>
+                        <textarea name="salesText" class="form-control" ng-model="ctrl.model.salesText"/>
                     </div>
                 </div>
             </div>
@@ -346,7 +346,7 @@
         <div class="row">
 
             <div class="col-xs-12 text-right">
-                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveProduct()">Save</button>
+                <button class="btn btn-xs btn-primary" ng-click="ctrl.saveModel()">Save</button>
             </div>
 
         </div>
