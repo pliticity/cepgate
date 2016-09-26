@@ -30,7 +30,11 @@
         };
 
         this.getPrincipalsInDomain = function(){
-            return Principal.query();
+            return Principal.query({id:''});
+        }
+
+        this.getPrincipalsInGivenDomain = function(id){
+            return Principal.query({id:id});
         }
 
     }]);

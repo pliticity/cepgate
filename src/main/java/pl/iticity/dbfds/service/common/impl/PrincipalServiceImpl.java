@@ -76,6 +76,9 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
 
         Domain domain = new Domain();
         domain.setCompany(principal.getCompany());
+        domain.setUrl(principal.getUrl());
+        domain.setCountry(principal.getCountry());
+        domain.setPhone(principal.getPhone());
         domain.setActive(true);
         domain.setCreationDate(new Date());
         domain.setName(principal.getEmail());

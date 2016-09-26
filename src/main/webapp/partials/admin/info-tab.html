@@ -42,8 +42,9 @@
             <div class="form-group">
                 <label for="name" class="col-xs-4 control-label">Account Super User</label>
                 <div class="col-xs-8">
-                    <input placeholder="Name" class="form-control" id="name"
-                           ng-model="domain.name" disabled ng-readonly="true" required=""/>
+                    <select ng-change="ctrl.changeSU()" class="form-control" id="name" name="name" ng-model="domain.owner.id">
+                        <option ng-repeat="p in ctrl.principals" value="{{p.id}}">{{p.email}}</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -67,8 +68,8 @@
             <div class="form-group">
                 <label for="company" class="col-xs-4 control-label">Company</label>
                 <div class="col-xs-8">
-                    <input placeholder="Company" class="form-control disabled" id="company"
-                           ng-model="domain.company" disabled ng-readonly="true"/>
+                    <input placeholder="Company" class="form-control" id="company"
+                           ng-model="domain.company"/>
                 </div>
             </div>
         </div>
@@ -77,8 +78,8 @@
             <div class="form-group">
                 <label for="Website" class="col-xs-4 control-label">Website</label>
                 <div class="col-xs-8">
-                    <input placeholder="Website" class="form-control disabled" id="Website"
-                           ng-model="domain.owner.url" disabled ng-readonly="true"/>
+                    <input placeholder="Website" class="form-control" id="Website"
+                           ng-model="domain.url"/>
                 </div>
             </div>
         </div>
@@ -93,8 +94,9 @@
             <div class="form-group">
                 <label for="Country" class="col-xs-4 control-label">Country</label>
                 <div class="col-xs-8">
-                    <input placeholder="Country" class="form-control disabled" id="Country"
-                           ng-model="domain.owner.country" disabled ng-readonly="true"/>
+                    <select class="form-control" id="country" name="country" ng-model="domain.country">
+                        <option ng-repeat="c in ctrl.countries" value="{{c.name}}">{{c.name}}</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -103,8 +105,8 @@
             <div class="form-group">
                 <label for="Phone number" class="col-xs-4 control-label">Phone number</label>
                 <div class="col-xs-8">
-                    <input placeholder="Phone number" class="form-control disabled" id="Phone number"
-                           ng-model="domain.owner.phone" disabled ng-readonly="true"/>
+                    <input placeholder="Phone number" class="form-control" id="Phone number"
+                           ng-model="domain.phone"/>
                 </div>
             </div>
         </div>
@@ -133,6 +135,16 @@
                            ng-model="domain.owner.lastName" disabled ng-readonly="true"/>
                 </div>
             </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-xs-10 col-xs-offset-1">
+
+        <div class="col-xs-12 text-right">
+            <a class="btn-sm btn btn-primary" ng-click="ctrl.save()">Save</a>
         </div>
 
     </div>

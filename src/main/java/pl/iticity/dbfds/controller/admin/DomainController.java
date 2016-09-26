@@ -6,9 +6,11 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.iticity.dbfds.controller.BaseController;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.DomainOwnerMixin;
+import pl.iticity.dbfds.model.mixins.PrincipalSelectMixin;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
@@ -20,9 +22,9 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/domain")
-public class DomainController {
+public class DomainController extends BaseController{
 
     @Autowired
     private FileService fileService;
@@ -72,8 +74,21 @@ public class DomainController {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixIn(Principal.class, DomainOwnerMixin.class);
-        domain.setOwner(PrincipalUtils.getCurrentPrincipal());
+        Principal owner = principalService.findByEmail(domain.getName());
+        domain.setOwner(owner);
         return mapper.writeValueAsString(domain);
+    }
+
+    @RequestMapping(value = "",method = RequestMethod.POST)
+    public String saveDomain(@RequestBody Domain domain){
+        domain = domainService.patch(domain);
+        return convertToString(Domain.class,Domain.class,domain);
+    }
+
+    @RequestMapping(value = "/{id}",params = {"newOwner"},method = RequestMethod.POST)
+    public String saveDomain(@PathVariable("id") String id, @RequestParam("newOwner") String newOwner){
+        Principal principal = domainService.changeSU(id,newOwner);
+        return convertToString(Principal.class, PrincipalSelectMixin.class,principal);
     }
 
     @RequestMapping(value = "/docType",method = RequestMethod.POST)

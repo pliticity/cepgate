@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.PrincipalMixin;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
@@ -25,11 +27,12 @@ public class PrincipalController {
     @Autowired
     private DomainService domainService;
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "",params = {"id"})
     public
     @ResponseBody
-    String getPrincipalsInDomain() throws JsonProcessingException {
-        return principalService.principalsSelectToJson(principalService.findByDomain(PrincipalUtils.getCurrentDomain()));
+    String getPrincipalsInDomain(@RequestParam("id") String id) throws JsonProcessingException {
+        Domain domain = org.apache.commons.lang.StringUtils.isNotEmpty(id) ? domainService.findById(id) : PrincipalUtils.getCurrentDomain();
+        return principalService.principalsSelectToJson(principalService.findByDomain(domain));
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

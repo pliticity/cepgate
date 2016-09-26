@@ -24,10 +24,8 @@
                 /static/** = anon
                 /partials/** = anon
                 /auth/** = anon
-                /admin/** = authc, roles[GLOBAL_ADMIN]
-                /domain?isAdmin = authc
-                /domain?domain = authc
-                /domain/** = authc, roles[ADMIN]
+                /gadmin/** = authc, roles[GLOBAL_ADMIN]
+                /admin/** = authc, roles[ADMIN]
                 /** = authc
                 # some example chain definitions:
                 #/admin/** = authc, roles[admin]

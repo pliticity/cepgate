@@ -15,6 +15,10 @@
             $http({url: '/domain/' + domain.id, method: 'put', params: {active: domain.active}}).then(callback);
         };
 
+        this.changeSU = function(domain,callback){
+            $http({url: '/domain/' + domain.id, method: 'post', params: {newOwner: domain.owner.id}}).then(callback);
+        }
+
     }]);
 
 })();

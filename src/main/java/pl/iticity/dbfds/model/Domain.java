@@ -8,6 +8,8 @@ import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +53,16 @@ public class Domain{
     private double memory;
 
     private String company;
+
+    @Size(min = 1)
+    @NotNull(message = "Cannot be empty")
+    private String country;
+
+    @Size(min = 1)
+    @NotNull(message = "Cannot be empty")
+    private String phone;
+
+    private String url;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
@@ -174,5 +186,29 @@ public class Domain{
 
     public void setLastMasterProjectNumber(long lastMasterProjectNumber) {
         this.lastMasterProjectNumber = lastMasterProjectNumber;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
