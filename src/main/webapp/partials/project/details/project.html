@@ -1,19 +1,19 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <ul class="nav nav-pills" role="tablist" id="project-details-tabs-{{ctrl.project.id}}">
-            <li role="presentation" class="active"><a href="#project-info-{{ctrl.project.id}}" aria-controls="project-info-{{ctrl.project.id}}" role="tab"
+        <ul class="nav nav-pills" role="tablist" id="project-details-tabs-{{ctrl.model.id}}">
+            <li role="presentation" class="active"><a href="#project-info-{{ctrl.model.id}}" aria-controls="project-info-{{ctrl.model.id}}" role="tab"
                                                       data-toggle="tab">Project Info</a></li>
-            <li role="presentation" class=""><a href="#project-docs-{{ctrl.project.id}}" aria-controls="project-docs-{{ctrl.project.id}}" role="tab"
+            <li role="presentation" class=""><a href="#project-docs-{{ctrl.model.id}}" aria-controls="project-docs-{{ctrl.model.id}}" role="tab"
                                                 data-toggle="tab">Documents</a></li>
         </ul>
 
-        <div class="tab-content" id="project-details-tabs-{{ctrl.project.id}}-content" >
-            <div role="tabpanel" class="tab-pane active" id="project-info-{{ctrl.project.id}}">
+        <div class="tab-content" id="project-details-tabs-{{ctrl.model.id}}-content" >
+            <div role="tabpanel" class="tab-pane active" id="project-info-{{ctrl.model.id}}">
                 <ng-include src="'/partials/project/details/info-tab.html'"></ng-include>
             </div>
-            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="project-docs-{{ctrl.project.id}}">
-                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.project,'project')" src="'/partials/common/links.html'"></ng-include>
+            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="project-docs-{{ctrl.model.id}}">
+                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.setLinkable(ctrl.model,'project')" src="'/partials/common/links.html'"></ng-include>
             </div>
         </div>
 

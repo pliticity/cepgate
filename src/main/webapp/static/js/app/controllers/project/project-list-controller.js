@@ -2,18 +2,11 @@
 
     var project = angular.module('project');
 
-    project.controller('ProjectListController', ['$http', '$scope','projectService','settingsService', function ($http, $scope,projectService,settingsService) {
+    project.controller('ProjectListController', ['projectService','settingsService', function (projectService,settingsService) {
 
         var ctrl = this;
 
-        ctrl.projects = [];
-        ctrl.queryParams = {};
-
-        ctrl.settings = settingsService.settings;
-
-        ctrl.getProjects = function () {
-            ctrl.projects = projectService.getAll(ctrl.queryParams);
-        }
+        CgListController(ctrl,settingsService,projectService);
 
     }]);
 

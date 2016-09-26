@@ -16,13 +16,13 @@
 
         <div class="tab-content" id="project-tabs-content" >
             <div role="tabpanel" class="tab-pane active" id="my">
-                <ng-include ng-controller="ProjectListController as ctrl" src="'/partials/project/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getProjects()"></ng-include>
+                <ng-include ng-controller="ProjectListController as ctrl" src="'/partials/project/list/table.html'" onload="ctrl.queryParams = {my:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="all">
-                <ng-include ng-controller="ProjectListController as ctrl" src="'/partials/project/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getProjects()"></ng-include>
+                <ng-include ng-controller="ProjectListController as ctrl" src="'/partials/project/list/table.html'" onload="ctrl.queryParams = {all:true};ctrl.getModels()"></ng-include>
             </div>
             <div role="tabpanel" class="tab-pane" id="new">
-                <ng-include ng-controller="ProjectController as ctrl" src="'/partials/project/details/project.html'" ng-init="ctrl.newProject()"></ng-include>
+                <ng-include ng-controller="ProjectController as ctrl" src="'/partials/project/details/project.html'" ng-init="ctrl.newModel()"></ng-include>
             </div>
         </div>
 

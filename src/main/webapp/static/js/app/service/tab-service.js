@@ -26,7 +26,7 @@
         return {
             content: function (tabsId,id) {
                 var tabId = "{0}-{1}".format(tabsId, id);
-                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='ProjectController as ctrl' src=\"'/partials/project/details/project.html'\" ng-init=\"ctrl.setProject('{1}')\"></ng-include></div>".format(tabId,id);
+                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='ProjectController as ctrl' src=\"'/partials/project/details/project.html'\" ng-init=\"ctrl.setModel('{1}')\"></ng-include></div>".format(tabId,id);
                 return tab;
             }
         };

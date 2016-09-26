@@ -7,7 +7,7 @@
             return $resource('/product/:id', {}, {'query': {'url': '/product/query', 'isArray': true},'save':{'url':'/product',method:'post'}});
         }]);
 
-    product.service('productService', ['$http', 'Product', function ($http, Product) {
+    product.service('productService', ['Product', function (Product) {
 
         CgService(this,Product);
 
