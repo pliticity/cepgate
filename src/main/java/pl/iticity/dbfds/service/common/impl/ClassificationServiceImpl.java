@@ -15,7 +15,6 @@ import pl.iticity.dbfds.repository.common.ClassificationRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.AbstractScopedService;
-import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -121,7 +120,7 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     public List<Classification> toggleClassification(String id, boolean toggle){
         Classification classification = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,classification.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN,classification.getDomain());
         classification.setActive(toggle);
         classification.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         repo.save(classification);
@@ -141,7 +140,7 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     public List<Classification> deleteClassification(final String id) {
         Classification classification = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN, classification.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN, classification.getDomain());
         if (!isAssigned(classification)) {
             List<Classification> classifications = repo.findByDomainAndRemovedIsFalse(classification.getDomain());
             for (Classification c : classifications) {

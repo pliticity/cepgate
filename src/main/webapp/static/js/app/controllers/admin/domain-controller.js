@@ -1,13 +1,13 @@
 (function () {
 
-    var common = angular.module('common');
+    var admin = angular.module('admin');
 
-    common.controller('DomainController', ['$http', '$scope', '$resource', '$route','domainService', function ($http, $scope, $resource, $route,domainService) {
+    admin.controller('DomainController', ['$http', '$scope', '$resource', '$route','domainService', function ($http, $scope, $resource, $route,domainService) {
 
         var ctrl = this;
 
         $scope.form = {};
-        $scope.domain = Domain.get({id: $route.current.params.id});
+        $scope.domain = domainService.getOne($route.current.params.id);
 
 
         $scope.changeActive = function (row) {

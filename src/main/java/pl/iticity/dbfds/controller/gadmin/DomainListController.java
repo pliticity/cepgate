@@ -5,14 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.controller.BaseController;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.common.ListDomainMixin;
-import pl.iticity.dbfds.model.mixins.quotation.ListQICMixin;
-import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.FileService;
-import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;
 
@@ -31,7 +28,7 @@ public class DomainListController extends BaseController {
 
     @RequestMapping(value = "/query", method = RequestMethod.GET)
     public String getAllDomains() {
-        AuthorizationProvider.hasRole(Role.GLOBAL_ADMIN, null);
+        AuthorizationProvider.assertRole(Role.GLOBAL_ADMIN, null);
         List<Domain> domains = domainService.findAll();
         for (Domain domain : domains) {
             domain.setNoOfUsers(principalService.findByDomain(domain).size());
@@ -43,7 +40,7 @@ public class DomainListController extends BaseController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, params = {"active"})
     public String putToggleDomainActive(@PathVariable("id") String id, @RequestParam("active") boolean active) {
-        AuthorizationProvider.hasRole(Role.GLOBAL_ADMIN, null);
+        AuthorizationProvider.assertRole(Role.GLOBAL_ADMIN, null);
         Domain domain = domainService.findById(id);
         domain.setActive(active);
         domainService.save(domain);

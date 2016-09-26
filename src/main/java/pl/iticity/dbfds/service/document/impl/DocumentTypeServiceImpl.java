@@ -7,7 +7,6 @@ import pl.iticity.dbfds.repository.document.DocumentTypeRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.AbstractScopedService;
-import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.document.DocumentTypeService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
@@ -39,7 +38,7 @@ public class DocumentTypeServiceImpl extends AbstractScopedService<DocumentType,
 
     public List<DocumentType> toggleDocType(String id, boolean toggle){
         DocumentType type = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,type.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN,type.getDomain());
         type.setActive(toggle);
         type.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         repo.save(type);
@@ -48,7 +47,7 @@ public class DocumentTypeServiceImpl extends AbstractScopedService<DocumentType,
 
     public List<DocumentType> deleteDocType(String id){
         DocumentType docType = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,docType.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN,docType.getDomain());
         docType.setRemoved(true);
         docType.setActive(false);
         docType.setPrincipal(PrincipalUtils.getCurrentPrincipal());

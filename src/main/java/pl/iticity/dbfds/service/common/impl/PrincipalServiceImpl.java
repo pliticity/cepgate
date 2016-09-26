@@ -119,7 +119,7 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
 
     public List<Principal> changeActive(String id, boolean active){
         Principal principal = repo.findOne(id);
-        AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN,principal.getDomain());
         principal.setActive(active);
         repo.save(principal);
         return findByDomain(principal.getDomain());
@@ -128,9 +128,9 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
     public List<Principal> changeRole(String id, Role role){
         Principal principal = repo.findOne(id);
         if(Role.GLOBAL_ADMIN.equals(role)){
-            AuthorizationProvider.hasRole(Role.GLOBAL_ADMIN,null);
+            AuthorizationProvider.assertRole(Role.GLOBAL_ADMIN,null);
         }else{
-            AuthorizationProvider.hasRole(Role.ADMIN,principal.getDomain());
+            AuthorizationProvider.assertRole(Role.ADMIN,principal.getDomain());
         }
         principal.setRole(role);
         repo.save(principal);
@@ -152,7 +152,7 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
 
     @Override
     public Principal addPrincipal(Principal principal, String domainId) {
-        AuthorizationProvider.hasRole(Role.ADMIN,domainId == null ? PrincipalUtils.getCurrentDomain() : domainService.findById(domainId));
+        AuthorizationProvider.assertRole(Role.ADMIN,domainId == null ? PrincipalUtils.getCurrentDomain() : domainService.findById(domainId));
         principal.setRole(Role.USER);
         if (domainId != null) {
             principal.setDomain(domainService.findById(domainId));

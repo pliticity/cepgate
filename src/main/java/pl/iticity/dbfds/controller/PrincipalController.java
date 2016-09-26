@@ -11,10 +11,8 @@ import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.common.PrincipalService;
-import pl.iticity.dbfds.service.common.impl.PrincipalServiceImpl;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -67,7 +65,7 @@ public class PrincipalController {
     @ResponseBody
     List<Principal> postCreatePrincipal(@RequestBody Principal principal) throws JsonProcessingException {
         Principal dbPrincipal = principalService.findById(principal.getId());
-        AuthorizationProvider.hasRole(Role.ADMIN, dbPrincipal.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN, dbPrincipal.getDomain());
         dbPrincipal.setFirstName(principal.getFirstName());
         dbPrincipal.setLastName(principal.getLastName());
         dbPrincipal.setAcronym(principal.getAcronym());

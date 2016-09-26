@@ -6,7 +6,7 @@
     admin.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.when('/:id', {
-                templateUrl: 'partials/domain/index.html'
+                templateUrl: 'partials/admin/index.html'
             });
         }]);
 

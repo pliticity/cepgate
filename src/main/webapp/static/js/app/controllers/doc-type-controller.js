@@ -31,7 +31,7 @@
                     //$scope.types = succ.data;
                     $timeout(function () {
                         $("#setup").html("");
-                        var setup = $compile("<ng-include src=\"'/partials/domain/setup-tab.html'\"></ng-include>")($scope);
+                        var setup = $compile("<ng-include src=\"'/partials/admin/setup-tab.html'\"></ng-include>")($scope);
                         $("#setup").html(setup);
                     },500);
                 });

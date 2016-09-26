@@ -56,7 +56,7 @@
                 </td>
                 <td ng-controller="PrincipalController" class="text-center" style="z-index: 100;">
                     <button class="btn btn-warning btn-xs" data-toggle="modal" data-target="#edit-user-modal-{{row.id}}">Edit</button>
-                    <ng-include ng-init="setPrincipal(row)" src="'/partials/domain/edit-user-modal.html'"></ng-include>
+                    <ng-include ng-init="setPrincipal(row)" src="'/partials/admin/edit-user-modal.html'"></ng-include>
                 </td>
             </tr>
             </tbody>
@@ -79,6 +79,6 @@
     </div>
 </div>
 
-<ng-include src="'/partials/domain/users/security.html'"></ng-include>
+<ng-include src="'/partials/admin/users/security.html'"></ng-include>
 
-<ng-include src="'/partials/domain/add-user-modal.html'"></ng-include>
+<ng-include src="'/partials/admin/add-user-modal.html'"></ng-include>

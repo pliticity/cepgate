@@ -61,7 +61,7 @@
                 $http({url: '/classification', method: 'post', data: $scope.classification}).then(function (succ) {
                     $timeout(function () {
                         $("#classifications").html("");
-                        var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                        var setup = $compile("<ng-include src=\"'/partials/admin/setup/classification.html'\"></ng-include>")($scope);
                         $("#classifications").html(setup);
                     },500);
                     //$scope.classifications = succ.data;
@@ -81,7 +81,7 @@
             $http({url: '/classification/'+row.id, method: 'put',params:{toggle:row.active}}).then(function (succ) {
                 $timeout(function () {
                     $("#classifications").html("");
-                    var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                    var setup = $compile("<ng-include src=\"'/partials/admin/setup/classification.html'\"></ng-include>")($scope);
                     $("#classifications").html(setup);
                 },0);
             });
@@ -92,7 +92,7 @@
                 $http({url: '/classification/'+row.id, method: 'delete'}).then(function (succ) {
                     $timeout(function () {
                         $("#classifications").html("");
-                        var setup = $compile("<ng-include src=\"'/partials/domain/setup/classification.html'\"></ng-include>")($scope);
+                        var setup = $compile("<ng-include src=\"'/partials/admin/setup/classification.html'\"></ng-include>")($scope);
                         $("#classifications").html(setup);
                     },0);
                 });

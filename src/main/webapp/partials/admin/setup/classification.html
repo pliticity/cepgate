@@ -40,7 +40,7 @@
                     </button>
                     <button ng-if="row.assigned == false && row.defaultValue == false" class="btn btn-danger btn-xs" ng-click="remove(row)">Delete
                     </button>
-                    <div ng-if="row.defaultValue == false" ng-include="'/partials/domain/setup/add-classification-modal.html'"></div>
+                    <div ng-if="row.defaultValue == false" ng-include="'/partials/admin/setup/add-classification-modal.html'"></div>
                 </td>
             </tr>
             </tbody>
@@ -49,5 +49,5 @@
     </div>
 </div>
 
-<ng-include src="'/partials/domain/setup/add-classification-modal.html'"></ng-include>
+<ng-include src="'/partials/admin/setup/add-classification-modal.html'"></ng-include>
 </span>

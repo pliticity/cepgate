@@ -1,4 +1,4 @@
-<span ng-controller="DomainController">
+<span ng-controller="DomainController as ctrl">
 <!-- HEADER -->
 
 <ng-include src="'/partials/common/header.html'"></ng-include>
@@ -20,19 +20,19 @@
 
             <div class="tab-content" id="domainTabsContent">
                 <div role="tabpanel" class="tab-pane active" id="info">
-                    <ng-include src="'/partials/domain/info-tab.html'"></ng-include>
+                    <ng-include src="'/partials/admin/info-tab.html'"></ng-include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="users">
-                    <ng-include src="'/partials/domain/users-tab.html'"></ng-include>
+                    <ng-include src="'/partials/admin/users-tab.html'"></ng-include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="classifications">
-                    <ng-include src="'/partials/domain/setup/classification.html'"></ng-include>
+                    <ng-include src="'/partials/admin/setup/classification.html'"></ng-include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="templates">
-                    <ng-include src="'/partials/domain/templates-tab.html'"></ng-include>
+                    <ng-include src="'/partials/admin/templates-tab.html'"></ng-include>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="setup">
-                    <ng-include src="'/partials/domain/setup-tab.html'"></ng-include>
+                    <ng-include src="'/partials/admin/setup-tab.html'"></ng-include>
                 </div>
             </div>
         </div>

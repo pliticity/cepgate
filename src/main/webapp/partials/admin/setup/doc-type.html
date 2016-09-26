@@ -34,7 +34,7 @@
                     </button>
                     <button ng-if="row.defaultValue == false" class="btn btn-danger btn-xs" ng-click="remove(row)">Delete
                     </button>
-                    <div ng-if="row.defaultValue == false" ng-include="'/partials/domain/setup/add-doc-type-modal.html'" ng-controller="DocTypeController" ng-init="docType=row;"></div>
+                    <div ng-if="row.defaultValue == false" ng-include="'/partials/admin/setup/add-doc-type-modal.html'" ng-controller="DocTypeController" ng-init="docType=row;"></div>
                 </td>
             </tr>
             </tbody>
@@ -43,4 +43,4 @@
     </div>
 </div>
 
-<ng-include src="'/partials/domain/setup/add-doc-type-modal.html'" ng-controller="DocTypeController" ng-init="docType={id:0};"></ng-include>
+<ng-include src="'/partials/admin/setup/add-doc-type-modal.html'" ng-controller="DocTypeController" ng-init="docType={id:0};"></ng-include>

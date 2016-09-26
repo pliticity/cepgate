@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.mixins.DomainOwnerMixin;
+import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.common.PrincipalService;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/domain")
-public class DomainAdminController {
+public class DomainController {
 
     @Autowired
     private FileService fileService;
@@ -39,21 +40,24 @@ public class DomainAdminController {
     public
     @ResponseBody
     boolean getIsAdmin() {
-        return SecurityUtils.getSubject().hasRole(Role.ADMIN.name());
+        return SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().hasRole(Role.ADMIN.name());
     }
 
     @RequestMapping(value = "", params = {"isGlobalAdmin"})
     public
     @ResponseBody
     boolean getIsGlobalAdmin() {
-        return SecurityUtils.getSubject().hasRole(Role.GLOBAL_ADMIN.name());
+        return SecurityUtils.getSubject().isAuthenticated() && SecurityUtils.getSubject().hasRole(Role.GLOBAL_ADMIN.name());
     }
 
     @RequestMapping(value = "", params = {"domain"})
     public
     @ResponseBody
     Domain getDomain() throws IllegalAccessException {
-        return PrincipalUtils.getCurrentDomain();
+        if(SecurityUtils.getSubject().isAuthenticated()){
+            return PrincipalUtils.getCurrentDomain();
+        }
+        return null;
     }
 
     @RequestMapping("/{id}")
