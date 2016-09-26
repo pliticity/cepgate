@@ -15,7 +15,6 @@ import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.DocumentTypeService;
 import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.document.FileService;
-import pl.iticity.dbfds.service.common.impl.PrincipalServiceImpl;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;

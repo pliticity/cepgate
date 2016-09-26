@@ -1,13 +1,14 @@
 (function () {
 
-    var admin = angular.module('admin');
+    var common = angular.module('common');
 
-    admin.controller('AdminDomainController', ['$http', '$scope', '$window','$resource','$route', function ($http, $scope, $window,$resource,$route) {
+    common.controller('DomainController', ['$http', '$scope', '$resource', '$route','domainService', function ($http, $scope, $resource, $route,domainService) {
 
-        var Domain = $resource('/admin/domain/:id', {}, {'query': {'url': '/admin/domain', 'isArray': true}});
+        var ctrl = this;
 
         $scope.form = {};
-        $scope.domain = Domain.get({id:$route.current.params.id});
+        $scope.domain = Domain.get({id: $route.current.params.id});
+
 
         $scope.changeActive = function (row) {
             $http({url: '/principal/' + row.id, method: 'post', params: {'active': row.active}}).then(function (succ) {

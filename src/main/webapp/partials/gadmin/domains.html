@@ -4,10 +4,10 @@
 
 <!-- CONTENT -->
 
-<div class="row">
+<div class="row" ng-controller="DomainListController as ctrl" ng-init="ctrl.getModels()">
     <div class="col-xs-6 col-xs-offset-3">
 
-        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="domains">
+        <table class="table table-condensed table-hover" st-table="displayCollection" st-safe-src="ctrl.models">
             <span us-spinner="{radius:30, width:8, length: 16}"></span>
             <thead>
             <tr>
@@ -35,15 +35,15 @@
                 </td>
             </tr>
             <tr class="animate-row"
-                ng-repeat="row in displayCollection" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">
-                <td ng-click="openDomain(row.id)">{{row.accountNo}}</td>
-                <td ng-click="openDomain(row.id)">{{row.company}}</td>
-                <td ng-click="openDomain(row.id)">{{row.name}}</td>
-                <td ng-click="openDomain(row.id)">{{row.creationDate}}</td>
-                <td><input type="checkbox" ng-model="row.active" ng-change="toggleActive(row)"/></td>
-                <td ng-click="openDomain(row.id)">{{row.noOfFiles}}</td>
-                <td ng-click="openDomain(row.id)">{{row.memory}}GB</td>
-                <td ng-click="openDomain(row.id)">{{row.noOfUsers}}</td>
+                ng-repeat="row in displayCollection" cg-open-domain="row.id">
+                <td>{{row.accountNo}}</td>
+                <td>{{row.company}}</td>
+                <td>{{row.name}}</td>
+                <td>{{row.creationDate}}</td>
+                <td><input type="checkbox" ng-model="row.active" ng-change="ctrl.toggleActive(row)"/></td>
+                <td>{{row.noOfFiles}}</td>
+                <td>{{row.memory}}GB</td>
+                <td>{{row.noOfUsers}}</td>
             </tr>
             </tbody>
             <tfoot>
@@ -51,12 +51,13 @@
                 <td colspan="7"></td>
                 <td colspan="1" class="text-right">
                     <label for="itemsPerPage">Items per page</label>
-                    <input id="itemsPerPage" class="form-control input-sm" ng-model="itemsPerPage"/>
+                    <input id="itemsPerPage" class="form-control input-sm" ng-model="ctrl.settings.itemsPerPage" ng-change="ctrl.settings.update()"/>
                 </td>
             </tr>
             <tr>
                 <td colspan="8" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsPerPage" st-displayed-pages="3"></div>
+                    <div st-pagination="" st-items-by-page="ctrl.settings.itemsPerPage"
+                         st-template="/partials/document/list/pagination.html"></div>
                 </td>
             </tr>
             </tfoot>
@@ -65,4 +66,4 @@
     </div>
 </div>
 
-<ng-include src="'/partials/admin/add-domain-modal.html'"></ng-include>
+<ng-include src="'/partials/gadmin/add-domain-modal.html'"></ng-include>

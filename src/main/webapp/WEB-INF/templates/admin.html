@@ -9,14 +9,14 @@
 
     <link rel="stylesheet" type="text/css" href="/static/css/app/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/app/bootstrap-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="/static/css/app/bootstrap-treeview.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/app/angular-tags-input.bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="/static/css/app/app.css"/>
 
     <link rel="icon" href="/favicon.ico?v=2" />
 
 </head>
 
-<body ng-app="dashboard" ng-cloak="">
+<body ng-app="admin" ng-cloak="">
 
 <div id="view" ng-view=""></div>
 
@@ -27,7 +27,8 @@
 <!-- BOOTSTRAP -->
 
 <script src="/static/js/app/lib/bootstrap/bootstrap.js"></script>
-<script src="/static/js/app/lib/bootstrap/bootstrap-treeview.min.js"></script>
+
+<!-- ANGULAR -->
 
 <script src="/static/js/app/lib/angular/angular.js"></script>
 <script src="/static/js/app/lib/angular/angular-cookies.js"></script>
@@ -44,14 +45,27 @@
 <script src="/static/js/app/lib/angular/angular-material.js"></script>
 <script src="/static/js/app/lib/angular/angular-aria.js"></script>
 
+<!-- CEPGATE -->
+
+<script src="/static/js/app/lib/cg.js"></script>
+<script src="/static/js/app/controllers/cg-list-controller.js"></script>
+<script src="/static/js/app/service/cg-service.js"></script>
+
 <script src="/static/js/app/module/common.js"></script>
 <script src="/static/js/app/module/document.js"></script>
-<script src="/static/js/app/module/dashboard.js"></script>
+<script src="/static/js/app/module/auth.js"></script>
+<script src="/static/js/app/module/admin.js"></script>
 
 <script src="/static/js/app/service/common/principal-service.js"></script>
+<script src="/static/js/app/service/common/domain-service.js"></script>
+<script src="/static/js/app/service/common/settings-service.js"></script>
 
+<script src="/static/js/app/controllers/gadmin/domain-list-controller.js"></script>
+<script src="/static/js/app/controllers/global-admin-controller.js"></script>
+<script src="/static/js/app/controllers/admin-domain-controller.js"></script>
 <script src="/static/js/app/controllers/common/header-controller.js"></script>
-
+<script src="/static/js/app/controllers/signup-controller.js"></script>
+<script src="/static/js/app/controllers/principal-controller.js"></script>
 
 </body>
 

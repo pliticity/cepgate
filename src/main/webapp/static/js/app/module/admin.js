@@ -5,14 +5,8 @@
 
     admin.config(['$routeProvider',
         function ($routeProvider) {
-            $routeProvider.when('/', {
-                templateUrl: 'partials/admin/domains.html',
-                controller: 'AdminController'
-            }).when('/domain/:id', {
-                templateUrl: 'partials/admin/domain.html',
-                controller: 'AdminDomainController'
-            }).otherwise({
-                redirectTo: '/'
+            $routeProvider.when('/:id', {
+                templateUrl: 'partials/domain/index.html'
             });
         }]);
 
