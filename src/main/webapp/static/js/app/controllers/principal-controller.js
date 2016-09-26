@@ -1,8 +1,8 @@
 (function () {
 
-    var admin = angular.module('dhd');
+    var document = angular.module('document');
 
-    admin.directive('existsValidator', function ($http, $q) {
+    document.directive('existsValidator', function ($http, $q) {
         return {
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
@@ -27,7 +27,7 @@
         };
     });
 
-    admin.directive('acronymValidator', function ($http, $q) {
+    document.directive('acronymValidator', function ($http, $q) {
         return {
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
@@ -52,7 +52,7 @@
         };
     });
 
-    admin.controller('PrincipalController', ['$http', '$scope', '$window', '$resource', '$route','$timeout', function ($http, $scope, $window, $resource, $route,$timeout) {
+    document.controller('PrincipalController', ['$http', '$scope', '$window', '$resource', '$route','$timeout', function ($http, $scope, $window, $resource, $route,$timeout) {
 
         $scope.principal = {};
         $scope.form = {};

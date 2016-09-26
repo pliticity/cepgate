@@ -1,13 +1,13 @@
 (function () {
 
-    var dhdModule = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhdModule.factory('Document', ['$resource',
+    document.factory('Document', ['$resource',
         function ($resource) {
             return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    dhdModule.controller('DocumentController', ['$timeout','settingsService','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,settingsService,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
+    document.controller('DocumentController', ['$timeout','settingsService','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,settingsService,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
 
         // DOCUMENT
 
@@ -275,6 +275,23 @@
                     $scope.files = [];
                     $scope.uploadFiles(files, docId);
                     $scope.form.documentForm.$submitted = false;
+
+                    var id = docId
+                    var name = response.documentName;
+
+                    var e = $("#tab-"+id);
+                    if(e.length>0){
+                        $("#tab-"+id+" a:last").tab('show');
+                        return;
+                    }
+
+                    var link = "<li id='tab-"+id+"' role='presentation'><a close-tab="+id+" href='#" + id + "' aria-controls='" + id + "' role='tab'data-toggle='tab'><span id='tab-name-"+id+"'>" + name + "</span></li>";
+                    var tab = "<div role='tabpanel' class='tab-pane' id='" + id + "' ng-controller='DocumentController'> <div ng-init=\"get('" + id + "')\"></div> <ng-include src=\"'/partials/document/details.html'\"></ng-include></div>";
+
+                    $("#documentTabs").append($compile(link)($scope));
+                    $("#documentsTabContent").append($compile(tab)($scope));
+
+                    $("#tab-"+id+" a:last").tab('show');
                 });
             }
         };

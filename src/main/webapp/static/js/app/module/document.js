@@ -1,9 +1,9 @@
 (function () {
     'use strict';
 
-    var dhdModule = angular.module('dhd', ['common','ngCookies', 'ngResource', 'ngRoute', 'ngAnimate', 'ngTagsInput', 'ngFileUpload', 'smart-table', 'ngLoadingSpinner', 'ngMessages','ngMaterial']);
+    var document = angular.module('document', ['common','ngCookies', 'ngResource', 'ngRoute', 'ngAnimate', 'ngTagsInput', 'ngFileUpload', 'smart-table', 'ngLoadingSpinner', 'ngMessages','ngMaterial']);
 
-    dhdModule.config(['$routeProvider',
+    document.config(['$routeProvider',
         function ($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'partials/document/index.html'

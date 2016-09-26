@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.controller('CommentController', ['$http', '$scope', function ($http, $scope) {
+    document.controller('CommentController', ['$http', '$scope', function ($http, $scope) {
 
         var self = this;
         $scope.form = {};

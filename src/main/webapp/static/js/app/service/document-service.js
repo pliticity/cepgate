@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.service('documentService', ['$resource', '$filter', '$http', function ($resource, $filter, $http) {
+    document.service('documentService', ['$resource', '$filter', '$http', function ($resource, $filter, $http) {
 
         var thisService = this;
 

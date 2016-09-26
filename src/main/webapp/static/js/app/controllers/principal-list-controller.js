@@ -1,8 +1,8 @@
 (function () {
 
-    var cepgate = angular.module('dhd');
+    var document = angular.module('document');
 
-    cepgate.controller('PrincipalListController', ['$http', '$scope', function ($http, $scope) {
+    document.controller('PrincipalListController', ['$http', '$scope', function ($http, $scope) {
 
         $scope.principals = {};
 

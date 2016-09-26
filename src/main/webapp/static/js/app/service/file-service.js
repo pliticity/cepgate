@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.service('fileService', ['$http', '$window', function ($http, $window) {
+    document.service('fileService', ['$http', '$window', function ($http, $window) {
 
         this.downloadFiles = function (filesId,tableId) {
             var files = [];

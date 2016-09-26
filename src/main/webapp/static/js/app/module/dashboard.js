@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var dashboard = angular.module('dashboard', ['common','dhd','ngRoute']);
+    var dashboard = angular.module('dashboard', ['common','document','ngRoute']);
 
     dashboard.config(['$routeProvider',
         function ($routeProvider) {

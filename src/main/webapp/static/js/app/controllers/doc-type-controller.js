@@ -1,8 +1,8 @@
 (function () {
 
-    var cepgate = angular.module('dhd');
+    var document = angular.module('document');
 
-    cepgate.controller('DocTypeController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
+    document.controller('DocTypeController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
 
         $scope.docType ={};
         $scope.form = {};

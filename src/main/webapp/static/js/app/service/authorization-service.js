@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.service('authorizationService', ['$http', '$window', function ($http) {
+    document.service('authorizationService', ['$http', '$window', function ($http) {
 
         this.principal = {};
 

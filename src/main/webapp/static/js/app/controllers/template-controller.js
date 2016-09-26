@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.controller('TemplateController', ['$http', '$scope','$window','Upload', function ($http, $scope,$window,Upload) {
+    document.controller('TemplateController', ['$http', '$scope','$window','Upload', function ($http, $scope,$window,Upload) {
 
         $scope.templates = [];
         $scope.selectedTemplate = {id:""};

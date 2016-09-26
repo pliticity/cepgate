@@ -1,8 +1,8 @@
 (function () {
 
-    var dhd = angular.module('dhd');
+    var document = angular.module('document');
 
-    dhd.directive('classificationExists', function ($http, $q) {
+    document.directive('classificationExists', function ($http, $q) {
         return {
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
@@ -27,7 +27,7 @@
         };
     });
 
-    dhd.controller('ClassificationController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
+    document.controller('ClassificationController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
 
         $scope.classifications = [];
         $scope.classification = {id:'0'};
