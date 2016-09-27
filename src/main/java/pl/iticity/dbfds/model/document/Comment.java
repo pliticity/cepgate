@@ -1,14 +1,15 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
 import java.util.Date;
 
-public class Comment extends Scoped{
+public class Comment extends Scoped {
 
     private String content;
 

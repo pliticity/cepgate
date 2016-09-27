@@ -13,8 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.DocumentState;
+import pl.iticity.dbfds.model.document.DocumentType;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.model.dto.DocToCopyDTO;
-import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
 import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.DocumentTypeService;
@@ -57,7 +60,7 @@ public class DocumentController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public
     @ResponseBody
-    DocumentInfo postCreate(@RequestBody DocumentInfo model) {
+    DocumentInformationCarrier postCreate(@RequestBody DocumentInformationCarrier model) {
         service.create(model);
         return model;
     }
@@ -93,7 +96,7 @@ public class DocumentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public
     @ResponseBody
-    DocumentInfo getOne(@PathVariable String id) {
+    DocumentInformationCarrier getOne(@PathVariable String id) {
         return service.getById(id);
     }
 
@@ -109,7 +112,7 @@ public class DocumentController {
     @ResponseBody
     String getNewDocument() throws JsonProcessingException {
         LocalDateTime start = LocalDateTime.now();
-        DocumentInfo s = service.createNewDocumentInfo();
+        DocumentInformationCarrier s = service.createNewDocumentInfo();
         LocalDateTime end = LocalDateTime.now();
         Duration duration = new Duration(start.toDate().getTime(),end.toDate().getTime());
         logger.info(MessageFormat.format("Request took {0} ms",duration.getMillis()));
@@ -151,18 +154,18 @@ public class DocumentController {
     @RequestMapping(value = "/copy", method = RequestMethod.POST)
     public
     @ResponseBody
-    List<DocumentInfo> postCopyDocuments(@RequestBody List<DocToCopyDTO> docs) throws FileNotFoundException {
-        List<DocumentInfo> documentInfos = Lists.newArrayList();
+    List<DocumentInformationCarrier> postCopyDocuments(@RequestBody List<DocToCopyDTO> docs) throws FileNotFoundException {
+        List<DocumentInformationCarrier> documentInformationCarriers = Lists.newArrayList();
         for (DocToCopyDTO doc : docs) {
-            documentInfos.add(service.copyDocument(doc.getId(),doc.getFiles()));
+            documentInformationCarriers.add(service.copyDocument(doc.getId(),doc.getFiles()));
         }
-        return documentInfos;
+        return documentInformationCarriers;
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public
     @ResponseBody
-    DocumentInfo putSave(@PathVariable("id") String id, @RequestBody DocumentInfo model) {
+    DocumentInformationCarrier putSave(@PathVariable("id") String id, @RequestBody DocumentInformationCarrier model) {
         service.save(model);
         return model;
     }
@@ -178,18 +181,6 @@ public class DocumentController {
     @RequestMapping(value = "/autocomplete/{docName}", method = RequestMethod.GET)
     public @ResponseBody String getAutoCompleteDocument(@PathVariable(value = "docName") String docName) throws JsonProcessingException {
         return service.autoCompleteDocument(docName);
-    }
-
-    @RequestMapping(value = "/link/{pId}", method = RequestMethod.POST)
-    public @ResponseBody
-    List<Link> postLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody DocumentInfo linkTo){
-        return linkService.createLink(pId,DocumentInfo.class,linkTo);
-    }
-
-    @RequestMapping(value = "/link/{pId}", method = RequestMethod.DELETE)
-    public @ResponseBody
-    List<Link> deleteLinkDocuments(@PathVariable(value = "pId") String pId, @RequestBody Link link){
-        return linkService.deleteLink(pId,DocumentInfo.class,link);
     }
 
     @RequestMapping(value = "/{id}/state/{state}", method = RequestMethod.PUT)

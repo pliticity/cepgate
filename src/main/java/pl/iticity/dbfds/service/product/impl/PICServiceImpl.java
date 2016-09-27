@@ -2,11 +2,10 @@ package pl.iticity.dbfds.service.product.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.product.ProductState;
-import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.product.PICRepository;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;

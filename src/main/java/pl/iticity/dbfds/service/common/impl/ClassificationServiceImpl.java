@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.ClassifiableRepository;
 import pl.iticity.dbfds.repository.common.ClassificationRepository;

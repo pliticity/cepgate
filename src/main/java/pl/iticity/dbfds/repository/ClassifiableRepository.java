@@ -1,6 +1,6 @@
 package pl.iticity.dbfds.repository;
 
-import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.common.Classification;
 
 import java.util.List;
 

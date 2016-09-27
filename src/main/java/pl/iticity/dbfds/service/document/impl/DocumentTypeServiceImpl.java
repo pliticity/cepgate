@@ -1,7 +1,7 @@
 package pl.iticity.dbfds.service.document.impl;
 
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.DocumentType;
+import pl.iticity.dbfds.model.document.DocumentType;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.document.DocumentTypeRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;

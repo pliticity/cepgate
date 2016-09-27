@@ -1,25 +1,18 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.common;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 
-import javax.annotation.Nullable;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -30,13 +23,9 @@ import java.util.List;
                 @CompoundIndex(def = "{'classificationId' : 1,'domain' :1}", unique = true)
         }
 )
-public class Classification extends Scoped{
+public class Classification extends Scoped {
 
     public static Classification EMAIL = new Classification("E-Mail", "EM", true);
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     @Size(min = 1, max = 25)
     @NotNull
@@ -71,13 +60,6 @@ public class Classification extends Scoped{
         this.defaultValue = defaultValue;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public boolean isActive() {
         return active;

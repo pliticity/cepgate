@@ -5,10 +5,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.DocumentState;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.model.Revision;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.DocumentState;
+import pl.iticity.dbfds.model.document.FileInfo;
+import pl.iticity.dbfds.model.document.Revision;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.RevisionService;
@@ -28,7 +28,7 @@ public class RevisionServiceImpl implements RevisionService{
     private FileService fileService;
 
     public List<Revision> addRevision(String docId) throws JsonProcessingException, FileNotFoundException {
-        DocumentInfo document = documentInfoRepository.findOne(docId);
+        DocumentInformationCarrier document = documentInfoRepository.findOne(docId);
         List<FileInfo> files = document.getFiles();
         document.setFiles(fileService.copyFiles(document.getFiles()));
         Revision revision = new Revision(document.getRevision(),document,document.getArchivedDate());
@@ -40,8 +40,8 @@ public class RevisionServiceImpl implements RevisionService{
         return document.getRevisions();
     }
 
-    public DocumentInfo fetchRevision(String docId, final String rev) throws IOException {
-        DocumentInfo document = documentInfoRepository.findOne(docId);
+    public DocumentInformationCarrier fetchRevision(String docId, final String rev) throws IOException {
+        DocumentInformationCarrier document = documentInfoRepository.findOne(docId);
         Revision revision = Iterables.find(document.getRevisions(), new Predicate<Revision>() {
             @Override
             public boolean apply(@Nullable Revision revision) {

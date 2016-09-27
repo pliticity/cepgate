@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.Revision;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.Revision;
 import pl.iticity.dbfds.service.document.RevisionService;
 
 import java.io.FileNotFoundException;
@@ -29,7 +29,7 @@ public class RevisionController {
     @RequestMapping(value = "/{rev}", method = RequestMethod.GET)
     public
     @ResponseBody
-    DocumentInfo postAddRevision(@PathVariable(value = "id") String id, @PathVariable(value = "rev") String rev) throws IOException {
+    DocumentInformationCarrier postAddRevision(@PathVariable(value = "id") String id, @PathVariable(value = "rev") String rev) throws IOException {
         return revisionService.fetchRevision(id,rev);
     }
 

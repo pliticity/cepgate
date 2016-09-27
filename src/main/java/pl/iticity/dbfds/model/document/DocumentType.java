@@ -1,10 +1,10 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Lists;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,17 +12,13 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class DocumentType extends Scoped{
+public class DocumentType extends Scoped {
 
     public static final DocumentType XD = new DocumentType("XX","Drawing",true);
     public static final DocumentType DOC = new DocumentType("DOC","Document",true);
     public static final DocumentType MOM = new DocumentType("MOM","Minutes of Meeting",true);
     public static final DocumentType PI = new DocumentType("Picture","Picture",true);
     public static final DocumentType EMAIL = new DocumentType("e-mail","e-mail",true);
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     @NotNull
     private String typeId;
@@ -57,14 +53,6 @@ public class DocumentType extends Scoped{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public boolean isActive() {

@@ -7,7 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.common.Classification;
+import pl.iticity.dbfds.model.document.*;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.common.ClassificationService;
@@ -61,7 +62,7 @@ public class MailActivator{
         String from = ((InternetAddress)payload.getFrom()[0]).getAddress();
         Principal principal = principalService.findByEmail(from);
         if(principal!=null){
-            DocumentInfo doc = new DocumentInfo();
+            DocumentInformationCarrier doc = new DocumentInformationCarrier();
             doc.setState(DocumentState.IN_PROGRESS);
             doc.setRevision(new RevisionSymbol(0l));
             Classification emailClassitication = Iterables.find(classificationService.findByDomain(principal.getDomain(), false), new Predicate<Classification>() {
@@ -94,7 +95,7 @@ public class MailActivator{
             }
             doc.setDocType(emailDocType);
             doc.setDomain(principal.getDomain());
-            doc.setKind(DocumentInfo.Kind.INTERNAL);
+            doc.setKind(DocumentInformationCarrier.Kind.INTERNAL);
             doc.setRemoved(false);
             doc.setMasterDocumentNumber(documentService.getNextMasterDocumentNumber(principal.getDomain()));
             doc.setDocumentNumber(String.valueOf(doc.getMasterDocumentNumber()));

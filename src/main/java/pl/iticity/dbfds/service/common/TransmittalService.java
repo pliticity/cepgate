@@ -1,6 +1,6 @@
 package pl.iticity.dbfds.service.common;
 
-import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.Mail;
 import pl.iticity.dbfds.security.Principal;
 
@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface TransmittalService {
 
-    public File createTransmittal(Principal sender, Principal recipient, List<DocumentInfo> documentInfo, Mail mail) throws IOException;
+    public File createTransmittal(Principal sender, Principal recipient, List<DocumentInformationCarrier> documentInformationCarrier, Mail mail) throws IOException;
 
 }

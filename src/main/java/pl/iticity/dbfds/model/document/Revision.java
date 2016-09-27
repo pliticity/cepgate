@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,7 +29,7 @@ public class Revision {
     public Revision() {
     }
 
-    public Revision(RevisionSymbol revision, DocumentInfo data, Date date) throws JsonProcessingException {
+    public Revision(RevisionSymbol revision, DocumentInformationCarrier data, Date date) throws JsonProcessingException {
         this.principal = PrincipalUtils.getCurrentPrincipal();
         this.date = date;
         this.revision = revision;
@@ -70,8 +70,8 @@ public class Revision {
     }
 
     @JsonIgnore
-    public DocumentInfo getRevisionData() throws IOException {
+    public DocumentInformationCarrier getRevisionData() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(getData(), DocumentInfo.class);
+        return mapper.readValue(getData(), DocumentInformationCarrier.class);
     }
 }

@@ -3,7 +3,7 @@ package pl.iticity.dbfds.file;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.util.DefaultConfig;

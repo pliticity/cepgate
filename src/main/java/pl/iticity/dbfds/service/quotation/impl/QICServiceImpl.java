@@ -2,7 +2,7 @@ package pl.iticity.dbfds.service.quotation.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.quotation.QICRepository;

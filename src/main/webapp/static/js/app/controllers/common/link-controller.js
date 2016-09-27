@@ -13,19 +13,19 @@
         self.linkableType = 'document';
 
         function link() {
-            $http({url: '/link/' + self.linkable.id, method: 'post',params:{type:self.linkableType}, data: self.selectedItem}).then(function (succ) {
+            $http({url: '/link', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType,objectId:self.selectedItem.id,objectType: 'document',linkType:'LINK'}}).then(function (succ) {
                 self.linkable.links = succ.data;
                 self.selectedItem = null;
             });
         };
 
         function unlink(link) {
-            $http({url: '/unlink/' + self.linkable.id, method: 'post',params:{type:self.linkableType}, data: link}).then(function (succ) {
+            $http({url: '/unlink', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType}, data: link}).then(function (succ) {
                 self.linkable.links = succ.data;
             });
         };
 
-        function setLinkable(linkable,type) {
+        function setLinkable(linkable, type) {
             self.linkable = linkable;
             self.linkableType = type;
         };

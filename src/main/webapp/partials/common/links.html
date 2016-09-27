@@ -20,25 +20,25 @@
     </thead>
     <tbody>
     <tr ng-repeat="link in linkCtrl.linkable.links">
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.linkType}}</td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
-            {{link.documentInfo.classification.classificationId}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">{{link.linkType}}</td>
+        <td ng-click="linkCtrl.openDic(link.object.id)">
+            {{link.object.classification.classificationId}}
         </td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
-            {{link.documentInfo.classification.name}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">
+            {{link.object.classification.name}}
         </td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
-            {{link.documentInfo.documentNumber}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">
+            {{link.object.documentNumber}}
         </td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">
-            {{link.documentInfo.revision.effective}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">
+            {{link.object.revision.effective}}
         </td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.documentInfo.docType.name}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">{{link.object.docType.name}}
         </td>
-        <td ng-click="linkCtrl.openDic(link.documentInfo.id)">{{link.documentName}}
+        <td ng-click="linkCtrl.openDic(link.object.id)">{{link.object.documentName}}
         </td>
         <td>
-            <button ng-disabled="link.documentInfo.classification.modelId!=null" class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete Link</button>
+            <button ng-disabled="link.object.classification.modelId!=null" class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete Link</button>
         </td>
     </tr>
     </tbody>

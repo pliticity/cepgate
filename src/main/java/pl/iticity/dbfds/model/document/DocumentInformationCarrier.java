@@ -1,19 +1,19 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.Linkable;
+import pl.iticity.dbfds.model.Tag;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@org.springframework.data.mongodb.core.mapping.Document
+@org.springframework.data.mongodb.core.mapping.Document(collection = "documentInfo")
 @CompoundIndexes(value =
         {
                 @CompoundIndex(def = "{'masterDocumentNumber' : 1,'domain' :1}", unique = true),
@@ -29,7 +29,7 @@ import java.util.List;
         }
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DocumentInfo implements Linkable{
+public class DocumentInformationCarrier extends Linkable {
 
     public enum Kind {
         INTERNAL, EXTERNAL;
@@ -38,10 +38,6 @@ public class DocumentInfo implements Linkable{
     public enum Provider {
         COMPANY,SUPPLIER,CUSTOMER
     }
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     @ManyToOne
     @NotNull
@@ -83,14 +79,7 @@ public class DocumentInfo implements Linkable{
     @DBRef
     private List<FileInfo> files;
 
-    @NotNull
-    @DBRef
-    @JsonIgnoreProperties(value = {"name", "active"})
-    private Domain domain;
-
     private String securityGroup;
-
-    private boolean removed;
 
     private boolean favourite;
 
@@ -99,8 +88,6 @@ public class DocumentInfo implements Linkable{
     private List<Tag> tags;
 
     private List<DocumentActivity> activities;
-
-    private List<Link> links;
 
     private List<Comment> comments;
 
@@ -150,17 +137,6 @@ public class DocumentInfo implements Linkable{
         this.comments = comments;
     }
 
-    public List<Link> getLinks() {
-        if(links==null){
-            links = Lists.newArrayList();
-        }
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
     public List<Tag> getTags() {
         return tags;
     }
@@ -197,14 +173,6 @@ public class DocumentInfo implements Linkable{
         this.favourite = favourite;
     }
 
-    public boolean isRemoved() {
-        return removed;
-    }
-
-    public void setRemoved(boolean removed) {
-        this.removed = removed;
-    }
-
     public String getSecurityGroup() {
         return securityGroup;
     }
@@ -235,14 +203,6 @@ public class DocumentInfo implements Linkable{
 
     public void setDomain(Domain domain) {
         this.domain = domain;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Classification getClassification() {
@@ -343,24 +303,24 @@ public class DocumentInfo implements Linkable{
         this.revisions = revisions;
     }
 
-    public DocumentInfo clone(){
-        DocumentInfo documentInfo = new DocumentInfo();
-        documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
-        documentInfo.setKind(getKind());
-        documentInfo.setRemoved(false);
-        documentInfo.setCreationDate(new Date());
-        documentInfo.setClassification(getClassification());
-        documentInfo.setDocumentName(getDocumentName());
-        documentInfo.setDomain(getDomain());
-        documentInfo.setPlannedIssueDate(getPlannedIssueDate());
-        documentInfo.setResponsibleUser(getResponsibleUser());
-        documentInfo.setSecurityGroup(getSecurityGroup());
-        documentInfo.setDocType(getDocType());
-        documentInfo.setProvider(getProvider());
-        documentInfo.setTags(getTags());
-        documentInfo.setRevision(new RevisionSymbol());
-        documentInfo.setState(DocumentState.IN_PROGRESS);
-        return documentInfo;
+    public DocumentInformationCarrier clone(){
+        DocumentInformationCarrier documentInformationCarrier = new DocumentInformationCarrier();
+        documentInformationCarrier.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
+        documentInformationCarrier.setKind(getKind());
+        documentInformationCarrier.setRemoved(false);
+        documentInformationCarrier.setCreationDate(new Date());
+        documentInformationCarrier.setClassification(getClassification());
+        documentInformationCarrier.setDocumentName(getDocumentName());
+        documentInformationCarrier.setDomain(getDomain());
+        documentInformationCarrier.setPlannedIssueDate(getPlannedIssueDate());
+        documentInformationCarrier.setResponsibleUser(getResponsibleUser());
+        documentInformationCarrier.setSecurityGroup(getSecurityGroup());
+        documentInformationCarrier.setDocType(getDocType());
+        documentInformationCarrier.setProvider(getProvider());
+        documentInformationCarrier.setTags(getTags());
+        documentInformationCarrier.setRevision(new RevisionSymbol());
+        documentInformationCarrier.setState(DocumentState.IN_PROGRESS);
+        return documentInformationCarrier;
     }
 
 }

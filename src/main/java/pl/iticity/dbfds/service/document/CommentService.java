@@ -1,6 +1,6 @@
 package pl.iticity.dbfds.service.document;
 
-import pl.iticity.dbfds.model.Comment;
+import pl.iticity.dbfds.model.document.Comment;
 
 import java.util.List;
 

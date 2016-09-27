@@ -6,6 +6,9 @@ import org.apache.poi.hpsf.MarkUnsupportedException;
 import org.apache.poi.hpsf.NoPropertySetStreamException;
 import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.DocumentState;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.Service;
 
@@ -13,43 +16,43 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
-public interface DocumentService extends Service<DocumentInfo> {
+public interface DocumentService extends Service<DocumentInformationCarrier> {
 
-    public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException;
+    public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException;
 
-    public String newDocumentToJson(DocumentInfo documentInfo) throws JsonProcessingException;
+    public String newDocumentToJson(DocumentInformationCarrier documentInformationCarrier) throws JsonProcessingException;
 
     public void favourite(String id, boolean val);
 
-    public DocumentInfo copyDocument(String docId, final List<String> files) throws FileNotFoundException;
+    public DocumentInformationCarrier copyDocument(String docId, final List<String> files) throws FileNotFoundException;
 
     public void removeDocument(String docId);
 
-    public DocumentInfo create(DocumentInfo documentInfo);
+    public DocumentInformationCarrier create(DocumentInformationCarrier documentInformationCarrier);
 
-    public DocumentInfo createNewDocumentInfo() throws JsonProcessingException;
+    public DocumentInformationCarrier createNewDocumentInfo() throws JsonProcessingException;
 
     public String changeState(String id, DocumentState state) throws JsonProcessingException;
 
-    public DocumentInfo save(DocumentInfo documentInfo);
+    public DocumentInformationCarrier save(DocumentInformationCarrier documentInformationCarrier);
 
     public Long getNextMasterDocumentNumber(Domain domain);
 
-    public List<DocumentInfo> findByCreatedBy(Principal principal);
+    public List<DocumentInformationCarrier> findByCreatedBy(Principal principal);
 
-    public List<DocumentInfo> findAll();
+    public List<DocumentInformationCarrier> findAll();
 
-    public List<DocumentInfo> findRecent();
+    public List<DocumentInformationCarrier> findRecent();
 
-    public List<DocumentInfo> findByPredicate(Predicate predicate);
+    public List<DocumentInformationCarrier> findByPredicate(Predicate predicate);
 
     public List<FileInfo> appendFile(String documentId, FileInfo fileInfo);
 
-    public DocumentInfo getById(String id);
+    public DocumentInformationCarrier getById(String id);
 
-    public List<DocumentInfo> findMy();
+    public List<DocumentInformationCarrier> findMy();
 
-    public List<DocumentInfo> findFavourite();
+    public List<DocumentInformationCarrier> findFavourite();
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException;
 

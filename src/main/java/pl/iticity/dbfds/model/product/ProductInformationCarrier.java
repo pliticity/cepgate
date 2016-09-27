@@ -6,8 +6,7 @@ import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.Link;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
@@ -27,11 +26,7 @@ import java.util.List;
                 @CompoundIndex(def = "{'masterProductNumber' : 1,'domain' :1}", unique = true)
         }
 )
-public class ProductInformationCarrier extends Scoped implements Linkable{
-
-    @Id
-    @GeneratedValue
-    private String id;
+public class ProductInformationCarrier extends Linkable{
 
     @ManyToOne
     @NotNull
@@ -90,28 +85,6 @@ public class ProductInformationCarrier extends Scoped implements Linkable{
     private String salesText;
 
     private ProductOwner productOwner;
-
-    private List<Link> links;
-
-    @Override
-    public List<Link> getLinks() {
-        if(links==null){
-            links = Lists.newArrayList();
-        }
-        return links;
-    }
-
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Classification getClassification() {
         return classification;

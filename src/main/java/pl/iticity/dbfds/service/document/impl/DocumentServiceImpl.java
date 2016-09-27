@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mysema.query.types.Predicate;
 import org.apache.log4j.Logger;
 import org.apache.poi.hpsf.MarkUnsupportedException;
@@ -13,6 +14,10 @@ import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.common.Link;
+import pl.iticity.dbfds.model.common.LinkType;
+import pl.iticity.dbfds.model.common.LinkedObjectType;
+import pl.iticity.dbfds.model.document.*;
 import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoStateChangeMixin;
@@ -37,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, DocumentInfoRepository> implements DocumentService {
+public class DocumentServiceImpl extends AbstractService<DocumentInformationCarrier,String, DocumentInfoRepository> implements DocumentService {
 
     private static final Logger logger = Logger.getLogger(DocumentServiceImpl.class);
 
@@ -56,21 +61,21 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
     @Autowired
     private ClassificationService classificationService;
 
-    public String documentsToJson(List<DocumentInfo> documents) throws JsonProcessingException {
+    public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixIn(DocumentInfo.class, DocumentInfoMixIn.class);
+        objectMapper.addMixIn(DocumentInformationCarrier.class, DocumentInfoMixIn.class);
         return objectMapper.writeValueAsString(documents);
     }
 
-    public String newDocumentToJson(DocumentInfo documentInfo) throws JsonProcessingException {
+    public String newDocumentToJson(DocumentInformationCarrier documentInformationCarrier) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixIn(DocumentInfo.class, NewDocumentInfoMixIn.class);
-        return objectMapper.writeValueAsString(documentInfo);
+        objectMapper.addMixIn(DocumentInformationCarrier.class, NewDocumentInfoMixIn.class);
+        return objectMapper.writeValueAsString(documentInformationCarrier);
     }
 
     public void favourite(String id, boolean val) {
         final Principal current = PrincipalUtils.getCurrentPrincipal();
-        DocumentInfo info = repo.findOne(id);
+        DocumentInformationCarrier info = repo.findOne(id);
         if (info.getFavourites() != null) {
             DocumentFavourite docFav = Iterables.find(info.getFavourites(), new com.google.common.base.Predicate<DocumentFavourite>() {
                 @Override
@@ -94,14 +99,23 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         repo.save(info);
     }
 
-    public DocumentInfo copyDocument(String docId, final List<String> files) throws FileNotFoundException {
-        DocumentInfo documentInfo = repo.findOne(docId);
-        DocumentInfo copy = documentInfo.clone();
-        copy.getLinks().add(new Link(documentInfo,LinkType.COPY_FROM));
+    public DocumentInformationCarrier copyDocument(String docId, final List<String> files) throws FileNotFoundException {
+        DocumentInformationCarrier documentInformationCarrier = repo.findOne(docId);
+        DocumentInformationCarrier copy = documentInformationCarrier.clone();
+        Link link = new Link();
+        link.setLinkType(LinkType.COPY_FROM);
+        link.setObjectType(LinkedObjectType.DIC);
+        link.setObjectId(docId);
+        linkService.save(link);
+
+        if(copy.getLinks()==null){
+            copy.setLinks(Sets.<Link>newHashSet());
+        }
+        copy.getLinks().add(link);
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        String docNo = MessageFormat.format("{0}-{1}",documentInfo.getDomain().getAccountNo(),copy.getMasterDocumentNumber());
+        String docNo = MessageFormat.format("{0}-{1}", documentInformationCarrier.getDomain().getAccountNo(),copy.getMasterDocumentNumber());
         copy.setDocumentNumber(docNo);
-        List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInfo.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
+        List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInformationCarrier.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
             @Override
             public boolean apply(@Nullable FileInfo fileInfo) {
                 return files.contains(fileInfo.getId());
@@ -112,26 +126,36 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         copy.setResponsibleUser(null);
         repo.save(copy);
 
-        documentInfo.getLinks().add(new Link(copy,LinkType.COPY_TO));
-        repo.save(documentInfo);
+        if(documentInformationCarrier.getLinks()==null){
+            documentInformationCarrier.setLinks(Sets.<Link>newHashSet());
+        }
+        Link link2 = new Link();
+        link2.setLinkType(LinkType.COPY_TO);
+        link2.setObjectType(LinkedObjectType.DIC);
+        link2.setObjectId(copy.getId());
+        linkService.save(link2);
+
+        documentInformationCarrier.getLinks().add(link2);
+        repo.save(documentInformationCarrier);
 
         return copy;
     }
 
     public void removeDocument(String docId) {
-        DocumentInfo documentInfo = repo.findOne(docId);
-        documentInfo.setRemoved(true);
-        repo.save(documentInfo);
+        DocumentInformationCarrier documentInformationCarrier = repo.findOne(docId);
+        documentInformationCarrier.setRemoved(true);
+        repo.save(documentInformationCarrier);
     }
 
-    public DocumentInfo create(DocumentInfo doc) {
+    public DocumentInformationCarrier create(DocumentInformationCarrier doc) {
         Domain current = PrincipalUtils.getCurrentDomain();
         doc.setDomain(current);
         doc.setClassification(classificationService.findById(doc.getClassification().getId()));
         doc = repo.save(doc);
         if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
             try {
-                linkService.createLink(doc.getClassification().getModelId(), (Class<? extends Linkable>) Class.forName(doc.getClassification().getModelClazz()),doc);
+                Class clazz = Class.forName(doc.getClassification().getModelClazz());
+                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.LINK);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -139,22 +163,22 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         return doc;
     }
 
-    public DocumentInfo createNewDocumentInfo() throws JsonProcessingException {
+    public DocumentInformationCarrier createNewDocumentInfo() throws JsonProcessingException {
         Domain domain = PrincipalUtils.getCurrentDomain();
-        DocumentInfo documentInfo = new DocumentInfo();
-        documentInfo.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(),documentInfo.getMasterDocumentNumber());
-        documentInfo.setDocumentNumber(docNo);
-        documentInfo.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
-        documentInfo.setCreationDate(new Date());
-        documentInfo.setRevision(new RevisionSymbol(0l));
-        documentInfo.setState(DocumentState.IN_PROGRESS);
-        return documentInfo;
-        //return newDocumentToJson(documentInfo);
+        DocumentInformationCarrier documentInformationCarrier = new DocumentInformationCarrier();
+        documentInformationCarrier.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
+        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(), documentInformationCarrier.getMasterDocumentNumber());
+        documentInformationCarrier.setDocumentNumber(docNo);
+        documentInformationCarrier.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
+        documentInformationCarrier.setCreationDate(new Date());
+        documentInformationCarrier.setRevision(new RevisionSymbol(0l));
+        documentInformationCarrier.setState(DocumentState.IN_PROGRESS);
+        return documentInformationCarrier;
+        //return newDocumentToJson(documentInformationCarrier);
     }
 
     public String changeState(String id, DocumentState state) throws JsonProcessingException {
-        DocumentInfo doc = repo.findOne(id);
+        DocumentInformationCarrier doc = repo.findOne(id);
         doc.setState(state);
         if(DocumentState.ARCHIVED.equals(state)){
             doc.setArchivedDate(new Date());
@@ -163,19 +187,20 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         }
         repo.save(doc);
         ObjectMapper mapper = new ObjectMapper();
-        mapper.addMixIn(DocumentInfo.class, DocumentInfoStateChangeMixin.class);
+        mapper.addMixIn(DocumentInformationCarrier.class, DocumentInfoStateChangeMixin.class);
         return mapper.writeValueAsString(doc);
     }
 
     @Override
-    public DocumentInfo save(DocumentInfo documentInfo) {
-        DocumentInfo doc = repo.findOne(documentInfo.getId());
-        documentInfo.setRevisions(doc.getRevisions());
-        super.save(documentInfo);
-        doc = repo.findOne(documentInfo.getId());
+    public DocumentInformationCarrier save(DocumentInformationCarrier documentInformationCarrier) {
+        DocumentInformationCarrier doc = repo.findOne(documentInformationCarrier.getId());
+        documentInformationCarrier.setRevisions(doc.getRevisions());
+        super.save(documentInformationCarrier);
+        doc = repo.findOne(documentInformationCarrier.getId());
         if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
             try {
-                linkService.createLink(doc.getClassification().getModelId(), (Class<? extends Linkable>) Class.forName(doc.getClassification().getModelClazz()),doc);
+                Class clazz = Class.forName(doc.getClassification().getModelClazz());
+                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.LINK);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -191,35 +216,35 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         return id;
     }
 
-    public List<DocumentInfo> findByCreatedBy(Principal principal) {
+    public List<DocumentInformationCarrier> findByCreatedBy(Principal principal) {
         return repo.findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(principal);
     }
 
-    public List<DocumentInfo> findAll() {
+    public List<DocumentInformationCarrier> findAll() {
         return repo.findByDomainAndRemovedIsFalseOrderByCreationDateAsc(PrincipalUtils.getCurrentDomain());
     }
 
-    public List<DocumentInfo> findRecent() {
+    public List<DocumentInformationCarrier> findRecent() {
         LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
         return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateDesc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
     }
 
-    public List<DocumentInfo> findByPredicate(Predicate predicate) {
+    public List<DocumentInformationCarrier> findByPredicate(Predicate predicate) {
         return Lists.newArrayList(repo.findAll(predicate));
     }
 
     public List<FileInfo> appendFile(String documentId, FileInfo fileInfo) {
-        DocumentInfo documentInfo = repo.findOne(documentId);
-        documentInfo.getFiles().add(fileInfo);
-        repo.save(documentInfo);
-        return documentInfo.getFiles();
+        DocumentInformationCarrier documentInformationCarrier = repo.findOne(documentId);
+        documentInformationCarrier.getFiles().add(fileInfo);
+        repo.save(documentInformationCarrier);
+        return documentInformationCarrier.getFiles();
     }
 
-    public DocumentInfo getById(String id) {
-        DocumentInfo documentInfo = repo.findOne(id);
+    public DocumentInformationCarrier getById(String id) {
+        DocumentInformationCarrier documentInformationCarrier = repo.findOne(id);
         DocumentActivity activity = null;
-        if (documentInfo.getActivities() != null) {
-            activity = Iterables.find(documentInfo.getActivities(), new com.google.common.base.Predicate<DocumentActivity>() {
+        if (documentInformationCarrier.getActivities() != null) {
+            activity = Iterables.find(documentInformationCarrier.getActivities(), new com.google.common.base.Predicate<DocumentActivity>() {
                 @Override
                 public boolean apply(@Nullable DocumentActivity documentActivity) {
                     return documentActivity.getPrincipal().getId().equals(PrincipalUtils.getCurrentPrincipal().getId()) && DocumentActivity.ActivityType.OPENED.equals(documentActivity.getType());
@@ -228,44 +253,44 @@ public class DocumentServiceImpl extends AbstractService<DocumentInfo,String, Do
         }
         if (activity == null) {
             activity = new DocumentActivity(DocumentActivity.ActivityType.OPENED, PrincipalUtils.getCurrentPrincipal(), new Date());
-            documentInfo.getActivities().add(activity);
+            documentInformationCarrier.getActivities().add(activity);
         } else {
             activity.setDate(new Date());
         }
-        repo.save(documentInfo);
-        if (documentInfo.getFavourites() != null) {
-            DocumentFavourite fav = Iterables.find(documentInfo.getFavourites(), new com.google.common.base.Predicate<DocumentFavourite>() {
+        repo.save(documentInformationCarrier);
+        if (documentInformationCarrier.getFavourites() != null) {
+            DocumentFavourite fav = Iterables.find(documentInformationCarrier.getFavourites(), new com.google.common.base.Predicate<DocumentFavourite>() {
                 @Override
                 public boolean apply(@Nullable DocumentFavourite documentFavourite) {
                     return PrincipalUtils.getCurrentPrincipal().getId().equals(documentFavourite.getPrincipal().getId());
                 }
             }, null);
-            documentInfo.setFavourite(fav != null);
+            documentInformationCarrier.setFavourite(fav != null);
         } else {
-            documentInfo.setFavourite(false);
+            documentInformationCarrier.setFavourite(false);
         }
-        return documentInfo;
+        return documentInformationCarrier;
     }
 
-    public List<DocumentInfo> findMy() {
+    public List<DocumentInformationCarrier> findMy() {
         return repo.findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(PrincipalUtils.getCurrentPrincipal());
     }
 
-    public List<DocumentInfo> findFavourite() {
+    public List<DocumentInformationCarrier> findFavourite() {
         return repo.findByFavourites_PrincipalOrderByCreationDateAsc(PrincipalUtils.getCurrentPrincipal());
     }
 
     public String autoCompleteDocument(String documentName) throws JsonProcessingException {
-        List<DocumentInfo> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNumberLike(PrincipalUtils.getCurrentDomain(), documentName);
+        List<DocumentInformationCarrier> documents = repo.findByDomainAndRemovedIsFalseAndDocumentNumberLike(PrincipalUtils.getCurrentDomain(), documentName);
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixIn(DocumentInfo.class, AutoCompleteDocumentInfoMixIn.class);
+        objectMapper.addMixIn(DocumentInformationCarrier.class, AutoCompleteDocumentInfoMixIn.class);
         return objectMapper.writeValueAsString(documents);
     }
 
     public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
         DocumentTemplate template = templateService.findById(tId);
         AuthorizationProvider.isInDomain(template.getDomain());
-        DocumentInfo doc = findById(docId);
+        DocumentInformationCarrier doc = findById(docId);
         AuthorizationProvider.isInDomain(doc.getDomain());
         FileInfo copy = templateService.copyFileAndFillMeta(template.getFile(),doc);
         doc.getFiles().add(copy);

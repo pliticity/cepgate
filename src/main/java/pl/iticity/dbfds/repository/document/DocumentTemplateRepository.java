@@ -1,7 +1,6 @@
 package pl.iticity.dbfds.repository.document;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import pl.iticity.dbfds.model.DocumentTemplate;
+import pl.iticity.dbfds.model.document.DocumentTemplate;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.repository.ScopedRepository;
 

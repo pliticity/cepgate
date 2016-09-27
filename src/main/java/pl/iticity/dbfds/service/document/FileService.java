@@ -1,14 +1,13 @@
 package pl.iticity.dbfds.service.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.Domain;
-import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.ScopedService;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface FileService extends ScopedService<FileInfo> {
@@ -21,7 +20,7 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public FileInfo createFile(Domain domain, String fileName, String mime, InputStream inputStream);
 
-    public String createFileDownloadName(DocumentInfo documentInfo,String fname);
+    public String createFileDownloadName(DocumentInformationCarrier documentInformationCarrier, String fname);
 
     public void updateContent(FileInfo fileInfo);
 

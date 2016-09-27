@@ -11,16 +11,15 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.Domain;
-import pl.iticity.dbfds.model.FileInfo;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.model.mixins.FileInfoMixin;
 import pl.iticity.dbfds.repository.common.FileRepository;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.AbstractScopedService;
-import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -91,11 +90,11 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         return createFile(domain,fileName,mime,inputStream,PrincipalUtils.getCurrentPrincipal());
     }
 
-    public String createFileDownloadName(DocumentInfo documentInfo,String fname){
-        if(documentInfo==null){
+    public String createFileDownloadName(DocumentInformationCarrier documentInformationCarrier, String fname){
+        if(documentInformationCarrier ==null){
             return fname;
         }
-        String name = MessageFormat.format("{0}-{1}-{2}-{3}",documentInfo.getDocumentNumber(),documentInfo.getDocType().getName(),documentInfo.getDocumentName(),fname);
+        String name = MessageFormat.format("{0}-{1}-{2}-{3}", documentInformationCarrier.getDocumentNumber(), documentInformationCarrier.getDocType().getName(), documentInformationCarrier.getDocumentName(),fname);
         return name;
     }
 
@@ -106,7 +105,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
     }
 
     public List<FileInfo> removeContent(String docId, final String fileId){
-        DocumentInfo info = documentInfoRepository.findOne(docId);
+        DocumentInformationCarrier info = documentInfoRepository.findOne(docId);
         FileInfo fileInfo = Iterables.find(info.getFiles(), new Predicate<FileInfo>() {
             @Override
             public boolean apply(@Nullable FileInfo fileInfo) {
@@ -261,7 +260,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         AuthorizationProvider.isInDomain(fileInfo.getDomain());
         removeContent(docId,fileId);
         fileInfo = createFile(fileInfo.getDomain(),fileInfo.getName(),fileInfo.getType(),inputStream);
-        DocumentInfo doc = documentInfoRepository.findOne(docId);
+        DocumentInformationCarrier doc = documentInfoRepository.findOne(docId);
         doc.getFiles().add(fileInfo);
         documentInfoRepository.save(doc);
         ObjectMapper mapper = new ObjectMapper();
@@ -272,7 +271,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
     public String[] getFileNames(String[] ids){
         List<String> names = Lists.newArrayList();
         for(String id : ids){
-            DocumentInfo info = documentInfoRepository.findByFiles_Id(id);
+            DocumentInformationCarrier info = documentInfoRepository.findByFiles_Id(id);
             FileInfo file = findById(id);
             names.add(createFileDownloadName(info,file.getName()));
         }

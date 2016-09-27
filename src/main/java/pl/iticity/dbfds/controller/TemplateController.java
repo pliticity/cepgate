@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pl.iticity.dbfds.model.DocumentTemplate;
+import pl.iticity.dbfds.model.document.DocumentTemplate;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.TemplateService;
 import pl.iticity.dbfds.util.PrincipalUtils;

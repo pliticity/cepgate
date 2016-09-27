@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 public enum DocumentState {
 

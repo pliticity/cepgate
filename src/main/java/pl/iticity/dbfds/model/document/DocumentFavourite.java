@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
