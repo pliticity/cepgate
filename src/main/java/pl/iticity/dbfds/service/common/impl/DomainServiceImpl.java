@@ -78,7 +78,9 @@ public class DomainServiceImpl extends AbstractService<Domain,String,DomainRepos
 
         domain.setName(su.getEmail());
         repo.save(domain);
-        su.setRole(Role.ADMIN);
+        if(!Role.GLOBAL_ADMIN.equals(su.getRole())){
+            su.setRole(Role.ADMIN);
+        }
         return principalService.save(su);
     }
 

@@ -17,7 +17,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/principal")
 public class PrincipalController {
 
@@ -27,11 +27,15 @@ public class PrincipalController {
     @Autowired
     private DomainService domainService;
 
-    @RequestMapping(value = "",params = {"id"})
-    public
-    @ResponseBody
-    String getPrincipalsInDomain(@RequestParam("id") String id) throws JsonProcessingException {
+    @RequestMapping(value = "", params = {"id"})
+    public String getPrincipalsInDomain(@RequestParam("id") String id) throws JsonProcessingException {
         Domain domain = org.apache.commons.lang.StringUtils.isNotEmpty(id) ? domainService.findById(id) : PrincipalUtils.getCurrentDomain();
+        return principalService.principalsSelectToJson(principalService.findByDomain(domain));
+    }
+
+    @RequestMapping(value = "")
+    public String getPrincipalsInDomain() throws JsonProcessingException {
+        Domain domain = PrincipalUtils.getCurrentDomain();
         return principalService.principalsSelectToJson(principalService.findByDomain(domain));
     }
 
@@ -39,7 +43,7 @@ public class PrincipalController {
     public
     @ResponseBody
     Principal postCreatePrincipal(@RequestBody Principal principal, @RequestParam("domainId") String domainId) throws JsonProcessingException {
-        return principalService.addPrincipal(principal,domainId);
+        return principalService.addPrincipal(principal, domainId);
     }
 
     @RequestMapping(value = "/{id}", params = {"active"}, method = RequestMethod.POST)
@@ -53,11 +57,13 @@ public class PrincipalController {
     public
     @ResponseBody
     List<Principal> purChangeRole(@PathVariable("id") String id, @RequestParam("role") Role role) {
-        return principalService.changeRole(id,role);
+        return principalService.changeRole(id, role);
     }
 
-    @RequestMapping(value = "/current",method = RequestMethod.GET)
-    public @ResponseBody String getCurrentPrincipal() throws JsonProcessingException {
+    @RequestMapping(value = "/current", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    String getCurrentPrincipal() throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.addMixIn(Principal.class, PrincipalMixin.class);
         return mapper.writeValueAsString(PrincipalUtils.getCurrentPrincipal());
@@ -80,7 +86,7 @@ public class PrincipalController {
     public
     @ResponseBody
     boolean getExists(@RequestParam(name = "id") String id, @RequestParam(name = "q") String acronym) {
-        return principalService.acronymExistsInDomain(id,acronym,PrincipalUtils.getCurrentDomain());
+        return principalService.acronymExistsInDomain(id, acronym, PrincipalUtils.getCurrentDomain());
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.POST)

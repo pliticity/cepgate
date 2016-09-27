@@ -29,13 +29,9 @@
             });
         };
 
-        this.getPrincipalsInDomain = function(){
-            return Principal.query({id:''});
-        }
-
-        this.getPrincipalsInGivenDomain = function(id){
+        this.getPrincipalsInDomain = function(id){
             return Principal.query({id:id});
-        }
+        };
 
     }]);
 
