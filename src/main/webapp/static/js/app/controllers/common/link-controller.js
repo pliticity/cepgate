@@ -2,7 +2,7 @@
 
     var common = angular.module('common');
 
-    common.controller('LinkController', ['$http', '$scope','$window', function ($http, $scope,$window) {
+    common.controller('LinkController', ['$http', '$scope','$window','linkService', function ($http, $scope,$window,linkService) {
 
         var self = this;
         self.querySearch = querySearch;
@@ -14,6 +14,9 @@
 
         function link() {
             $http({url: '/link', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType,objectId:self.selectedItem.id,objectType: 'document',linkType:'LINK'}}).then(function (succ) {
+                for(var i=0; i<succ.data.length; i++){
+                    linkService.getObject(succ.data[i]);
+                }
                 self.linkable.links = succ.data;
                 self.selectedItem = null;
             });

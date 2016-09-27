@@ -2,9 +2,9 @@
 
     var document = angular.module('document');
 
-    document.factory('Document', ['$resource',
-        function ($resource) {
-            return $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true}});
+    document.factory('Document', ['$resource','linkService',
+        function ($resource,linkService) {
+            return $resource('/document/:id', {}, {'get':{'url':'/document/:id',interceptor: {response: linkService.fetchObjects}},'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
     document.controller('DocumentController', ['$timeout','settingsService','authorizationService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,settingsService,authorizationService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
