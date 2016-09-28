@@ -47,18 +47,18 @@
         </td>
     </tr>
     <tr docId="{{row.id}}" class="animate-row"
-        ng-repeat="row in displayCollection">
+        ng-repeat="row in displayCollection" cg-add-tab="{open : true, id: row.id, name: row.documentNumber, tabsId:'document-tabs', factory:'document',onChildren:true, except: [0,10]}">
         <td cs-select="row"></td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.classification.classificationId}}
+        <td>{{row.classification.classificationId}}
         </td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.classification.name}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentNumber}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.revision.effective}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.docType.name}} ({{row.docType.typeId}})</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.documentName}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.creationDate | date:'dd/MM/yyyy'}}</td>
-        <td add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.createdBy.email}} ({{row.createdBy.acronym}})</td>
-        <td data="noOfFiles" add-tab documentId="{{row.id}}" documntName="{{row.documentNumber}}">{{row.noOfFiles}}</td>
+        <td>{{row.classification.name}}</td>
+        <td>{{row.documentNumber}}</td>
+        <td>{{row.revision.effective}}</td>
+        <td>{{row.docType.name}} ({{row.docType.typeId}})</td>
+        <td>{{row.documentName}}</td>
+        <td>{{row.creationDate | date:'dd/MM/yyyy'}}</td>
+        <td>{{row.createdBy.email}} ({{row.createdBy.acronym}})</td>
+        <td data="noOfFiles">{{row.noOfFiles}}</td>
         <td data="files" style="z-index: 100;">
             <!--<button ng-if="canDelete(row)" data-toggle="modal" data-target="#deleteModal-{{row.id}}"
                     class="btn btn-danger btn-xs">Delete

@@ -6,43 +6,44 @@
 
         var ctrl = this;
 
-        $scope.templates = [];
-        $scope.selectedTemplate = {id:""};
+        ctrl.templates = [];
+        ctrl.selectedTemplate = {id:""};
+        ctrl.dic = {};
 
         ctrl.getTemplates = function(){
             $http({url:'/template',method:'get',params:{domainId:ctrl.domainId}}).then(function (succ) {
-                $scope.templates = succ.data;
+                ctrl.templates = succ.data;
             });
         };
 
 
-        $scope.openFile = function (symbol) {
+        ctrl.openFile = function (symbol) {
             $window.open("/file/" + symbol, '_blank');
         };
 
-        $scope.remove = function (id) {
+        ctrl.remove = function (id) {
             $http({url:'/template/'+id,method:'delete',params:{domainId:ctrl.domainId}}).then(function (succ) {
-                $scope.templates = succ.data;
+                ctrl.templates = succ.data;
             });
         };
 
-        $scope.uploadFile = function (file) {
+        ctrl.uploadFile = function (file) {
             if (file != null) {
                 Upload.upload({
                     url: '/template/upload',
                     data: {file: file},
                     params:{domainId:ctrl.domainId}
                 }).then(function (resp) {
-                    $scope.templates.push(resp.data);
+                    ctrl.templates.push(resp.data);
                 }, function (err) {
                     alert("Given template is invalid");
                 });
             }
         }
 
-        $scope.addFileFromTemplate = function (docId) {
-            $http({url: '/document/' + docId + '/template/' + $scope.selectedTemplate.id, method: 'put'}).then(function (succ) {
-                $scope.documentInfo.files.push(succ.data);
+        ctrl.addFileFromTemplate = function (docId) {
+            $http({url: '/document/' + docId + '/template/' + ctrl.selectedTemplate.id, method: 'put'}).then(function (succ) {
+                ctrl.dic.files.push(succ.data);
             },function(reject){
                 alert("Could not create file from the template.");
             });

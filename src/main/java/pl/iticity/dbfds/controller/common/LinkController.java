@@ -40,7 +40,7 @@ public class LinkController extends BaseController {
     @RequestMapping(value = "/link", method = RequestMethod.POST, params = {"parentId", "parentType", "objectId", "objectType", "linkType"})
     public
     @ResponseBody
-    Set<Link> postLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestParam(value = "objectId") String objectId, @RequestParam(value = "objectType") String objectType, @RequestParam(value = "linkType") String linkType) {
+    List<Link> postLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestParam(value = "objectId") String objectId, @RequestParam(value = "objectType") String objectType, @RequestParam(value = "linkType") String linkType) {
         return linkService.createLink(parentId, linkables.get(parentType), objectId, linkables.get(objectType), LinkType.valueOf(linkType));
     }
 
@@ -54,7 +54,7 @@ public class LinkController extends BaseController {
     @RequestMapping(value = "/unlink", method = RequestMethod.POST, params = {"parentId", "parentType"})
     public
     @ResponseBody
-    Set<Link> deleteLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestBody Link link) {
+    List<Link> deleteLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestBody Link link) {
         return linkService.deleteLink(parentId, linkables.get(parentType), link);
     }
 

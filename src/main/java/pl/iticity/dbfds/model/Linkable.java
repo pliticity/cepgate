@@ -1,23 +1,22 @@
 package pl.iticity.dbfds.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.common.Link;
 
-import java.util.Set;
+import java.util.List;
 
 public abstract class Linkable extends Scoped {
 
     @JsonIgnoreProperties(value = {"objectId","objectType"})
     @DBRef
-    protected Set<Link> links;
+    protected List<Link> links;
 
-    public Set<Link> getLinks() {
+    public List<Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Set<Link> links) {
+    public void setLinks(List<Link> links) {
         this.links = links;
     }
 }

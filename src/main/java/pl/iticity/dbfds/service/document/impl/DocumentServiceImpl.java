@@ -109,7 +109,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         linkService.save(link);
 
         if(copy.getLinks()==null){
-            copy.setLinks(Sets.<Link>newHashSet());
+            copy.setLinks(Lists.<Link>newArrayList());
         }
         copy.getLinks().add(link);
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
@@ -127,7 +127,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         repo.save(copy);
 
         if(documentInformationCarrier.getLinks()==null){
-            documentInformationCarrier.setLinks(Sets.<Link>newHashSet());
+            documentInformationCarrier.setLinks(Lists.<Link>newArrayList());
         }
         Link link2 = new Link();
         link2.setLinkType(LinkType.COPY_TO);

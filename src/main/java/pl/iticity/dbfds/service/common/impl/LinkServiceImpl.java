@@ -2,6 +2,7 @@ package pl.iticity.dbfds.service.common.impl;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,7 @@ import pl.iticity.dbfds.service.document.DocumentService;
 
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,12 +51,12 @@ public class LinkServiceImpl extends AbstractService<Link,String,LinkRepository>
         linkable = Maps.newHashMap();
         linkable.put(LinkedObjectType.QIC, QuotationInformationCarrier.class);
         linkable.put(LinkedObjectType.DIC, DocumentInformationCarrier.class);
-        linkable.put(LinkedObjectType.PIC, ProjectInformationCarrier.class);
+        linkable.put(LinkedObjectType.PIC, ProductInformationCarrier.class);
         linkable.put(LinkedObjectType.PJC, ProjectInformationCarrier.class);
     }
 
     @Override
-    public Set<Link> createLink(String id, Class<? extends Linkable> clazz, String objectId, Class<? extends Scoped> objectClass, LinkType linkType) {
+    public List<Link> createLink(String id, Class<? extends Linkable> clazz, String objectId, Class<? extends Scoped> objectClass, LinkType linkType) {
         if (StringUtils.isEmpty(id) || clazz == null || objectClass == null || StringUtils.isEmpty(objectId)) {
             throw new IllegalArgumentException();
         }
@@ -75,7 +77,7 @@ public class LinkServiceImpl extends AbstractService<Link,String,LinkRepository>
 
         linkRepository.save(link);
         if (linkable.getLinks() == null) {
-            linkable.setLinks(Sets.<Link>newHashSet());
+            linkable.setLinks(Lists.<Link>newArrayList());
         }
         linkable.getLinks().add(link);
         mongoTemplate.save(linkable);
@@ -96,7 +98,7 @@ public class LinkServiceImpl extends AbstractService<Link,String,LinkRepository>
     }
 
     @Override
-    public Set<Link> deleteLink(String id, Class<? extends Linkable> clazz, final Link link) {
+    public List<Link> deleteLink(String id, Class<? extends Linkable> clazz, final Link link) {
         if (StringUtils.isEmpty(id) || clazz == null || link == null || StringUtils.isEmpty(link.getId())) {
             throw new IllegalArgumentException();
         }

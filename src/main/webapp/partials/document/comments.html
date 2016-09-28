@@ -5,7 +5,7 @@
         <tr>
             <th colspan="2"></th>
             <th class="text-right">
-                <div data-toggle="modal" data-target="#comment-modal-{{documentInfo.id}}"
+                <div data-toggle="modal" data-target="#comment-modal-{{ctrl.model.id}}"
                      class="btn btn-info btn-xs">Add Comment
                 </div>
             </th>
@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="comment in documentInfo.comments">
+        <tr ng-repeat="comment in ctrl.model.comments">
             <td>{{comment.date}}</td>
             <td>{{comment.principal.email}}</td>
             <td>{{comment.content}}</td>

@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.controller;
+package pl.iticity.dbfds.controller.document;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Lists;
@@ -9,13 +9,12 @@ import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
 import org.joda.time.Duration;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pl.iticity.dbfds.controller.JsonResponse;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.document.DocumentState;
-import pl.iticity.dbfds.model.document.DocumentType;
 import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.model.dto.DocToCopyDTO;
 import pl.iticity.dbfds.service.common.LinkService;
@@ -31,7 +30,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/document")
 public class DocumentController {
 
@@ -51,11 +50,6 @@ public class DocumentController {
 
     @Autowired
     private LinkService linkService;
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String getDocumentView() {
-        return "document";
-    }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public
@@ -107,15 +101,13 @@ public class DocumentController {
         return service.documentsToJson(service.findAll());
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET, produces = "application/json")
-    public
-    @ResponseBody
-    String getNewDocument() throws JsonProcessingException {
+    @RequestMapping(value = "", params = {"new"}, method = RequestMethod.GET)
+    public String getNewDocument() throws JsonProcessingException {
         LocalDateTime start = LocalDateTime.now();
         DocumentInformationCarrier s = service.createNewDocumentInfo();
         LocalDateTime end = LocalDateTime.now();
-        Duration duration = new Duration(start.toDate().getTime(),end.toDate().getTime());
-        logger.info(MessageFormat.format("Request took {0} ms",duration.getMillis()));
+        Duration duration = new Duration(start.toDate().getTime(), end.toDate().getTime());
+        logger.info(MessageFormat.format("Request took {0} ms", duration.getMillis()));
         return service.newDocumentToJson(s);
     }
 
@@ -144,7 +136,7 @@ public class DocumentController {
     @RequestMapping(value = "", method = RequestMethod.DELETE)
     public
     @ResponseBody
-    JsonResponse deleteDocument(@RequestBody String[] ids) {
+    JsonResponse deleteDocument(@RequestParam String[] ids) {
         for (String id : ids) {
             service.removeDocument(id);
         }
