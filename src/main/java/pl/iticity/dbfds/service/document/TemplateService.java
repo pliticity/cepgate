@@ -24,13 +24,13 @@ import java.util.List;
 
 public interface TemplateService extends ScopedService<DocumentTemplate> {
 
-    public List<DocumentTemplate> findByDomain(Domain domain);
+    public List<DocumentTemplate> findByDomain(String domainId);
 
-    public DocumentTemplate create(FileInfo fileInfo);
+    public DocumentTemplate create(FileInfo fileInfo, Domain domain);
 
     public File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException;
 
     public FileInfo copyFileAndFillMeta(FileInfo fileInfo,DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException;
 
-    public DocumentTemplate createTemplate(MultipartFile file) throws IOException, InvalidFormatException;
+    public DocumentTemplate createTemplate(MultipartFile file, String domainId) throws IOException, InvalidFormatException;
 }

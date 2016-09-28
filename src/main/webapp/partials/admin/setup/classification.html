@@ -34,7 +34,7 @@
                 <td class="text-left">{{mapParents(row)}}</td>
                 <td class="text-left">{{row.type}}</td>
                 <td class="text-left"><input type="checkbox" ng-model="row.active" ng-change="toggleClassification(row)"/></td>
-                <td class="text-left" ng-controller="ClassificationController" ng-init="classification=row;">
+                <td class="text-left" ng-controller="ClassificationController as ecctrl" ng-init="ecctrl.domainId = ctrl.domainId;classification=row;">
                     <button ng-if="row.defaultValue == false" class="btn btn-warning btn-xs" data-toggle="modal"
                             data-target="#add-classification-modal-{{row.id}}" ng-click="getClassifications();">Edit
                     </button>
