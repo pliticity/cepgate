@@ -4,19 +4,24 @@
 
     document.controller('TemplateController', ['$http', '$scope','$window','Upload', function ($http, $scope,$window,Upload) {
 
+        var ctrl = this;
+
         $scope.templates = [];
         $scope.selectedTemplate = {id:""};
 
-        $http({url:'/template',method:'get'}).then(function (succ) {
-            $scope.templates = succ.data;
-        });
+        ctrl.getTemplates = function(){
+            $http({url:'/template',method:'get',params:{domainId:ctrl.domainId}}).then(function (succ) {
+                $scope.templates = succ.data;
+            });
+        };
+
 
         $scope.openFile = function (symbol) {
             $window.open("/file/" + symbol, '_blank');
         };
 
         $scope.remove = function (id) {
-            $http({url:'/template/'+id,method:'delete'}).then(function (succ) {
+            $http({url:'/template/'+id,method:'delete',params:{domainId:ctrl.domainId}}).then(function (succ) {
                 $scope.templates = succ.data;
             });
         };
@@ -25,7 +30,8 @@
             if (file != null) {
                 Upload.upload({
                     url: '/template/upload',
-                    data: {file: file}
+                    data: {file: file},
+                    params:{domainId:ctrl.domainId}
                 }).then(function (resp) {
                     $scope.templates.push(resp.data);
                 }, function (err) {

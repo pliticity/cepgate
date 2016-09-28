@@ -19,6 +19,7 @@ import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.model.document.Revision;
 import pl.iticity.dbfds.repository.document.DocumentTemplateRepository;
 import pl.iticity.dbfds.service.AbstractScopedService;
+import pl.iticity.dbfds.service.common.DomainHelper;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.TemplateService;
 import pl.iticity.dbfds.util.DefaultConfig;
@@ -43,14 +44,18 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
     @Autowired
     private DefaultConfig defaultConfig;
 
-    public List<DocumentTemplate> findByDomain(Domain domain) {
+    @Autowired
+    private DomainHelper domainHelper;
+
+    public List<DocumentTemplate> findByDomain(String domainId) {
+        Domain domain = domainHelper.fetchDomain(domainId);
         return repo.findByDomain(domain);
     }
 
-    public DocumentTemplate create(FileInfo fileInfo) {
+    public DocumentTemplate create(FileInfo fileInfo, Domain domain) {
         DocumentTemplate template = new DocumentTemplate();
         template.setDate(new Date());
-        template.setDomain(PrincipalUtils.getCurrentDomain());
+        template.setDomain(domain);
         template.setFile(fileInfo);
         template.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         return repo.save(template);
@@ -119,8 +124,9 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
         return copy;
     }
 
-    public DocumentTemplate createTemplate(MultipartFile file) throws IOException, InvalidFormatException {
-        FileInfo fileInfo = fileService.createFile(PrincipalUtils.getCurrentDomain(), file.getOriginalFilename(), file.getContentType(), file.getInputStream());
+    public DocumentTemplate createTemplate(MultipartFile file, String domainId) throws IOException, InvalidFormatException {
+        Domain domain = domainHelper.fetchDomain(domainId);
+        FileInfo fileInfo = fileService.createFile(domain, file.getOriginalFilename(), file.getContentType(), file.getInputStream());
 
         String filePath = defaultConfig.getDataPath() + fileInfo.getPath() + fileInfo.getSymbol();
         File templateFile = new File(filePath);
@@ -144,6 +150,6 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
             newFile2.delete();
         }
 
-        return create(fileInfo);
+        return create(fileInfo,domain);
     }
 }
