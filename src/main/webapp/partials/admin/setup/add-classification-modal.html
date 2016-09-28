@@ -29,7 +29,7 @@
                                 <div class="row">
                                     <label for="classificationId" class="col-xs-6 control-label">Classification ID</label>
                                     <div class="col-xs-6">
-                                        <input ng-model-options="{ allowInvalid:true,updateOn:'default' }" classification-exists="{{classification.id}}" type="text" class="form-control"
+                                        <input ng-model-options="{ allowInvalid:true,updateOn:'default' }" domainId={{ctrl.domainId}} classification-exists="{{classification.id}}" type="text" class="form-control"
                                                ng-model="classification.classificationId"
                                                name="classificationId"
                                                id="classificationId" required=""/>

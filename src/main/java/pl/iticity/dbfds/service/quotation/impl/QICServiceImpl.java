@@ -29,7 +29,7 @@ public class QICServiceImpl extends AbstractScopedService<QuotationInformationCa
         qic.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         qic.setDomain(PrincipalUtils.getCurrentDomain());
         repo.save(qic);
-        if (qic.getSymbol() != null && !classificationService.exists(qic.getSymbol(), null)) {
+        if (qic.getSymbol() != null && !classificationService.exists(qic.getSymbol(), null,null)) {
             Classification classification = new Classification();
             classification.setId("-1");
             classification.setDomain(qic.getDomain());
@@ -41,7 +41,7 @@ public class QICServiceImpl extends AbstractScopedService<QuotationInformationCa
             classification.setClassificationId(qic.getSymbol());
             classification.setModelId(qic.getId());
             classification.setModelClazz(QuotationInformationCarrier.class.getName());
-            classificationService.addClassification(classification, qic.getDomain());
+            classificationService.addClassification(classification, qic.getDomain().getId());
         }
         return qic;
     }

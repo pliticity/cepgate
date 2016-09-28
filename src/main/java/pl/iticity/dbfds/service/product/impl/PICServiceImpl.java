@@ -31,7 +31,7 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
         pic.setDomain(PrincipalUtils.getCurrentDomain());
         pic.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         repo.save(pic);
-        if (pic.getProductId() != null && !classificationService.exists(pic.getProductId(), null)) {
+        if (pic.getProductId() != null && !classificationService.exists(pic.getProductId(), null,null)) {
             Classification classification = new Classification();
             classification.setId("-1");
             classification.setDomain(pic.getDomain());
@@ -43,7 +43,7 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
             classification.setClassificationId(pic.getProductId() != null ? pic.getProductId() : "PRODUCT HAD NO ID");
             classification.setModelId(pic.getId());
             classification.setModelClazz(ProductInformationCarrier.class.getName());
-            classificationService.addClassification(classification, pic.getDomain());
+            classificationService.addClassification(classification, pic.getDomain().getId());
         }
         return pic;
     }

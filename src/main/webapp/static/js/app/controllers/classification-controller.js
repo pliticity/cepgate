@@ -11,7 +11,7 @@
                         $http({
                             method: 'get',
                             url: '/classification/exists',
-                            params: {id:attrs.classificationExists, clId: modelValue}
+                            params: {id:attrs.classificationExists, clId: modelValue,domainId:attrs.domainid}
                         }).then(function successCallback(response) {
                             if (response.data == true) {
                                 deferred.reject('Classification exists');
@@ -38,7 +38,7 @@
             $http({
                 url: '/classification',
                 method: 'get',
-                params: {active: false, for: $scope.classification.id}
+                params: {active: false, for: $scope.classification.id,domainId:ctrl.domainId}
             }).then(function (succ) {
                 $scope.classifications = succ.data;
             });
@@ -60,7 +60,7 @@
                 //$scope.objectify($scope.classification.children);
                 //$scope.objectify($scope.classification.parents);
                 $("#add-classification-modal-"+$scope.classification.id).modal('hide');
-                $http({url: '/classification', method: 'post', data: $scope.classification}).then(function (succ) {
+                $http({url: '/classification', method: 'post', data: $scope.classification,params:{domainId:ctrl.domainId}}).then(function (succ) {
                     $timeout(function () {
                         $("#classifications").html("");
                         var setup = $compile("<ng-include src=\"'/partials/admin/setup/classification.html'\"></ng-include>")($scope);

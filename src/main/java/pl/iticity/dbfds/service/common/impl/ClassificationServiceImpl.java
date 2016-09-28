@@ -16,6 +16,7 @@ import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.common.ClassificationService;
+import pl.iticity.dbfds.service.common.DomainHelper;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
@@ -26,6 +27,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     @Autowired
     private ApplicationContext applicationContext;
+
+    @Autowired
+    private DomainHelper domainHelper;
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive){
         if(domain==null){
@@ -44,10 +48,8 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         return repo.findByDomainAndIdNotAndRemovedIsFalse(domain,without);
     }
 
-    public List<Classification> findByDomainForClassification(Domain domain, boolean onlyActive, String forClassification){
-        if(domain==null){
-            domain = PrincipalUtils.getCurrentDomain();
-        }
+    public List<Classification> findByDomainForClassification(String domainId, boolean onlyActive, String forClassification){
+        Domain domain = domainHelper.fetchDomain(domainId);
         Classification classification = null;
         if(!StringUtils.isEmpty(forClassification)){
             classification = repo.findOne(forClassification);
@@ -74,7 +76,8 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         }
     }
 
-    public List<Classification> addClassification(final Classification classification, Domain domain){
+    public List<Classification> addClassification(final Classification classification, String domainId){
+        Domain domain = domainHelper.fetchDomain(domainId);
         if(repo.findOne(classification.getId())==null){
            classification.setId(null);
         }
@@ -127,8 +130,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         return findByDomain(classification.getDomain(),false);
     }
 
-    public boolean exists(String clId, String id){
-        Classification c = repo.findByDomainAndClassificationId(PrincipalUtils.getCurrentDomain(),clId);
+    public boolean exists(String clId, String id, String domainId){
+        Domain domain = domainHelper.fetchDomain(domainId);
+        Classification c = repo.findByDomainAndClassificationId(domain,clId);
         if(c==null){
             return false;
         }

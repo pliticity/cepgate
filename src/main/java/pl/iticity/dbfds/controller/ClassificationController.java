@@ -19,9 +19,10 @@ public class ClassificationController extends BaseController {
     private ClassificationService classificationService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public @ResponseBody String getClassifications(@RequestParam("active") boolean active, @RequestParam("for") String forClassification){
+    public @ResponseBody String getClassifications(@RequestParam("active") boolean active, @RequestParam("for") String forClassification,@RequestParam(value = "domainId",required = false) String domainId){
+        domainId = StringUtils.isEmpty(domainId) ? null : domainId;
         List<Classification> classifications = null;
-        classifications =classificationService.findByDomainForClassification(PrincipalUtils.getCurrentDomain(),active,forClassification);
+        classifications =classificationService.findByDomainForClassification(domainId,active,forClassification);
         return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
@@ -31,15 +32,15 @@ public class ClassificationController extends BaseController {
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.GET)
-    public @ResponseBody boolean getDocumentTypes(@RequestParam("id") String id, @RequestParam("clId") String clId){
-        return classificationService.exists(clId,id);
+    public @ResponseBody boolean getDocumentTypes(@RequestParam("id") String id, @RequestParam("clId") String clId,@RequestParam(value = "domainId",required = false) String domainId){
+        return classificationService.exists(clId,id,domainId);
     }
 
     @RequestMapping(value = "",method = RequestMethod.POST)
     public
     @ResponseBody
-    String postClassification(@RequestBody Classification classification) {
-        List<Classification> classifications = classificationService.addClassification(classification,PrincipalUtils.getCurrentDomain());
+    String postClassification(@RequestBody Classification classification,@RequestParam(value = "domainId",required = false) String domainId) {
+        List<Classification> classifications = classificationService.addClassification(classification,domainId);
         return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
