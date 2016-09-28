@@ -12,13 +12,13 @@ public interface ClassificationService extends ScopedService<Classification> {
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive, String without);
 
-    public List<Classification> findByDomainForClassification(Domain domain, boolean onlyActive, String forClassification);
+    public List<Classification> findByDomainForClassification(String domainId, boolean onlyActive, String forClassification);
 
-    public List<Classification> addClassification(final Classification classification, Domain domain);
+    public List<Classification> addClassification(final Classification classification, String domainId);
 
     public List<Classification> toggleClassification(String id, boolean toggle);
 
-    public boolean exists(String clId, String id);
+    public boolean exists(String clId, String id, String domainId);
 
     public List<Classification> deleteClassification(String id);
 

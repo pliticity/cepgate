@@ -29,7 +29,7 @@ public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarr
         pjc.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         pjc.setDomain(PrincipalUtils.getCurrentDomain());
         repo.save(pjc);
-        if (pjc.getSymbol() != null && !classificationService.exists(pjc.getSymbol(), null)) {
+        if (pjc.getSymbol() != null && !classificationService.exists(pjc.getSymbol(), null,null)) {
             Classification classification = new Classification();
             classification.setId("-1");
             classification.setDomain(pjc.getDomain());
@@ -41,7 +41,7 @@ public class PJCServiceImpl extends AbstractScopedService<ProjectInformationCarr
             classification.setClassificationId(pjc.getSymbol());
             classification.setModelId(pjc.getId());
             classification.setModelClazz(ProjectInformationCarrier.class.getName());
-            classificationService.addClassification(classification, pjc.getDomain());
+            classificationService.addClassification(classification, pjc.getDomain().getId());
         }
         return pjc;
     }
