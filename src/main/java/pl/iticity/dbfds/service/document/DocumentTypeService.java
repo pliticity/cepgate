@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface DocumentTypeService extends ScopedService<DocumentType> {
 
-    public List<DocumentType> findByDomain(Domain domain, boolean onlyActive);
+    public List<DocumentType> findByDomain(String domainId, boolean onlyActive);
 
-    public List<DocumentType> addDocType(DocumentType documentType,Domain domain);
+    public List<DocumentType> addDocType(DocumentType documentType,String domainId);
 
     public List<DocumentType> toggleDocType(String id, boolean toggle);
 

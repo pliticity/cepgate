@@ -8,6 +8,7 @@
 
         $scope.form = {};
         $scope.domain = domainService.getOne($route.current.params.id);
+        ctrl.domainId = $route.current.params.id;
         ctrl.countries = [];
 
         CgPrincipalController(ctrl,principalService,$route.current.params.id);

@@ -134,7 +134,7 @@ public class MailServiceImpl implements MailService {
                 doc.setDocumentName(StringUtils.isEmpty(mail.getSubject()) ? String.valueOf(doc.getMasterDocumentNumber()) : mail.getSubject());
                 doc.setKind(DocumentInformationCarrier.Kind.INTERNAL);
 
-                DocumentType dt= Iterables.find(documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain(), false), new Predicate<DocumentType>() {
+                DocumentType dt= Iterables.find(documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain().getId(), false), new Predicate<DocumentType>() {
                     @Override
                     public boolean apply(@Nullable DocumentType docT) {
                         return DocumentType.EMAIL.getTypeId().equals(docT.getTypeId());

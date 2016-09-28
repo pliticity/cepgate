@@ -89,17 +89,4 @@ public class DomainController extends BaseController{
         return convertToString(Principal.class, PrincipalSelectMixin.class,principal);
     }
 
-    @RequestMapping(value = "/docType",method = RequestMethod.POST)
-    public
-    @ResponseBody
-    List<DocumentType> postDocumentType(@RequestBody DocumentType documentType) {
-        return documentTypeService.addDocType(documentType,PrincipalUtils.getCurrentDomain());
-    }
-
-    @RequestMapping(value = "/docType/{id}",method = RequestMethod.PUT,params = {"toggle"})
-    public
-    @ResponseBody
-    List<DocumentType> deleteDocType(@PathVariable("id") String id,@RequestParam("toggle") boolean toggle) {
-        return documentTypeService.toggleDocType(id,toggle);
-    }
 }
