@@ -80,7 +80,7 @@ public class MailActivator{
             doc.setCreatedBy(principal);
             doc.setCreationDate(new Date());
             doc.setDocumentName(payload.getSubject());
-            DocumentType emailDocType = Iterables.find(documentTypeService.findByDomain(principal.getDomain(), false), new Predicate<DocumentType>() {
+            DocumentType emailDocType = Iterables.find(documentTypeService.findByDomain(principal.getDomain().getId(), false), new Predicate<DocumentType>() {
                 @Override
                 public boolean apply(@Nullable DocumentType documentType) {
                     return DocumentType.EMAIL.getTypeId().equals(documentType.getTypeId());

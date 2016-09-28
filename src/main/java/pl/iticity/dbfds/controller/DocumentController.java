@@ -198,11 +198,6 @@ public class DocumentController {
         return service.changeState(id,state);
     }
 
-    @RequestMapping(value = "/types", method = RequestMethod.GET)
-    public @ResponseBody List<DocumentType> getDocumentTypes(@RequestParam("active") boolean active){
-        return documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain(),active);
-    }
-
     @RequestMapping(value = "/{id}/template/{tId}", method = RequestMethod.PUT)
     public @ResponseBody FileInfo putDocumentFromTemplate(@PathVariable("id") String id, @PathVariable("tId") String tId) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
         return service.appendTemplateFile(id,tId);

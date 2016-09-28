@@ -29,6 +29,8 @@
 
     document.controller('ClassificationController', ['$http', '$scope','$compile','$timeout', function ($http, $scope,$compile,$timeout) {
 
+        var ctrl = this;
+
         $scope.classifications = [];
         $scope.classification = {id:'0'};
 
