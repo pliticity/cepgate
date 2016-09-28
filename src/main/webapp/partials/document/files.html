@@ -3,7 +3,7 @@
     <div class="table-responsive">
         <table class="table table-condensed table-hover">
             <thead>
-            <tr ng-controller="TemplateController" ng-init="tctrl.getTemplates()">
+            <tr ng-controller="TemplateController as tctrl" ng-init="tctrl.getTemplates()">
                 <th colspan="2"></th>
                 <th class="text-right">
                     <select ng-if="documentInfo.id && readonly()==false" class="form-control" ng-model="selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
