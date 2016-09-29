@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.model.common.ClassificationType;
 
 import javax.annotation.Nullable;
@@ -68,13 +69,6 @@ public class Classification extends Scoped {
         this.defaultValue = defaultValue;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public boolean isActive() {
         return active;
