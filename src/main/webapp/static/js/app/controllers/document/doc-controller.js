@@ -10,7 +10,7 @@
         ctrl.types = [];
 
         CgModelController(ctrl, documentService, tabService, 'documentNumber', 'document-tabs', 'document', $scope);
-        CgClassifiableController(ctrl, classificationService);
+        CgClassifiableController(ctrl, classificationService,'document');
         CgPrincipalController(ctrl, principalService);
 
         ctrl.getDocTypes = function () {

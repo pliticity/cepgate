@@ -35,8 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocumentController">
-                <div ng-init="new()"></div>
+            <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocController as ctrl" ng-init="ctrl.newModel();">
                 <ng-include src="'/partials/document/details.html'"></ng-include>
             </div>
         </div>
