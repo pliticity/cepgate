@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.common.ClassificationType;
 
 import javax.annotation.Nullable;
 import javax.persistence.Entity;
@@ -47,7 +48,7 @@ public class Classification extends Scoped{
 
     private boolean active;
 
-    private String type;
+    private ClassificationType type;
 
     private String modelId;
 
@@ -103,11 +104,11 @@ public class Classification extends Scoped{
         this.classificationId = classificationId;
     }
 
-    public String getType() {
+    public ClassificationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ClassificationType type) {
         this.type = type;
     }
 

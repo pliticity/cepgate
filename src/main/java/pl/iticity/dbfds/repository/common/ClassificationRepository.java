@@ -4,6 +4,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.DocumentType;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface ClassificationRepository extends ScopedRepository<Classificatio
     public Classification findByDomainAndClassificationId(Domain domain, String clId);
 
     public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(Domain domain, List<String> types);
+
+    public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndType(Domain domain, ClassificationType type);
 }

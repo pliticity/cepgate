@@ -7,7 +7,7 @@
         var ctrl = this;
 
         CgModelController(ctrl, productService, tabService,'name','product-tabs','product',$scope);
-        CgClassifiableController(ctrl, classificationService);
+        CgClassifiableController(ctrl, classificationService,'product');
         CgPrincipalController(ctrl, principalService);
 
     }]);
