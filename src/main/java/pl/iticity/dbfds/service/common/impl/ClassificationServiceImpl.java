@@ -4,8 +4,12 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pl.iticity.dbfds.model.common.Classification;
@@ -23,120 +27,125 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Service
-public class ClassificationServiceImpl extends AbstractScopedService<Classification,String,ClassificationRepository> implements ClassificationService {
+public class ClassificationServiceImpl extends AbstractScopedService<Classification, String, ClassificationRepository> implements ClassificationService {
+
+    private static final Logger logger = Logger.getLogger(ClassificationServiceImpl.class);
 
     @Autowired
     private ApplicationContext applicationContext;
 
     @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @Autowired
     private DomainHelper domainHelper;
 
-    public List<Classification> findByDomain(Domain domain, boolean onlyActive){
-        if(domain==null){
+    public List<Classification> findByDomain(Domain domain, boolean onlyActive) {
+        if (domain == null) {
             domain = PrincipalUtils.getCurrentDomain();
         }
-        if(onlyActive){
+        if (onlyActive) {
             return repo.findByDomainAndActiveIsTrueAndRemovedIsFalse(domain);
         }
         return repo.findByDomainAndRemovedIsFalse(domain);
     }
 
-    public List<Classification> findByDomain(Domain domain, boolean onlyActive, String without){
-        if(domain==null){
+    public List<Classification> findByDomain(Domain domain, boolean onlyActive, String without) {
+        if (domain == null) {
             domain = PrincipalUtils.getCurrentDomain();
         }
-        return repo.findByDomainAndIdNotAndRemovedIsFalse(domain,without);
+        return repo.findByDomainAndIdNotAndRemovedIsFalse(domain, without);
     }
 
-    public List<Classification> findByDomainForClassification(String domainId, boolean onlyActive, String forClassification){
+    public List<Classification> findByDomainForClassification(String domainId, boolean onlyActive, String forClassification) {
         Domain domain = domainHelper.fetchDomain(domainId);
         Classification classification = null;
-        if(!StringUtils.isEmpty(forClassification)){
+        if (!StringUtils.isEmpty(forClassification)) {
             classification = repo.findOne(forClassification);
         }
-        if(classification == null){
+        if (classification == null) {
             List<Classification> classifications = repo.findByDomainAndRemovedIsFalse(domain);
             for (Classification c : classifications) {
                 c.setAssigned(isAssigned(c));
             }
             return classifications;
-        }else{
-            List<Classification> classifications = repo.findByDomainAndIdNotAndRemovedIsFalse(domain,classification.getId());
+        } else {
+            List<Classification> classifications = repo.findByDomainAndIdNotAndRemovedIsFalse(domain, classification.getId());
             final Classification finalClassification = classification;
             Iterables.removeIf(classifications, new Predicate<Classification>() {
                 @Override
                 public boolean apply(@Nullable Classification thisClassification) {
-                    return violatesCircularDependency(finalClassification,thisClassification);
+                    return violatesCircularDependency(finalClassification, thisClassification);
                 }
             });
-            for(Classification c : classifications){
+            for (Classification c : classifications) {
                 c.setAssigned(isAssigned(c));
             }
             return classifications;
         }
     }
 
-    public List<Classification> addClassification(final Classification classification, String domainId){
+    public List<Classification> addClassification(final Classification classification, String domainId) {
         Domain domain = domainHelper.fetchDomain(domainId);
-        if(repo.findOne(classification.getId())==null){
-           classification.setId(null);
+        if (repo.findOne(classification.getId()) == null) {
+            classification.setId(null);
         }
         classification.setDomain(domain);
         classification.setActive(true);
         classification.setPrincipal(PrincipalUtils.getCurrentPrincipal());
-        if(classification.getParents()!=null){
+        if (classification.getParents() != null) {
             Iterables.removeIf(classification.getParents(), new Predicate<Classification>() {
                 @Override
                 public boolean apply(@Nullable Classification thisClassification) {
-                    return violatesCircularDependency(classification,thisClassification);
+                    return violatesCircularDependency(classification, thisClassification);
                 }
             });
         }
         repo.save(classification);
-        return findByDomain(domain,false);
+        return findByDomain(domain, false);
     }
 
-    private boolean violatesCircularDependency(Classification thisC, Classification fromList){
-        if(fromList.getParents()==null){
+    private boolean violatesCircularDependency(Classification thisC, Classification fromList) {
+        if (fromList.getParents() == null) {
             return false;
-        }else if(fromList.getParents().contains(thisC)) {
+        } else if (fromList.getParents().contains(thisC)) {
             return true;
-        }else{
-            for(Classification c : fromList.getParents()){
-              if(violatesCircularDependency(thisC,c)){
-                  return true;
-              }
+        } else {
+            for (Classification c : fromList.getParents()) {
+                if (violatesCircularDependency(thisC, c)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    private List<Classification> transform(List<Classification> classifications){
+    private List<Classification> transform(List<Classification> classifications) {
         return Lists.newArrayList(Iterables.transform(classifications, new Function<Classification, Classification>() {
             @Nullable
             @Override
             public Classification apply(@Nullable Classification classification) {
-                return repo.findByDomainAndClassificationId(PrincipalUtils.getCurrentDomain(),classification.getClassificationId());
+                return repo.findByDomainAndClassificationId(PrincipalUtils.getCurrentDomain(), classification.getClassificationId());
             }
         }));
     }
 
-    public List<Classification> toggleClassification(String id, boolean toggle){
+    public List<Classification> toggleClassification(String id, boolean toggle) {
         Classification classification = repo.findOne(id);
-        AuthorizationProvider.assertRole(Role.ADMIN,classification.getDomain());
+        AuthorizationProvider.assertRole(Role.ADMIN, classification.getDomain());
         classification.setActive(toggle);
         classification.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         repo.save(classification);
-        return findByDomain(classification.getDomain(),false);
+        return findByDomain(classification.getDomain(), false);
     }
 
-    public boolean exists(String clId, String id, String domainId){
+    public boolean exists(String clId, String id, String domainId) {
         Domain domain = domainHelper.fetchDomain(domainId);
-        Classification c = repo.findByDomainAndClassificationId(domain,clId);
-        if(c==null){
+        Classification c = repo.findByDomainAndClassificationId(domain, clId);
+        if (c == null) {
             return false;
         }
-        if(id!=null && id.equals(c.getId())){
+        if (id != null && id.equals(c.getId())) {
             return false;
         }
         return true;
@@ -160,6 +169,17 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
                     repo.save(c);
                 }
             }
+            if (org.apache.commons.lang.StringUtils.isNotEmpty(classification.getModelClazz()) && org.apache.commons.lang.StringUtils.isNotEmpty(classification.getModelId())) {
+                try {
+                    Class modelClass = Class.forName(classification.getModelClazz());
+                    Object o = mongoTemplate.findOne(Query.query(Criteria.where("id").is(classification.getModelId())), modelClass);
+                    if(o!=null){
+                        mongoTemplate.remove(o);
+                    }
+                } catch (ClassNotFoundException e) {
+                    logger.error(e.getMessage(), e);
+                }
+            }
             repo.delete(classification);
         }
         return findByDomain(classification.getDomain(), false);
@@ -167,15 +187,15 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     @Override
     public List<Classification> findForProduct() {
-        List<String> types = Lists.newArrayList("Product Line","Product Family","Product Group","Product Model");
-        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(PrincipalUtils.getCurrentDomain(),types);
+        List<String> types = Lists.newArrayList("Product Line", "Product Family", "Product Group", "Product Model");
+        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(PrincipalUtils.getCurrentDomain(), types);
     }
 
     @Override
     public boolean isAssigned(Classification classification) {
-        for(ClassifiableRepository cr : applicationContext.getBeansOfType(ClassifiableRepository.class).values()){
+        for (ClassifiableRepository cr : applicationContext.getBeansOfType(ClassifiableRepository.class).values()) {
             List list = cr.findByClassification(classification);
-            if(list!=null && !list.isEmpty()){
+            if (list != null && !list.isEmpty()) {
                 return true;
             }
         }
