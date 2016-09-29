@@ -7,7 +7,7 @@
         var ctrl = this;
 
         CgModelController(ctrl, quotationService, tabService,'name','quotation-tabs','quotation',$scope);
-        CgClassifiableController(ctrl, classificationService);
+        CgClassifiableController(ctrl, classificationService,'quotation');
         CgPrincipalController(ctrl, principalService);
 
     }]);

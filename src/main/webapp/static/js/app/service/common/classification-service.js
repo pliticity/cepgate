@@ -9,8 +9,8 @@
 
     common.service('classificationService', ['$http','Classification', function ($http,Classification) {
 
-        this.getAllForProduct = function(){
-            return Classification.query({product:true});
+        this.getAllFor = function(modelName){
+            return Classification.query({model:modelName});
         };
 
         this.getAll = function(active){

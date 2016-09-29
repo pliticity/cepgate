@@ -26,9 +26,9 @@ public class ClassificationController extends BaseController {
         return convertToString(Classification.class, ListClassificationMixin.class,classifications);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET, params = {"product"})
-    public @ResponseBody String getClassifications(@RequestParam("product") boolean product){
-        return convertToString(Classification.class, ListClassificationMixin.class,classificationService.findForProduct());
+    @RequestMapping(value = "", method = RequestMethod.GET, params = {"model"})
+    public @ResponseBody String getClassifications(@RequestParam("model") String model){
+        return convertToString(Classification.class,ListClassificationMixin.class,classificationService.findForModel(PrincipalUtils.getCurrentDomain(),model));
     }
 
     @RequestMapping(value = "/exists", method = RequestMethod.GET)

@@ -10,6 +10,9 @@ function CgModelController(ctrl,modelService,tabService,tabName,tabsId,factory,$
             }
             var args = {open : true, id: resp.id, name: resp[tabName], tabsId:tabsId, factory:factory};
             tabService.addTab(args,$scope);
+            if(ctrl.getClassifications!=null){
+                ctrl.getClassifications();
+            }
         };
 
         var saved = modelService.save(ctrl.modelForm,ctrl.model,callback);

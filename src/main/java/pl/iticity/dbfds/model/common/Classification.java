@@ -3,16 +3,24 @@ package pl.iticity.dbfds.model.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import pl.iticity.dbfds.model.Scoped;
+import pl.iticity.dbfds.model.common.ClassificationType;
 
+import javax.annotation.Nullable;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -36,7 +44,7 @@ public class Classification extends Scoped {
 
     private boolean active;
 
-    private String type;
+    private ClassificationType type;
 
     private String modelId;
 
@@ -60,6 +68,13 @@ public class Classification extends Scoped {
         this.defaultValue = defaultValue;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isActive() {
         return active;
@@ -85,11 +100,11 @@ public class Classification extends Scoped {
         this.classificationId = classificationId;
     }
 
-    public String getType() {
+    public ClassificationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ClassificationType type) {
         this.type = type;
     }
 

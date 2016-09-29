@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.product.ProductState;
 import pl.iticity.dbfds.repository.product.PICRepository;
+import pl.iticity.dbfds.service.common.ClassificationHelper;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
 import pl.iticity.dbfds.service.AbstractScopedService;
@@ -25,25 +27,15 @@ public class PICServiceImpl extends AbstractScopedService<ProductInformationCarr
     @Autowired
     private ClassificationService classificationService;
 
+    @Autowired
+    private ClassificationHelper classificationHelper;
+
     @Override
     public ProductInformationCarrier savePIC(ProductInformationCarrier pic) {
         pic.setDomain(PrincipalUtils.getCurrentDomain());
         pic.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         repo.save(pic);
-        if (pic.getProductId() != null && !classificationService.exists(pic.getProductId(), null,null)) {
-            Classification classification = new Classification();
-            classification.setId("-1");
-            classification.setDomain(pic.getDomain());
-            classification.setActive(true);
-            classification.setPrincipal(pic.getPrincipal());
-            classification.setRemoved(false);
-            classification.setType("Product Model");
-            classification.setName(pic.getName() != null ? pic.getName() : "PRODUCT HAD NO NAME");
-            classification.setClassificationId(pic.getProductId() != null ? pic.getProductId() : "PRODUCT HAD NO ID");
-            classification.setModelId(pic.getId());
-            classification.setModelClazz(ProductInformationCarrier.class.getName());
-            classificationService.addClassification(classification, pic.getDomain().getId());
-        }
+        classificationHelper.createModelClassification(PrincipalUtils.getCurrentDomain(),PrincipalUtils.getCurrentPrincipal(),ClassificationType.PRODUCT_MODEL,pic.getName(),pic.getProductId(),pic.getId(),ProductInformationCarrier.class,pic.getClassification());
         return pic;
     }
 
