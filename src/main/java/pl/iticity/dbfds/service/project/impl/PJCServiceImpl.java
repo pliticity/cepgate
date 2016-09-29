@@ -3,6 +3,8 @@ package pl.iticity.dbfds.service.project.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.common.ClassificationType;
+import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;

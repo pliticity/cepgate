@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.iticity.dbfds.model.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.security.Principal;
 
