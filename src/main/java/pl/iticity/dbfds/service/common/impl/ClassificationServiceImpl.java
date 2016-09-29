@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.repository.ClassifiableRepository;
 import pl.iticity.dbfds.repository.common.ClassificationRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
@@ -24,7 +26,9 @@ import pl.iticity.dbfds.service.common.DomainHelper;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClassificationServiceImpl extends AbstractScopedService<Classification, String, ClassificationRepository> implements ClassificationService {
@@ -39,6 +43,16 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     @Autowired
     private DomainHelper domainHelper;
+
+    private Map<String,ClassificationType> models;
+
+    @PostConstruct
+    public void postConstruct(){
+        models = Maps.newHashMap();
+        models.put("product",ClassificationType.PRODUCT_MODEL);
+        models.put("project",ClassificationType.PROJECT);
+        models.put("quotation",ClassificationType.QUOTATION);
+    }
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive) {
         if (domain == null) {
@@ -183,6 +197,12 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
             repo.delete(classification);
         }
         return findByDomain(classification.getDomain(), false);
+    }
+
+    @Override
+    public List<Classification> findForModel(Domain domain,String model) {
+        ClassificationType type = models.get(model);
+        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndType(domain,type);
     }
 
     @Override

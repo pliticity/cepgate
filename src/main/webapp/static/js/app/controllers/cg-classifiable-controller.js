@@ -1,4 +1,4 @@
-function CgClassifiableController(ctrl,classificationService){
+function CgClassifiableController(ctrl,classificationService,modelName){
 
     ctrl.classifications = [];
 
@@ -7,7 +7,7 @@ function CgClassifiableController(ctrl,classificationService){
     };
 
     ctrl.getClassifications = function(){
-        ctrl.classifications = classificationService.getAllForProduct();
+        ctrl.classifications = classificationService.getAllFor(modelName);
     };
 
     ctrl.getClassifications();

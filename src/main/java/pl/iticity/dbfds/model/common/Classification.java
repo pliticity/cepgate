@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Scoped;
+import pl.iticity.dbfds.model.common.ClassificationType;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ import java.util.List;
                 @CompoundIndex(def = "{'classificationId' : 1,'domain' :1}", unique = true)
         }
 )
-public class Classification extends Scoped {
+public class Classification extends Scoped{
 
     public static Classification EMAIL = new Classification("E-Mail", "EM", true);
 
@@ -36,7 +37,7 @@ public class Classification extends Scoped {
 
     private boolean active;
 
-    private String type;
+    private ClassificationType type;
 
     private String modelId;
 
@@ -60,6 +61,13 @@ public class Classification extends Scoped {
         this.defaultValue = defaultValue;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public boolean isActive() {
         return active;
@@ -85,11 +93,11 @@ public class Classification extends Scoped {
         this.classificationId = classificationId;
     }
 
-    public String getType() {
+    public ClassificationType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(ClassificationType type) {
         this.type = type;
     }
 

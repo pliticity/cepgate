@@ -2,6 +2,7 @@ package pl.iticity.dbfds.repository.common;
 
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.repository.ScopedRepository;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ClassificationRepository extends ScopedRepository<Classificatio
     public Classification findByDomainAndClassificationId(Domain domain, String clId);
 
     public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(Domain domain, List<String> types);
+
+    public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndType(Domain domain, ClassificationType type);
 }

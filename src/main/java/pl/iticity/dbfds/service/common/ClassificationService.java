@@ -22,6 +22,8 @@ public interface ClassificationService extends ScopedService<Classification> {
 
     public List<Classification> deleteClassification(String id);
 
+    public List<Classification> findForModel(Domain domain,String model);
+
     public List<Classification> findForProduct();
 
     public boolean isAssigned(Classification classification);
