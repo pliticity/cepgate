@@ -44,14 +44,15 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
     @Autowired
     private DomainHelper domainHelper;
 
-    private Map<String,ClassificationType> models;
+    private Map<String,List<ClassificationType>> models;
 
     @PostConstruct
     public void postConstruct(){
         models = Maps.newHashMap();
-        models.put("product",ClassificationType.PRODUCT_MODEL);
-        models.put("project",ClassificationType.PROJECT);
-        models.put("quotation",ClassificationType.QUOTATION);
+        models.put("product",Lists.<ClassificationType>newArrayList(ClassificationType.PRODUCT_MODEL,ClassificationType.PRODUCT_FAMILY,ClassificationType.PRODUCT_GROUP,ClassificationType.PRODUCT_LINE));
+        models.put("project",Lists.<ClassificationType>newArrayList(ClassificationType.PROJECT));
+        models.put("quotation",Lists.<ClassificationType>newArrayList(ClassificationType.QUOTATION));
+        models.put("document",Lists.<ClassificationType>newArrayList(ClassificationType.values()));
     }
 
     public List<Classification> findByDomain(Domain domain, boolean onlyActive) {
@@ -200,19 +201,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
     }
 
     @Override
-    public List<Classification> findForModel(Domain domain,String model) {
-        if("document".equals(model)){
-            return findByDomainForClassification(domain.getId(),true,null);
-        }else{
-            ClassificationType type = models.get(model);
-            return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndType(domain,type);
-        }
-    }
-
-    @Override
-    public List<Classification> findForProduct() {
-        List<String> types = Lists.newArrayList("Product Line", "Product Family", "Product Group", "Product Model");
-        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(PrincipalUtils.getCurrentDomain(), types);
+    public List<Classification> findForModel(Domain domain,String model) {;
+        List<ClassificationType> types = models.get(model);
+        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(domain,types);
     }
 
     @Override
