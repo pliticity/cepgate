@@ -103,6 +103,10 @@
             });
         };
 
+        ctrl.selectNewFiles = function(files){
+            ctrl.files = files;
+        };
+
         ctrl.openFile = function(symbol){
             fileService.openFile(symbol);
         };

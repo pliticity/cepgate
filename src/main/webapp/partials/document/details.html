@@ -23,7 +23,7 @@
                 <div class="form-group" cg-validate="{form: ctrl.modelForm, field: 'internalExternal'}">
                     <label class="col-xs-6 control-label">Internal/External</label>
                     <div class="col-xs-6">
-                        <select ng-readonly="ctrl.readonly==true" name="internalExternal" class="form-control"
+                        <select ng-readonly="ctrl.readonly()==true" name="internalExternal" class="form-control"
                                 ng-model="ctrl.model.kind" required="">
                             <option value="INTERNAL">Internal</option>
                             <option value="EXTERNAL">External</option>
@@ -211,7 +211,7 @@
 
                 <input type="button" ng-if="ctrl.readonly()==false && ctrl.model.id" class="btn btn-info" ng-click="ctrl.archive()" value="Archive"/>
 
-                <input type="button" ng-if="revision==false && documentInfo.state == 'ARCHIVED'" class="btn btn-info" ng-click="ctrl.createRevision()" value="Create New Revison"/>
+                <input type="button" ng-if="ctrl.revision==false && ctrl.model.state == 'ARCHIVED'" class="btn btn-info" ng-click="ctrl.createRevision()" value="Create New Revison"/>
             </div>
         </div>
 

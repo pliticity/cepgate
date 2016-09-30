@@ -20,7 +20,7 @@
                                         <input ng-readonly="true" placeholder="Principal" class="form-control disabled"
                                                id="principal"
                                                name="principal"
-                                               ng-model="comment.principal.email" required=""
+                                               ng-model="cctrl.comment.principal.email" required=""
                                                ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -35,7 +35,7 @@
                                         <input ng-readonly="true" placeholder="Date" class="form-control disabled"
                                                id="date"
                                                name="date"
-                                               ng-model="comment.date" required=""
+                                               ng-model="cctrl.comment.date" required=""
                                                ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -50,7 +50,7 @@
                                         <textarea placeholder="Comment" class="form-control"
                                                   id="content"
                                                   name="content"
-                                                  ng-model="comment.content" required=""
+                                                  ng-model="cctrl.comment.content" required=""
                                                   ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="ctrl.addComment()">Add Comment
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cctrl.addComment()">Add Comment
                 </button>
             </div>
         </div>

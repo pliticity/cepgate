@@ -18,7 +18,7 @@
                         <div style="float:right;" ng-if="!ctrl.model.id"
                              class="btn btn-info btn-xs"
                              ngf-keep="true"
-                             ng-model="ctrl.files" ngf-multiple="true">Add files
+                             ng-model="ctrl.files" ngf-multiple="true" ngf-select="ctrl.selectNewFiles(ctrl.files)">Add files
                         </div>
                         <button style="float:right;" ng-if="ctrl.model.id && ctrl.readonly()==false" class="btn btn-info btn-xs" ng-click="tctrl.addFileFromTemplate(ctrl.model.id)">Add From Template</button>
                         </div>
@@ -60,7 +60,7 @@
                              ngf-drag-over-class="'dragover'" ng-model="ctrl.files" ngf-multiple="true">Drop files here
                         </div>
                         <div ng-if="!ctrl.model.id" class="drop-box"
-                             ngf-drag-over-class="'dragover'" ng-model="ctrl.files" ngf-multiple="true">Drop files here
+                             ngf-drag-over-class="'dragover'" ng-model="ctrl.files" ngf-drop="ctrl.selectNewFiles(ctrl.files)" ngf-multiple="true">Drop files here
                         </div>
                         <div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>
                     </form>
