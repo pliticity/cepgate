@@ -103,7 +103,7 @@
 
         tabService.updateTab = function (tabsId, objectId,tabName) {
             var tabId = "tab-{0}-{1}".format(tabsId, objectId);
-            var selector = "li[id='{0}'] span".format(tabId);
+            var selector = "li[id='{0}'] a span:first".format(tabId);
             $(selector).html(tabName);
         };
     }]);
