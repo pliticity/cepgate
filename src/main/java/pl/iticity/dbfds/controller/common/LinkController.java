@@ -2,7 +2,6 @@ package pl.iticity.dbfds.controller.common;
 
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.controller.BaseController;
 import pl.iticity.dbfds.model.Linkable;
@@ -17,9 +16,8 @@ import pl.iticity.dbfds.service.common.LinkService;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-@Controller
+@RestController
 @RequestMapping("")
 public class LinkController extends BaseController {
 
@@ -38,23 +36,17 @@ public class LinkController extends BaseController {
     }
 
     @RequestMapping(value = "/link", method = RequestMethod.POST, params = {"parentId", "parentType", "objectId", "objectType", "linkType"})
-    public
-    @ResponseBody
-    List<Link> postLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestParam(value = "objectId") String objectId, @RequestParam(value = "objectType") String objectType, @RequestParam(value = "linkType") String linkType) {
+    public List<Link> postLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestParam(value = "objectId") String objectId, @RequestParam(value = "objectType") String objectType, @RequestParam(value = "linkType") String linkType) {
         return linkService.createLink(parentId, linkables.get(parentType), objectId, linkables.get(objectType), LinkType.valueOf(linkType));
     }
 
     @RequestMapping(value = "/link/{linkId}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    Linkable getLinkObject(@PathVariable("linkId") String linkId) {
+    public Linkable getLinkObject(@PathVariable("linkId") String linkId) {
         return linkService.getLinkObject(linkId);
     }
 
     @RequestMapping(value = "/unlink", method = RequestMethod.POST, params = {"parentId", "parentType"})
-    public
-    @ResponseBody
-    List<Link> deleteLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestBody Link link) {
+    public List<Link> deleteLinkDocuments(@RequestParam(value = "parentId") String parentId, @RequestParam(value = "parentType") String parentType, @RequestBody Link link) {
         return linkService.deleteLink(parentId, linkables.get(parentType), link);
     }
 
