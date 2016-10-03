@@ -4,8 +4,8 @@ function CgService(serv, resource){
         return resource.query(params);
     };
 
-    serv.getOne = function (id) {
-        return resource.get({id:id});
+    serv.getOne = function (id,callback) {
+        return resource.get({id:id},callback);
     };
 
     serv.save = function (form, data,callback) {

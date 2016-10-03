@@ -7,7 +7,7 @@
             return $resource('/document/:id', {}, {'get':{'url':'/document/:id',interceptor: {response: linkService.fetchObjects}},'query': {'url': '/document/query', 'isArray': true}});
         }]);
 
-    document.controller('DocumentController', ['$timeout','settingsService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile", function ($timeout,settingsService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile) {
+    document.controller('DocumentController', ['$timeout','settingsService','fileService', 'documentService', 'Upload', 'Document', '$http', '$scope', '$location', '$window','$route',"$compile",'tabService', function ($timeout,settingsService,fileService, documentService, Upload, Document, $http, $scope, $location, $window,$route,$compile,tabService) {
 
         // DOCUMENT
 
@@ -135,7 +135,8 @@
                     s = s.data;
                     for (var i = 0; i < s.length; i++) {
                         $scope.documents.push(s[i]);
-                        $scope.openDicTab(s[i].id,s[i].documentNumber);
+                        var args = {open : true, id: s[i].id, name: s[i].documentNumber, tabsId:'document-tabs', factory:'document'};
+                        tabService.addTab(args,$scope);
                     }
                 });
             });
@@ -144,6 +145,12 @@
         $scope.deleteMulti = function () {
             $scope.doForSelectedRows(function (e) {
                 $scope.delete(e);
+            });
+        };
+
+        $scope.delete = function (docId) {
+            documentService.deleteOne(docId, function (res) {
+                $scope.query();
             });
         };
 

@@ -42,6 +42,6 @@
 
     </div>
 </div>
-<span nf-if="open == true" ng-controller="DocumentController">
-    <span ng-init="openDic();"></span>
-</span>
+<div ng-if="open == true">
+    <div ng-controller="DocController as ctrl" ng-init="ctrl.openDicFromRoute();"></div>
+</div>

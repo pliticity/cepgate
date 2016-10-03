@@ -37,6 +37,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 import javax.annotation.Nullable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
@@ -113,7 +114,10 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         }
         copy.getLinks().add(link);
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        String docNo = MessageFormat.format("{0}-{1}", documentInformationCarrier.getDomain().getAccountNo(),copy.getMasterDocumentNumber());
+
+        DecimalFormat decimalFormat = new DecimalFormat("#");
+
+        String docNo = MessageFormat.format("{0}-{1}", documentInformationCarrier.getDomain().getAccountNo(),decimalFormat.format(copy.getMasterDocumentNumber()));
         copy.setDocumentNumber(docNo);
         List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInformationCarrier.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
             @Override
@@ -167,7 +171,10 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         Domain domain = PrincipalUtils.getCurrentDomain();
         DocumentInformationCarrier documentInformationCarrier = new DocumentInformationCarrier();
         documentInformationCarrier.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
-        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(), documentInformationCarrier.getMasterDocumentNumber());
+
+        DecimalFormat decimalFormat = new DecimalFormat("#");
+
+        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(), decimalFormat.format(documentInformationCarrier.getMasterDocumentNumber()));
         documentInformationCarrier.setDocumentNumber(docNo);
         documentInformationCarrier.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInformationCarrier.setCreationDate(new Date());

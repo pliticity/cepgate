@@ -2,7 +2,7 @@
 
     var document = angular.module('document');
 
-    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService', function ($scope, classificationService, documentService, principalService, tabService,fileService) {
+    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService','$route', function ($scope, classificationService, documentService, principalService, tabService,fileService,$route) {
 
         var ctrl = this;
 
@@ -125,6 +125,15 @@
 
         ctrl.deleteNewFile = function (index) {
             ctrl.files.splice(index, 1);
+        };
+
+        ctrl.openDicFromRoute = function(){
+            var dicId = $route.current.params.id;
+            var dic = documentService.getOne(dicId,function(){
+                var args = {open : true, id: dic.id, name: dic.documentNumber, tabsId:'document-tabs', factory:'document'};
+                tabService.addTab(args,$scope);
+            });
+
         };
 
         ctrl.getDocTypes();
