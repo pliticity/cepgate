@@ -21,6 +21,7 @@ import pl.iticity.dbfds.repository.common.ClassificationRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Role;
 import pl.iticity.dbfds.service.AbstractScopedService;
+import pl.iticity.dbfds.service.common.ClassificationHelper;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainHelper;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -43,6 +44,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     @Autowired
     private DomainHelper domainHelper;
+
+    @Autowired
+    private ClassificationHelper classificationHelper;
 
     private Map<String,List<ClassificationType>> models;
 
@@ -102,8 +106,13 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
 
     public List<Classification> addClassification(final Classification classification, String domainId) {
         Domain domain = domainHelper.fetchDomain(domainId);
-        if (repo.findOne(classification.getId()) == null) {
+        Classification c = repo.findOne(classification.getId());
+        if (c == null) {
             classification.setId(null);
+        }else if(c.getModelId()!=null && c.getModelClazz()!=null){
+            classification.setModelId(c.getModelId());
+            classification.setModelClazz(c.getModelClazz());
+            classificationHelper.updateModelClass(classification);
         }
         classification.setDomain(domain);
         classification.setActive(true);
@@ -185,14 +194,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
                 }
             }
             if (org.apache.commons.lang.StringUtils.isNotEmpty(classification.getModelClazz()) && org.apache.commons.lang.StringUtils.isNotEmpty(classification.getModelId())) {
-                try {
-                    Class modelClass = Class.forName(classification.getModelClazz());
-                    Object o = mongoTemplate.findOne(Query.query(Criteria.where("id").is(classification.getModelId())), modelClass);
-                    if(o!=null){
-                        mongoTemplate.remove(o);
-                    }
-                } catch (ClassNotFoundException e) {
-                    logger.error(e.getMessage(), e);
+                Object o = classificationHelper.getModel(classification);
+                if(o!=null){
+                    mongoTemplate.remove(o);
                 }
             }
             repo.delete(classification);
