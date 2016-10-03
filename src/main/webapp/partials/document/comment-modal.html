@@ -1,4 +1,4 @@
-<div ng-controller="CommentController as cctrl" ng-init="cctrl.dic=ctrl.model;ctrl.newComment();"class="modal fade" id="comment-modal-{{ctrl.model.id}}" tabindex="-1"
+<div ng-controller="CommentController as cctrl" ng-init="cctrl.dic=ctrl.model;cctrl.newComment();"class="modal fade" id="comment-modal-{{ctrl.model.id}}" tabindex="-1"
      role="dialog" aria-labelledby="comment-modal-label-{{ctrl.model.id}}">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -8,7 +8,7 @@
                 <h4 class="modal-title" id="comment-modal-label-{{ctrl.model.id}}">Add Comment</h4>
             </div>
             <div class="modal-body">
-                <form name="ctrl.commentForm" class="form-horizontal">
+                <form name="cctrl.commentForm" class="form-horizontal">
 
                     <div class="row">
                         <div class="col-xs-6">

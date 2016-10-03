@@ -13,7 +13,7 @@
         self.linkableType = 'document';
 
         function link() {
-            $http({url: '/link', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType,objectId:self.selectedItem.id,objectType: 'document',linkType:'LINK'}}).then(function (succ) {
+            $http({url: '/link', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType,objectId:self.selectedItem.id,objectType: 'document',linkType:'DOCUMENT'}}).then(function (succ) {
                 for(var i=0; i<succ.data.length; i++){
                     linkService.getObject(succ.data[i]);
                 }
@@ -24,6 +24,9 @@
 
         function unlink(link) {
             $http({url: '/unlink', method: 'post',params:{parentId:self.linkable.id,parentType:self.linkableType}, data: link}).then(function (succ) {
+                for(var i=0; i<succ.data.length; i++){
+                    linkService.getObject(succ.data[i]);
+                }
                 self.linkable.links = succ.data;
             });
         };

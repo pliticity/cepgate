@@ -18,7 +18,7 @@
                     data: ctrl.comment
                 }).then(function (succ) {
                     ctrl.dic.comments = succ.data;
-                    newComment();
+                    ctrl.newComment();
                 });
             }
         };

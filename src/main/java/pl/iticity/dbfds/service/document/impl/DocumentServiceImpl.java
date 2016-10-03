@@ -155,7 +155,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
             try {
                 Class clazz = Class.forName(doc.getClassification().getModelClazz());
-                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.LINK);
+                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.DOCUMENT);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -200,7 +200,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
             try {
                 Class clazz = Class.forName(doc.getClassification().getModelClazz());
-                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.LINK);
+                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.DOCUMENT);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }

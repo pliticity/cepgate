@@ -52,7 +52,9 @@
                     var docId = response.id;
                     var files = ctrl.files;
                     ctrl.files = [];
-                    ctrl.uploadFiles(files, docId);
+                    fileService.uploadFiles(files,docId,function(res){
+                        ctrl.openTabCallback(response);
+                    });
                 }
             }
             ctrl.saveModel(callback);
