@@ -8,7 +8,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {"removed","domain","principal"})
 public abstract class ListClassificationMixin {
 
-    @JsonIgnoreProperties(value = {"parents","removed","defaultValue","type","active","domain","parentIds"})
+    @JsonIgnoreProperties(value = {"removed","defaultValue","type","active","domain","parentIds"})
     abstract List<Classification> getParents();
 
 }

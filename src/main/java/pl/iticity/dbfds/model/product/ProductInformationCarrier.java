@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
+import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.security.Principal;
 
 import javax.persistence.GeneratedValue;
@@ -275,18 +276,18 @@ public class ProductInformationCarrier extends Linkable{
      */
 
     public String getProductLine(){
-        return getClassificationLevelByType("Product Line");
+        return getClassificationLevelByType(ClassificationType.PRODUCT_LINE);
     }
 
     public String getProductFamily(){
-        return getClassificationLevelByType("Product Family");
+        return getClassificationLevelByType(ClassificationType.PRODUCT_FAMILY);
     }
 
     public String getProductGroup(){
-        return getClassificationLevelByType("Product Group");
+        return getClassificationLevelByType(ClassificationType.PRODUCT_GROUP);
     }
 
-    private String getClassificationLevelByType(String type){
+    private String getClassificationLevelByType(ClassificationType type){
         String level = "missing";
         if(getClassification()!=null && type != null){
             Classification c = recursive(getClassification(),type);
@@ -297,7 +298,7 @@ public class ProductInformationCarrier extends Linkable{
         return level;
     }
 
-    private Classification recursive(Classification c, String type){
+    private Classification recursive(Classification c, ClassificationType type){
         if(type.equals(c.getType())){
             return c;
         }else if(c.getParents() == null || c.getParents().isEmpty()){

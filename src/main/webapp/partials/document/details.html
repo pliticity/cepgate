@@ -201,11 +201,11 @@
             <div class="col-xs-4 col-xs-offset-4 text-right">
                 <input ng-if="ctrl.readonly()==false" class="btn btn-primary" type="button" ng-click="ctrl.saveDocument()" value="Save"/>
 
-                <input ng-if="revision==false && ctrl.isFavourite()==false" class="btn btn-warning"
+                <input ng-if="ctrl.revision==false && ctrl.isFavourite()==false" class="btn btn-warning"
                        type="button"
                        ng-click="ctrl.favourite()" value="Mark as favourite"/>
 
-                <input ng-if="revision==false && ctrl.isFavourite()==true" class="btn btn-default"
+                <input ng-if="ctrl.revision==false && ctrl.isFavourite()==true" class="btn btn-default"
                        type="button"
                        ng-click="ctrl.unFavourite()" value="UnMark as favourite"/>
 
