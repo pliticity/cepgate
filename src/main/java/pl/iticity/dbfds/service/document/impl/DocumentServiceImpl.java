@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mysema.query.types.Predicate;
 import org.apache.log4j.Logger;
@@ -22,6 +23,9 @@ import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoStateChangeMixin;
 import pl.iticity.dbfds.model.mixins.NewDocumentInfoMixIn;
+import pl.iticity.dbfds.model.product.ProductInformationCarrier;
+import pl.iticity.dbfds.model.project.ProjectInformationCarrier;
+import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
@@ -35,12 +39,14 @@ import pl.iticity.dbfds.service.document.TemplateService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DocumentServiceImpl extends AbstractService<DocumentInformationCarrier,String, DocumentInfoRepository> implements DocumentService {
@@ -61,6 +67,16 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
 
     @Autowired
     private ClassificationService classificationService;
+
+    private Map<Class,LinkType> linkTypes;
+
+    @PostConstruct
+    public void postConstruct(){
+        linkTypes = Maps.newHashMap();
+        linkTypes.put(ProductInformationCarrier.class,LinkType.PRODUCT);
+        linkTypes.put(ProjectInformationCarrier.class,LinkType.PROJECT);
+        linkTypes.put(QuotationInformationCarrier.class,LinkType.QUOTATION);
+    }
 
     public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -156,15 +172,20 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         doc.setDomain(current);
         doc.setClassification(classificationService.findById(doc.getClassification().getId()));
         doc = repo.save(doc);
-        if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
+        createLink(doc);
+        return doc;
+    }
+
+    private void createLink(DocumentInformationCarrier dic){
+        if(dic.getClassification()!=null && dic.getClassification().getModelId() != null && dic.getClassification().getModelClazz() !=null){
             try {
-                Class clazz = Class.forName(doc.getClassification().getModelClazz());
-                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.DOCUMENT);
+                Class clazz = Class.forName(dic.getClassification().getModelClazz());
+                LinkType linkType = linkTypes.get(clazz);
+                linkService.createLink(dic.getId(),DocumentInformationCarrier.class,dic.getClassification().getModelId(),clazz,linkType);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        return doc;
     }
 
     public DocumentInformationCarrier createNewDocumentInfo() throws JsonProcessingException {
@@ -204,14 +225,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         documentInformationCarrier.setRevisions(doc.getRevisions());
         super.save(documentInformationCarrier);
         doc = repo.findOne(documentInformationCarrier.getId());
-        if(doc.getClassification()!=null && doc.getClassification().getModelId() != null && doc.getClassification().getModelClazz() !=null){
-            try {
-                Class clazz = Class.forName(doc.getClassification().getModelClazz());
-                linkService.createLink(doc.getId(),DocumentInformationCarrier.class,doc.getClassification().getModelId(),clazz,LinkType.DOCUMENT);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+        createLink(doc);
         return doc;
     }
 
