@@ -30,26 +30,19 @@ public class ClassificationHelper {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    private List<Class> excludes;
-
-    @PostConstruct
-    public void postConstruct() {
-        excludes = Lists.newArrayList();
-        excludes.add(ProductInformationCarrier.class);
-    }
-
     public void createModelClassification(Domain domain, Principal principal, ClassificationType type, String name, String classificationId, String modelId, Class modelClass, Classification modelClassification) {
         Classification existing = getExistingClassification(modelId, modelClass);
         if (existing != null) {
             existing.setName(name);
             existing.setClassificationId(classificationId);
+            existing.setParents(Lists.<Classification>newArrayList(modelClassification));
             classificationService.save(existing);
         } else {
             if (domain != null && principal != null && classificationId != null && !classificationService.exists(classificationId, null, null)) {
                 Classification classification = new Classification();
-                if (!exclude(modelClass) && modelClassificationExists(modelClassification)) {
+                if (modelClassificationExists(modelClassification)) {
                     modelClassification = classificationService.findById(modelClassification.getId());
-                    if (modelClassification != null && type.equals(modelClassification.getType())) {
+                    if (modelClassification != null) {
                         classification.setParents(Lists.newArrayList(modelClassification));
                     }
                 }
@@ -76,14 +69,17 @@ public class ClassificationHelper {
             ProductInformationCarrier pic = (ProductInformationCarrier) o;
             pic.setName(classification.getName());
             pic.setProductId(classification.getClassificationId());
+            pic.setClassification(classification.getParents() != null && !classification.getParents().isEmpty() ? classification.getParents().get(0) : null);
         }else if(o instanceof ProjectInformationCarrier){
             ProjectInformationCarrier pjc = (ProjectInformationCarrier) o;
             pjc.setName(classification.getName());
             pjc.setSymbol(classification.getClassificationId());
+            pjc.setClassification(classification.getParents() != null && !classification.getParents().isEmpty() ? classification.getParents().get(0) : null);
         }else if(o instanceof QuotationInformationCarrier){
             QuotationInformationCarrier qic = (QuotationInformationCarrier) o;
             qic.setName(classification.getName());
             qic.setSymbol(classification.getClassificationId());
+            qic.setClassification(classification.getParents() != null && !classification.getParents().isEmpty() ? classification.getParents().get(0) : null);
         }
         mongoTemplate.save(o);
     }
@@ -97,10 +93,6 @@ public class ClassificationHelper {
             logger.error(e.getMessage(), e);
         }
         return null;
-    }
-
-    private boolean exclude(Class modelClass) {
-        return excludes.contains(modelClass);
     }
 
     private boolean modelClassificationExists(Classification modelClassification) {
