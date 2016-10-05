@@ -1,46 +1,32 @@
 package pl.iticity.dbfds.controller.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.controller.BaseController;
-import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.mixins.product.DetailsPICMixin;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
-import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.product.PICService;
 
-import java.util.List;
-
-@Controller
+@RestController
 @RequestMapping("/product")
 public class ProductController extends BaseController {
 
     @Autowired
     private PICService picService;
 
-    @Autowired
-    private LinkService linkService;
-
-    @RequestMapping(value = "",params = {"new"}, method = RequestMethod.GET)
-    public
-    @ResponseBody
-    String getNewProduct() {
-        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class,picService.createNew());
+    @RequestMapping(value = "", params = {"new"}, method = RequestMethod.GET)
+    public String getNewProduct() {
+        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class, picService.createNew());
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    String postSaveProduct(@RequestBody ProductInformationCarrier pic) {
-        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class,picService.savePIC(pic));
+    public String postSaveProduct(@RequestBody ProductInformationCarrier pic) {
+        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class, picService.savePIC(pic));
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public
-    @ResponseBody
-    String getProduct(@PathVariable("id") String id) {
-        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class,picService.findById(id));
+    public String getProduct(@PathVariable("id") String id) {
+        return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class, picService.findById(id));
     }
 
 

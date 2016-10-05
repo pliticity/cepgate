@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("dashboard")
-public class DashboardController {
+public class DashboardController extends ViewController {
 
-    @RequestMapping("")
-    public String home() {
+    @Override
+    public String getViewName() {
         return "dashboard";
     }
-
 }
