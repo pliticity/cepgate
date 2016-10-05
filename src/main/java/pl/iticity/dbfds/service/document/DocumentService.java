@@ -38,13 +38,9 @@ public interface DocumentService extends Service<DocumentInformationCarrier> {
 
     public Long getNextMasterDocumentNumber(Domain domain);
 
-    public List<DocumentInformationCarrier> findByCreatedBy(Principal principal);
-
     public List<DocumentInformationCarrier> findAll();
 
     public List<DocumentInformationCarrier> findRecent();
-
-    public List<DocumentInformationCarrier> findByPredicate(Predicate predicate);
 
     public List<FileInfo> appendFile(String documentId, FileInfo fileInfo);
 

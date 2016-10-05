@@ -237,10 +237,6 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         return id;
     }
 
-    public List<DocumentInformationCarrier> findByCreatedBy(Principal principal) {
-        return repo.findByCreatedByAndRemovedIsFalseOrderByCreationDateAsc(principal);
-    }
-
     public List<DocumentInformationCarrier> findAll() {
         return repo.findByDomainAndRemovedIsFalseOrderByCreationDateAsc(PrincipalUtils.getCurrentDomain());
     }
@@ -248,10 +244,6 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     public List<DocumentInformationCarrier> findRecent() {
         LocalDateTime lastMonth = LocalDateTime.now().minusMonths(1);
         return repo.findByActivities_PrincipalAndActivities_DateGreaterThanAndActivities_TypeAndRemovedIsFalseOrderByActivities_DateDesc(PrincipalUtils.getCurrentPrincipal(), lastMonth.toDate(), DocumentActivity.ActivityType.OPENED);
-    }
-
-    public List<DocumentInformationCarrier> findByPredicate(Predicate predicate) {
-        return Lists.newArrayList(repo.findAll(predicate));
     }
 
     public List<FileInfo> appendFile(String documentId, FileInfo fileInfo) {
