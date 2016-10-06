@@ -15,9 +15,9 @@ import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
-import pl.iticity.dbfds.model.common.Link;
-import pl.iticity.dbfds.model.common.LinkType;
-import pl.iticity.dbfds.model.common.LinkedObjectType;
+import pl.iticity.dbfds.model.common.Bond;
+import pl.iticity.dbfds.model.common.BondType;
+import pl.iticity.dbfds.model.common.ObjectType;
 import pl.iticity.dbfds.model.document.*;
 import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
 import pl.iticity.dbfds.model.mixins.DocumentInfoMixIn;
@@ -30,9 +30,9 @@ import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.AbstractService;
+import pl.iticity.dbfds.service.common.BondService;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
-import pl.iticity.dbfds.service.common.LinkService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.TemplateService;
@@ -63,20 +63,10 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     private TemplateService templateService;
 
     @Autowired
-    private LinkService linkService;
+    private BondService bondService;
 
     @Autowired
     private ClassificationService classificationService;
-
-    private Map<Class,LinkType> linkTypes;
-
-    @PostConstruct
-    public void postConstruct(){
-        linkTypes = Maps.newHashMap();
-        linkTypes.put(ProductInformationCarrier.class,LinkType.PRODUCT);
-        linkTypes.put(ProjectInformationCarrier.class,LinkType.PROJECT);
-        linkTypes.put(QuotationInformationCarrier.class,LinkType.QUOTATION);
-    }
 
     public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -119,16 +109,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     public DocumentInformationCarrier copyDocument(String docId, final List<String> files) throws FileNotFoundException {
         DocumentInformationCarrier documentInformationCarrier = repo.findOne(docId);
         DocumentInformationCarrier copy = documentInformationCarrier.clone();
-        Link link = new Link();
-        link.setLinkType(LinkType.COPY_FROM);
-        link.setObjectType(LinkedObjectType.DIC);
-        link.setObjectId(docId);
-        linkService.save(link);
 
-        if(copy.getLinks()==null){
-            copy.setLinks(Lists.<Link>newArrayList());
-        }
-        copy.getLinks().add(link);
         copy.setMasterDocumentNumber(getNextMasterDocumentNumber(PrincipalUtils.getCurrentDomain()));
 
         DecimalFormat decimalFormat = new DecimalFormat("#");
@@ -146,16 +127,8 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         copy.setResponsibleUser(null);
         repo.save(copy);
 
-        if(documentInformationCarrier.getLinks()==null){
-            documentInformationCarrier.setLinks(Lists.<Link>newArrayList());
-        }
-        Link link2 = new Link();
-        link2.setLinkType(LinkType.COPY_TO);
-        link2.setObjectType(LinkedObjectType.DIC);
-        link2.setObjectId(copy.getId());
-        linkService.save(link2);
+        bondService.createBond(documentInformationCarrier.getId(),DocumentInformationCarrier.class,null,copy.getId(),DocumentInformationCarrier.class,null,BondType.COPY);
 
-        documentInformationCarrier.getLinks().add(link2);
         repo.save(documentInformationCarrier);
 
         return copy;
@@ -177,7 +150,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     }
 
     private void createLink(DocumentInformationCarrier dic){
-        if(dic.getClassification()!=null && dic.getClassification().getModelId() != null && dic.getClassification().getModelClazz() !=null){
+/*        if(dic.getClassification()!=null && dic.getClassification().getModelId() != null && dic.getClassification().getModelClazz() !=null){
             try {
                 Class clazz = Class.forName(dic.getClassification().getModelClazz());
                 LinkType linkType = linkTypes.get(clazz);
@@ -185,7 +158,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public DocumentInformationCarrier createNewDocumentInfo() throws JsonProcessingException {

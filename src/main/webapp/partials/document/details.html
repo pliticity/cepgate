@@ -244,6 +244,9 @@
         <li ng-if="ctrl.revision==false" role="presentation" class=""><a href="#links-{{ctrl.model.id}}"
                                                                     aria-controls="links-{{ctrl.model.id}}" role="tab"
                                                                     data-toggle="tab">Links</a></li>
+        <li ng-if="ctrl.revision==false" role="presentation" class=""><a href="#where-used-{{ctrl.model.id}}"
+                                                                         aria-controls="where-used-{{ctrl.model.id}}" role="tab"
+                                                                         data-toggle="tab">Where used</a></li>
     </ul>
 
     <div class="tab-content" id="details-{{ctrl.model.id}}-tabs-content">
@@ -298,7 +301,10 @@
             <ng-include src="'/partials/document/comments.html'"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="links-{{ctrl.model.id}}">
-            <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/links.html'" ng-init="linkCtrl.setLinkable(ctrl.model,'document')"></ng-include>
+            <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/dic-links.html'" ng-init="linkCtrl.getLinks(ctrl.model,'document',true)"></ng-include>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="where-used-{{ctrl.model.id}}">
+            <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/links.html'" ng-init="linkCtrl.getLinks(ctrl.model,'document',false)"></ng-include>
         </div>
     </div>
 

@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.common.Classification;
-import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.security.Principal;
@@ -27,7 +26,7 @@ import java.util.List;
                 @CompoundIndex(def = "{'masterProductNumber' : 1,'domain' :1}", unique = true)
         }
 )
-public class ProductInformationCarrier extends Linkable{
+public class ProductInformationCarrier extends Scoped{
 
     @ManyToOne
     @NotNull

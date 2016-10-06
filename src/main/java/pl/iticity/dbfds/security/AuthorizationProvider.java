@@ -39,6 +39,9 @@ public class AuthorizationProvider {
     }
 
     public static void isInDomain(Domain domain){
+        if (SecurityUtils.getSubject().hasRole(Role.GLOBAL_ADMIN.name())) {
+            return;
+        }
         if(!domain.getId().equals(PrincipalUtils.getCurrentDomain().getId())){
             throw new UnauthorizedException();
         }

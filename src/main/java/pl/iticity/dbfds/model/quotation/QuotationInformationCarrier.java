@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.common.Classification;
-import pl.iticity.dbfds.model.Linkable;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "quotations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QuotationInformationCarrier extends Linkable {
+public class QuotationInformationCarrier extends Scoped {
 
     @ManyToOne
     @NotNull

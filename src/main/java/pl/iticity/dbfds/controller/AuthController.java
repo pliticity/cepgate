@@ -19,11 +19,6 @@ public class AuthController {
     @Autowired
     private DomainService domainService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String getAuthView() {
-        return "auth";
-    }
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public JsonResponse postAuthenticate(@RequestBody final Principal principal) {
         principalService.authenticate(principal);

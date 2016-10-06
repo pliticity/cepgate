@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import pl.iticity.dbfds.model.Domain;
-import pl.iticity.dbfds.model.Linkable;
+import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.model.Tag;
 import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.security.Principal;
@@ -29,7 +29,7 @@ import java.util.List;
         }
 )
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DocumentInformationCarrier extends Linkable {
+public class DocumentInformationCarrier extends Scoped {
 
     public enum Kind {
         INTERNAL, EXTERNAL;
