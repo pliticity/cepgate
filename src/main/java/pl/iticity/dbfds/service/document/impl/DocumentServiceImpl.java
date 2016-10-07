@@ -127,7 +127,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         copy.setResponsibleUser(null);
         repo.save(copy);
 
-        bondService.createBond(documentInformationCarrier.getId(),DocumentInformationCarrier.class,null,copy.getId(),DocumentInformationCarrier.class,null,BondType.COPY);
+        bondService.createBond(documentInformationCarrier.getId(),DocumentInformationCarrier.class,false,copy.getId(),DocumentInformationCarrier.class,false,BondType.COPY);
 
         repo.save(documentInformationCarrier);
 

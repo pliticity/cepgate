@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface BondService extends ScopedService<Bond> {
 
-    public Bond createBond(String aId, Class<? extends BaseModel> aClass, String aRevision, String bId, Class<? extends BaseModel> bClass, String bRevision, BondType bondType);
+    public Bond createBond(String aId, Class<? extends BaseModel> aClass, boolean aRevision, String bId, Class<? extends BaseModel> bClass, boolean bRevision, BondType bondType);
 
     public void deleteBond(String id);
 

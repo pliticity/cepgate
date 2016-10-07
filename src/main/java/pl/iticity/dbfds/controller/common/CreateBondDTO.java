@@ -6,13 +6,13 @@ public class CreateBondDTO {
 
     private String firstType;
 
-    private String firstRevision;
+    private boolean firstRevision;
 
     private String secondId;
 
     private String secondType;
 
-    private String secondRevision;
+    private boolean secondRevision;
 
     public String getFirstId() {
         return firstId;
@@ -28,14 +28,6 @@ public class CreateBondDTO {
 
     public void setFirstType(String firstType) {
         this.firstType = firstType;
-    }
-
-    public String getFirstRevision() {
-        return firstRevision;
-    }
-
-    public void setFirstRevision(String firstRevision) {
-        this.firstRevision = firstRevision;
     }
 
     public String getSecondId() {
@@ -54,11 +46,19 @@ public class CreateBondDTO {
         this.secondType = secondType;
     }
 
-    public String getSecondRevision() {
+    public boolean isFirstRevision() {
+        return firstRevision;
+    }
+
+    public void setFirstRevision(boolean firstRevision) {
+        this.firstRevision = firstRevision;
+    }
+
+    public boolean isSecondRevision() {
         return secondRevision;
     }
 
-    public void setSecondRevision(String secondRevision) {
+    public void setSecondRevision(boolean secondRevision) {
         this.secondRevision = secondRevision;
     }
 }

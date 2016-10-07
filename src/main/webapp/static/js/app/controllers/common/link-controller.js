@@ -9,10 +9,11 @@
         self.link = link;
         self.unlink = unlink;
         self.links = [];
+        self.withRevision = false;
 
         self.getLinks = function (model, oType, dic) {
-            model.$promise.then(function (value) {
-                var oId = value.id;
+            model.$promise.then(function () {
+                var oId = model.id;
                 if (oId != null && oType != null) {
                     self.model = {oId: oId, oType: oType};
                     $http({
@@ -46,13 +47,13 @@
             var newBond = {
                 firstId : self.model.oId,
                 firstType : self.model.oType,
-                firstRevision : null,
-                secondId : null,
-                secondType : null,
-                secondRevision : null
+                firstRevision : false,
+                secondId : self.selectedItem.id,
+                secondType : 'document',
+                secondRevision : self.withRevision
             };
             $http({url: '/link', method: 'post',data:newBond}).then(function (response) {
-                self.fetchObjects(response.data,'second');
+                self.fetchObject(response.data,'second');
             });
         };
 

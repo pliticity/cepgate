@@ -39,7 +39,7 @@ public class LinkController extends BaseController {
 
     @RequestMapping(value = "/link", method = RequestMethod.POST)
     public Bond postLinkDocuments(@RequestBody CreateBondDTO dto) {
-        return bondService.createBond(dto.getFirstId(), linkables.get(dto.getFirstType()), dto.getFirstRevision(), dto.getSecondId(), linkables.get(dto.getSecondType()), dto.getSecondRevision(), BondType.LINK);
+        return bondService.createBond(dto.getFirstId(), linkables.get(dto.getFirstType()), dto.isFirstRevision(), dto.getSecondId(), linkables.get(dto.getSecondType()), dto.isSecondRevision(), BondType.LINK);
     }
 
     @RequestMapping(value = "/link", method = RequestMethod.GET,params = {"oId","oType","dic"})

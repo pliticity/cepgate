@@ -61,7 +61,7 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
     }
 
     @Override
-    public Bond createBond(String aId, Class<? extends BaseModel> aClass, String aRevision, String bId, Class<? extends BaseModel> bClass, String bRevision, BondType bondType) {
+    public Bond createBond(String aId, Class<? extends BaseModel> aClass, boolean aRevision, String bId, Class<? extends BaseModel> bClass, boolean bRevision, BondType bondType) {
         Bond bond = new Bond();
         if(StringUtils.isEmpty(aId) || aClass==null || StringUtils.isEmpty(bId) || bClass == null || bondType == null){
             throw new IllegalArgumentException();
@@ -69,12 +69,22 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         BaseModel a = resolveObject(aId,aClass);
         bond.setFirstId(a.getId());
         bond.setFirstType(resolveObjectType(a.getClass()));
-        bond.setFirstRevision(aRevision);
+        if(aRevision && DocumentInformationCarrier.class.equals(a.getClass())){
+            DocumentInformationCarrier dic = (DocumentInformationCarrier) a;
+            if(dic.getRevision() != null){
+                bond.setFirstRevision(dic.getRevision().getEffective());
+            }
+        }
 
         BaseModel b = resolveObject(bId,bClass);
         bond.setSecondId(b.getId());
         bond.setSecondType(resolveObjectType(b.getClass()));
-        bond.setSecondRevision(bRevision);
+        if(bRevision && DocumentInformationCarrier.class.equals(b.getClass())){
+            DocumentInformationCarrier dic = (DocumentInformationCarrier) b;
+            if(dic.getRevision() != null){
+                bond.setSecondRevision(dic.getRevision().getEffective());
+            }
+        }
 
         bond.setPrincipal(PrincipalUtils.getCurrentPrincipal());
         bond.setDomain(PrincipalUtils.getCurrentDomain());
@@ -123,21 +133,21 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
             throw new IllegalArgumentException();
         }
         List<Bond> bonds = Lists.newArrayList();
-        bonds.addAll(repo.findByFirstTypeAndFirstId(type,oId));
+        bonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type,oId));
         if(includes!=null){
             Iterables.removeIf(bonds, new Predicate<Bond>() {
                 @Override
                 public boolean apply(@Nullable Bond bond) {
-                    return includes.contains(bond.getSecondType());
+                    return !includes.contains(bond.getSecondType());
                 }
             });
         }
-        bonds.addAll(repo.findBySecondTypeAndSecondId(type,oId));
+        bonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type,oId));
         if(includes!=null){
             Iterables.removeIf(bonds, new Predicate<Bond>() {
                 @Override
                 public boolean apply(@Nullable Bond bond) {
-                    return includes.contains(bond.getFirstType());
+                    return !includes.contains(bond.getFirstType());
                 }
             });
         }
@@ -199,6 +209,9 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
                         }
                         break;
                     }
+                }
+                if(model==null){
+                    model = dic;
                 }
             }else{
                 throw new IllegalArgumentException();

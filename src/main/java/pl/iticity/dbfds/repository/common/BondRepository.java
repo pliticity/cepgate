@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BondRepository extends ScopedRepository<Bond,String> {
 
-    public List<Bond> findByFirstTypeAndFirstId(ObjectType firstType,String firstId);
+    public List<Bond> findByFirstTypeAndFirstIdOrderByCreationDateAsc(ObjectType firstType,String firstId);
 
-    public List<Bond> findBySecondTypeAndSecondId(ObjectType secondType,String secondId);
+    public List<Bond> findBySecondTypeAndSecondIdOrderByCreationDateAsc(ObjectType secondType,String secondId);
 }
