@@ -71,6 +71,8 @@ public class Principal {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date creationDate;
 
+    private String desktopToken;
+
     public Principal(String email,String password){
         setEmail(email);
         setPassword(password);
@@ -214,5 +216,13 @@ public class Principal {
     @Override
     public String toString() {
         return getEmail();
+    }
+
+    public String getDesktopToken() {
+        return desktopToken;
+    }
+
+    public void setDesktopToken(String desktopToken) {
+        this.desktopToken = desktopToken;
     }
 }

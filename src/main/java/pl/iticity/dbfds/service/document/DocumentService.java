@@ -12,6 +12,7 @@ import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -53,4 +54,6 @@ public interface DocumentService extends Service<DocumentInformationCarrier> {
     public String autoCompleteDocument(String documentName) throws JsonProcessingException;
 
     public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException;
+
+    public void openOnDesktop(String fileId, HttpServletRequest request);
 }

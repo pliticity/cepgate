@@ -7,12 +7,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mysema.query.types.Predicate;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hpsf.MarkUnsupportedException;
 import org.apache.poi.hpsf.NoPropertySetStreamException;
 import org.apache.poi.hpsf.UnexpectedPropertySetTypeException;
 import org.joda.time.LocalDateTime;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.common.Bond;
@@ -33,6 +37,7 @@ import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.BondService;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.service.common.DomainService;
+import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
 import pl.iticity.dbfds.service.document.TemplateService;
@@ -40,6 +45,7 @@ import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -49,7 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DocumentServiceImpl extends AbstractService<DocumentInformationCarrier,String, DocumentInfoRepository> implements DocumentService {
+public class DocumentServiceImpl extends AbstractService<DocumentInformationCarrier, String, DocumentInfoRepository> implements DocumentService {
 
     private static final Logger logger = Logger.getLogger(DocumentServiceImpl.class);
 
@@ -66,7 +72,20 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     private BondService bondService;
 
     @Autowired
+    private PrincipalService principalService;
+
+    @Autowired
     private ClassificationService classificationService;
+
+    @Autowired
+    @Qualifier(value = "iticityQueue")
+    private Queue queue;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private AmqpAdmin amqpAdmin;
 
     public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -114,7 +133,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
 
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
-        String docNo = MessageFormat.format("{0}-{1}", documentInformationCarrier.getDomain().getAccountNo(),decimalFormat.format(copy.getMasterDocumentNumber()));
+        String docNo = MessageFormat.format("{0}-{1}", documentInformationCarrier.getDomain().getAccountNo(), decimalFormat.format(copy.getMasterDocumentNumber()));
         copy.setDocumentNumber(docNo);
         List<FileInfo> filesToCopy = Lists.newArrayList(Iterables.filter(documentInformationCarrier.getFiles(), new com.google.common.base.Predicate<FileInfo>() {
             @Override
@@ -127,7 +146,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         copy.setResponsibleUser(null);
         repo.save(copy);
 
-        bondService.createBond(documentInformationCarrier.getId(),DocumentInformationCarrier.class,false,copy.getId(),DocumentInformationCarrier.class,false,BondType.COPY);
+        bondService.createBond(documentInformationCarrier.getId(), DocumentInformationCarrier.class, false, copy.getId(), DocumentInformationCarrier.class, false, BondType.COPY);
 
         repo.save(documentInformationCarrier);
 
@@ -141,7 +160,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     }
 
     public DocumentInformationCarrier create(DocumentInformationCarrier doc) {
-        if(doc.getId()!=null){
+        if (doc.getId() != null) {
             DocumentInformationCarrier dic = repo.findOne(doc.getId());
             doc.setRevisions(dic.getRevisions());
         }
@@ -153,7 +172,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         return doc;
     }
 
-    private void createLink(DocumentInformationCarrier dic){
+    private void createLink(DocumentInformationCarrier dic) {
 /*        if(dic.getClassification()!=null && dic.getClassification().getModelId() != null && dic.getClassification().getModelClazz() !=null){
             try {
                 Class clazz = Class.forName(dic.getClassification().getModelClazz());
@@ -172,7 +191,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
 
         DecimalFormat decimalFormat = new DecimalFormat("#");
 
-        String docNo = MessageFormat.format("{0}-{1}",domain.getAccountNo(), decimalFormat.format(documentInformationCarrier.getMasterDocumentNumber()));
+        String docNo = MessageFormat.format("{0}-{1}", domain.getAccountNo(), decimalFormat.format(documentInformationCarrier.getMasterDocumentNumber()));
         documentInformationCarrier.setDocumentNumber(docNo);
         documentInformationCarrier.setCreatedBy(PrincipalUtils.getCurrentPrincipal());
         documentInformationCarrier.setCreationDate(new Date());
@@ -185,9 +204,9 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     public String changeState(String id, DocumentState state) throws JsonProcessingException {
         DocumentInformationCarrier doc = repo.findOne(id);
         doc.setState(state);
-        if(DocumentState.ARCHIVED.equals(state)){
+        if (DocumentState.ARCHIVED.equals(state)) {
             doc.setArchivedDate(new Date());
-        }else{
+        } else {
             doc.setArchivedDate(null);
         }
         repo.save(doc);
@@ -208,7 +227,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
 
     public Long getNextMasterDocumentNumber(Domain domain) {
         Domain d = domainService.findById(domain.getId());
-        long id = d.getLastMasterDocumentNumber() +1;
+        long id = d.getLastMasterDocumentNumber() + 1;
         d.setLastMasterDocumentNumber(id);
         domainService.save(d);
         return id;
@@ -282,9 +301,32 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         AuthorizationProvider.isInDomain(template.getDomain());
         DocumentInformationCarrier doc = findById(docId);
         AuthorizationProvider.isInDomain(doc.getDomain());
-        FileInfo copy = templateService.copyFileAndFillMeta(template.getFile(),doc);
+        FileInfo copy = templateService.copyFileAndFillMeta(template.getFile(), doc);
         doc.getFiles().add(copy);
         repo.save(doc);
         return copy;
+    }
+
+    @Override
+    public void openOnDesktop(String fileId, HttpServletRequest request) {
+        if (StringUtils.isEmpty(fileId)) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo file = fileService.findById(fileId);
+        if (file == null) {
+            throw new IllegalArgumentException();
+        }
+        AuthorizationProvider.isInDomain(file.getDomain());
+        Principal principal = principalService.findById(PrincipalUtils.getCurrentPrincipal().getId());
+        String token = String.valueOf(new Date().getTime());//principal.getDesktopToken();
+        if (StringUtils.isNotEmpty(token)) {
+            String link = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file/" + file.getSymbol();
+            Map<String, Object> args = Maps.newHashMap();
+            args.put("link", link);
+            TopicExchange topicExchange = new TopicExchange("amq.topic", false, false, args);
+            Binding binding = BindingBuilder.bind(queue).to(topicExchange).with(token);
+            amqpAdmin.declareBinding(binding);
+            rabbitTemplate.send("amq.topic", token, MessageBuilder.withBody(link.getBytes()).build());
+        }
     }
 }

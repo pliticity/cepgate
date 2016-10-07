@@ -2,7 +2,7 @@
 
     var document = angular.module('document');
 
-    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService','$route', function ($scope, classificationService, documentService, principalService, tabService,fileService,$route) {
+    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService','$route','$http', function ($scope, classificationService, documentService, principalService, tabService,fileService,$route,$http) {
 
         var ctrl = this;
 
@@ -134,6 +134,10 @@
                 tabService.addTab(args,$scope);
             });
 
+        };
+
+        ctrl.openOnDesktop = function(id){
+            $http({url:'/files/'+id+'/desktop',method:'get'});
         };
 
         ctrl.getDocTypes();

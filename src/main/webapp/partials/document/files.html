@@ -42,6 +42,7 @@
                     <div ng-if="ctrl.readonly()==false" data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
                          class="btn btn-info btn-xs">Change name
                     </div>
+                    <div class="btn btn-primary btn-xs" ng-click="ctrl.openOnDesktop(fileInfo.id)">Open on destkop</div>
                     <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
                     <ng-include src="'/partials/document/files/confirmation-modal.html'"></ng-include>
                 </td>
