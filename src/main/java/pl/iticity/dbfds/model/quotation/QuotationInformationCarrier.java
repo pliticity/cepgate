@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Lists;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.Link;
-import pl.iticity.dbfds.model.Linkable;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.security.Principal;
 
@@ -19,11 +17,7 @@ import java.util.List;
 
 @org.springframework.data.mongodb.core.mapping.Document(collection = "quotations")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class QuotationInformationCarrier extends Scoped implements Linkable {
-
-    @Id
-    @GeneratedValue
-    private String id;
+public class QuotationInformationCarrier extends Scoped {
 
     @ManyToOne
     @NotNull
@@ -82,29 +76,6 @@ public class QuotationInformationCarrier extends Scoped implements Linkable {
     private String deliveryAddress;
 
     private String comments;
-
-    private List<Link> links;
-
-    @Override
-    public List<Link> getLinks() {
-        if(links==null){
-            links = Lists.newArrayList();
-        }
-        return links;
-    }
-
-    @Override
-    public void setLinks(List<Link> links) {
-        this.links = links;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getSymbol() {
         return symbol;

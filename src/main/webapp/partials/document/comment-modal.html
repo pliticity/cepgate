@@ -1,14 +1,14 @@
-<div ng-controller="CommentController as ctrl" class="modal fade" id="comment-modal-{{documentInfo.id}}" tabindex="-1"
-     role="dialog" aria-labelledby="comment-modal-label-{{documentInfo.id}}">
+<div ng-controller="CommentController as cctrl" ng-init="cctrl.dic=ctrl.model;cctrl.newComment();"class="modal fade" id="comment-modal-{{ctrl.model.id}}" tabindex="-1"
+     role="dialog" aria-labelledby="comment-modal-label-{{ctrl.model.id}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="comment-modal-label-{{documentInfo.id}}">Add Comment</h4>
+                <h4 class="modal-title" id="comment-modal-label-{{ctrl.model.id}}">Add Comment</h4>
             </div>
             <div class="modal-body">
-                <form name="form.addCommentForm" class="form-horizontal">
+                <form name="cctrl.commentForm" class="form-horizontal">
 
                     <div class="row">
                         <div class="col-xs-6">
@@ -20,7 +20,7 @@
                                         <input ng-readonly="true" placeholder="Principal" class="form-control disabled"
                                                id="principal"
                                                name="principal"
-                                               ng-model="comment.principal.email" required=""
+                                               ng-model="cctrl.comment.principal.email" required=""
                                                ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -35,7 +35,7 @@
                                         <input ng-readonly="true" placeholder="Date" class="form-control disabled"
                                                id="date"
                                                name="date"
-                                               ng-model="comment.date" required=""
+                                               ng-model="cctrl.comment.date" required=""
                                                ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -50,7 +50,7 @@
                                         <textarea placeholder="Comment" class="form-control"
                                                   id="content"
                                                   name="content"
-                                                  ng-model="comment.content" required=""
+                                                  ng-model="cctrl.comment.content" required=""
                                                   ng-model-options="{ updateOn: 'blur' }"
                                         />
                                     </div>
@@ -64,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="addComment()">Add Comment
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cctrl.addComment()">Add Comment
                 </button>
             </div>
         </div>

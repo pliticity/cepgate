@@ -1,8 +1,6 @@
 package pl.iticity.dbfds.repository.common;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentType;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.repository.ScopedRepository;

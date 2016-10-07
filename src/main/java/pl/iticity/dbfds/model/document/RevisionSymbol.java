@@ -1,6 +1,4 @@
-package pl.iticity.dbfds.model;
-
-import org.apache.commons.lang.StringUtils;
+package pl.iticity.dbfds.model.document;
 
 public class RevisionSymbol {
 

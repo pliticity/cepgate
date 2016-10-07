@@ -4,33 +4,30 @@
 
     document.controller('CommentController', ['$http', '$scope', function ($http, $scope) {
 
-        var self = this;
-        $scope.form = {};
-        $scope.comment = {};
+        var ctrl = this;
 
-        $scope.addComment = addComment;
+        ctrl.commentForm = {};
+        ctrl.comment = {};
+        ctrl.dic = {};
 
-        function addComment() {
-            if ($scope.form.addCommentForm.$valid) {
+        ctrl.addComment = function() {
+            if (ctrl.commentForm.$valid) {
                 $http({
-                    url: '/document/' + $scope.documentInfo.id + '/comment',
+                    url: '/document/' + ctrl.dic.id + '/comment',
                     method: 'post',
-                    data: $scope.comment
+                    data: ctrl.comment
                 }).then(function (succ) {
-                    $scope.documentInfo.comments = succ.data;
-                    newComment();
+                    ctrl.dic.comments = succ.data;
+                    ctrl.newComment();
                 });
             }
         };
 
-        function newComment() {
-            $http({url: '/document/' + $scope.documentInfo.id + '/comment', method: 'get'}).then(function (succ) {
-                $scope.comment = succ.data;
+        ctrl.newComment = function() {
+            $http({url: '/document/' + ctrl.dic.id + '/comment', method: 'get'}).then(function (succ) {
+                ctrl.comment = succ.data;
             });
         }
-
-        newComment();
-
 
     }]);
 

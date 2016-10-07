@@ -2,8 +2,8 @@ package pl.iticity.dbfds.service.document.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.Comment;
-import pl.iticity.dbfds.model.DocumentInfo;
+import pl.iticity.dbfds.model.document.Comment;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.service.document.CommentService;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     public List<Comment> addComment(String id, Comment comment){
-        DocumentInfo document = documentInfoRepository.findOne(id);
+        DocumentInformationCarrier document = documentInfoRepository.findOne(id);
         document.getComments().add(comment);
         documentInfoRepository.save(document);
         return document.getComments();

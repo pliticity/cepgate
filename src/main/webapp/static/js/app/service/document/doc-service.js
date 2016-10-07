@@ -13,7 +13,7 @@
                     if (value !== NaN) response.resource[key].creationDate = value;
                 }
                 return response;
-            }
+            };
 
             $resource('/document/:id', {}, {'query': {'url': '/document/query', 'isArray': true,interceptor: {response: parseResponseDates}}});
         }]);

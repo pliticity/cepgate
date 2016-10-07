@@ -9,7 +9,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="revision in documentInfo.revisions" ng-click="fetchRevision(revision.revision)">
+        <tr ng-repeat="revision in ctrl.model.revisions" ng-click="ctrl.fetchRevision(revision.revision)">
             <td>{{revision.date}}</td>
             <td>{{revision.principal.email}}</td>
             <td>{{revision.revision.effective}}</td>

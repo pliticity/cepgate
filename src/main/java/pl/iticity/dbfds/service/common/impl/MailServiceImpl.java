@@ -5,7 +5,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.log4j.Logger;
@@ -19,6 +18,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.common.Classification;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.DocumentType;
+import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.common.ClassificationService;
@@ -35,7 +38,6 @@ import javax.annotation.Nullable;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -71,7 +73,7 @@ public class MailServiceImpl implements MailService {
     private DocumentTypeService documentTypeService;
 
     public void sendDocument(Mail email, boolean zip, HttpServletRequest request, boolean appendTransmittal) {
-        //DocumentInfo doc = documentService.findById(docId);
+        //DocumentInformationCarrier doc = documentService.findById(docId);
         //AuthorizationProvider.isInDomain(doc.getDomain());
         MimeMessage mail = mailSender.createMimeMessage();
         File transmittal = null;
@@ -95,7 +97,7 @@ public class MailServiceImpl implements MailService {
                 text.append("<br/>"+email.getMessage()+"<br/>");
             }
             for (String f : email.getFiles()) {
-                DocumentInfo doc = documentInfoRepository.findByFiles_Id(f);
+                DocumentInformationCarrier doc = documentInfoRepository.findByFiles_Id(f);
                 text.append(fillTemplate(doc,request));
             }
             helper.setText(text.toString(),true);
@@ -111,17 +113,17 @@ public class MailServiceImpl implements MailService {
             if(appendTransmittal){
                 Principal sender = PrincipalUtils.getCurrentPrincipal();
                 Principal recipient = principalService.findByEmail(email.getRecipient());
-                Set<DocumentInfo> docs = Sets.newHashSet(Iterables.transform(Lists.newArrayList(email.getFiles()), new Function<String, DocumentInfo>() {
+                Set<DocumentInformationCarrier> docs = Sets.newHashSet(Iterables.transform(Lists.newArrayList(email.getFiles()), new Function<String, DocumentInformationCarrier>() {
                     @Nullable
                     @Override
-                    public DocumentInfo apply(@Nullable String s) {
+                    public DocumentInformationCarrier apply(@Nullable String s) {
                         return documentInfoRepository.findByFiles_Id(s);
                     }
                 }));
-                transmittal = transmittalService.createTransmittal(sender,recipient,Lists.<DocumentInfo>newArrayList(docs),email);
+                transmittal = transmittalService.createTransmittal(sender,recipient,Lists.<DocumentInformationCarrier>newArrayList(docs),email);
                 helper.addAttachment("transmittal.pdf",transmittal);
 
-                DocumentInfo doc = documentService.createNewDocumentInfo();
+                DocumentInformationCarrier doc = documentService.createNewDocumentInfo();
                 Classification c = Iterables.find(classificationService.findByDomain(PrincipalUtils.getCurrentDomain(), false), new Predicate<Classification>() {
                     @Override
                     public boolean apply(@Nullable Classification classification) {
@@ -130,7 +132,7 @@ public class MailServiceImpl implements MailService {
                 }, null);
                 doc.setClassification(c);
                 doc.setDocumentName(StringUtils.isEmpty(mail.getSubject()) ? String.valueOf(doc.getMasterDocumentNumber()) : mail.getSubject());
-                doc.setKind(DocumentInfo.Kind.INTERNAL);
+                doc.setKind(DocumentInformationCarrier.Kind.INTERNAL);
 
                 DocumentType dt= Iterables.find(documentTypeService.findByDomain(PrincipalUtils.getCurrentDomain().getId(), false), new Predicate<DocumentType>() {
                     @Override
@@ -165,7 +167,7 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    private String fillTemplate(DocumentInfo documentInfo,HttpServletRequest request){
+    private String fillTemplate(DocumentInformationCarrier documentInformationCarrier, HttpServletRequest request){
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
@@ -173,20 +175,20 @@ public class MailServiceImpl implements MailService {
         ///home/pmajchrz/other/dbfds/dbfds/src/main/
         Template t = ve.getTemplate("/templates/mail/files.vm");
         VelocityContext context = new VelocityContext();
-        context.put("classificationId", documentInfo.getClassification().getClassificationId());
-        context.put("classificationName", documentInfo.getClassification().getName());
-        context.put("documentTitle", documentInfo.getDocumentName());
-        context.put("documentNumber", documentInfo.getDocumentNumber());
-        context.put("revision", documentInfo.getRevision().getEffective());
-        context.put("link",generateLink(documentInfo,request));
+        context.put("classificationId", documentInformationCarrier.getClassification().getClassificationId());
+        context.put("classificationName", documentInformationCarrier.getClassification().getName());
+        context.put("documentTitle", documentInformationCarrier.getDocumentName());
+        context.put("documentNumber", documentInformationCarrier.getDocumentNumber());
+        context.put("revision", documentInformationCarrier.getRevision().getEffective());
+        context.put("link",generateLink(documentInformationCarrier,request));
         StringWriter writer = new StringWriter();
         t.merge( context, writer );
         return writer.toString();
     }
 
-    private String generateLink(DocumentInfo documentInfo,HttpServletRequest request){
+    private String generateLink(DocumentInformationCarrier documentInformationCarrier, HttpServletRequest request){
         String base = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/";
-        base+="document#/dic/"+documentInfo.getId();
+        base+="document#/dic/"+ documentInformationCarrier.getId();
         return base;
     }
 }

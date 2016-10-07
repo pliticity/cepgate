@@ -6,7 +6,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDSimpleFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -16,8 +15,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.iticity.dbfds.model.DocumentInfo;
-import pl.iticity.dbfds.model.Domain;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.Mail;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.common.TransmittalService;
@@ -28,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.text.MessageFormat;
-import java.util.*;
 
 @Service
 public class TransmittalServiceImpl implements TransmittalService {
@@ -36,7 +33,7 @@ public class TransmittalServiceImpl implements TransmittalService {
     @Autowired
     private FileService fileService;
 
-    public File createTransmittal(Principal sender, Principal recipient, java.util.List<DocumentInfo> documentInfo, Mail mail) throws IOException {
+    public File createTransmittal(Principal sender, Principal recipient, java.util.List<DocumentInformationCarrier> documentInformationCarrier, Mail mail) throws IOException {
         PDDocument doc = new PDDocument();
         PDPage page = new PDPage(PDRectangle.A4);
         page.setRotation(90);
@@ -46,7 +43,7 @@ public class TransmittalServiceImpl implements TransmittalService {
         PDPageContentStream contentStream = new PDPageContentStream(doc, page);
         contentStream.concatenate2CTM(0, 1, -1, 0, PDRectangle.A4.getHeight(), 0);
 
-        drawTable(contentStream,sender,recipient,documentInfo,mail);
+        drawTable(contentStream,sender,recipient, documentInformationCarrier,mail);
 
         contentStream.close();
 
@@ -55,7 +52,7 @@ public class TransmittalServiceImpl implements TransmittalService {
         return newFile;
     }
 
-    private void drawTable(PDPageContentStream contentStream, Principal sender, Principal recipient, java.util.List<DocumentInfo> documentInfo, Mail mail) throws IOException {
+    private void drawTable(PDPageContentStream contentStream, Principal sender, Principal recipient, java.util.List<DocumentInformationCarrier> documentInformationCarrier, Mail mail) throws IOException {
         int lineY = 800;
         PDFont font = PDType1Font.HELVETICA;
         contentStream.setFont(font, 12);
@@ -112,7 +109,7 @@ public class TransmittalServiceImpl implements TransmittalService {
 
         lineY = addDocRow(contentStream,"Document number","Document Type","Document Title","Revision",lineY);
 
-        for(DocumentInfo doc : documentInfo){
+        for(DocumentInformationCarrier doc : documentInformationCarrier){
             lineY = addDocRow(contentStream,doc.getDocumentNumber(),doc.getDocType().getName(),StringEscapeUtils.escapeJava(doc.getDocumentName()),doc.getRevision() != null ? doc.getRevision().getEffective() : "n/a",lineY);
         }
 
@@ -170,14 +167,14 @@ public class TransmittalServiceImpl implements TransmittalService {
         return lineY;
     }
 
-    private String fillTemplate(DocumentInfo documentInfo){
+    private String fillTemplate(DocumentInformationCarrier documentInformationCarrier){
         VelocityEngine ve = new VelocityEngine();
         ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
         ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
         ve.init();
         Template t = ve.getTemplate("/templates/templates/transmittal.vm");
         VelocityContext context = new VelocityContext();
-        context.put("classificationId", documentInfo.getClassification().getClassificationId());
+        context.put("classificationId", documentInformationCarrier.getClassification().getClassificationId());
         StringWriter writer = new StringWriter();
         t.merge( context, writer );
         return writer.toString();

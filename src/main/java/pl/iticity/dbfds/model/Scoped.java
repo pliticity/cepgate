@@ -5,14 +5,13 @@ import pl.iticity.dbfds.security.Principal;
 
 import javax.validation.constraints.NotNull;
 
-public class Scoped {
+public abstract class Scoped extends BaseModel{
 
     @DBRef
     @NotNull
     protected Domain domain;
 
     @DBRef
-    @NotNull
     protected Principal principal;
 
     protected boolean removed;

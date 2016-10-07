@@ -1,7 +1,8 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.document;
 
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -11,11 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @org.springframework.data.mongodb.core.mapping.Document
-public class FileInfo extends Scoped{
-
-    @Id
-    @GeneratedValue
-    private String id;
+public class FileInfo extends Scoped {
 
     private String name;
 
@@ -70,14 +67,6 @@ public class FileInfo extends Scoped{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public double getSize() {

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import pl.iticity.dbfds.model.Classification;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.common.ClassificationType;
 import pl.iticity.dbfds.repository.ClassifiableRepository;

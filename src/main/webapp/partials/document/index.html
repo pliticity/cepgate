@@ -9,7 +9,7 @@
 
         <!-- TABS - NAV -->
 
-        <ul id="documentTabs" class="nav nav-pills" role="tablist">
+        <ul id="document-tabs" class="nav nav-pills" role="tablist">
             <li role="presentation" class="active"><a href="#my" refresh-tab aria-controls="my" role="tab"
                                                       data-toggle="tab">My Documents</a></li>
             <li role="presentation" class=""><a refresh-tab href="#search" aria-controls="search" role="tab"
@@ -21,7 +21,7 @@
 
         <!-- TABS - CONTENT -->
 
-        <div class="tab-content" id="documentsTabContent" >
+        <div class="tab-content" id="document-tabs-content">
             <div role="tabpanel" class="tab-pane active" id="my">
                 <ng-include src="'/partials/document/list/my.html'"></ng-include>
             </div>
@@ -35,14 +35,13 @@
                     </div>
                 </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocumentController">
-                <div ng-init="new()"></div>
+            <div role="tabpanel" class="tab-pane" id="new" ng-controller="DocController as ctrl" ng-init="ctrl.newModel();">
                 <ng-include src="'/partials/document/details.html'"></ng-include>
             </div>
         </div>
 
     </div>
 </div>
-<span nf-if="open == true" ng-controller="DocumentController">
-    <span ng-init="openDic();"></span>
-</span>
+<div ng-if="open == true">
+    <div ng-controller="DocController as ctrl" ng-init="ctrl.openDicFromRoute();"></div>
+</div>

@@ -2,32 +2,73 @@
 
     var common = angular.module('common');
 
-    common.controller('LinkController', ['$http', '$scope','$window', function ($http, $scope,$window) {
+    common.controller('LinkController', ['$http', '$scope','$window','linkService', function ($http, $scope,$window,linkService) {
 
         var self = this;
         self.querySearch = querySearch;
         self.link = link;
         self.unlink = unlink;
-        self.setLinkable = setLinkable;
-        self.linkable = {};
-        self.linkableType = 'document';
+        self.links = [];
+        self.withRevision = false;
+
+        self.getLinks = function (model, oType, dic) {
+            model.$promise.then(function () {
+                var oId = model.id;
+                if (oId != null && oType != null) {
+                    self.model = {oId: oId, oType: oType};
+                    $http({
+                        url: '/link',
+                        method: 'get',
+                        params: {oId: oId, oType: oType, dic: dic}
+                    }).then(function (response) {
+                        if (response.data.length > 0) {
+                            for (var i = 0; i < response.data.length; i++) {
+                                var bond = response.data[i];
+                                var number = 'second';
+                                if (bond.firstId != oId) {
+                                    number = 'first';
+                                }
+                                self.fetchObject(bond, number);
+                            }
+                        }
+                    });
+                }
+            });
+        };
+
+        self.fetchObject = function(bond,number){
+            $http({url:'/link/'+bond.id,method:'get',params:{number:number}}).then(function(response){
+                bond.object = response.data;
+                self.links.push(bond);
+            });
+        };
 
         function link() {
-            $http({url: '/link/' + self.linkable.id, method: 'post',params:{type:self.linkableType}, data: self.selectedItem}).then(function (succ) {
-                self.linkable.links = succ.data;
-                self.selectedItem = null;
+            var newBond = {
+                firstId : self.model.oId,
+                firstType : self.model.oType,
+                firstRevision : false,
+                secondId : self.selectedItem.id,
+                secondType : 'document',
+                secondRevision : self.withRevision
+            };
+            $http({url: '/link', method: 'post',data:newBond}).then(function (response) {
+                self.fetchObject(response.data,'second');
             });
         };
 
         function unlink(link) {
-            $http({url: '/unlink/' + self.linkable.id, method: 'post',params:{type:self.linkableType}, data: link}).then(function (succ) {
-                self.linkable.links = succ.data;
+            $http({url: '/unlink', method: 'post',params:{linkId:link.id}}).then(function (succ) {
+                var index = null;
+                for(var i=0; i<self.links.length; i++){
+                    if(self.links[i].id == link.id){
+                        index = i;
+                    }
+                }
+                if(index!=null){
+                    self.links.splice(index);
+                };
             });
-        };
-
-        function setLinkable(linkable,type) {
-            self.linkable = linkable;
-            self.linkableType = type;
         };
 
         self.openDic = function(id){

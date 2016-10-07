@@ -13,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.iticity.dbfds.model.*;
+import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
+import pl.iticity.dbfds.model.document.DocumentTemplate;
+import pl.iticity.dbfds.model.document.FileInfo;
+import pl.iticity.dbfds.model.document.Revision;
 import pl.iticity.dbfds.repository.document.DocumentTemplateRepository;
 import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.common.DomainHelper;
@@ -57,7 +61,7 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
         return repo.save(template);
     }
 
-    public File appendMetadataToTemplate(File file, DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
+    public File appendMetadataToTemplate(File file, DocumentInformationCarrier documentInformationCarrier) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
 
             File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
         try{
@@ -67,23 +71,23 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
 
             POIXMLProperties.CustomProperties properties = document.getProperties().getCustomProperties();
 
-            setDocProperty("classificationName", documentInfo.getClassification().getName(),properties);
-            setDocProperty("classificationId", documentInfo.getClassification().getClassificationId(),properties);
-            setDocProperty("documentType", documentInfo.getDocType().getName(),properties);
-            setDocProperty("documentTypeID", documentInfo.getDocType().getTypeId(),properties);
-            setDocProperty("documentNumber", documentInfo.getDocumentNumber(),properties);
+            setDocProperty("classificationName", documentInformationCarrier.getClassification().getName(),properties);
+            setDocProperty("classificationId", documentInformationCarrier.getClassification().getClassificationId(),properties);
+            setDocProperty("documentType", documentInformationCarrier.getDocType().getName(),properties);
+            setDocProperty("documentTypeID", documentInformationCarrier.getDocType().getTypeId(),properties);
+            setDocProperty("documentNumber", documentInformationCarrier.getDocumentNumber(),properties);
             String rDate = "";
             String rNumber = "";
-            if(documentInfo.getRevisions() != null && !documentInfo.getRevisions().isEmpty()){
-                Revision r = documentInfo.getRevisions().get(documentInfo.getRevisions().size()-1);
+            if(documentInformationCarrier.getRevisions() != null && !documentInformationCarrier.getRevisions().isEmpty()){
+                Revision r = documentInformationCarrier.getRevisions().get(documentInformationCarrier.getRevisions().size()-1);
                 rNumber= r.getRevision().getEffective();
                 SimpleDateFormat format = new SimpleDateFormat("dd-mm-yyyy");
                 rDate = format.format(r.getDate());
             }
             setDocProperty("revisionDate", rDate,properties);
             setDocProperty("revisionNumber", rNumber,properties);
-            setDocProperty("documentTitle", documentInfo.getDocumentName(),properties);
-            setDocProperty("documentResponsibleAcronym", documentInfo.getResponsibleUser() !=null ? documentInfo.getResponsibleUser().getAcronym() : "",properties);
+            setDocProperty("documentTitle", documentInformationCarrier.getDocumentName(),properties);
+            setDocProperty("documentResponsibleAcronym", documentInformationCarrier.getResponsibleUser() !=null ? documentInformationCarrier.getResponsibleUser().getAcronym() : "",properties);
 
             document.getProperties().commit();
             document.write(new FileOutputStream(newFile));
@@ -92,8 +96,8 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
             pp.setCreatorProperty(PrincipalUtils.getCurrentPrincipal().getEmail());
             pp.setLastModifiedByProperty(PrincipalUtils.getCurrentPrincipal().getEmail() + System.currentTimeMillis());
             pp.setModifiedProperty(new Nullable<Date>(new Date()));
-            pp.setTitleProperty(documentInfo.getDocumentName());
-            pp.setSubjectProperty(documentInfo.getDocumentName());*/
+            pp.setTitleProperty(documentInformationCarrier.getDocumentName());
+            pp.setSubjectProperty(documentInformationCarrier.getDocumentName());*/
 
             opc.close();
         } catch (Exception e) {
@@ -110,10 +114,10 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
         }
     }
 
-    public FileInfo copyFileAndFillMeta(FileInfo fileInfo,DocumentInfo documentInfo) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
+    public FileInfo copyFileAndFillMeta(FileInfo fileInfo,DocumentInformationCarrier documentInformationCarrier) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException {
         String filePath = defaultConfig.getDataPath() + fileInfo.getPath() + fileInfo.getSymbol();
         File file = new File(filePath);
-        File newFile = appendMetadataToTemplate(file,documentInfo);
+        File newFile = appendMetadataToTemplate(file, documentInformationCarrier);
         FileInputStream fis = new FileInputStream(newFile);
         FileInfo copy = fileService.createFile(PrincipalUtils.getCurrentDomain(),fileInfo.getName(),fileInfo.getType(),fis);
         newFile.delete();

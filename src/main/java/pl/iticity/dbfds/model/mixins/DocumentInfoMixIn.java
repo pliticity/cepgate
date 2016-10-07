@@ -1,10 +1,10 @@
 package pl.iticity.dbfds.model.mixins;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import pl.iticity.dbfds.model.Classification;
-import pl.iticity.dbfds.model.DocumentType;
-import pl.iticity.dbfds.model.FileInfo;
-import pl.iticity.dbfds.model.RevisionSymbol;
+import pl.iticity.dbfds.model.common.Classification;
+import pl.iticity.dbfds.model.document.DocumentType;
+import pl.iticity.dbfds.model.document.FileInfo;
+import pl.iticity.dbfds.model.document.RevisionSymbol;
 import pl.iticity.dbfds.security.Principal;
 
 import java.util.List;

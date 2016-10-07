@@ -14,7 +14,7 @@
                 $("#tab-"+tab).remove();
                 $("#"+tab).remove();
 
-                $('#documentTabs a:last').tab('show');
+                $('#document-tabs a:last').tab('show');
             };
         };
     }]);

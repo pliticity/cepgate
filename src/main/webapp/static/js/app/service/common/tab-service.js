@@ -32,7 +32,17 @@
         };
     }]);
 
-    common.service('tabService', ['$compile','ProductTab','QuotationTab','ProjectTab', function ($compile,ProductTab,QuotationTab,ProjectTab) {
+    common.factory('DocumentTab', [function () {
+        return {
+            content: function (tabsId,id) {
+                var tabId = "{0}-{1}".format(tabsId, id);
+                var tab = "<div role='tabpanel' class='tab-pane' id='{0}'><ng-include ng-controller='DocController as ctrl' src=\"'/partials/document/details.html'\" ng-init=\"ctrl.setModel('{1}')\"></ng-include></div>".format(tabId,id);
+                return tab;
+            }
+        };
+    }]);
+
+    common.service('tabService', ['$compile','ProductTab','QuotationTab','ProjectTab','DocumentTab', function ($compile,ProductTab,QuotationTab,ProjectTab,DocumentTab) {
 
         var tabService = this;
 
@@ -43,6 +53,8 @@
               return QuotationTab;
           }else if(factory == 'project'){
               return ProjectTab;
+          }else if(factory == 'document'){
+              return DocumentTab;
           }
         };
 
@@ -80,6 +92,8 @@
 
                 var content = factory.content(args.tabsId,args.id);
                 tabService.appendToTabs(args.tabsId, link, content, scope);
+            }else{
+                tabService.updateTab(args.tabsId, args.id,args.name);
             }
 
             if (args.open == true) {
@@ -87,6 +101,11 @@
             }
         };
 
+        tabService.updateTab = function (tabsId, objectId,tabName) {
+            var tabId = "tab-{0}-{1}".format(tabsId, objectId);
+            var selector = "li[id='{0}'] a span:first".format(tabId);
+            $(selector).html(tabName);
+        };
     }]);
 
 })();

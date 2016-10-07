@@ -1,4 +1,4 @@
-package pl.iticity.dbfds.model;
+package pl.iticity.dbfds.model.common;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,6 +14,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import pl.iticity.dbfds.model.Scoped;
 import pl.iticity.dbfds.model.common.ClassificationType;
 
 import javax.annotation.Nullable;
@@ -34,10 +35,6 @@ import java.util.List;
 public class Classification extends Scoped{
 
     public static Classification EMAIL = new Classification("E-Mail", "EM", true);
-
-    @Id
-    @GeneratedValue
-    private String id;
 
     @Size(min = 1, max = 25)
     @NotNull
