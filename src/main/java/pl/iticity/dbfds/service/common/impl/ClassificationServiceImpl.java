@@ -221,4 +221,9 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
         return false;
     }
 
+    @Override
+    public Classification findByModelIdAndModelClazz(String id, String clazz) {
+        return repo.findByModelIdAndModelClazz(id,clazz);
+    }
+
 }
