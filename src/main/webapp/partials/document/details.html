@@ -54,15 +54,7 @@
                     <div class="col-xs-6">
                         <input ng-readonly="ctrl.readonly()==true" type="text" class="form-control"
                                ng-model="ctrl.model.plannedIssueDate"
-                               name="plannedIssueDate"/>
-                        <script>
-
-                            $(document).ready(function () {
-                                $('#plannedIssueDate').datepicker({
-                                    format: 'mm/dd/yyyy'
-                                });
-                            });
-                        </script>
+                               name="plannedIssueDate" cg-date-picker=""/>
                     </div>
                 </div>
 

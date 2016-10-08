@@ -25,12 +25,6 @@ public class AuthController {
         return JsonResponse.success("authenticated");
     }
 
-    @RequestMapping(value = "/signout", method = RequestMethod.GET)
-    public String getSignOut() {
-        principalService.unAuthenticate();
-        return "redirect:/document";
-    }
-
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public Principal postSignUp(@RequestBody final Principal principal, @RequestParam(value = "signin") boolean signin) {
         return principalService.registerPrincipal(principal, signin);
