@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.BaseModel;
 import pl.iticity.dbfds.model.common.Bond;
 import pl.iticity.dbfds.model.common.BondType;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.common.ObjectType;
 import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
 import pl.iticity.dbfds.model.document.Revision;
@@ -25,11 +26,14 @@ import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.BondService;
+import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +43,9 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private ClassificationService classificationService;
 
     private Map<Class, ObjectType> objectTypes;
 
@@ -51,7 +58,7 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         objectTypes.put(QuotationInformationCarrier.class, ObjectType.QUOTATION);
     }
 
-    private Class getClassFromObjectType(final ObjectType type){
+    private Class getClassFromObjectType(final ObjectType type) {
         return Iterables.find(objectTypes.entrySet(), new Predicate<Map.Entry<Class, ObjectType>>() {
             @Override
             public boolean apply(@Nullable Map.Entry<Class, ObjectType> classObjectTypeEntry) {
@@ -63,25 +70,25 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
     @Override
     public Bond createBond(String aId, Class<? extends BaseModel> aClass, boolean aRevision, String bId, Class<? extends BaseModel> bClass, boolean bRevision, BondType bondType) {
         Bond bond = new Bond();
-        if(StringUtils.isEmpty(aId) || aClass==null || StringUtils.isEmpty(bId) || bClass == null || bondType == null){
+        if (StringUtils.isEmpty(aId) || aClass == null || StringUtils.isEmpty(bId) || bClass == null || bondType == null) {
             throw new IllegalArgumentException();
         }
-        BaseModel a = resolveObject(aId,aClass);
+        BaseModel a = resolveObject(aId, aClass);
         bond.setFirstId(a.getId());
         bond.setFirstType(resolveObjectType(a.getClass()));
-        if(aRevision && DocumentInformationCarrier.class.equals(a.getClass())){
+        if (aRevision && DocumentInformationCarrier.class.equals(a.getClass())) {
             DocumentInformationCarrier dic = (DocumentInformationCarrier) a;
-            if(dic.getRevision() != null){
+            if (dic.getRevision() != null) {
                 bond.setFirstRevision(dic.getRevision().getEffective());
             }
         }
 
-        BaseModel b = resolveObject(bId,bClass);
+        BaseModel b = resolveObject(bId, bClass);
         bond.setSecondId(b.getId());
         bond.setSecondType(resolveObjectType(b.getClass()));
-        if(bRevision && DocumentInformationCarrier.class.equals(b.getClass())){
+        if (bRevision && DocumentInformationCarrier.class.equals(b.getClass())) {
             DocumentInformationCarrier dic = (DocumentInformationCarrier) b;
-            if(dic.getRevision() != null){
+            if (dic.getRevision() != null) {
                 bond.setSecondRevision(dic.getRevision().getEffective());
             }
         }
@@ -94,17 +101,17 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         return repo.save(bond);
     }
 
-    private BaseModel resolveObject(String id, Class<? extends BaseModel> clazz){
-        BaseModel model = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),clazz);
-        if(model==null){
+    private BaseModel resolveObject(String id, Class<? extends BaseModel> clazz) {
+        BaseModel model = mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
+        if (model == null) {
             throw new IllegalArgumentException();
         }
         return model;
     }
 
-    private ObjectType resolveObjectType(Class clazz){
+    private ObjectType resolveObjectType(Class clazz) {
         ObjectType type = objectTypes.get(clazz);
-        if(type==null){
+        if (type == null) {
             throw new IllegalArgumentException();
         }
         return type;
@@ -125,37 +132,33 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
 
     @Override
     public List<Bond> findBondsForObject(final String oId, Class oClass, final List<ObjectType> includes) {
-        if(StringUtils.isEmpty(oId) || oClass ==null){
+        if (StringUtils.isEmpty(oId) || oClass == null) {
             throw new IllegalArgumentException();
         }
         ObjectType type = objectTypes.get(oClass);
-        if(type==null){
+        if (type == null) {
             throw new IllegalArgumentException();
         }
-        List<Bond> secondBonds = Lists.newArrayList();
-        secondBonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type,oId));
-        if(includes!=null){
-            Iterables.removeIf(secondBonds, new Predicate<Bond>() {
-                @Override
-                public boolean apply(@Nullable Bond bond) {
-                    return !includes.contains(bond.getSecondType());
-                }
-            });
-        }
-        List<Bond> firstBonds = Lists.newArrayList();
-        firstBonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type,oId));
-        if(includes!=null){
-            Iterables.removeIf(firstBonds, new Predicate<Bond>() {
-                @Override
-                public boolean apply(@Nullable Bond bond) {
-                    return !includes.contains(bond.getFirstType());
-                }
-            });
-        }
         List<Bond> bonds = Lists.newArrayList();
-        bonds.addAll(firstBonds);
-        bonds.addAll(secondBonds);
-        if(bonds.size()>0){
+        bonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type, oId));
+        if (includes != null) {
+            Iterables.removeIf(bonds, new Predicate<Bond>() {
+                @Override
+                public boolean apply(@Nullable Bond bond) {
+                    return !oId.equals(bond.getSecondId()) && !includes.contains(bond.getSecondType());
+                }
+            });
+        }
+        bonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type, oId));
+        if (includes != null) {
+            Iterables.removeIf(bonds, new Predicate<Bond>() {
+                @Override
+                public boolean apply(@Nullable Bond bond) {
+                    return !oId.equals(bond.getFirstId()) && !includes.contains(bond.getFirstType());
+                }
+            });
+        }
+        if (bonds.size() > 0) {
             AuthorizationProvider.isInDomain(bonds.get(0).getDomain());
         }
         return bonds;
@@ -163,10 +166,10 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
 
     @Override
     public void deleteBondsOfObject(String oId, Class oClass) {
-        if(StringUtils.isEmpty(oId) || oClass == null){
+        if (StringUtils.isEmpty(oId) || oClass == null) {
             throw new IllegalArgumentException();
         }
-        List<Bond> bonds = findBondsForObject(oId, oClass,null);
+        List<Bond> bonds = findBondsForObject(oId, oClass, null);
         for (Bond b : bonds) {
             AuthorizationProvider.isInDomain(b.getDomain());
             deleteBond(b.getId());
@@ -175,53 +178,70 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
 
     @Override
     public BaseModel findObjectForLink(String linkId, boolean first) {
-        if(StringUtils.isEmpty(linkId)){
+        if (StringUtils.isEmpty(linkId)) {
             throw new IllegalArgumentException();
         }
         Bond bond = repo.findOne(linkId);
-        if(bond==null){
+        if (bond == null) {
             throw new IllegalArgumentException();
         }
         AuthorizationProvider.isInDomain(bond.getDomain());
         String id = null;
         Class clazz = null;
         String revision = null;
-        if(first){
+        if (first) {
             id = bond.getFirstId();
             clazz = getClassFromObjectType(bond.getFirstType());
             revision = bond.getFirstRevision();
-        }else{
+        } else {
             id = bond.getSecondId();
             clazz = getClassFromObjectType(bond.getSecondType());
             revision = bond.getSecondRevision();
         }
         BaseModel model = null;
-        if(StringUtils.isEmpty(revision)){
-            model = (BaseModel) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),clazz);
-        }else if(DocumentInformationCarrier.class.equals(clazz)){
-            DocumentInformationCarrier dic = (DocumentInformationCarrier) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)),clazz);
-            if(dic.getRevision()!=null && revision.equals(dic.getRevision().getEffective())){
+        if (StringUtils.isEmpty(revision) && !DocumentInformationCarrier.class.equals(clazz)) {
+            model = (BaseModel) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
+            Classification c = classificationService.findByModelIdAndModelClazz(id, clazz.getName());
+            if (c == null) {
+                try {
+                    Method m = clazz.getMethod("getClassification");
+                    c = (Classification) m.invoke(model);
+                } catch (NoSuchMethodException e) {
+                    throw new IllegalArgumentException();
+                } catch (InvocationTargetException e) {
+                    throw new IllegalArgumentException();
+                } catch (IllegalAccessException e) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            model = c;
+        } else if (StringUtils.isEmpty(revision) && DocumentInformationCarrier.class.equals(clazz)) {
+            model = (BaseModel) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
+        } else if (StringUtils.isNotEmpty(revision) && DocumentInformationCarrier.class.equals(clazz)) {
+            DocumentInformationCarrier dic = (DocumentInformationCarrier) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
+            if (dic.getRevision() != null && revision.equals(dic.getRevision().getEffective())) {
                 model = dic;
-            }else if(dic.getRevisions() != null && !dic.getRevisions().isEmpty()){
-                for(Revision rev : dic.getRevisions()){
-                    if(revision.equals(rev.getRevision().getEffective())){
+            } else if (dic.getRevisions() != null && !dic.getRevisions().isEmpty()) {
+                for (Revision rev : dic.getRevisions()) {
+                    if (revision.equals(rev.getRevision().getEffective())) {
                         ObjectMapper mapper = new ObjectMapper();
                         try {
-                            model = mapper.readValue(rev.getData(),DocumentInformationCarrier.class);
+                            model = mapper.readValue(rev.getData(), DocumentInformationCarrier.class);
                         } catch (IOException e) {
                             throw new IllegalArgumentException();
                         }
                         break;
                     }
                 }
-                if(model==null){
+                if (model == null) {
                     model = dic;
                 }
-            }else{
+            } else {
                 throw new IllegalArgumentException();
             }
         }
-        if(model==null){
+        if (model == null) {
+            deleteBond(bond.getId());
             throw new IllegalArgumentException();
         }
         return model;
