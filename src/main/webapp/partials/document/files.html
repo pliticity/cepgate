@@ -3,12 +3,9 @@
     <div class="table-responsive">
         <table class="table table-condensed table-hover">
             <thead>
-            <tr ng-controller="TemplateController as tctrl" ng-init="tctrl.dic = ctrl.model;tctrl.getTemplates()">
+            <tr>
                 <th colspan="2"></th>
                 <th class="text-right">
-                    <select ng-if="ctrl.model.id && ctrl.readonly()==false" class="form-control" ng-model="tctrl.selectedTemplate.id" id="selectedTemplate" name="selectedTemplate">
-                        <option ng-repeat="t in tctrl.templates" value="{{t.id}}">{{t.file.name}}</option>
-                    </select>
                     <form ng-if="ctrl.readonly()==false">
                         <div>
                         <div ng-if="ctrl.model.id" style="float:right;" class="btn btn-info btn-xs"
@@ -20,7 +17,8 @@
                              ngf-keep="true"
                              ng-model="ctrl.files" ngf-multiple="true" ngf-select="ctrl.selectNewFiles(ctrl.files)">Add files
                         </div>
-                        <button style="float:right;" ng-if="ctrl.model.id && ctrl.readonly()==false" class="btn btn-info btn-xs" ng-click="tctrl.addFileFromTemplate(ctrl.model.id)">Add From Template</button>
+                        <button style="float:right;" ng-if="ctrl.model.id && ctrl.readonly()==false" class="btn btn-info btn-xs" data-toggle="modal" data-target="#templates-modal-{{ctrl.model.id}}">Add From Template</button>
+                            <ng-include src="'/partials/document/templates/templates-modal.html'"></ng-include>
                         </div>
                     </form>
                 </th>

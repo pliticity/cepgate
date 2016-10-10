@@ -1,0 +1,40 @@
+<div ng-controller="TemplateController as tctrl" ng-init="tctrl.dic = ctrl.model;tctrl.getTemplates()"
+     class="modal fade" id="templates-modal-{{ctrl.model.id}}" tabindex="-1" role="dialog"
+     aria-labelledby="templates-modal-label-{{ctrl.model.id}}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="float: left;" id="templates-modal-label-{{ctrl.model.id}}">Add From Template</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-right">Template</th>
+                    </tr>
+                    </thead>
+                    <form>
+                        <tbody>
+
+                        <tr ng-repeat="t in tctrl.templates">
+                            <td><input type="radio" value="{{t.id}}" name="selectedTemplate"
+                                       ng-model="tctrl.selectedTemplate.id"/></td>
+                            <td>{{t.file.name}}</td>
+                        </tr>
+                        </tbody>
+                    </form>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button ng-disabled="tctrl.selectedTemplate.id==null" type="button" class="btn btn-primary"
+                        data-dismiss="modal"
+                        ng-click="tctrl.addFileFromTemplate(ctrl.model.id)">Add
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

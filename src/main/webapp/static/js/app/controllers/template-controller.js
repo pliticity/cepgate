@@ -7,7 +7,7 @@
         var ctrl = this;
 
         ctrl.templates = [];
-        ctrl.selectedTemplate = {id:""};
+        ctrl.selectedTemplate = {};
         ctrl.dic = {};
 
         ctrl.getTemplates = function(){
