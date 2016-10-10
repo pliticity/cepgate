@@ -63,9 +63,12 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
 
     public File appendMetadataToTemplate(File file, DocumentInformationCarrier documentInformationCarrier) throws IOException, NoPropertySetStreamException, MarkUnsupportedException, UnexpectedPropertySetTypeException {
 
-            File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
+        File tempFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
+        FileUtils.copyFile(file,tempFile);
+
         try{
-            OPCPackage opc = OPCPackage.open(file);
+            FileInputStream tempFis = new FileInputStream(tempFile);
+            OPCPackage opc = OPCPackage.open(tempFis);
             //PackageProperties pp = opc.getPackageProperties();
             XWPFDocument document = new XWPFDocument(opc);
 
@@ -90,7 +93,11 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
             setDocProperty("documentResponsibleAcronym", documentInformationCarrier.getResponsibleUser() !=null ? documentInformationCarrier.getResponsibleUser().getAcronym() : "",properties);
 
             document.getProperties().commit();
-            document.write(new FileOutputStream(newFile));
+
+
+            File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
+            FileOutputStream newFos = new FileOutputStream(newFile);
+            document.write(newFos);
 
 /*            Nullable<String> foo = pp.getLastModifiedByProperty();
             pp.setCreatorProperty(PrincipalUtils.getCurrentPrincipal().getEmail());
@@ -99,11 +106,15 @@ public class TemplateServiceImpl extends AbstractScopedService<DocumentTemplate,
             pp.setTitleProperty(documentInformationCarrier.getDocumentName());
             pp.setSubjectProperty(documentInformationCarrier.getDocumentName());*/
 
+            //newFos.close();
+            tempFis.close();
+            tempFile.delete();
             opc.close();
+            return newFile;
         } catch (Exception e) {
             logger.error(e.getMessage(),e);
         }
-        return newFile;
+        return null;
     }
 
     private void setDocProperty(String field, String value, POIXMLProperties.CustomProperties properties){
