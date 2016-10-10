@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import pl.iticity.dbfds.model.*;
 import pl.iticity.dbfds.model.common.Bond;
 import pl.iticity.dbfds.model.common.BondType;
+import pl.iticity.dbfds.model.common.Classification;
 import pl.iticity.dbfds.model.common.ObjectType;
 import pl.iticity.dbfds.model.document.*;
 import pl.iticity.dbfds.model.mixins.AutoCompleteDocumentInfoMixIn;
@@ -154,15 +155,27 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     }
 
     private void createLink(DocumentInformationCarrier dic){
-/*        if(dic.getClassification()!=null && dic.getClassification().getModelId() != null && dic.getClassification().getModelClazz() !=null){
-            try {
-                Class clazz = Class.forName(dic.getClassification().getModelClazz());
-                LinkType linkType = linkTypes.get(clazz);
-                linkService.createLink(dic.getId(),DocumentInformationCarrier.class,dic.getClassification().getModelId(),clazz,linkType);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+        List<Bond> bonds = bondService.findBondsForObject(dic.getId(),DocumentInformationCarrier.class,ObjectType.getNonDic());
+        Bond bond = Iterables.find(bonds, new com.google.common.base.Predicate<Bond>() {
+            @Override
+            public boolean apply(@Nullable Bond bond) {
+                return BondType.DOC.equals(bond.getBondType());
             }
-        }*/
+        },null);
+        if(bond!=null){
+            bondService.deleteBond(bond.getId());
+        }
+        if(dic.getClassification()!=null){
+            Classification c = classificationService.findById(dic.getClassification().getId());
+            if(c.getModelId() != null && c.getModelClazz() !=null){
+                try {
+                    Class clazz = Class.forName(c.getModelClazz());
+                    bondService.createBond(dic.getId(),DocumentInformationCarrier.class,false,c.getModelId(),clazz,false,BondType.DOC);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public DocumentInformationCarrier createNewDocumentInfo() throws JsonProcessingException {
@@ -202,7 +215,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         documentInformationCarrier.setRevisions(doc.getRevisions());
         super.save(documentInformationCarrier);
         //doc = repo.findOne(documentInformationCarrier.getId());
-        //createLink(doc);
+        createLink(doc);
         return doc;
     }
 
