@@ -139,25 +139,32 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         if (type == null) {
             throw new IllegalArgumentException();
         }
+        List<Bond> firstBonds = Lists.newArrayList();
+        firstBonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type, oId));
+        if (includes != null) {
+            Iterables.removeIf(firstBonds, new Predicate<Bond>() {
+                @Override
+                public boolean apply(@Nullable Bond bond) {
+                    return !includes.contains(bond.getSecondType());
+                }
+            });
+        }
+
+        List<Bond> secondBonds = Lists.newArrayList();
+        secondBonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type, oId));
+        if (includes != null) {
+            Iterables.removeIf(secondBonds, new Predicate<Bond>() {
+                @Override
+                public boolean apply(@Nullable Bond bond) {
+                    return !includes.contains(bond.getFirstType());
+                }
+            });
+        }
+
         List<Bond> bonds = Lists.newArrayList();
-        bonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type, oId));
-        if (includes != null) {
-            Iterables.removeIf(bonds, new Predicate<Bond>() {
-                @Override
-                public boolean apply(@Nullable Bond bond) {
-                    return !oId.equals(bond.getSecondId()) && !includes.contains(bond.getSecondType());
-                }
-            });
-        }
-        bonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type, oId));
-        if (includes != null) {
-            Iterables.removeIf(bonds, new Predicate<Bond>() {
-                @Override
-                public boolean apply(@Nullable Bond bond) {
-                    return !oId.equals(bond.getFirstId()) && !includes.contains(bond.getFirstType());
-                }
-            });
-        }
+        bonds.addAll(firstBonds);
+        bonds.addAll(secondBonds);
+
         if (bonds.size() > 0) {
             AuthorizationProvider.isInDomain(bonds.get(0).getDomain());
         }
