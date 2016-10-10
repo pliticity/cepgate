@@ -25,4 +25,6 @@ public interface ClassificationService extends ScopedService<Classification> {
     public List<Classification> findForModel(Domain domain,String model);
 
     public boolean isAssigned(Classification classification);
+
+    public Classification findByModelIdAndModelClazz(String id, String clazz);
 }

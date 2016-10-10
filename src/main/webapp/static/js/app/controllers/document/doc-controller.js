@@ -52,9 +52,13 @@
                     var docId = response.id;
                     var files = ctrl.files;
                     ctrl.files = [];
-                    fileService.uploadFiles(files,docId,function(res){
+                    if (files != null && files.length > 0) {
+                        fileService.uploadFiles(files, docId, function (res) {
+                            ctrl.openTabCallback(response);
+                        });
+                    } else {
                         ctrl.openTabCallback(response);
-                    });
+                    }
                 }
             }
             ctrl.saveModel(callback);
