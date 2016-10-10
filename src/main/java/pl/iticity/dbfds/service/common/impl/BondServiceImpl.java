@@ -124,7 +124,7 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
     }
 
     @Override
-    public List<Bond> findBondsForObject(String oId, Class oClass, final List<ObjectType> includes) {
+    public List<Bond> findBondsForObject(final String oId, Class oClass, final List<ObjectType> includes) {
         if(StringUtils.isEmpty(oId) || oClass ==null){
             throw new IllegalArgumentException();
         }
@@ -132,25 +132,29 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         if(type==null){
             throw new IllegalArgumentException();
         }
-        List<Bond> bonds = Lists.newArrayList();
-        bonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type,oId));
+        List<Bond> secondBonds = Lists.newArrayList();
+        secondBonds.addAll(repo.findByFirstTypeAndFirstIdOrderByCreationDateAsc(type,oId));
         if(includes!=null){
-            Iterables.removeIf(bonds, new Predicate<Bond>() {
+            Iterables.removeIf(secondBonds, new Predicate<Bond>() {
                 @Override
                 public boolean apply(@Nullable Bond bond) {
                     return !includes.contains(bond.getSecondType());
                 }
             });
         }
-        bonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type,oId));
+        List<Bond> firstBonds = Lists.newArrayList();
+        firstBonds.addAll(repo.findBySecondTypeAndSecondIdOrderByCreationDateAsc(type,oId));
         if(includes!=null){
-            Iterables.removeIf(bonds, new Predicate<Bond>() {
+            Iterables.removeIf(firstBonds, new Predicate<Bond>() {
                 @Override
                 public boolean apply(@Nullable Bond bond) {
                     return !includes.contains(bond.getFirstType());
                 }
             });
         }
+        List<Bond> bonds = Lists.newArrayList();
+        bonds.addAll(firstBonds);
+        bonds.addAll(secondBonds);
         if(bonds.size()>0){
             AuthorizationProvider.isInDomain(bonds.get(0).getDomain());
         }

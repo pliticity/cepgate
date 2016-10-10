@@ -7,7 +7,6 @@
         <th>Classification Type</th>
         <th>Date</th>
         <th>User</th>
-        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -25,11 +24,6 @@
             {{link.creationDate}}
         </td>
         <td>{{link.principal.email}}
-        </td>
-        <td>
-            <button ng-disabled="link.object.classification.modelId!=null" class="btn btn-xs btn-danger"
-                    ng-click="linkCtrl.unlink(link)">Delete Link
-            </button>
         </td>
     </tr>
     </tbody>
