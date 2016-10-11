@@ -46,6 +46,6 @@
 
     <rabbit:admin connection-factory="connectionFactory" />
 
-    <rabbit:queue id="iticityQueue" name="pl.iticity.queue" />
+    <rabbit:direct-exchange name="pl.iticity.direct"/>
 
 </beans>

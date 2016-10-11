@@ -331,15 +331,10 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         }
         AuthorizationProvider.isInDomain(file.getDomain());
         Principal principal = principalService.findById(PrincipalUtils.getCurrentPrincipal().getId());
-        String token = String.valueOf(new Date().getTime());//principal.getDesktopToken();
+        String token = principal.getDesktopToken();
         if (StringUtils.isNotEmpty(token)) {
             String link = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file/" + file.getSymbol();
-            Map<String, Object> args = Maps.newHashMap();
-            args.put("link", link);
-            TopicExchange topicExchange = new TopicExchange("amq.topic", false, false, args);
-            Binding binding = BindingBuilder.bind(queue).to(topicExchange).with(token);
-            amqpAdmin.declareBinding(binding);
-            rabbitTemplate.send("amq.topic", token, MessageBuilder.withBody(link.getBytes()).build());
+            rabbitTemplate.send("pl.iticity.direct", "desktop.token", MessageBuilder.withBody(link.getBytes()).setContentType("text/plain").build());
         }
     }
 }
