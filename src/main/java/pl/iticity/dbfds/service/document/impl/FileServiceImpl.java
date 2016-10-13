@@ -319,7 +319,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
             if(dic==null){
                 throw new IllegalArgumentException();
             }
-            PushFileDTO dto = new PushFileDTO(dic.getId(),file.getSymbol());
+            PushFileDTO dto = new PushFileDTO(dic.getId(),file.getSymbol(),file.getId());
                 String body = null;
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
