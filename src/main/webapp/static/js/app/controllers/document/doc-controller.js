@@ -140,8 +140,16 @@
 
         };
 
-        ctrl.openOnDesktop = function(id){
-            $http({url:'/files/'+id+'/desktop',method:'get'});
+        ctrl.openOnDesktop = function (file) {
+            $http({url: '/files/' + file.id + '/desktop', method: 'get'}).then(function (response) {
+                file.locked = true;
+            });
+        };
+
+        ctrl.unlockFile = function(file){
+            $http({url: '/files/' + file.id + '/unlock', method: 'get'}).then(function (response) {
+                file.locked = false;
+            });
         };
 
         ctrl.getDocTypes();

@@ -7,6 +7,7 @@ import pl.iticity.dbfds.model.document.FileInfo;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.ScopedService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
 
@@ -49,5 +50,9 @@ public interface FileService extends ScopedService<FileInfo> {
     public String[] getFileNames(String[] ids);
 
     public File createTempFile();
+
+    public boolean openOnDesktop(String fileId);
+
+    public boolean unlock(String fileId);
 
 }

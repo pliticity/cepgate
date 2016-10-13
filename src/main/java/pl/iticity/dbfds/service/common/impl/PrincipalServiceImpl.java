@@ -179,4 +179,13 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
         }
     }
 
+    @Override
+    public boolean setDesktopToken(String token) {
+        Principal current = PrincipalUtils.getCurrentPrincipal();
+        current = repo.findOne(current.getId());
+        current.setDesktopToken(token);
+        repo.save(current);
+        return true;
+    }
+
 }

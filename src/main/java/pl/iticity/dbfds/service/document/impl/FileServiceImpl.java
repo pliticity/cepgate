@@ -8,7 +8,14 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.joda.time.DateTime;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.iticity.dbfds.model.document.DocumentInformationCarrier;
@@ -20,12 +27,16 @@ import pl.iticity.dbfds.repository.document.DocumentInfoRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.security.Principal;
 import pl.iticity.dbfds.service.AbstractScopedService;
+import pl.iticity.dbfds.service.common.PrincipalService;
+import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.document.PushFileDTO;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
 
 import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -46,6 +57,12 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
 
     @Autowired
     private DocumentInfoRepository documentInfoRepository;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private PrincipalService principalService;
 
     private String dataDir;
 
@@ -282,6 +299,58 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
     public File createTempFile() {
         File newFile = new File(defaultConfig.getDataPath()+"/temp/"+String.valueOf(System.currentTimeMillis()));
         return newFile;
+    }
+
+    @Override
+    public boolean openOnDesktop(String fileId) {
+        if (StringUtils.isEmpty(fileId)) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo file = findById(fileId);
+        if (file == null) {
+            throw new IllegalArgumentException();
+        }
+        AuthorizationProvider.isInDomain(file.getDomain());
+
+        Principal principal = principalService.findById(PrincipalUtils.getCurrentPrincipal().getId());
+        String token = principal.getDesktopToken();
+        if (StringUtils.isNotEmpty(token)) {
+            DocumentInformationCarrier dic = documentInfoRepository.findByFiles_Id(file.getId());
+            PushFileDTO dto = new PushFileDTO(dic.getId(),file.getSymbol());
+                String body = null;
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                body = objectMapper.writeValueAsString(dto);
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException(e);
+            }
+            try{
+                String exchangeName = MessageFormat.format("pl.iticity.{0}.exchange",token);
+                String key = MessageFormat.format("pl.iticity.{0}.queue",token);
+                rabbitTemplate.send(exchangeName, key, MessageBuilder.withBody(body.getBytes()).setContentType("text/plain").build());
+                file.setLocked(true);
+                save(file);
+            }catch (AmqpException e){
+                throw new IllegalArgumentException(e);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean unlock(String fileId) {
+        if (StringUtils.isEmpty(fileId)) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo file = findById(fileId);
+        if (file == null) {
+            throw new IllegalArgumentException();
+        }
+        AuthorizationProvider.isInDomain(file.getDomain());
+
+        file.setLocked(false);
+        save(file);
+        return true;
     }
 
     public DefaultConfig getDefaultConfig() {

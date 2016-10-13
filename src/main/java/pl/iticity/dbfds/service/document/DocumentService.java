@@ -55,5 +55,4 @@ public interface DocumentService extends Service<DocumentInformationCarrier> {
 
     public FileInfo appendTemplateFile(String docId, String tId) throws IOException, NoPropertySetStreamException, UnexpectedPropertySetTypeException, MarkUnsupportedException;
 
-    public void openOnDesktop(String fileId, HttpServletRequest request);
 }

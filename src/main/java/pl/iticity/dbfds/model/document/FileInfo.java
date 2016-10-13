@@ -29,6 +29,8 @@ public class FileInfo extends Scoped {
     @Transient
     private String downloadName;
 
+    private boolean locked;
+
     public String getPath() {
         return path;
     }
@@ -83,5 +85,13 @@ public class FileInfo extends Scoped {
 
     public void setDownloadName(String downloadName) {
         this.downloadName = downloadName;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }

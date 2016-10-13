@@ -78,16 +78,6 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     @Autowired
     private ClassificationService classificationService;
 
-    @Autowired
-    @Qualifier(value = "iticityQueue")
-    private Queue queue;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
-    private AmqpAdmin amqpAdmin;
-
     public String documentsToJson(List<DocumentInformationCarrier> documents) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixIn(DocumentInformationCarrier.class, DocumentInfoMixIn.class);
@@ -318,23 +308,5 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         doc.getFiles().add(copy);
         repo.save(doc);
         return copy;
-    }
-
-    @Override
-    public void openOnDesktop(String fileId, HttpServletRequest request) {
-        if (StringUtils.isEmpty(fileId)) {
-            throw new IllegalArgumentException();
-        }
-        FileInfo file = fileService.findById(fileId);
-        if (file == null) {
-            throw new IllegalArgumentException();
-        }
-        AuthorizationProvider.isInDomain(file.getDomain());
-        Principal principal = principalService.findById(PrincipalUtils.getCurrentPrincipal().getId());
-        String token = principal.getDesktopToken();
-        if (StringUtils.isNotEmpty(token)) {
-            String link = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/file/" + file.getSymbol();
-            rabbitTemplate.send("pl.iticity.direct", "desktop.token", MessageBuilder.withBody(link.getBytes()).setContentType("text/plain").build());
-        }
     }
 }

@@ -17,13 +17,14 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @Autowired
-    private DocumentService documentService;
-
     @RequestMapping(value = "/{id}/desktop", method = RequestMethod.GET)
-    public boolean openOnDestkop(@PathVariable("id") String id, HttpServletRequest request) {
-        documentService.openOnDesktop(id,request);
-        return true;
+    public boolean openOnDestkop(@PathVariable("id") String id) {
+        return fileService.openOnDesktop(id);
+    }
+
+    @RequestMapping(value = "/{id}/unlock", method = RequestMethod.GET)
+    public boolean unlockFile(@PathVariable("id") String id) {
+        return fileService.unlock(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

@@ -44,8 +44,4 @@
 
     <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" />
 
-    <rabbit:admin connection-factory="connectionFactory" />
-
-    <rabbit:direct-exchange name="pl.iticity.direct"/>
-
 </beans>

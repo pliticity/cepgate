@@ -33,4 +33,6 @@ public interface PrincipalService extends Service<Principal>{
 
     public void changePassword(Principal principal);
 
+    public boolean setDesktopToken(String token);
+
 }
