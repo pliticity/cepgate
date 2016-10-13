@@ -6,6 +6,9 @@ public class DesktopTokenDTO {
         this.token = token;
     }
 
+    public DesktopTokenDTO() {
+    }
+
     private String token;
 
     public String getToken() {
