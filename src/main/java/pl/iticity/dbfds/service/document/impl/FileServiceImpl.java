@@ -316,6 +316,9 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         String token = principal.getDesktopToken();
         if (StringUtils.isNotEmpty(token)) {
             DocumentInformationCarrier dic = documentInfoRepository.findByFiles_Id(file.getId());
+            if(dic==null){
+                throw new IllegalArgumentException();
+            }
             PushFileDTO dto = new PushFileDTO(dic.getId(),file.getSymbol());
                 String body = null;
             try {
@@ -331,6 +334,7 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
                 file.setLocked(true);
                 save(file);
             }catch (AmqpException e){
+                principalService.setDesktopToken(null);
                 throw new IllegalArgumentException(e);
             }
         }
