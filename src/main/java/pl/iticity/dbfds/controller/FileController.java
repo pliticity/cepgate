@@ -27,6 +27,11 @@ public class FileController {
         return fileService.unlock(id);
     }
 
+    @RequestMapping(value = "/{id}/isLocked", method = RequestMethod.GET)
+    public boolean isFileLocked(@PathVariable("id") String id) {
+        return fileService.isLocked(id);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public FileInfo getFiles(@RequestBody String[] files, HttpServletResponse response) throws IOException {
         return fileService.zipFiles(files);

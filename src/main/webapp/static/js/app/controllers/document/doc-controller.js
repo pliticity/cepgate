@@ -2,7 +2,7 @@
 
     var document = angular.module('document');
 
-    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService','$route','$http', function ($scope, classificationService, documentService, principalService, tabService,fileService,$route,$http) {
+    document.controller('DocController', ['$scope', 'classificationService', 'documentService', 'principalService', 'tabService','fileService','$route','$http','$timeout', function ($scope, classificationService, documentService, principalService, tabService,fileService,$route,$http,$timeout) {
 
         var ctrl = this;
 
@@ -143,6 +143,14 @@
         ctrl.openOnDesktop = function (file) {
             $http({url: '/files/' + file.id + '/desktop', method: 'get'}).then(function (response) {
                 file.locked = true;
+                ctrl.pollLockedFile(file);
+            });
+        };
+
+        ctrl.pollLockedFile = function(file){
+            $http({url: '/files/' + file.id + '/isLocked', method: 'get'}).then(function (response) {
+                file.locked = response.data;
+                $timeout(ctrl.pollLockedFile(file), 10000);
             });
         };
 
