@@ -147,10 +147,9 @@
             });
         };
 
-        ctrl.pollLockedFile = function(file){
+        ctrl.refreshStatus = function(file){
             $http({url: '/files/' + file.id + '/isLocked', method: 'get'}).then(function (response) {
                 file.locked = response.data;
-                $timeout(ctrl.pollLockedFile(file), 10000);
             });
         };
 
