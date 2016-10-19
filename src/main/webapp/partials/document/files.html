@@ -42,7 +42,7 @@
                     </div>
                     <div class="btn btn-primary btn-xs" ng-if="fileInfo.locked==false" ng-click="ctrl.openOnDesktop(fileInfo)">Check out file for edit</div>
                     <div ng-if="fileInfo.locked==true" class="btn btn-primary btn-xs" ng-click="ctrl.unlockFile(fileInfo)">Check in file</div>
-                    <div ng-if="fileInfo.locked==true" class="btn btn-primary btn-xs" ng-click="ctrl.refreshStatus(fileInfo)">Refresh status</div>
+                    <div ng-if="fileInfo.locked==true" class="btn btn-primary btn-xs" ng-click="ctrl.refreshStatus(ctrl.model.id)">Refresh status</div>
                     <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
                     <ng-include src="'/partials/document/files/confirmation-modal.html'"></ng-include>
                 </td>

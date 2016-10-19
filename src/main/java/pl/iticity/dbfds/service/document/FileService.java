@@ -55,5 +55,5 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public boolean unlock(String fileId);
 
-    public boolean isLocked(String fileId);
+    public List<FileInfo> refresh(String fileId);
 }

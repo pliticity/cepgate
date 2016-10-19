@@ -143,13 +143,12 @@
         ctrl.openOnDesktop = function (file) {
             $http({url: '/files/' + file.id + '/desktop', method: 'get'}).then(function (response) {
                 file.locked = true;
-                ctrl.pollLockedFile(file);
             });
         };
 
-        ctrl.refreshStatus = function(file){
-            $http({url: '/files/' + file.id + '/isLocked', method: 'get'}).then(function (response) {
-                file.locked = response.data;
+        ctrl.refreshStatus = function(dicId){
+            $http({url: '/files/' + dicId + '/isLocked', method: 'get'}).then(function (response) {
+                ctrl.model.files = response.data;
             });
         };
 

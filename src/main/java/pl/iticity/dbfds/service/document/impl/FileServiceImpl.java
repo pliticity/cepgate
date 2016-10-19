@@ -358,10 +358,10 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
     }
 
     @Override
-    public boolean isLocked(String fileId) {
-        FileInfo fileInfo = findById(fileId);
-        AuthorizationProvider.isInDomain(fileInfo.getDomain());
-        return fileInfo.isLocked();
+    public List<FileInfo> refresh(String fileId) {
+        DocumentInformationCarrier dic = documentInfoRepository.findOne(fileId);
+        AuthorizationProvider.isInDomain(dic.getDomain());
+        return dic.getFiles();
     }
 
     public DefaultConfig getDefaultConfig() {

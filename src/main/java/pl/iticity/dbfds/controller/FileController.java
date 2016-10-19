@@ -3,12 +3,11 @@ package pl.iticity.dbfds.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.model.document.FileInfo;
-import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/files")
@@ -28,8 +27,8 @@ public class FileController {
     }
 
     @RequestMapping(value = "/{id}/isLocked", method = RequestMethod.GET)
-    public boolean isFileLocked(@PathVariable("id") String id) {
-        return fileService.isLocked(id);
+    public List<FileInfo> isFileLocked(@PathVariable("id") String id) {
+        return fileService.refresh(id);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
