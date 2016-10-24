@@ -37,6 +37,11 @@ public class AuthController {
         return principal != null || domain != null;
     }
 
+    @RequestMapping(value = "/desktopExists", method = RequestMethod.GET)
+    public boolean getDesktopExists() {
+        return principalService.desktopTokenExists();
+    }
+
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     @ExceptionHandler(AuthenticationException.class)
     public JsonResponse conflict(AuthenticationException e) {

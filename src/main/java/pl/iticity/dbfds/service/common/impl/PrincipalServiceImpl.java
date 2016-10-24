@@ -188,4 +188,11 @@ public class PrincipalServiceImpl extends AbstractService<Principal,String,Princ
         return true;
     }
 
+    @Override
+    public boolean desktopTokenExists() {
+        Principal principal = PrincipalUtils.getCurrentPrincipal();
+        principal = repo.findOne(principal.getId());
+        return StringUtils.isNotEmpty(principal.getDesktopToken());
+    }
+
 }

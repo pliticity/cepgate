@@ -8,6 +8,7 @@
 
         ctrl.revision = false;
         ctrl.types = [];
+        ctrl.desktopExists=false;
 
         CgModelController(ctrl, documentService, tabService, 'documentNumber', 'document-tabs', 'document', $scope);
         CgClassifiableController(ctrl, classificationService,'document');
@@ -152,6 +153,12 @@
             });
         };
 
+        ctrl.getDesktopExists = function(){
+            $http({url: '/auth/desktopExists', method: 'get'}).then(function (response) {
+                ctrl.desktopExists = response.data;
+            });
+        };
+
         ctrl.unlockFile = function(file){
             $http({url: '/files/' + file.id + '/unlock', method: 'get'}).then(function (response) {
                 file.locked = false;
@@ -159,6 +166,7 @@
         };
 
         ctrl.getDocTypes();
+        ctrl.getDesktopExists();
     }]);
 
 })();

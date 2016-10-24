@@ -35,4 +35,6 @@ public interface PrincipalService extends Service<Principal>{
 
     public boolean setDesktopToken(String token);
 
+    public boolean desktopTokenExists();
+
 }
