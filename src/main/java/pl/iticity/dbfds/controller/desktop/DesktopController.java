@@ -34,6 +34,8 @@ public class DesktopController {
     public void downloadDesktop(HttpServletResponse response) throws IOException {
         File desktop = fileService.getDesktopVersion();
         FileInputStream fis = new FileInputStream(desktop);
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment; filename=cepgate-desktop.zip");
         IOUtils.copy(fis, response.getOutputStream());
         response.flushBuffer();
     }
