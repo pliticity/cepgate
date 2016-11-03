@@ -10,6 +10,8 @@ public class DefaultConfig {
 
     private String smtpFrom;
 
+    private String desktopFileName;
+
     public String getSmtpFrom() {
         return smtpFrom;
     }
@@ -25,5 +27,13 @@ public class DefaultConfig {
     public void setDataPath(String dataPath) {
         System.setProperty("pdfbox.fontcache", dataPath);
         this.dataPath = dataPath;
+    }
+
+    public String getDesktopFileName() {
+        return desktopFileName;
+    }
+
+    public void setDesktopFileName(String desktopFileName) {
+        this.desktopFileName = desktopFileName;
     }
 }

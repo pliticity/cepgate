@@ -364,6 +364,17 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
         return dic.getFiles();
     }
 
+    @Override
+    public File getDesktopVersion() {
+        String desktopPath = defaultConfig.getDataPath()+defaultConfig.getDesktopFileName();
+        logger.info(MessageFormat.format("Fetching desktop file from {0}",desktopPath));
+        File file = new File(desktopPath);
+        if(!file.exists()){
+            throw new IllegalArgumentException("Cepgate desktop version file does not exist");
+        }
+        return file;
+    }
+
     public DefaultConfig getDefaultConfig() {
         return defaultConfig;
     }

@@ -56,4 +56,6 @@ public interface FileService extends ScopedService<FileInfo> {
     public boolean unlock(String fileId);
 
     public List<FileInfo> refresh(String fileId);
+
+    public File getDesktopVersion();
 }
