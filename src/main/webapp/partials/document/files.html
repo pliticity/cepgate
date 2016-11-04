@@ -40,9 +40,9 @@
                     <div ng-disabled="fileInfo.locked==true" ng-if="ctrl.readonly()==false" data-toggle="modal" data-target="#file-name-modal-{{fileInfo.id}}"
                          class="btn btn-info btn-xs">Change name
                     </div>
-                    <div class="btn btn-primary btn-xs" ng-if="ctrl.desktopExists==true && fileInfo.locked==false" ng-click="ctrl.openOnDesktop(fileInfo)">Check out file for edit</div>
-                    <div ng-if="ctrl.desktopExists==true && fileInfo.locked==true" class="btn btn-primary btn-xs" ng-click="ctrl.unlockFile(fileInfo)">Check in file</div>
-                    <div ng-if="ctrl.desktopExists==true && fileInfo.locked==true" class="btn btn-primary btn-xs" ng-click="ctrl.refreshStatus(ctrl.model.id)">Refresh status</div>
+                    <div class="btn btn-primary btn-xs" ng-if="ctrl.desktopExists==true && fileInfo.locked==false && ctrl.readonly()==false" ng-click="ctrl.openOnDesktop(fileInfo)">Check out file for edit</div>
+                    <div ng-if="ctrl.desktopExists==true && fileInfo.locked==true && ctrl.readonly()==false" class="btn btn-primary btn-xs" ng-click="ctrl.unlockFile(fileInfo)">Check in file</div>
+                    <div ng-if="ctrl.desktopExists==true && fileInfo.locked==true && ctrl.readonly()==false" class="btn btn-primary btn-xs" ng-click="ctrl.refreshStatus(ctrl.model.id)">Refresh status</div>
                     <ng-include src="'/partials/document/file-name-modal.html'"></ng-include>
                     <ng-include src="'/partials/document/files/confirmation-modal.html'"></ng-include>
                 </td>

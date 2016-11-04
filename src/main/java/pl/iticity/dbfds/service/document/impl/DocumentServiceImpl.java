@@ -154,6 +154,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
         if (doc.getId() != null) {
             DocumentInformationCarrier dic = repo.findOne(doc.getId());
             doc.setRevisions(dic.getRevisions());
+            doc.setFavourites(dic.getFavourites());
         }
         Domain current = PrincipalUtils.getCurrentDomain();
         doc.setDomain(current);
@@ -222,6 +223,7 @@ public class DocumentServiceImpl extends AbstractService<DocumentInformationCarr
     public DocumentInformationCarrier save(DocumentInformationCarrier documentInformationCarrier) {
         DocumentInformationCarrier doc = repo.findOne(documentInformationCarrier.getId());
         documentInformationCarrier.setRevisions(doc.getRevisions());
+        documentInformationCarrier.setFavourites(doc.getFavourites());
         super.save(documentInformationCarrier);
         //doc = repo.findOne(documentInformationCarrier.getId());
         createLink(doc);
