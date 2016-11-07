@@ -2,20 +2,32 @@
     <div class="col-xs-12">
 
         <ul class="nav nav-pills" role="tablist" id="quotation-details-tabs-{{ctrl.model.id}}">
-            <li role="presentation" class="active"><a href="#quotation-info-{{ctrl.model.id}}" aria-controls="quotation-info-{{ctrl.model.id}}" role="tab"
-                                                      data-toggle="tab">quotation Info</a></li>
-            <li role="presentation" class=""><a href="#quotation-docs-{{ctrl.model.id}}" aria-controls="quotation-docs-{{ctrl.model.id}}" role="tab"
+            <li role="presentation" class="active"><a href="#quotation-metadata-{{ctrl.model.id}}"
+                                                      aria-controls="quotation-metadata-{{ctrl.model.id}}" role="tab"
+                                                      data-toggle="tab">Metadata</a></li>
+            <li role="presentation"><a href="#quotation-client-{{ctrl.model.id}}"
+                                       aria-controls="quotation-client-{{ctrl.model.id}}" role="tab"
+                                       data-toggle="tab">Client</a></li>
+            <li role="presentation" class=""><a href="#quotation-docs-{{ctrl.model.id}}"
+                                                aria-controls="quotation-docs-{{ctrl.model.id}}" role="tab"
                                                 data-toggle="tab">Documents</a></li>
         </ul>
 
-        <div class="tab-content" id="quotation-details-tabs-{{ctrl.model.id}}-content" >
-            <div role="tabpanel" class="tab-pane active" id="quotation-info-{{ctrl.model.id}}">
-                <ng-include src="'/partials/quotation/details/info-tab.html'"></ng-include>
+        <form name="ctrl.modelForm" class="form-horizontal">
+            <div class="tab-content" id="quotation-details-tabs-{{ctrl.model.id}}-content">
+                <div role="tabpanel" class="tab-pane active" id="quotation-metadata-{{ctrl.model.id}}">
+                    <ng-include src="'/partials/quotation/details/info-tab.html'"></ng-include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="quotation-client-{{ctrl.model.id}}">
+                    <ng-include src="'/partials/quotation/details/client-tab.html'"></ng-include>
+                </div>
+                <div style="height: 900px;" role="tabpanel" class="tab-pane" id="quotation-docs-{{ctrl.model.id}}">
+                    <ng-include ng-controller="LinkController as linkCtrl"
+                                ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'quotation',true)"
+                                src="'/partials/common/dic-links.html'"></ng-include>
+                </div>
             </div>
-            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="quotation-docs-{{ctrl.model.id}}">
-                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'quotation',true)" src="'/partials/common/dic-links.html'"></ng-include>
-            </div>
-        </div>
+        </form>
 
     </div>
 </div>

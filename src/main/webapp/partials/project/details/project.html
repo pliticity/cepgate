@@ -2,20 +2,31 @@
     <div class="col-xs-12">
 
         <ul class="nav nav-pills" role="tablist" id="project-details-tabs-{{ctrl.model.id}}">
-            <li role="presentation" class="active"><a href="#project-info-{{ctrl.model.id}}" aria-controls="project-info-{{ctrl.model.id}}" role="tab"
-                                                      data-toggle="tab">Project Info</a></li>
-            <li role="presentation" class=""><a href="#project-docs-{{ctrl.model.id}}" aria-controls="project-docs-{{ctrl.model.id}}" role="tab"
+            <li role="presentation" class="active"><a href="#project-metadata-{{ctrl.model.id}}"
+                                                      aria-controls="project-metadata-{{ctrl.model.id}}" role="tab"
+                                                      data-toggle="tab">Metadata</a></li>
+            <li role="presentation"><a href="#project-client-{{ctrl.model.id}}"
+                                       aria-controls="project-client-{{ctrl.model.id}}" role="tab"
+                                       data-toggle="tab">Client</a></li>
+            <li role="presentation" class=""><a href="#project-docs-{{ctrl.model.id}}"
+                                                aria-controls="project-docs-{{ctrl.model.id}}" role="tab"
                                                 data-toggle="tab">Documents</a></li>
         </ul>
 
-        <div class="tab-content" id="project-details-tabs-{{ctrl.model.id}}-content" >
-            <div role="tabpanel" class="tab-pane active" id="project-info-{{ctrl.model.id}}">
-                <ng-include src="'/partials/project/details/info-tab.html'"></ng-include>
+        <form name="ctrl.modelForm" class="form-horizontal">
+            <div class="tab-content" id="project-details-tabs-{{ctrl.model.id}}-content">
+                <div role="tabpanel" class="tab-pane active" id="project-metadata-{{ctrl.model.id}}">
+                    <ng-include src="'/partials/project/details/info-tab.html'"></ng-include>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="project-client-{{ctrl.model.id}}">
+                    <ng-include src="'/partials/project/details/client-tab.html'"></ng-include>
+                </div>
+                <div style="height: 900px;" role="tabpanel" class="tab-pane" id="project-docs-{{ctrl.model.id}}">
+                    <ng-include ng-controller="LinkController as linkCtrl"
+                                ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'project',true)"
+                                src="'/partials/common/dic-links.html'"></ng-include>
+                </div>
             </div>
-            <div style="height: 900px;" role="tabpanel" class="tab-pane" id="project-docs-{{ctrl.model.id}}">
-                <ng-include ng-controller="LinkController as linkCtrl" ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'project',true)" src="'/partials/common/dic-links.html'"></ng-include>
-            </div>
-        </div>
-
+        </form>
     </div>
 </div>
