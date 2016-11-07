@@ -207,7 +207,11 @@ public class ClassificationServiceImpl extends AbstractScopedService<Classificat
     @Override
     public List<Classification> findForModel(Domain domain,String model) {;
         List<ClassificationType> types = models.get(model);
-        return repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(domain,types);
+        List<Classification> classifications = repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(domain,types);
+        if("document".equals(model)){
+            classifications.addAll(repo.findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIsNull(domain));
+        }
+        return classifications;
     }
 
     @Override

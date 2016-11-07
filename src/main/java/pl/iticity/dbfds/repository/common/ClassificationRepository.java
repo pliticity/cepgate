@@ -17,5 +17,7 @@ public interface ClassificationRepository extends ScopedRepository<Classificatio
 
     public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIn(Domain domain, List<ClassificationType> type);
 
+    public List<Classification> findByDomainAndActiveIsTrueAndRemovedIsFalseAndTypeIsNull(Domain domain);
+
     public Classification findByModelIdAndModelClazz(String id, String clazz);
 }
