@@ -30,6 +30,7 @@ import pl.iticity.dbfds.service.AbstractScopedService;
 import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.DocumentService;
 import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.document.OperatingSystem;
 import pl.iticity.dbfds.service.document.PushFileDTO;
 import pl.iticity.dbfds.util.DefaultConfig;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -365,8 +366,8 @@ public class FileServiceImpl extends AbstractScopedService<FileInfo,String, File
     }
 
     @Override
-    public File getDesktopVersion() {
-        String desktopPath = defaultConfig.getDataPath()+defaultConfig.getDesktopFileName();
+    public File getDesktopVersion(OperatingSystem os) {
+        String desktopPath = MessageFormat.format("{0}{1}-{2}.zip",defaultConfig.getDataPath(),defaultConfig.getDesktopFileName(),os.name());
         logger.info(MessageFormat.format("Fetching desktop file from {0}",desktopPath));
         File file = new File(desktopPath);
         if(!file.exists()){

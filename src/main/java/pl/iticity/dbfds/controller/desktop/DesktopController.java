@@ -2,12 +2,10 @@ package pl.iticity.dbfds.controller.desktop;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.service.common.PrincipalService;
 import pl.iticity.dbfds.service.document.FileService;
+import pl.iticity.dbfds.service.document.OperatingSystem;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -31,8 +29,8 @@ public class DesktopController {
     }
 
     @RequestMapping(method = RequestMethod.GET, params = {"download"})
-    public void downloadDesktop(HttpServletResponse response) throws IOException {
-        File desktop = fileService.getDesktopVersion();
+    public void downloadDesktop(HttpServletResponse response, @RequestParam("download") OperatingSystem download) throws IOException {
+        File desktop = fileService.getDesktopVersion(download);
         FileInputStream fis = new FileInputStream(desktop);
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=cepgate-desktop.zip");

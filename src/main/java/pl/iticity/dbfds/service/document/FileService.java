@@ -57,5 +57,5 @@ public interface FileService extends ScopedService<FileInfo> {
 
     public List<FileInfo> refresh(String fileId);
 
-    public File getDesktopVersion();
+    public File getDesktopVersion(OperatingSystem os);
 }
