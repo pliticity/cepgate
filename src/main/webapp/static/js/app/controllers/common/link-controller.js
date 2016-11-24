@@ -10,8 +10,9 @@
         self.unlink = unlink;
         self.links = [];
         self.withRevision = false;
+        self.classification = true;
 
-        self.getLinks = function (model, oType, dic) {
+        self.getLinks = function (model, oType, linkOType) {
             model.$promise.then(function () {
                 var oId = model.id;
                 if (oId != null && oType != null) {
@@ -19,7 +20,7 @@
                     $http({
                         url: '/link',
                         method: 'get',
-                        params: {oId: oId, oType: oType, dic: dic}
+                        params: {oId: oId, oType: oType, linkOType: linkOType}
                     }).then(function (response) {
                         if (response.data.length > 0) {
                             for (var i = 0; i < response.data.length; i++) {
@@ -37,19 +38,19 @@
         };
 
         self.fetchObject = function(bond,number){
-            $http({url:'/link/'+bond.id,method:'get',params:{number:number}}).then(function(response){
+            $http({url:'/link/'+bond.id,method:'get',params:{number:number,classification:self.classification}}).then(function(response){
                 bond.object = response.data;
                 self.links.push(bond);
             });
         };
 
-        function link() {
+        function link(oType) {
             var newBond = {
                 firstId : self.model.oId,
                 firstType : self.model.oType,
                 firstRevision : false,
                 secondId : self.selectedItem.id,
-                secondType : 'document',
+                secondType : oType,
                 secondRevision : self.withRevision
             };
             $http({url: '/link', method: 'post',data:newBond}).then(function (response) {
@@ -75,11 +76,15 @@
             $window.location.href = '/document#/dic/'+id;
         };
 
-        function querySearch(query) {
+        self.openPic = function(id){
+            $window.location.href = '/product#/pic/'+id;
+        };
+
+        function querySearch(query, oType) {
             $("md-virtual-repeat-container").each(function (i, e) {
                 $(e).css("z-index", "2000")
             });
-            return $http({url: '/document/autocomplete/' + query, method: 'get'}).then(function (succ) {
+            return $http({url: '/'+oType+'/autocomplete/' + query, method: 'get'}).then(function (succ) {
                 return succ.data;
             });
         };

@@ -19,6 +19,6 @@ public interface BondService extends ScopedService<Bond> {
 
     public void deleteBondsOfObject(String oId, Class oClass);
 
-    public BaseModel findObjectForLink(String linkId,boolean first);
+    public BaseModel findObjectForLink(String linkId,boolean first, boolean classification);
 
 }

@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.controller.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.iticity.dbfds.controller.BaseController;
@@ -27,6 +28,11 @@ public class ProductController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getProduct(@PathVariable("id") String id) {
         return convertToString(ProductInformationCarrier.class, DetailsPICMixin.class, picService.findById(id));
+    }
+
+    @RequestMapping(value = "/autocomplete/{pId}", method = RequestMethod.GET)
+    public String getAutoCompleteDocument(@PathVariable(value = "pId") String pId) throws JsonProcessingException {
+        return picService.autoCompleteProduct(pId);
     }
 
 

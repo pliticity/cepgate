@@ -24,7 +24,6 @@ import pl.iticity.dbfds.model.quotation.QuotationInformationCarrier;
 import pl.iticity.dbfds.repository.common.BondRepository;
 import pl.iticity.dbfds.security.AuthorizationProvider;
 import pl.iticity.dbfds.service.AbstractScopedService;
-import pl.iticity.dbfds.service.AbstractService;
 import pl.iticity.dbfds.service.common.BondService;
 import pl.iticity.dbfds.service.common.ClassificationService;
 import pl.iticity.dbfds.util.PrincipalUtils;
@@ -184,7 +183,7 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
     }
 
     @Override
-    public BaseModel findObjectForLink(String linkId, boolean first) {
+    public BaseModel findObjectForLink(String linkId, boolean first, boolean classification) {
         if (StringUtils.isEmpty(linkId)) {
             throw new IllegalArgumentException();
         }
@@ -208,20 +207,22 @@ public class BondServiceImpl extends AbstractScopedService<Bond, String, BondRep
         BaseModel model = null;
         if (StringUtils.isEmpty(revision) && !DocumentInformationCarrier.class.equals(clazz)) {
             model = (BaseModel) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
-            Classification c = classificationService.findByModelIdAndModelClazz(id, clazz.getName());
-            if (c == null) {
-                try {
-                    Method m = clazz.getMethod("getClassification");
-                    c = (Classification) m.invoke(model);
-                } catch (NoSuchMethodException e) {
-                    throw new IllegalArgumentException();
-                } catch (InvocationTargetException e) {
-                    throw new IllegalArgumentException();
-                } catch (IllegalAccessException e) {
-                    throw new IllegalArgumentException();
+            if (classification) {
+                Classification c = classificationService.findByModelIdAndModelClazz(id, clazz.getName());
+                if (c == null) {
+                    try {
+                        Method m = clazz.getMethod("getClassification");
+                        c = (Classification) m.invoke(model);
+                    } catch (NoSuchMethodException e) {
+                        throw new IllegalArgumentException();
+                    } catch (InvocationTargetException e) {
+                        throw new IllegalArgumentException();
+                    } catch (IllegalAccessException e) {
+                        throw new IllegalArgumentException();
+                    }
                 }
+                model = c;
             }
-            model = c;
         } else if (StringUtils.isEmpty(revision) && DocumentInformationCarrier.class.equals(clazz)) {
             model = (BaseModel) mongoTemplate.findOne(Query.query(Criteria.where("id").is(id)), clazz);
         } else if (StringUtils.isNotEmpty(revision) && DocumentInformationCarrier.class.equals(clazz)) {

@@ -94,11 +94,11 @@
         </div>
         <div role="tabpanel" class="tab-pane" id="links-{{ctrl.model.id}}">
             <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/dic-links.html'"
-                        ng-init="linkCtrl.getLinks(ctrl.model,'document',true)"></ng-include>
+                        ng-init="linkCtrl.getLinks(ctrl.model,'document','DOCUMENT')"></ng-include>
         </div>
         <div role="tabpanel" class="tab-pane" id="where-used-{{ctrl.model.id}}">
             <ng-include ng-controller="LinkController as linkCtrl" src="'/partials/common/links.html'"
-                        ng-init="linkCtrl.getLinks(ctrl.model,'document',false)"></ng-include>
+                        ng-init="linkCtrl.getLinks(ctrl.model,'document','NON_DIC')"></ng-include>
         </div>
     </div>
 

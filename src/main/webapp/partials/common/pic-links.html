@@ -1,0 +1,32 @@
+<table class="table table-condensed table-hover">
+    <thead>
+    <tr>
+        <th colspan="7" class="text-right">
+            <div data-toggle="modal" data-target="#pic-link-modal-{{linkCtrl.model.oId}}"
+                 class="btn btn-info btn-xs">Link product
+            </div>
+        </th>
+    </tr>
+    <tr class="info">
+        <th>Product Family</th>
+        <th>Product Group</th>
+        <th>Product Model Name</th>
+        <th>Product Model ID</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="link in linkCtrl.links">
+        <td ng-click="linkCtrl.openPic(link.object.id)">{{link.object.productFamily}}</td>
+        <td ng-click="linkCtrl.openPic(link.object.id)">{{link.object.productGroup}}</td>
+        <td ng-click="linkCtrl.openPic(link.object.id)">{{link.object.name}}</td>
+        <td ng-click="linkCtrl.openPic(link.object.id)">{{link.object.state}}</td>
+        <td>
+            <button ng-disabled="link.bondType=='DOC'" class="btn btn-xs btn-danger" ng-click="linkCtrl.unlink(link)">Delete Link</button>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+
+<ng-include src="'/partials/common/pic-link-modal.html'"></ng-include>

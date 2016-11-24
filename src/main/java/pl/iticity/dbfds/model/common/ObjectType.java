@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum ObjectType {
 
-    DOCUMENT, PRODUCT, PROJECT, QUOTATION;
+    DOCUMENT, PRODUCT, PROJECT, QUOTATION, NON_DIC;
 
     public static List<ObjectType> getAll() {
         return Lists.newArrayList(values());

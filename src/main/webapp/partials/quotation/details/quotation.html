@@ -23,7 +23,7 @@
                 </div>
                 <div style="height: 900px;" role="tabpanel" class="tab-pane" id="quotation-docs-{{ctrl.model.id}}">
                     <ng-include ng-controller="LinkController as linkCtrl"
-                                ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'quotation',true)"
+                                ng-init="linkCtrl.withRevision=true;linkCtrl.getLinks(ctrl.model,'quotation','DOCUMENT')"
                                 src="'/partials/common/dic-links.html'"></ng-include>
                 </div>
             </div>

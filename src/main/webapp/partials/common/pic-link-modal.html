@@ -1,32 +1,32 @@
-<div class="modal fade" id="link-modal-{{linkCtrl.model.oId}}"
+<div class="modal fade" id="pic-link-modal-{{linkCtrl.model.oId}}"
      role="dialog"
-     aria-labelledby="link-modal-label-{{linkCtrl.model.oId}}">
+     aria-labelledby="pic-link-modal-label-{{linkCtrl.model.oId}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="link-modal-label-{{linkCtrl.model.oId}}">Link document</h4>
+                <h4 class="modal-title" id="pic-link-modal-label-{{linkCtrl.model.oId}}">Link document</h4>
             </div>
             <div class="modal-body">
                 <div layout="column">
                     <md-content class="md-padding">
                         <form ng-submit="$event.preventDefault()">
-                            <p>Find <code>Document</code> by its number.
+                            <p>Find <code>Product</code> by its id.
                             </p>
                             <md-autocomplete
                                     md-search-text="linkCtrl.searchText"
-                                    md-items="item in linkCtrl.querySearch(linkCtrl.searchText,'document')"
-                                    md-item-text="item.documentName"
+                                    md-items="item in linkCtrl.querySearch(linkCtrl.searchText,'product')"
+                                    md-item-text="item.productId"
                                     md-selected-item="linkCtrl.selectedItem"
                                     md-min-length="3"
-                                    placeholder="Link to which document?">
+                                    placeholder="Link to which product?">
                                 <md-item-template>
                                 <div style="position: relative;z-index:10;" md-highlight-text="linkCtrl.searchText"
-                                      md-highlight-flags="^i">{{item.documentName}}</div>
+                                      md-highlight-flags="^i">{{item.productId}}</div>
                                 </md-item-template>
                                 <md-not-found>
-                                    No documents matching "{{linkCtrl.searchText}}" were found.
+                                    No products matching "{{linkCtrl.searchText}}" were found.
                                 </md-not-found>
                             </md-autocomplete>
                         </form>
@@ -36,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="linkCtrl.link('document')">Link
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="linkCtrl.link('product')">Link
                 </button>
             </div>
         </div>

@@ -42,20 +42,20 @@ public class LinkController extends BaseController {
         return bondService.createBond(dto.getFirstId(), linkables.get(dto.getFirstType()), dto.isFirstRevision(), dto.getSecondId(), linkables.get(dto.getSecondType()), dto.isSecondRevision(), BondType.LINK);
     }
 
-    @RequestMapping(value = "/link", method = RequestMethod.GET,params = {"oId","oType","dic"})
-    public List<Bond> getLinks(@RequestParam("oId") String oId, @RequestParam("oType") String oType, @RequestParam(value = "dic",required = false) boolean dic) {
+    @RequestMapping(value = "/link", method = RequestMethod.GET,params = {"oId","oType","linkOType"})
+    public List<Bond> getLinks(@RequestParam("oId") String oId, @RequestParam("oType") String oType, @RequestParam("linkOType") ObjectType linkOType) {
         List<ObjectType> objectTypes = null;
-        if(dic){
-            objectTypes = Lists.newArrayList(ObjectType.DOCUMENT);
+        if(ObjectType.NON_DIC.equals(linkOType)){
+            objectTypes = ObjectType.getNonDic();
         }else{
-            objectTypes = Lists.newArrayList(ObjectType.PRODUCT,ObjectType.PROJECT,ObjectType.QUOTATION);
+            objectTypes = Lists.newArrayList(linkOType);
         }
         return bondService.findBondsForObject(oId,linkables.get(oType),objectTypes);
     }
 
     @RequestMapping(value = "/link/{linkId}", method = RequestMethod.GET, params = {"number"})
-    public BaseModel getLinkObject(@PathVariable("linkId") String linkId, @RequestParam("number") String number) {
-        return bondService.findObjectForLink(linkId, "first".equals(number));
+    public BaseModel getLinkObject(@PathVariable("linkId") String linkId, @RequestParam("number") String number, @RequestParam("classification") boolean classification) {
+        return bondService.findObjectForLink(linkId, "first".equals(number),classification);
     }
 
     @RequestMapping(value = "/unlink", method = RequestMethod.POST, params = {"linkId"})

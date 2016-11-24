@@ -7,6 +7,8 @@
         function ($routeProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'partials/product/index.html'
+            }).when('/pic/:id', {
+                templateUrl: 'partials/product/pic.html'
             }).otherwise({
                 redirectTo: '/'
             });

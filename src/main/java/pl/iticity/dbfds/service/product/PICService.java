@@ -1,5 +1,6 @@
 package pl.iticity.dbfds.service.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import pl.iticity.dbfds.model.Domain;
 import pl.iticity.dbfds.model.product.ProductInformationCarrier;
 import pl.iticity.dbfds.security.Principal;
@@ -18,5 +19,7 @@ public interface PICService extends ScopedService<ProductInformationCarrier> {
     public List<ProductInformationCarrier> findByDomain(Domain domain);
 
     public List<ProductInformationCarrier> findByDomainAndPrincipal(Domain domain, Principal principal);
+
+    public String autoCompleteProduct(String pId) throws JsonProcessingException;
 
 }
